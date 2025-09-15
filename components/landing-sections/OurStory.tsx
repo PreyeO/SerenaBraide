@@ -61,7 +61,7 @@ const OurStory = () => {
             brands including Hugo Boss, Paco Rabanne, Gucci, Ariana Grande, Mugler and Marc Jacobs 
             both online and across our network of over 215 nationwide stores. We also stock the luxury 
             perfume brands Dior, Tom Ford, Viktor & Rolf, Hermès and Maison Margiela."
-              className="text-[#6F6E6C] fornt-normal text-base leading-6"
+              className="text-[#6F6E6C] font-normal text-base leading-6"
             />
             <div className=" w-[68px]  leading-[18px] ">
               <button className=" font-semibold text-[12px] text-[#3B3B3B] underline ">
