@@ -26,7 +26,7 @@ const Hero = () => {
 
           <Paragraph
             className="text-[22px] leading-7 font-light"
-            content="      Your favorite scent for less, Fragrances like no other"
+            content="Your favorite scent for less, Fragrances like no other"
           />
         </div>
 

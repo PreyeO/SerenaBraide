@@ -1,3 +1,5 @@
+import { Product } from "@/types/product";
+
 export const headerAdvert = [
   {
     text: "Sign up for the newsletter for 10% off your first order",
@@ -146,42 +148,11 @@ export const productCategories = [
   {
     name: "Lips",
     src: "/lip-gloss.png",
-
     height: 327,
   },
   {
     name: "Fragrance",
     src: "/fragrance.png",
-
-    height: 450,
-  },
-  { name: "Hair Care", src: "/hair-care.png", height: 327 },
-  {
-    name: "Diffusers",
-    src: "/diffusers.png",
-    height: 450,
-  },
-  {
-    name: "Clothings",
-    src: "/clothings.png",
-    height: 327,
-  },
-  {
-    name: "Skin Care",
-    src: "/skin-care.png",
-    height: 450,
-  },
-
-  {
-    name: "Lips",
-    src: "/lip-gloss.png",
-
-    height: 327,
-  },
-  {
-    name: "Fragrance",
-    src: "/fragrance.png",
-
     height: 450,
   },
   { name: "Hair Care", src: "/hair-care.png", height: 327 },
@@ -201,3 +172,197 @@ export const productCategories = [
     height: 450,
   },
 ];
+
+export const productDisplay: Record<string, Product[]> = {
+  Fragrance: [
+    {
+      type: "Women Fragrance",
+      price: "$120",
+      name: "Amber Oud",
+      src: "/perfume-1.png",
+      sizes: ["3ML", "10ML", "50ML"],
+      rating: 4.5,
+      reviews: 320,
+      sold: "500+",
+    },
+    {
+      type: "Men Fragrance",
+      price: "$95",
+      name: "Royal Musk",
+      src: "/perfume-2.png",
+      sizes: ["5ML", "30ML"],
+      rating: 4.0,
+      reviews: 210,
+      sold: "300+",
+    },
+    {
+      type: "Fragrance GiftSets",
+      price: "$95",
+      name: "Luxury Gift Box",
+      src: "/perfume-3.png",
+      sizes: ["10ML", "20ML"],
+      rating: 5.0,
+      reviews: 150,
+      sold: "200+",
+    },
+    {
+      type: "Kids Fragrance",
+      price: "$95",
+      name: "Sweet Blossom",
+      src: "/perfume-4.png",
+      sizes: ["3ML", "15ML"],
+      rating: 3.5,
+      reviews: 90,
+      sold: "120+",
+    },
+  ],
+  Lips: [
+    {
+      type: "Lip Gloss",
+      price: "$30",
+      name: "Shiny Glow",
+      src: "/perfume-3.png",
+      sizes: ["5ML", "15ML"],
+      rating: 4.8,
+      reviews: 80,
+      sold: "150+",
+    },
+  ],
+  Diffusers: [
+    {
+      type: "Reed Diffuser",
+      price: "$55",
+      name: "Ocean Breeze",
+      src: "perfume-1.png",
+      sizes: ["100ML", "200ML"],
+      rating: 4.2,
+      reviews: 60,
+      sold: "90+",
+    },
+  ],
+  Skincare: [
+    {
+      type: "Serum",
+      price: "$80",
+      name: "Glow Serum",
+      src: "/perfume-4.png",
+      sizes: ["30ML", "50ML"],
+      rating: 4.9,
+      reviews: 140,
+      sold: "400+",
+    },
+  ],
+  Haircare: [
+    {
+      type: "Shampoo",
+      price: "$40",
+      name: "Silky Wash",
+      src: "/perfume-2.png",
+      sizes: ["250ML", "500ML"],
+      rating: 4.3,
+      reviews: 70,
+      sold: "130+",
+    },
+  ],
+};
+
+export const categories = [
+  "Fragrance",
+  "Lips",
+  "Diffusers",
+  "Skincare",
+  "Haircare",
+];
+
+export const GiftProductDisplay: Record<string, Product[]> = {
+  Fragrance: [
+    {
+      type: "Women Fragrance",
+      price: "$120",
+      name: "Amber Oud",
+      src: "/gift-1.png",
+      sizes: ["3ML", "10ML", "50ML"],
+      rating: 4.5,
+      reviews: 320,
+      sold: "500+",
+    },
+    {
+      type: "Men Fragrance",
+      price: "$95",
+      name: "Royal Musk",
+      src: "/gift-2.png",
+      sizes: ["5ML", "30ML"],
+      rating: 4.0,
+      reviews: 210,
+      sold: "300+",
+    },
+    {
+      type: "Fragrance GiftSets",
+      price: "$95",
+      name: "Luxury Gift Box",
+      src: "/gift-3.png",
+      sizes: ["10ML", "20ML"],
+      rating: 5.0,
+      reviews: 150,
+      sold: "200+",
+    },
+    {
+      type: "Kids Fragrance",
+      price: "$95",
+      name: "Sweet Blossom",
+      src: "/gift-4.png",
+      sizes: ["3ML", "15ML"],
+      rating: 3.5,
+      reviews: 90,
+      sold: "120+",
+    },
+  ],
+  Lips: [
+    {
+      type: "Lip Gloss",
+      price: "$30",
+      name: "Shiny Glow",
+      src: "/gift-3.png",
+      sizes: ["5ML", "15ML"],
+      rating: 4.8,
+      reviews: 80,
+      sold: "150+",
+    },
+  ],
+  Diffusers: [
+    {
+      type: "Reed Diffuser",
+      price: "$55",
+      name: "Ocean Breeze",
+      src: "/gift-1.png",
+      sizes: ["100ML", "200ML"],
+      rating: 4.2,
+      reviews: 60,
+      sold: "90+",
+    },
+  ],
+  Skincare: [
+    {
+      type: "Serum",
+      price: "$80",
+      name: "Glow Serum",
+      src: "/gift-3.png",
+      sizes: ["30ML", "50ML"],
+      rating: 4.9,
+      reviews: 140,
+      sold: "400+",
+    },
+  ],
+  Haircare: [
+    {
+      type: "Shampoo",
+      price: "$40",
+      name: "Silky Wash",
+      src: "/gift-2.png",
+      sizes: ["250ML", "500ML"],
+      rating: 4.3,
+      reviews: 70,
+      sold: "130+",
+    },
+  ],
+};

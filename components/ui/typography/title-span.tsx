@@ -14,7 +14,7 @@ const TitleSpan: React.FC<TitleSpanProps> = ({
   children,
 }) => {
   return (
-    <p className={`${className} font-GeneralSans font-normal`}>
+    <p className={`${className} font-GeneralSans`}>
       {title}
       <span className="font-PPEditorialNew italic"> {span} </span>
       {children && <>{children}</>}

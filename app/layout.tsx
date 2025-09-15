@@ -19,7 +19,7 @@ export default function RootLayout({
       <body className={`${generalSans.variable} ${ppEditorial.variable}  `}>
         <Header />
         <NavBar />
-        <main>{children}</main>
+        <main className="font-GeneralSans ">{children}</main>
       </body>
     </html>
   );
