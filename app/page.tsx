@@ -1,7 +1,13 @@
+import Hero from "@/components/landing-sections/Hero";
+import OurStory from "@/components/landing-sections/OurStory";
+import ProductCategory from "@/components/landing-sections/ProductCategory";
+
 export default function Home() {
   return (
-    <main>
-      <h1 className="text-red-400">HELLO WORLD</h1>
-    </main>
+    <>
+      <Hero />
+      <OurStory />
+      <ProductCategory />
+    </>
   );
 }
