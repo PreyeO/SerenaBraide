@@ -1,4 +1,5 @@
 import BestSeller from "@/components/landing-sections/BestSeller";
+import ConnectWithUs from "@/components/landing-sections/ConnectWithUs";
 import GiftCard from "@/components/landing-sections/GiftCard";
 import GiftSet from "@/components/landing-sections/GiftSet";
 import Hero from "@/components/landing-sections/Hero";
@@ -16,6 +17,7 @@ export default function Home() {
       <GiftSet />
       <GiftCard />
       <Wholesale />
+      <ConnectWithUs />
     </>
   );
 }

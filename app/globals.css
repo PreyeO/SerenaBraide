@@ -122,6 +122,9 @@
   .hero_background {
     @apply bg-[url("/hero-background.png")] bg-center  min-h-screen text-white bg-no-repeat;
   }
+  .footer_background {
+    @apply bg-[url("/footer-bg.png")] bg-center text-white bg-no-repeat;
+  }
 }
 
 /* .hero_background {

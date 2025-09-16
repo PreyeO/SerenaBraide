@@ -1,7 +1,8 @@
 import { Dot } from "lucide-react";
 import TitleSpan from "../ui/typography/title-span";
-import Image from "next/image";
 import Paragraph from "../ui/typography/paragraph";
+import UnderlineLink from "../ui/btns/underline-cta";
+import ProductImage from "../ui/images/product-image";
 
 const OurStory = () => {
   return (
@@ -32,7 +33,8 @@ const OurStory = () => {
                 perfumes
               </TitleSpan>
             </div>
-            <Image
+
+            <ProductImage
               src="/story-img1.png"
               alt="image of model spraying perfume"
               width={300}
@@ -40,7 +42,8 @@ const OurStory = () => {
               className="rounded-[15px]"
             />
           </div>
-          <Image
+
+          <ProductImage
             src="/story-img2.png"
             alt="image of model spraying perfume"
             width={450}
@@ -63,11 +66,12 @@ const OurStory = () => {
             perfume brands Dior, Tom Ford, Viktor & Rolf, Hermès and Maison Margiela."
               className="text-[#6F6E6C] font-normal text-base leading-6"
             />
-            <div className=" w-[68px]  leading-[18px] ">
-              <button className=" font-semibold text-[12px] text-[#3B3B3B] underline ">
-                Read more of our story
-              </button>
-            </div>
+
+            <UnderlineLink
+              href=""
+              text="  Read more of our story"
+              className={`text-[12px] text-[#3B3B3B] font-semibold  w-[68px]  leading-[18px] `}
+            />
           </div>
         </div>
       </div>

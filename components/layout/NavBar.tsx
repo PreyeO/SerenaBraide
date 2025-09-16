@@ -2,10 +2,10 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Heart, ShoppingCart, Search, Menu, ArrowLeft } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { navItems } from "@/constant/data";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import Logo from "../ui/logo";
 
 const NavBar = () => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
@@ -120,7 +120,7 @@ const NavBar = () => {
           </SheetContent>
         </Sheet>
 
-        <Image src="/logo.svg" alt="Logo" width={100} height={40} />
+        <Logo width={100} height={40} />
         <div className="flex gap-4">
           <Search className="text-white size-5" />
           <Heart className="text-white size-5" />
@@ -157,7 +157,7 @@ const NavBar = () => {
 
           {/* Center - Logo */}
           <div className="absolute left-1/2 -translate-x-1/2">
-            <Image src="/logo.svg" alt="Logo" width={100} height={40} />
+            <Logo width={100} height={40} />
           </div>
 
           {/* Right - Icons */}

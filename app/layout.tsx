@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import { generalSans, ppEditorial } from "./assets/fonts/font";
 import NavBar from "@/components/layout/NavBar";
+import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,6 +21,7 @@ export default function RootLayout({
         <Header />
         <NavBar />
         <main className="font-GeneralSans ">{children}</main>
+        <Footer />
       </body>
     </html>
   );

@@ -1,10 +1,10 @@
 import React from "react";
 import SubHeading from "../../ui/typography/subHeading";
-import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
 import ProductCard from "../../ui/cards/product-card";
 import { Product } from "@/types/product";
+import UnderlineLink from "@/components/ui/btns/underline-cta";
 
 interface ProductSectionProps {
   title: string;
@@ -35,14 +35,14 @@ const ProductSection: React.FC<ProductSectionProps> = ({
           className={` ${textColor} font-extralight italic text-[40px] text-center pt-5`}
         />
       </div>
-
-      <Link
-        href={linkHref}
-        className={`flex gap-[10px] items-center justify-end  ${linkColor}`}
-      >
-        <p className={`text-[12px]  underline`}>{linkText}</p>
-        <ChevronRight size={24} />
-      </Link>
+      <div className="flex gap-[10px] items-center justify-end">
+        <UnderlineLink
+          href={linkHref}
+          text={linkText}
+          className={`text-[12px] ${linkColor}`}
+        />
+        <ChevronRight size={24} className={linkColor} />
+      </div>
 
       <Tabs
         defaultValue={categories[0]}

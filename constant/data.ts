@@ -1,3 +1,4 @@
+import { FooterSection } from "@/types/general";
 import { Product } from "@/types/product";
 
 export const headerAdvert = [
@@ -366,3 +367,47 @@ export const GiftProductDisplay: Record<string, Product[]> = {
     },
   ],
 };
+
+export const footerLinks: FooterSection[] = [
+  {
+    heading: "EXPLORE",
+    items: [
+      { name: "Men Fragrance", href: "/categories/fragrances/men" },
+      { name: "Women Fragrance", href: "/categories/fragrances/women" },
+      { name: "Best Sellers", href: "/best-sellers" },
+      { name: "Gift Cards", href: "/gift-cards" },
+      { name: "Gift Card Balance", href: "/gift-cards/balance" },
+    ],
+  },
+  {
+    heading: "HELP",
+    items: [
+      { name: "Contact Us", href: "/contact" },
+      { name: "FAQ", href: "/faq" },
+    ],
+  },
+  {
+    heading: "LEGAL",
+    items: [
+      { name: "Purchase Policy", href: "/legal/purchase-policy" },
+      { name: "Terms of Service", href: "/legal/terms" },
+      { name: "Privacy Policy", href: "/legal/privacy" },
+      { name: "Cookie Policy", href: "/legal/cookies" },
+    ],
+  },
+  {
+    heading: "CONTACT",
+    items: [
+      { name: "support@example.com", href: "mailto:support@example.com" },
+      { name: "+1 (234) 567-890", href: "tel:+1234567890" },
+    ],
+  },
+  {
+    heading: "WE ACCEPT",
+    items: [
+      { name: "Visa", src: "/visa.svg", width: 72 },
+      { name: "MasterCard", src: "/mastercard.svg", width: 68.12 },
+      { name: "Paystack", src: "/paystack.svg", width: 50 },
+    ],
+  },
+];
