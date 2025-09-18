@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/layout/Header";
+
 import { generalSans, ppEditorial } from "./assets/fonts/font";
-import NavBar from "@/components/layout/NavBar";
-import Footer from "@/components/layout/Footer";
+
+import ReactQueryProvider from "./provider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,11 +17,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${generalSans.variable} ${ppEditorial.variable}  `}>
-        <Header />
-        <NavBar />
-        <main className="font-GeneralSans ">{children}</main>
-        <Footer />
+      <body
+        className={` font-GeneralSans ${generalSans.variable} ${ppEditorial.variable}  `}
+      >
+        <ReactQueryProvider> {children}</ReactQueryProvider>
+        {/* <main className="font-GeneralSans ">{children}</main> */}
       </body>
     </html>
   );
