@@ -1,17 +1,28 @@
-import React from "react";
-import { Button } from "../button";
+"use client";
 
-interface ButtonProps {
-  className: string;
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+
+interface AuthSubmitButtonProps {
+  label: string;
+  loadingLabel: string;
+  isPending: boolean;
 }
-const SubmitCta: React.FC<ButtonProps> = ({ className }) => {
+
+const SubmitButton = ({
+  label,
+  loadingLabel,
+  isPending,
+}: AuthSubmitButtonProps) => {
   return (
     <Button
-      className={`${className} bg-[#3B3B3B] py-3 rounded-full w-[160px] text-sm text-white mx-auto flex justify-center cursor-pointer hover:bg-black transition`}
+      type="submit"
+      disabled={isPending}
+      className="w-full bg-[#E61A1A] text-white hover:bg-red-700 py-6 text-base font-semibold rounded-[14px]"
     >
-      Buy A Gift Card
+      {isPending ? loadingLabel : label} <ArrowRight className="size-6" />
     </Button>
   );
 };
 
-export default SubmitCta;
+export default SubmitButton;

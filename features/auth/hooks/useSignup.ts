@@ -13,7 +13,7 @@ export function useSignup() {
     mutationFn: signupUser,
     onSuccess: (data) => {
       notify.success(data.message || "Signup successful");
-      router.push("/auth/signin");
+      router.push("/auth/verify-otp");
     },
   });
 }
