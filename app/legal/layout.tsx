@@ -14,18 +14,18 @@ export default function LegalLayout({
   const pathname = usePathname();
 
   return (
-    <section className="min-h-screen flex flex-col md:flex-row px-6 md:px-[60px] py-[80px] text-[#3B3B3B] bg-white">
+    <section className="min-h-screen px-16 flex flex-row  pt-[152px]">
       {/* Sidebar */}
-      <aside className="w-full md:w-[250px] mb-10 md:mb-0">
-        <nav className="flex md:flex-col gap-4 md:gap-2">
+      <aside className="w-[223px] h-[572px] border-r border-[#F0F0F0] py-[25px]">
+        <nav className="flex  flex-col pl-[25px] gap-[10px]">
           {legalLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className={clsx(
-                "text-sm font-medium hover:text-[#111] transition-colors",
+                "text-base font-medium text-[#6F6E6C] hover:text-[#3B3B3B]  transition-colors",
                 pathname === link.href
-                  ? "text-[#111] font-semibold"
+                  ? "text-[#3B3B3B] underline"
                   : "text-[#6F6E6C]"
               )}
             >
