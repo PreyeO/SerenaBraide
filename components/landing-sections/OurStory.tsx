@@ -68,7 +68,7 @@ const OurStory = () => {
             />
 
             <UnderlineLink
-              href=""
+              href="/our-story"
               text="  Read more of our story"
               className={`text-[12px] text-[#3B3B3B] font-semibold  w-[68px]  leading-[18px] `}
             />

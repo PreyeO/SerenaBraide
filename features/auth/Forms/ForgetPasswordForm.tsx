@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
+
 import {
   Form,
   FormField,
@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import AuthSpan from "@/components/ui/typography/auth-span";
+
 import AuthTitle from "@/components/ui/typography/auth-title";
 import { ForgotPasswordFormValues } from "../types";
 import { forgotPasswordSchema } from "../schemas";
@@ -32,54 +32,44 @@ const ForgotPasswordForm = () => {
   };
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="w-full max-w-[588px]">
-        <AuthTitle
-          title="Forgot Password"
-          subtitle="Enter your email and we'll send you a reset link"
-        />
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="grid gap-6 mt-6"
-          >
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="john@example.com"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+    <div className="flex flex-col items-center pt-[70px] justify-center w-full gap-[34px] ">
+      <AuthTitle
+        title="Forgot Password?"
+        subtitle="Enter the email address you use in creating your account to reset password"
+        className="max-w-[398px] leading-[22px] text-sm"
+      />
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-6  w-full"
+        >
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-[12px] font-medium">Email</FormLabel>
+                <FormControl>
+                  <Input
+                    type="email"
+                    placeholder="john@example.com"
+                    {...field}
+                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] text-[#D1D5DB] h-[50px]"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className="mt-[34px]">
+            <SubmitButton
+              label="Continue"
+              loadingLabel="Sending..."
+              isPending={isPending}
             />
-            <div className="mt-4">
-              <SubmitButton
-                label="Send Reset Link"
-                loadingLabel="Sending..."
-                isPending={isPending}
-              />
-            </div>
-          </form>
-        </Form>
-        <div className="text-center pt-6">
-          <AuthSpan>
-            Remember your password?{" "}
-            <Link href="/auth/signin">
-              <span className="text-[#E51919] underline cursor-pointer">
-                Sign In
-              </span>
-            </Link>
-          </AuthSpan>
-        </div>
-      </div>
+          </div>
+        </form>
+      </Form>
     </div>
   );
 };

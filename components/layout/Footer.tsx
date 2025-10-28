@@ -7,7 +7,7 @@ import { ArrowUpRight } from "lucide-react";
 import { footerLinks } from "@/constant/data";
 import Link from "next/link";
 import ProductImage from "../ui/images/product-image";
-import Logo from "../ui/logo"; // 👈 import your Logo component
+import Logo from "../ui/logo";
 import Paragraph from "../ui/typography/paragraph";
 import Caption from "../ui/typography/caption";
 

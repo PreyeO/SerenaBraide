@@ -1,5 +1,6 @@
 import { FooterSection } from "@/types/general";
 import { Product } from "@/types/product";
+import { Leaf, Lightbulb, Sprout, TestTubeDiagonal } from "lucide-react";
 
 export const headerAdvert = [
   {
@@ -382,7 +383,7 @@ export const footerLinks: FooterSection[] = [
   {
     heading: "HELP",
     items: [
-      { name: "Contact Us", href: "/contact" },
+      { name: "Contact Us", href: "/contact-us" },
       { name: "FAQ", href: "/faq" },
     ],
   },
@@ -390,9 +391,9 @@ export const footerLinks: FooterSection[] = [
     heading: "LEGAL",
     items: [
       { name: "Purchase Policy", href: "/legal/purchase-policy" },
-      { name: "Terms of Service", href: "/legal/terms" },
-      { name: "Privacy Policy", href: "/legal/privacy" },
-      { name: "Cookie Policy", href: "/legal/cookies" },
+      { name: "Terms of Service", href: "/legal/terms-of-service" },
+      { name: "Privacy Policy", href: "/legal/privacy-policy" },
+      { name: "Cookie Policy", href: "/legal/cookie-policy" },
     ],
   },
   {
@@ -410,4 +411,56 @@ export const footerLinks: FooterSection[] = [
       { name: "Paystack", src: "/paystack.svg", width: 50 },
     ],
   },
+];
+
+export const icons = [
+  {
+    id: 1,
+    Icon: Leaf,
+    description: "Eco-Designed Packaging with Purpose",
+  },
+  {
+    id: 2,
+    Icon: Lightbulb,
+    description: "Sustainable Manufacturing",
+  },
+  {
+    id: 3,
+    Icon: TestTubeDiagonal,
+    description: "100% Transparent & Proven Formula",
+  },
+  {
+    id: 4,
+    Icon: Sprout,
+    description: "Distilled Elegance from Earth’s Elements",
+  },
+];
+
+export const faq = [
+  {
+    question: "What makes Serena Braide fragrances unique?",
+    answer:
+      "Our fragrances are crafted from the finest natural ingredients, blending artistry with science to deliver timeless, elegant scents that evoke emotion and identity.",
+  },
+  {
+    question: "When will my order ship?",
+    answer:
+      "Orders are processed within 1–2 business days. You will receive a tracking number once your order has been dispatched.",
+  },
+  {
+    question: "Are your products cruelty-free?",
+    answer:
+      "Yes. Serena Braide is fully committed to ethical sourcing — all our products are cruelty-free and never tested on animals.",
+  },
+  {
+    question: "Do you offer international shipping?",
+    answer:
+      "Yes, we ship worldwide. Shipping rates and delivery times vary depending on the destination.",
+  },
+];
+export const legalLinks = [
+  { name: "Purchase Policy", href: "/legal/purchase-policy" },
+  { name: "Terms of Service", href: "/legal/terms-of-service" },
+  { name: "Privacy Policy", href: "/legal/privacy-policy" },
+  { name: "Cookie Policy", href: "/legal/cookie-policy" },
 ];

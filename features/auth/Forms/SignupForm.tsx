@@ -23,7 +23,7 @@ import Paragraph from "@/components/ui/typography/paragraph";
 import AuthSpan from "@/components/ui/typography/auth-span";
 import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
+import AuthSwitchPrompt from "./shared-component/AuthSwitchPrompt";
 
 export function SignupForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -49,16 +49,17 @@ export function SignupForm() {
   }
 
   return (
-    <div className="flex flex-col items-center pt-[70px] justify-center w-full   gap-[34px]">
+    <div className="flex flex-col items-center pt-[70px] justify-center w-full gap-[34px] mb-[111px]">
       <AuthTitle
         title="Sign Up"
         subtitle="Create an account to shop faster, track your orders, and stay updated on your purchases. Plus, enjoy 200 points as a welcome bonus when you sign up."
+        className="max-w-[484px]"
       />
 
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 text-[#3B3B3B] font-medium text-sm "
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 text-[#3B3B3B] font-normal "
         >
           {/* First Name */}
           <FormField
@@ -66,12 +67,14 @@ export function SignupForm() {
             name="firstName"
             render={({ field }) => (
               <FormItem className="">
-                <FormLabel>FIRST NAME</FormLabel>
+                <FormLabel className="text-[12px] font-medium">
+                  FIRST NAME
+                </FormLabel>
                 <FormControl className="">
                   <Input
                     placeholder="Enter your first name"
                     {...field}
-                    className="rounded-[50px] border border-[#3B3B3B]"
+                    className=" rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] text-[#9A9A98] font-normal h-[50px]"
                   />
                 </FormControl>
                 <FormMessage />
@@ -85,12 +88,14 @@ export function SignupForm() {
             name="lastName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>LAST NAME</FormLabel>
+                <FormLabel className="text-[12px] font-medium">
+                  LAST NAME
+                </FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Enter your last name"
                     {...field}
-                    className="rounded-[50px] border border-[#3B3B3B]"
+                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] text-[#D1D5DB] h-[50px]"
                   />
                 </FormControl>
                 <FormMessage />
@@ -105,12 +110,12 @@ export function SignupForm() {
             name="email"
             render={({ field }) => (
               <FormItem className="">
-                <FormLabel>EMAIL</FormLabel>
+                <FormLabel className="text-[12px] font-medium">EMAIL</FormLabel>
                 <FormControl>
                   <Input
                     type="email"
                     placeholder="john@example.com"
-                    className="rounded-[50px] border border-[#3B3B3B]"
+                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] text-[#D1D5DB] h-[50px]"
                     {...field}
                   />
                 </FormControl>
@@ -125,12 +130,14 @@ export function SignupForm() {
             name="phoneNumber"
             render={({ field }) => (
               <FormItem className="">
-                <FormLabel>PHONE NUMBER</FormLabel>
+                <FormLabel className="text-[12px] font-medium">
+                  PHONE NUMBER
+                </FormLabel>
                 <FormControl>
                   <Input
                     placeholder="+234 801 234 5678"
                     {...field}
-                    className="rounded-[50px] border border-[#3B3B3B]"
+                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] text-[#D1D5DB] h-[50px]"
                   />
                 </FormControl>
                 <FormMessage />
@@ -144,18 +151,20 @@ export function SignupForm() {
             name="password"
             render={({ field }) => (
               <FormItem className="md:col-span-2">
-                <FormLabel>PASSWORD</FormLabel>
+                <FormLabel className="text-[12px] font-medium">
+                  PASSWORD
+                </FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input
                       type={showPassword ? "text" : "password"}
                       placeholder="******"
                       {...field}
-                      className="rounded-[50px] border border-[#3B3B3B]"
+                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] text-[#D1D5DB] h-[50px]"
                     />
                     <button
                       type="button"
-                      className="absolute right-3 top-2 text-gray-500"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 "
                       onClick={() => setShowPassword(!showPassword)}
                     >
                       {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -167,7 +176,9 @@ export function SignupForm() {
             )}
           />
           <div className="w-full md:col-span-2">
-            <FormLabel>DATE OF BIRTH</FormLabel>
+            <FormLabel className="text-[12px] font-medium">
+              DATE OF BIRTH
+            </FormLabel>
             <div className="grid grid-cols-3 gap-3 mt-2">
               {/* Day */}
               <FormField
@@ -180,7 +191,7 @@ export function SignupForm() {
                         type="number"
                         placeholder="Day"
                         {...field}
-                        className="w-full rounded-[50px] border border-[#3B3B3B]"
+                        className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] text-[#D1D5DB] h-[50px]"
                       />
                     </FormControl>
                     <FormMessage />
@@ -199,7 +210,7 @@ export function SignupForm() {
                         type="number"
                         placeholder="Month"
                         {...field}
-                        className="w-full rounded-[50px] border border-[#3B3B3B]"
+                        className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] text-[#D1D5DB] h-[50px]"
                       />
                     </FormControl>
                     <FormMessage />
@@ -218,7 +229,7 @@ export function SignupForm() {
                         type="number"
                         placeholder="Year"
                         {...field}
-                        className="w-full rounded-[50px] border border-[#3B3B3B]"
+                        className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] text-[#D1D5DB] h-[50px]"
                       />
                     </FormControl>
                     <FormMessage />
@@ -247,11 +258,17 @@ export function SignupForm() {
           </div>
 
           {/* Submit */}
-          <div className="md:col-span-2 mt-4">
+          <div className="md:col-span-2 mt-4 ">
             <SubmitButton
-              label="Sign Up"
-              loadingLabel="Signing up..."
+              label="Create Account"
+              loadingLabel="Creating account..."
               isPending={isPending}
+            />
+
+            <AuthSwitchPrompt
+              message="Already have an account?"
+              linkText="Log In"
+              href="/auth/signin"
             />
           </div>
         </form>

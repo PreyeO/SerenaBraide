@@ -18,7 +18,7 @@ export const signinSchema = z.object({
 });
 
 export const verifyOtpSchema = z.object({
-  otp: z.array(z.string().length(1)).length(4, "OTP must be 4 digits"),
+  otp: z.array(z.string().length(1)).length(6, "OTP must be 6 digits"),
 });
 
 export const forgotPasswordSchema = z.object({
@@ -27,6 +27,7 @@ export const forgotPasswordSchema = z.object({
 
 export const resetPasswordSchema = z
   .object({
+    code: z.string().email("Enter a valid code"),
     password: z.string().min(6, "Password must be at least 6 characters"),
     confirmPassword: z.string().min(6, "Confirm password is required"),
   })

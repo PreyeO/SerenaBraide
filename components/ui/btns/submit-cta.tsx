@@ -7,20 +7,22 @@ interface AuthSubmitButtonProps {
   label: string;
   loadingLabel: string;
   isPending: boolean;
+  className?: string;
 }
 
 const SubmitButton = ({
   label,
   loadingLabel,
   isPending,
+  className,
 }: AuthSubmitButtonProps) => {
   return (
     <Button
       type="submit"
       disabled={isPending}
-      className="w-full bg-[#E61A1A] text-white hover:bg-red-700 py-6 text-base font-semibold rounded-[14px]"
+      className={` ${className} w-full bg-[#3B3B3B] text-white rounded-[50px] py-6 text-base font-semibold `}
     >
-      {isPending ? loadingLabel : label} <ArrowRight className="size-6" />
+      {isPending ? loadingLabel : label}
     </Button>
   );
 };

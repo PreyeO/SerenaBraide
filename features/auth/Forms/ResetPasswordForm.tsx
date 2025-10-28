@@ -18,6 +18,9 @@ import { ResetPasswordFormValues } from "../types";
 import { resetPasswordSchema } from "../schemas";
 import { useResetPassword } from "../hooks/useResetPassword";
 import SubmitButton from "@/components/ui/btns/submit-cta";
+import AuthSpan from "@/components/ui/typography/auth-span";
+import AuthSwitchPrompt from "./shared-component/AuthSwitchPrompt";
+import AuthLinkPrompt from "./shared-component/AuthLinkPrompt";
 
 const ResetPasswordForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -35,91 +38,117 @@ const ResetPasswordForm = () => {
   };
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="w-full max-w-[588px]">
-        <AuthTitle
-          title="Reset Password"
-          subtitle="Set a new password for your account"
-        />
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="grid gap-6 mt-6"
-          >
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>New Password</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <Input
-                        type={showPassword ? "text" : "password"}
-                        placeholder="******"
-                        className="w-full border rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-[#E51919]"
-                        {...field}
-                      />
-                      <button
-                        type="button"
-                        className="absolute right-3 top-2 text-gray-500"
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {showPassword ? (
-                          <EyeOff size={18} />
-                        ) : (
-                          <Eye size={18} />
-                        )}
-                      </button>
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+    <div className="flex flex-col items-center pt-[70px] justify-center w-full gap-[34px]  mb-[111px] ">
+      <AuthTitle
+        title="Reset Password"
+        subtitle="We’ve sent a 6-digit verification code to your email Testmail@gmail.com. Please enter the code below and create a new password."
+        className=" max-w-[438px] leading-[22px]"
+      />
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-6  w-full"
+        >
+          <FormField
+            control={form.control}
+            name="code"
+            render={({ field }) => (
+              <FormItem className="">
+                <FormLabel className="text-[12px] font-medium">CODE</FormLabel>
+                <FormControl className="">
+                  <Input
+                    placeholder="Code"
+                    {...field}
+                    className=" rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] text-[#9A9A98] font-normal h-[50px]"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>New Password</FormLabel>
+                <FormControl>
+                  <div className="relative">
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="******"
+                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] text-[#D1D5DB] h-[50px]"
+                      {...field}
+                    />
+                    <button
+                      type="button"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 "
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-[12px] font-medium">
+                  Confirm Password
+                </FormLabel>
+                <FormControl>
+                  <div className="relative">
+                    <Input
+                      type={showConfirmPassword ? "text" : "password"}
+                      placeholder="******"
+                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] text-[#D1D5DB] h-[50px]"
+                      {...field}
+                    />
+                    <button
+                      type="button"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 "
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
+                    >
+                      {showConfirmPassword ? (
+                        <EyeOff size={18} />
+                      ) : (
+                        <Eye size={18} />
+                      )}
+                    </button>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className="mt-4">
+            <SubmitButton
+              label="Reset Password"
+              loadingLabel="Resetting..."
+              isPending={isPending}
             />
-            <FormField
-              control={form.control}
-              name="confirmPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <Input
-                        type={showConfirmPassword ? "text" : "password"}
-                        placeholder="******"
-                        className="w-full border rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-[#E51919]"
-                        {...field}
-                      />
-                      <button
-                        type="button"
-                        className="absolute right-3 top-2 text-gray-500"
-                        onClick={() =>
-                          setShowConfirmPassword(!showConfirmPassword)
-                        }
-                      >
-                        {showConfirmPassword ? (
-                          <EyeOff size={18} />
-                        ) : (
-                          <Eye size={18} />
-                        )}
-                      </button>
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+          </div>
+          <div className=" mt-4  flex  items-center justify-center">
+            <AuthLinkPrompt
+              message="Didn't get the code?"
+              linkText="Resend Code"
+              href="/auth/resend"
             />
-            <div className="mt-4">
-              <SubmitButton
-                label="Reset Password"
-                loadingLabel="Resetting..."
-                isPending={isPending}
-              />
-            </div>
-          </form>
-        </Form>
-      </div>
+          </div>
+          <AuthSwitchPrompt
+            message="Remember Password?"
+            linkText="Login Here"
+            href="/auth/signin"
+          />
+        </form>
+      </Form>
     </div>
   );
 };

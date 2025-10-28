@@ -20,8 +20,9 @@ export default function RootLayout({
       <body
         className={` font-GeneralSans ${generalSans.variable} ${ppEditorial.variable}  `}
       >
-        <ReactQueryProvider> {children}</ReactQueryProvider>
-        {/* <main className="font-GeneralSans ">{children}</main> */}
+        <ReactQueryProvider>
+          <main className="font-GeneralSans "> {children}</main>
+        </ReactQueryProvider>
       </body>
     </html>
   );
