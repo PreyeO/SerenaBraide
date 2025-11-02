@@ -44,20 +44,20 @@ export const navItems = [
       {
         heading: "Fragrances",
         items: [
-          { name: "Men Fragrances", href: "/categories/fragrances/men" },
-          { name: "Women Fragrances", href: "/categories/fragrances/women" },
-          { name: "Kids Fragrances", href: "/categories/fragrances/kids" },
-          { name: "Body Spray", href: "/categories/fragrances/body-spray" },
-          { name: "Body Mist", href: "/categories/fragrances/body-mist" },
+          { name: "Men Fragrances", href: "/categories/fragrances" },
+          { name: "Women Fragrances", href: "/categories/fragrances" },
+          { name: "Kids Fragrances", href: "/categories/fragrances" },
+          { name: "Body Spray", href: "/categories/fragrances" },
+          { name: "Body Mist", href: "/categories/fragrances" },
         ],
       },
       {
         heading: "Lips",
         items: [
-          { name: "Lip Gloss", href: "/categories/lips/lip-gloss" },
-          { name: "Lip Balm", href: "/categories/lips/lip-balm" },
-          { name: "Lip Tints", href: "/categories/lips/tints" },
-          { name: "Liquid Lipsticks", href: "/categories/lips/liquid" },
+          { name: "Lip Gloss", href: "/categories/lips" },
+          { name: "Lip Balm", href: "/categories/lips" },
+          { name: "Lip Tints", href: "/categories/lips" },
+          { name: "Liquid Lipsticks", href: "/categories/lips" },
         ],
       },
       {
@@ -86,8 +86,8 @@ export const navItems = [
       {
         heading: "Top Fragrances",
         items: [
-          { name: "Amber Oud", href: "/best-sellers/amber-oud" },
-          { name: "Royal Musk", href: "/best-sellers/royal-musk" },
+          { name: "Amber Oud", href: "/categories/best-sellers" },
+          { name: "Royal Musk", href: "/categories/best-sellers" },
         ],
       },
       {

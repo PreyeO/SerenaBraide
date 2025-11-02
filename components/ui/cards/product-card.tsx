@@ -8,12 +8,12 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  // Generate star rating (handles full/half/empty stars)
+  // Generate star rating
   const renderStars = (rating: number = 0) => {
     return Array.from({ length: 5 }, (_, i) => {
       const starValue = i + 1;
       if (rating >= starValue) {
-        return <Star key={i} size={13} fill="#D1D5DB" stroke="#D1D5DB" />; // full star
+        return <Star key={i} size={13} fill="#D1D5DB" stroke="#D1D5DB" />;
       } else if (rating >= starValue - 0.5) {
         return (
           <Star
@@ -25,20 +25,20 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           />
         );
       } else {
-        return <Star key={i} size={13} className="text-[#D1D5DB]" />; // empty star
+        return <Star key={i} size={13} className="text-[#D1D5DB]" />;
       }
     });
   };
 
   return (
-    <div className="rounded-[15px] py-5 px-5 flex flex-col text-[#D1D5DB]">
-      <div className="relative flex-1 flex items-center justify-center overflow-hidden rounded-[15px] ">
+    <div className="rounded-[15px] py-5 px-4 flex flex-col text-[#D1D5DB]">
+      <div className="relative flex-1 flex items-center justify-center overflow-hidden rounded-[15px]">
         <ProductImage
           src={product.src}
           alt={product.name}
           width={310}
           height={500}
-          className="object-contain "
+          className="object-contain"
         />
 
         {/* Type Badge */}
@@ -48,7 +48,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </span>
         </div>
 
-        {/* Price Badge */}
+        {/* Price */}
         <span className="absolute top-2 right-2 text-sm text-white">
           <Caption title={product.price} className="font-medium" />
         </span>
@@ -60,16 +60,33 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             className="font-medium text-sm text-white"
           />
 
-          {/* Sizes */}
+          {/* Sizes or Colors */}
           <div className="flex justify-between items-center">
-            {product.sizes && (
+            {product.colors ? (
+              <div className="flex items-center gap-1">
+                <Caption
+                  title="Available in:"
+                  className="text-[12px] font-normal text-[#D1D5DB]"
+                />
+                <div className="flex items-center gap-[5px]">
+                  {product.colors.map((color, index) => (
+                    <div
+                      key={index}
+                      className="w-3.5 h-3.5 rounded-full border border-white/40"
+                      style={{ backgroundColor: color }}
+                    />
+                  ))}
+                </div>
+              </div>
+            ) : product.sizes ? (
               <Caption
                 title={`Available in: ${product.sizes.join(", ")}`}
                 className="text-[12px] font-normal text-[#D1D5DB]"
               />
-            )}
+            ) : null}
+
             <div className="rounded-full bg-white/30 backdrop-blur-[40px] w-5 h-5 flex items-center justify-center">
-              <Heart className=" size-[15px] text-black" />
+              <Heart className="size-[15px] text-black" />
             </div>
           </div>
 
@@ -77,12 +94,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <div className="flex items-center gap-[6px]">
             <div className="flex items-center gap-[3px] text-[12px] font-normal text-[#D1D5DB]">
               {renderStars(product.rating)}
-              <Caption title={product.rating?.toString() ?? "0"} className="" />
+              <Caption title={product.rating?.toString() ?? "0"} />
             </div>
             <div className="border-[0.8px] h-[10px] border-[#D1D5DB]/30" />
-            {product.sold && (
-              <Caption title={`${product.sold} sold`} className="" />
-            )}
+            {product.sold && <Caption title={`${product.sold} sold`} />}
           </div>
         </div>
       </div>

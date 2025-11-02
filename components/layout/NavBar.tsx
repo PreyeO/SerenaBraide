@@ -120,7 +120,9 @@ const NavBar = () => {
           </SheetContent>
         </Sheet>
 
-        <Logo width={100} height={40} />
+        <Link href="/">
+          <Logo width={100} height={40} />
+        </Link>
         <div className="flex gap-4">
           <Search className="text-white size-5" />
           <Heart className="text-white size-5" />
@@ -157,7 +159,10 @@ const NavBar = () => {
 
           {/* Center - Logo */}
           <div className="absolute left-1/2 -translate-x-1/2">
-            <Logo width={100} height={40} />
+            <Link href="/">
+              {" "}
+              <Logo width={100} height={40} />
+            </Link>
           </div>
 
           {/* Right - Icons */}

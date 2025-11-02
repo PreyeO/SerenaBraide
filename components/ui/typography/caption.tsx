@@ -1,5 +1,5 @@
 interface HeadingProps {
-  className: string;
+  className?: string;
   title: string;
 }
 
