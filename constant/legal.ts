@@ -211,3 +211,10 @@ export const dataRights = [
     list: "Withdraw consent where processing is based on consent",
   },
 ];
+
+export const legalLinks = [
+  { name: "Purchase Policy", href: "/legal/purchase_policy" },
+  { name: "Terms of Service", href: "/legal/terms_of_service" },
+  { name: "Privacy Policy", href: "/legal/privacy_policy" },
+  { name: "Cookie Policy", href: "/legal/cookie_policy" },
+];

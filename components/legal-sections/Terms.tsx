@@ -66,7 +66,7 @@ const Terms = () => {
         <p className="text-sm leading-[22px] w-[832px] ">
           We value your privacy. Please refer to our{" "}
           <span className="underline text-blue-400">
-            <Link href="/privacy-policy">Privacy Policy</Link>
+            <Link href="/privacy_policy">Privacy Policy</Link>
           </span>{" "}
           to understand how we collect, use, and protect your personal
           information.

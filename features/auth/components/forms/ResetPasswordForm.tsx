@@ -14,21 +14,21 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import AuthTitle from "@/components/ui/typography/auth-title";
-import { ResetPasswordFormValues } from "../../../features/auth/types";
-import { resetPasswordSchema } from "../../../features/auth/schemas";
-import { useResetPassword } from "../../../hooks/useResetPassword";
+
 import SubmitButton from "@/components/ui/btns/submit-cta";
-import AuthSpan from "@/components/ui/typography/auth-span";
-import AuthSwitchPrompt from "../shared-component/AuthSwitchPrompt";
-import AuthLinkPrompt from "../shared-component/AuthLinkPrompt";
+import { ResetPasswordFormValues } from "@/features/auth/auth.type";
+import { ResetPasswordSchema } from "@/features/auth/auth.schema";
+import { useResetPassword } from "@/features/auth/hooks/useResetPassword";
+import AuthLinkPrompt from "../shared/AuthLinkPrompt";
+import AuthSwitchPrompt from "../shared/AuthSwitchPrompt";
 
 const ResetPasswordForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const form = useForm<ResetPasswordFormValues>({
-    resolver: zodResolver(resetPasswordSchema),
-    defaultValues: { password: "", confirmPassword: "" },
+    resolver: zodResolver(ResetPasswordSchema),
+    defaultValues: { otp: "", new_password: "", new_password_repeated: "" },
   });
 
   const { mutate, isPending } = useResetPassword();
@@ -51,7 +51,7 @@ const ResetPasswordForm = () => {
         >
           <FormField
             control={form.control}
-            name="code"
+            name="otp"
             render={({ field }) => (
               <FormItem className="">
                 <FormLabel className="text-[12px] font-medium">CODE</FormLabel>
@@ -68,7 +68,7 @@ const ResetPasswordForm = () => {
           />
           <FormField
             control={form.control}
-            name="password"
+            name="new_password"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>New Password</FormLabel>
@@ -95,7 +95,7 @@ const ResetPasswordForm = () => {
           />
           <FormField
             control={form.control}
-            name="confirmPassword"
+            name="new_password_repeated"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-[12px] font-medium">
@@ -133,6 +133,7 @@ const ResetPasswordForm = () => {
               label="Reset Password"
               loadingLabel="Resetting..."
               isPending={isPending}
+              onClick={() => {}}
             />
           </div>
           <div className=" mt-4  flex  items-center justify-center">

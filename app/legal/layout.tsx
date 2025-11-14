@@ -4,7 +4,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import { legalLinks } from "@/constant/data";
+import { legalLinks } from "@/constant/legal";
 
 export default function LegalLayout({
   children,

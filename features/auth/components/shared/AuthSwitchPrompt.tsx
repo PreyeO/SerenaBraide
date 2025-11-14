@@ -7,11 +7,11 @@ interface AuthSwitchPromptProps {
   href: string;
 }
 
-export default function AuthSwitchPrompt({
+const AuthSwitchPrompt = ({
   message,
   linkText,
   href,
-}: AuthSwitchPromptProps) {
+}: AuthSwitchPromptProps) => {
   return (
     <div className="flex flex-col gap-[3px] items-center pt-[50px] font-normal">
       <Paragraph
@@ -21,4 +21,5 @@ export default function AuthSwitchPrompt({
       <UnderlineLink href={href} text={linkText} className="text-[#3B3B3B]" />
     </div>
   );
-}
+};
+export default AuthSwitchPrompt;

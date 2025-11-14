@@ -14,30 +14,29 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { SignUpFormValues } from "../../../features/auth/types";
-import { signupSchema } from "../../../features/auth/schemas";
 import AuthTitle from "@/components/ui/typography/auth-title";
 import SubmitButton from "@/components/ui/btns/submit-cta";
-import { useSignin } from "../hooks/useSignin";
 import UnderlineLink from "@/components/ui/btns/underline-cta";
-import AuthSwitchPrompt from "../shared-component/AuthSwitchPrompt";
+import { LoginFormValues } from "@/features/auth/auth.type";
+import { LoginSchema } from "@/features/auth/auth.schema";
+import { useLogin } from "@/features/auth/hooks/useLogin";
+import AuthSwitchPrompt from "../shared/AuthSwitchPrompt";
 
-export function SigninForm() {
+const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const form = useForm<SignUpFormValues>({
-    resolver: zodResolver(signupSchema),
+  const form = useForm<LoginFormValues>({
+    resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const { mutate, isPending } = useSignin();
+  const { mutate, isPending } = useLogin();
 
-  function onSubmit(values: SignUpFormValues) {
+  const onSubmit = (values: LoginFormValues) => {
     mutate(values); // ✅ no need for onError here
-    console.log(values);
-  }
+  };
 
   return (
     <div className="flex flex-col items-center pt-[70px] justify-center w-full gap-[34px] mb-[111px]">
@@ -112,9 +111,10 @@ export function SigninForm() {
           {/* Submit */}
           <div className="md:col-span-2 mt-4">
             <SubmitButton
-              label="Sign In"
-              loadingLabel="Signing in..."
+              label="Login"
+              loadingLabel="Logging in..."
               isPending={isPending}
+              onClick={() => {}}
             />
           </div>
 
@@ -127,4 +127,5 @@ export function SigninForm() {
       </Form>
     </div>
   );
-}
+};
+export default LoginForm;

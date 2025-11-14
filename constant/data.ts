@@ -390,10 +390,10 @@ export const footerLinks: FooterSection[] = [
   {
     heading: "LEGAL",
     items: [
-      { name: "Purchase Policy", href: "/legal/purchase-policy" },
-      { name: "Terms of Service", href: "/legal/terms-of-service" },
-      { name: "Privacy Policy", href: "/legal/privacy-policy" },
-      { name: "Cookie Policy", href: "/legal/cookie-policy" },
+      { name: "Purchase Policy", href: "/legal/purchase_policy" },
+      { name: "Terms of Service", href: "/legal/terms_of_service" },
+      { name: "Privacy Policy", href: "/legal/privacy_policy" },
+      { name: "Cookie Policy", href: "/legal/cookie_policy" },
     ],
   },
   {
@@ -457,10 +457,4 @@ export const faq = [
     answer:
       "Yes, we ship worldwide. Shipping rates and delivery times vary depending on the destination.",
   },
-];
-export const legalLinks = [
-  { name: "Purchase Policy", href: "/legal/purchase-policy" },
-  { name: "Terms of Service", href: "/legal/terms-of-service" },
-  { name: "Privacy Policy", href: "/legal/privacy-policy" },
-  { name: "Cookie Policy", href: "/legal/cookie-policy" },
 ];

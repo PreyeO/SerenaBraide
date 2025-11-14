@@ -7,7 +7,6 @@ export const apiClient = axios.create({
   headers: { "Content-Type": "application/json" },
 });
 
-// ✅ Global response interceptor
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {

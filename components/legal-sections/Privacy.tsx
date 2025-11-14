@@ -3,10 +3,8 @@ import LegalTypography from "./shared-components/LegalTypography";
 import Paragraph from "../ui/typography/paragraph";
 import {
   collectedCookiesList,
-  CookiesTypeList,
   dataRights,
   dataShared,
-  useCookiesList,
   useOfData,
   whyCookiesList,
 } from "@/constant/legal";
@@ -68,7 +66,7 @@ const Privacy = () => {
               <li key={index}>{item.list}</li>
             ))}
           </ul>
-          <Link href="/coolie-policy" className="underline text-blue-400">
+          <Link href="/cookie_policy" className="underline text-blue-400">
             (see our Cookies Policy)
           </Link>
         </div>

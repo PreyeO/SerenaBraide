@@ -12,16 +12,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
 import AuthTitle from "@/components/ui/typography/auth-title";
-import { ForgotPasswordFormValues } from "../../../features/auth/types";
-import { forgotPasswordSchema } from "../../../features/auth/schemas";
-import { useForgotPassword } from "../hooks/useForgotPassword";
 import SubmitButton from "@/components/ui/btns/submit-cta";
+import { ForgotPasswordFormValues } from "@/features/auth/auth.type";
+import { ForgotPasswordSchema } from "@/features/auth/auth.schema";
+import { useForgotPassword } from "@/features/auth/hooks/useForgotPassword";
 
 const ForgotPasswordForm = () => {
   const form = useForm<ForgotPasswordFormValues>({
-    resolver: zodResolver(forgotPasswordSchema),
+    resolver: zodResolver(ForgotPasswordSchema),
     defaultValues: { email: "" },
   });
 

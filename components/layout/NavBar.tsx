@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Heart, ShoppingCart, Search, Menu, ArrowLeft } from "lucide-react";
+import { Heart, Search, Menu, ArrowLeft, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { navItems } from "@/constant/data";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Logo from "../ui/logo";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const NavBar = () => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
@@ -169,7 +170,17 @@ const NavBar = () => {
           <div className="flex gap-4 items-center">
             <Search className="text-white size-5 cursor-pointer" />
             <Heart className="text-white size-5 cursor-pointer" />
-            <ShoppingCart className="text-white size-5 cursor-pointer" />
+            <div className="py-[13px] px-[17px] flex gap-[17px] bg-[#3B3B3B] rounded-[50px]">
+              <ShoppingCart className="text-white size-5" />
+              <div className="border border-[#6F6E6C99]" />
+              <Avatar className="size-6 cursor-pointer">
+                <AvatarImage
+                  src="https://github.com/shadcn.png"
+                  alt="@shadcn"
+                />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+            </div>
           </div>
         </div>
 

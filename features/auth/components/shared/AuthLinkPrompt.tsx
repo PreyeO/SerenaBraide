@@ -8,11 +8,7 @@ interface AuthLinkPromptProps {
   href: string;
 }
 
-export default function AuthLinkPrompt({
-  message,
-  linkText,
-  href,
-}: AuthLinkPromptProps) {
+const AuthLinkPrompt = ({ message, linkText, href }: AuthLinkPromptProps) => {
   return (
     <span className="text-sm text-[#6F6E6C] font-normal">
       {message}{" "}
@@ -23,4 +19,5 @@ export default function AuthLinkPrompt({
       </Link>
     </span>
   );
-}
+};
+export default AuthLinkPrompt;
