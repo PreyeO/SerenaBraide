@@ -73,7 +73,7 @@ const RegisterForm = () => {
                   <Input
                     placeholder="Enter your first name"
                     {...field}
-                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] text-[#9A9A98] font-normal h-[50px]"
+                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5]  font-normal h-[50px]"
                   />
                 </FormControl>
                 <FormMessage />
@@ -94,7 +94,7 @@ const RegisterForm = () => {
                   <Input
                     placeholder="Enter your last name"
                     {...field}
-                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] text-[#D1D5DB] h-[50px]"
+                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-[50px]"
                   />
                 </FormControl>
                 <FormMessage />
@@ -114,7 +114,7 @@ const RegisterForm = () => {
                     type="email"
                     placeholder="john@example.com"
                     {...field}
-                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] text-[#D1D5DB] h-[50px]"
+                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5]  h-[50px]"
                   />
                 </FormControl>
                 <FormMessage />
@@ -135,7 +135,7 @@ const RegisterForm = () => {
                   <Input
                     placeholder="+234 801 234 5678"
                     {...field}
-                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] text-[#D1D5DB] h-[50px]"
+                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-[50px]"
                   />
                 </FormControl>
                 <FormMessage />
@@ -143,7 +143,6 @@ const RegisterForm = () => {
             )}
           />
 
-          {/* Password */}
           <FormField
             control={form.control}
             name="password"
@@ -158,7 +157,7 @@ const RegisterForm = () => {
                       type={showPassword ? "text" : "password"}
                       placeholder="******"
                       {...field}
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] text-[#D1D5DB] h-[50px]"
+                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5]  h-[50px]"
                     />
                     <button
                       type="button"
@@ -184,12 +183,21 @@ const RegisterForm = () => {
                   CONFIRM PASSWORD
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="******"
-                    {...field}
-                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] text-[#D1D5DB] h-[50px]"
-                  />
+                  <div className="relative">
+                    <Input
+                      type="password"
+                      placeholder="******"
+                      {...field}
+                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-[50px]"
+                    />
+                    <button
+                      type="button"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -209,7 +217,7 @@ const RegisterForm = () => {
                   <Input
                     type="date"
                     {...field}
-                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] text-[#D1D5DB] h-[50px]"
+                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-[50px]"
                   />
                 </FormControl>
                 <FormMessage />

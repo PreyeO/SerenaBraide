@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@custom-variant dark (&:is(.dark *));
+
 /* @custom-variant dark (&:is(.dark *)); */
 
 @theme inline {
@@ -135,4 +137,13 @@
 } */
 button {
   cursor: pointer;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }

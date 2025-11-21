@@ -20,18 +20,12 @@ export const useForgotPassword = () => {
 
     onSuccess: (_, values) => {
       notify.success("If this email exists, an OTP has been sent.");
-      router.push(`/auth/verify-reset-otp?email=${values.email}`);
+      router.push(`/auth/reset-password?email=${values.email}`);
     },
 
     onError: (error) => {
-      if (error.response?.status === 404) {
-        notify.error("Email not found. Please register first.");
-        return;
-      }
-
       notify.error(
-        error.response?.data?.message ||
-          "Something went wrong. Please try again."
+        error.response?.data?.message || error.message || "Failed to resend OTP"
       );
     },
   });

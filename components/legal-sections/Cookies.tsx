@@ -1,7 +1,10 @@
 import React from "react";
 import LegalTypography from "./shared-components/LegalTypography";
 import Paragraph from "../ui/typography/paragraph";
-import { CookiesTypeList, useCookiesList } from "@/constant/legal";
+import {
+  CookiesTypeList,
+  useCookiesList,
+} from "@/components/legal-sections/data/legal";
 
 const Cookies = () => {
   return (

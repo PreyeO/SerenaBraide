@@ -14,15 +14,17 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import AuthTitle from "@/components/ui/typography/auth-title";
-
 import SubmitButton from "@/components/ui/btns/submit-cta";
 import { ResetPasswordFormValues } from "@/features/auth/auth.type";
 import { ResetPasswordSchema } from "@/features/auth/auth.schema";
 import { useResetPassword } from "@/features/auth/hooks/useResetPassword";
 import AuthLinkPrompt from "../shared/AuthLinkPrompt";
 import AuthSwitchPrompt from "../shared/AuthSwitchPrompt";
+import { useSearchParams } from "next/navigation";
 
 const ResetPasswordForm = () => {
+  const searchParams = useSearchParams();
+  const email = searchParams.get("email") ?? "";
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -41,7 +43,7 @@ const ResetPasswordForm = () => {
     <div className="flex flex-col items-center pt-[70px] justify-center w-full gap-[34px]  mb-[111px] ">
       <AuthTitle
         title="Reset Password"
-        subtitle="We’ve sent a 6-digit verification code to your email Testmail@gmail.com. Please enter the code below and create a new password."
+        subtitle={`We’ve sent a 6-digit verification code to your email ${email}. Please enter the code below and create a new password.`}
         className=" max-w-[438px] leading-[22px]"
       />
       <Form {...form}>
@@ -59,7 +61,7 @@ const ResetPasswordForm = () => {
                   <Input
                     placeholder="Code"
                     {...field}
-                    className=" rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] text-[#9A9A98] font-normal h-[50px]"
+                    className=" rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] font-normal h-[50px]"
                   />
                 </FormControl>
                 <FormMessage />
@@ -77,7 +79,7 @@ const ResetPasswordForm = () => {
                     <Input
                       type={showPassword ? "text" : "password"}
                       placeholder="******"
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] text-[#D1D5DB] h-[50px]"
+                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5]  h-[50px]"
                       {...field}
                     />
                     <button
@@ -106,7 +108,7 @@ const ResetPasswordForm = () => {
                     <Input
                       type={showConfirmPassword ? "text" : "password"}
                       placeholder="******"
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] text-[#D1D5DB] h-[50px]"
+                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-[50px]"
                       {...field}
                     />
                     <button

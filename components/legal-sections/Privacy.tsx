@@ -7,7 +7,7 @@ import {
   dataShared,
   useOfData,
   whyCookiesList,
-} from "@/constant/legal";
+} from "@/components/legal-sections/data/legal";
 import { effectiveDate } from "@/lib/utils";
 import Link from "next/link";
 

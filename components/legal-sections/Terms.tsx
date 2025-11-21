@@ -2,7 +2,10 @@ import React from "react";
 import LegalIntro from "./shared-components/LegalIntro";
 import LegalTypography from "./shared-components/LegalTypography";
 import Paragraph from "../ui/typography/paragraph";
-import { ordersList, useOfWebsite } from "@/constant/legal";
+import {
+  ordersList,
+  useOfWebsite,
+} from "@/components/legal-sections/data/legal";
 import Link from "next/link";
 
 const Terms = () => {

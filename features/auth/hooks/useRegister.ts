@@ -25,14 +25,12 @@ export const useRegister = ({
     AxiosError<{ message: string }>,
     RegisterFormValues
   >({
-    // Explicitly type the mutationFn
-    mutationFn: async (data: RegisterFormValues): Promise<RegisterResponse> => {
-      return await registerUser(data);
-    },
+    mutationFn: async (data) => registerUser(data),
     onSuccess: (data) => {
-      setAuth({ user: data.user, tokens: data.tokens });
+      const { tokens, ...user } = data; // separate tokens
+      setAuth({ user, tokens });
       notify.success("Registration successful!");
-      router.push("/auth/verify-otp");
+      router.push(`/auth/verify-otp?email=${user.email}`);
       onSuccess?.(data);
     },
     onError: (error) => {

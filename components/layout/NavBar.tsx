@@ -7,10 +7,14 @@ import { navItems } from "@/constant/data";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Logo from "../ui/logo";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import ProfileDropdown from "../ui/profile-dropdown";
+import { DropdownMenu, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import ProductImage from "../ui/images/product-image";
 
 const NavBar = () => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const navRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
 
   const [mobileActiveItem, setMobileActiveItem] = useState<string | null>(null);
   const [mobileActiveSection, setMobileActiveSection] = useState<string | null>(
@@ -173,13 +177,28 @@ const NavBar = () => {
             <div className="py-[13px] px-[17px] flex gap-[17px] bg-[#3B3B3B] rounded-[50px]">
               <ShoppingCart className="text-white size-5" />
               <div className="border border-[#6F6E6C99]" />
-              <Avatar className="size-6 cursor-pointer">
-                <AvatarImage
-                  src="https://github.com/shadcn.png"
-                  alt="@shadcn"
-                />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
+              <DropdownMenu onOpenChange={setOpen}>
+                <div className="relative">
+                  {open && (
+                    <ProductImage
+                      width={26}
+                      height={18}
+                      alt="pentagon-icon"
+                      src="/pentagon-icon.svg"
+                      className="absolute top-12 z-[200]"
+                    />
+                  )}
+
+                  <DropdownMenuTrigger>
+                    <Avatar className="size-6 cursor-pointer">
+                      <AvatarImage src="https://github.com/shadcn.png" />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+                  </DropdownMenuTrigger>
+                </div>
+
+                <ProfileDropdown />
+              </DropdownMenu>
             </div>
           </div>
         </div>

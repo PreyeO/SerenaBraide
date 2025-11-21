@@ -50,7 +50,7 @@ const ResendOtp = ({ email }: ResendOtpProps) => {
 
   const handleResend = () => {
     if (resendTimer === 0) {
-      resend(email, { onSuccess: () => startResendCountdown() });
+      resend(email, { onSuccess: startResendCountdown });
     }
   };
 

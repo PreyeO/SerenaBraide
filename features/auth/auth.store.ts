@@ -1,15 +1,16 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { StoreUser, UserTokens } from "@/features/auth/auth.type";
+import { User, UserTokens } from "@/features/auth/auth.type";
 
 interface AuthState {
-  user: StoreUser | null;
+  user: User | null;
   tokens: UserTokens | null;
   isHydrated: boolean;
-  setAuth: (data: { user: StoreUser; tokens: UserTokens }) => void;
+  setAuth: (data: { user: User; tokens: UserTokens }) => void;
   clearAuth: () => void;
   setHydrated: (state: boolean) => void;
   isTokenExpired: () => boolean;
+  getRole: () => "admin" | "customer" | null;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -35,7 +36,16 @@ export const useAuthStore = create<AuthState>()(
           return true;
         }
       },
+
+      getRole: () => {
+        const user = get().user;
+        if (!user) return null;
+        if (user.is_superuser || user.is_admin) return "admin";
+        if (user.is_customer) return "customer";
+        return null;
+      },
     }),
+
     {
       name: "auth-storage",
       partialize: (state) => ({

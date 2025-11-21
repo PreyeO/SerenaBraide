@@ -10,7 +10,6 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-
 import SubmitButton from "@/components/ui/btns/submit-cta";
 import { OtpFormValues } from "@/features/auth/auth.type";
 import { VerifyOtpSchema } from "@/features/auth/auth.schema";
@@ -20,16 +19,16 @@ import ResendOtp from "@/features/auth/components/shared/ResendOtp";
 const VerifyOtpForm = ({ email }: { email: string }) => {
   const form = useForm<OtpFormValues>({
     resolver: zodResolver(VerifyOtpSchema),
-    defaultValues: {
-      otp: ["", "", "", "", "", ""],
-      email,
-    },
+    defaultValues: { otp: ["", "", "", "", "", ""], email },
   });
 
   const { mutate: verify, isPending: isVerifying } = useVerifyOtp();
 
   const onSubmit = (values: OtpFormValues) => {
-    verify(values);
+    verify({
+      otp: values.otp.join(""), // convert array to string
+      email: values.email,
+    });
   };
 
   return (

@@ -10,7 +10,7 @@ import { ResetPasswordFormValues } from "@/features/auth/auth.type";
 export const useResetPassword = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const email = searchParams.get("email"); // we passed this in URL from step1
+  const email = searchParams.get("email");
 
   return useMutation<
     { detail: string },
@@ -19,9 +19,10 @@ export const useResetPassword = () => {
   >({
     mutationFn: (values) =>
       completePasswordReset({
-        email: email ?? "", // must send email back to API
+        email: email ?? "",
         otp: values.otp,
         new_password: values.new_password,
+        new_password_repeated: values.new_password_repeated, // ✅ include this
       }),
 
     onSuccess: () => {

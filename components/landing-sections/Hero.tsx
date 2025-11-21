@@ -7,7 +7,7 @@ import Paragraph from "../ui/typography/paragraph";
 
 const Hero = () => {
   return (
-    <section className="hero_background font-GeneralSans  pt-[226px]">
+    <section className="hero_background font-GeneralSans  pt-[226px] ">
       <div className="px-16">
         {/* Top line + small text */}
         <div className="flex items-center w-[250px] gap-[10px">

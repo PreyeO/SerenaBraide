@@ -17,8 +17,8 @@ import SubmitButton from "@/components/ui/btns/submit-cta";
 import { contactSchema } from "../../lib/schemas/schema";
 import SubHeading from "@/components/ui/typography/subHeading";
 import { useContact } from "@/hooks/useContact";
-import { ContactFormValues } from "@/types/auth";
 import Paragraph from "../ui/typography/paragraph";
+import { ContactFormValues } from "@/features/auth/auth.type";
 
 export default function ContactForm() {
   const form = useForm<ContactFormValues>({

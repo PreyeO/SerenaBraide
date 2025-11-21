@@ -46,7 +46,10 @@ const Wholesale = () => {
               content="Join our wholesale program and offer timeless perfumes your customers will love."
               className="text-[#6F6E6C] font-normal text-[22px] leading-[28px]"
             />
-            <LinkCta label="Contact Us" className=" w-[160px] mt-6 " />
+            <LinkCta
+              label="Contact Us"
+              className=" w-[160px] mt-6 bg-[#3B3B3B]  text-white  "
+            />
           </div>
           {/* Right Image */}
           <div className="flex-1">

@@ -1,12 +1,13 @@
 "use client";
 
 import VerifyOtpForm from "@/features/auth/components/forms/VerifyOtpForm";
-import { useAuthStore } from "@/features/auth/auth.store";
+import { useSearchParams } from "next/navigation";
 
 const VerifyOtpPage = () => {
-  const user = useAuthStore((state) => state.user);
+  const searchParams = useSearchParams();
+  const email = searchParams.get("email");
 
-  if (!user) {
+  if (!email) {
     return (
       <p className="text-center mt-20">
         No email found. Please register first.
@@ -14,7 +15,7 @@ const VerifyOtpPage = () => {
     );
   }
 
-  return <VerifyOtpForm email={user.email} />;
+  return <VerifyOtpForm email={email} />;
 };
 
 export default VerifyOtpPage;

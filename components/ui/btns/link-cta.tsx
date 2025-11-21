@@ -8,7 +8,7 @@ interface ButtonProps {
 const LinkCta: React.FC<ButtonProps> = ({ className, label }) => {
   return (
     <Button
-      className={`${className} bg-[#3B3B3B] py-6 rounded-full text-sm text-white mx-auto flex justify-center cursor-pointer hover:bg-black transition`}
+      className={`${className}  py-6 rounded-full text-sm mx-auto flex justify-center cursor-pointer`}
     >
       {label}
     </Button>

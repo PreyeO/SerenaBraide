@@ -17,7 +17,7 @@ export default function ReactQueryProvider({
   const pathname = usePathname() ?? "";
 
   const pathSegments = pathname.split("/").filter(Boolean);
-  const excludedSegments = ["auth", "payment", "dashboard"];
+  const excludedSegments = ["auth", "payment", "admin"];
   const isExcludedRoute = pathSegments.some((segment) =>
     excludedSegments.includes(segment)
   );

@@ -218,3 +218,12 @@ export const legalLinks = [
   { name: "Privacy Policy", href: "/legal/privacy_policy" },
   { name: "Cookie Policy", href: "/legal/cookie_policy" },
 ];
+
+export const securityPaymentInfo = [
+  { info: "All information remains secure and uncompromised" },
+  { info: "All data is encrypted" },
+  { info: "Your card information will never be mishandled or sold" },
+  {
+    info: "We follow the Payment Card Industry Data Security Standard (PCI DSS) when handing card data",
+  },
+];

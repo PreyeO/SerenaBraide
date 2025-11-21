@@ -4,7 +4,7 @@ import { AxiosResponse } from "axios";
 import {
   LoginFormValues,
   LoginResponse,
-  OtpFormValues,
+  OtpPayload,
   OtpResponse,
   RegisterFormValues,
   RegisterResponse,
@@ -20,7 +20,8 @@ export async function registerUser(
   return response.data;
 }
 
-export async function verifyOtp(data: OtpFormValues): Promise<OtpResponse> {
+// auth.service.ts
+export async function verifyOtp(data: OtpPayload): Promise<OtpResponse> {
   const response: AxiosResponse<OtpResponse> = await api.post(
     "/api/users/email-verification/verify-otp/",
     data
@@ -57,10 +58,18 @@ export async function completePasswordReset(data: {
   email: string;
   otp: string;
   new_password: string;
+  new_password_repeated: string; // ✅ include
 }): Promise<OtpResponse> {
   const response: AxiosResponse<OtpResponse> = await api.post(
     "/api/users/password-reset/complete/",
     data
+  );
+  return response.data;
+}
+export async function resetResendOtp(email: string): Promise<OtpResponse> {
+  const response: AxiosResponse<OtpResponse> = await api.post(
+    "/api/users/password-reset/request/",
+    { email }
   );
   return response.data;
 }

@@ -10,7 +10,7 @@ import {
   returnList,
   shippingList,
   useOfWebsite,
-} from "@/constant/legal";
+} from "@/components/legal-sections/data/legal";
 import Link from "next/link";
 
 const Purchase = () => {

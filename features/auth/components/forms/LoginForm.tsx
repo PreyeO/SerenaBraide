@@ -63,7 +63,7 @@ const LoginForm = () => {
                   <Input
                     type="email"
                     placeholder="john@example.com"
-                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] text-[#D1D5DB] h-[50px]"
+                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5]  h-[50px]"
                     {...field}
                   />
                 </FormControl>
@@ -87,7 +87,7 @@ const LoginForm = () => {
                       type={showPassword ? "text" : "password"}
                       placeholder="******"
                       {...field}
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] text-[#D1D5DB] h-[50px]"
+                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-[50px]"
                     />
                     <button
                       type="button"
