@@ -1,7 +1,7 @@
 "use client";
 
-import ProductHero from "@/components/product-sections/all-product/ProductHero";
 import { categoryHeroInfo } from "@/constant/product";
+import HeroSection from "@/features/products/components/HeroSection";
 import { usePathname } from "next/navigation";
 
 export default function ProductsLayout({
@@ -18,7 +18,7 @@ export default function ProductsLayout({
   return (
     <div>
       {hero && (
-        <ProductHero
+        <HeroSection
           title={hero.title}
           description={hero.description}
           alt={hero.title}

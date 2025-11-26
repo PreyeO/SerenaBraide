@@ -6,3 +6,15 @@ export type FooterSection = {
   heading: string;
   items: FooterItem[];
 };
+
+export type NavSection = {
+  heading: string;
+  image?: string; // optional
+  items: { name: string; href: string }[];
+};
+
+export type NavItem = {
+  title: string;
+  href: string;
+  sections: NavSection[];
+};

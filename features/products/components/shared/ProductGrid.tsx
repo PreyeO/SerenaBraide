@@ -1,7 +1,7 @@
 "use client";
 
 import { Product } from "@/types/product";
-import ProductCard from "../../ui/cards/product-card";
+import ProductCard from "../../../../components/ui/cards/product-card";
 import SortDropdown from "./SortDropdown";
 import SubmitButton from "@/components/ui/btns/submit-cta";
 

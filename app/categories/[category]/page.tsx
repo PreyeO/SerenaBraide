@@ -1,11 +1,8 @@
 "use client";
 
-import ProductCategory from "@/components/product-sections/all-product/ProductCategory";
+import CategorySection from "@/features/products/components/CategorySection";
 
-export default function CategoryPage({
-  params,
-}: {
-  params: { category: string };
-}) {
-  return <ProductCategory category={params.category} />;
-}
+const CategoryPage = ({ params }: { params: { category: string } }) => {
+  return <CategorySection category={params.category} />;
+};
+export default CategoryPage;

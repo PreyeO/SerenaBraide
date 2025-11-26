@@ -9,7 +9,7 @@ import { LucideIcon } from "lucide-react";
 interface AuthSubmitButtonProps {
   label: string;
   loadingLabel?: string;
-  isPending: boolean;
+  isPending?: boolean;
   onClick?: () => void;
   className?: string;
   icon?: LucideIcon;

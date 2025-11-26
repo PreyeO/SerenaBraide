@@ -1,6 +1,9 @@
 import React from "react";
-import { categories, productDisplay } from "@/constant/data";
 import ProductSection from "./shared/ProductSection";
+import {
+  categories,
+  productDisplay,
+} from "@/features/products/data/product.data";
 
 const BestSeller = () => {
   return (

@@ -175,7 +175,9 @@ const NavBar = () => {
             <Search className="text-white size-5 cursor-pointer" />
             <Heart className="text-white size-5 cursor-pointer" />
             <div className="py-[13px] px-[17px] flex gap-[17px] bg-[#3B3B3B] rounded-[50px]">
-              <ShoppingCart className="text-white size-5" />
+              <Link href="/cart">
+                <ShoppingCart className="text-white size-5" />
+              </Link>
               <div className="border border-[#6F6E6C99]" />
               <DropdownMenu onOpenChange={setOpen}>
                 <div className="relative">
@@ -190,8 +192,11 @@ const NavBar = () => {
                   )}
 
                   <DropdownMenuTrigger>
-                    <Avatar className="size-6 cursor-pointer">
-                      <AvatarImage src="https://github.com/shadcn.png" />
+                    <Avatar className="size-6 bg-[#F5F5F5] text-black font-normal text-base  ">
+                      <AvatarImage
+                        src="https://github.com/shadcn.png"
+                        alt="@shadcn"
+                      />
                       <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
                   </DropdownMenuTrigger>
@@ -210,6 +215,15 @@ const NavBar = () => {
               .find((item) => item.title === activeMenu)
               ?.sections.map((section) => (
                 <div key={section.heading} className="min-w-[150px]">
+                  {section.image && (
+                    <ProductImage
+                      width={190}
+                      height={100}
+                      alt="gift and sets images"
+                      src={section.image}
+                      className="mb-6"
+                    />
+                  )}
                   <h4 className="text-[#3B3B3B] font-medium text-base mb-2">
                     {section.heading}
                   </h4>

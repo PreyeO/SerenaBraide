@@ -21,7 +21,7 @@ export default function RootLayout({
         className={` font-GeneralSans ${generalSans.variable} ${ppEditorial.variable}  `}
       >
         <ReactQueryProvider>
-          <main className="font-GeneralSans "> {children}</main>
+          <main className="font-GeneralSans text-[#3B3B3B] "> {children}</main>
         </ReactQueryProvider>
       </body>
     </html>

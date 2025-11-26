@@ -2,10 +2,8 @@ import React from "react";
 import {
   AlertDialog,
   AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
@@ -21,7 +19,7 @@ const TextModal = () => {
         <ChevronRight />
       </AlertDialogTrigger>
 
-      <AlertDialogContent className="w-full px-[30px] font-medium text-lg text-[#3B3B3B] pt-[10px] pb-[30px]">
+      <AlertDialogContent className="w-full px-[30px] font-medium text-lg text-[#3B3B3B] pt-[10px] pb-[30px] p-6">
         <div className="flex justify-end items-end">
           <AlertDialogAction className="size-[30px]  hover:bg-transparent rounded-full bg-[#F5F5F5] border border-[#3B3B3B]">
             <X color="#3B3B3B" className="" />

@@ -346,24 +346,3 @@ export const sampleProducts: Record<string, Product[]> = {
     },
   ],
 };
-
-export const singleProduct = [
-  {
-    size: "30ml",
-    price: "$160",
-    color: "#D1D5DB",
-    status: "available",
-  },
-  {
-    size: "50ml",
-    price: "$260",
-    color: "#C40606",
-    status: "out of stock",
-  },
-  {
-    size: "100ml",
-    price: "$360",
-    color: "#D1D5DB",
-    status: "available",
-  },
-];

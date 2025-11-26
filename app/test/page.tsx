@@ -1,14 +1,20 @@
-import ProductHero from "@/components/product-sections/product-detail/ProductHero";
-import ProductInfo from "@/components/product-sections/product-detail/ProductInfo";
-import ProductReview from "@/components/product-sections/product-detail/ProductReview";
+import DetailHeroSection from "@/features/products/components/DetailHeroSection";
+import DetailInfoSection from "@/features/products/components/DetailInfoSection";
+import RecommendationSection from "@/features/products/components/RecommendationSection";
+import ReviewSection from "@/features/products/components/ReviewSection";
+import { recommendedProducts } from "@/features/products/data/product.data";
+
 import React from "react";
 
 const ProductDetailPage = () => {
   return (
     <>
-      <ProductHero />
-      <ProductInfo />
-      <ProductReview />
+      <DetailHeroSection />
+      <DetailInfoSection />
+      <ReviewSection />
+      <RecommendationSection
+        products={Object.values(recommendedProducts).flat()}
+      />
     </>
   );
 };

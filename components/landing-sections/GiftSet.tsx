@@ -1,6 +1,9 @@
 import React from "react";
-import { categories, GiftProductDisplay } from "@/constant/data";
 import ProductSection from "./shared/ProductSection";
+import {
+  categories,
+  GiftProductDisplay,
+} from "@/features/products/data/product.data";
 
 const GiftSet = () => {
   return (
