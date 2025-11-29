@@ -1,4 +1,4 @@
-import EmptyWishlist from "@/features/profile/components/customer-screens/EmptyScreens/EmptyWishlist";
+import EmptyWishlist from "@/features/profile/dashboard/customer-screens/empty-screens/EmptyWishlist";
 
 const CustomerWishlistPage = () => {
   return <EmptyWishlist />;

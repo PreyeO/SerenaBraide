@@ -1,4 +1,4 @@
-import Overview from "@/features/profile/components/admin-screens/Overview";
+import Overview from "@/features/profile/dashboard/admin-screens/Overview";
 
 const AdminOverviewPage = () => {
   return <Overview />;

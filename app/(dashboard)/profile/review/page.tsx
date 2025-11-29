@@ -1,4 +1,4 @@
-import EmptyReview from "@/features/profile/components/customer-screens/EmptyScreens/EmptyReview";
+import EmptyReview from "@/features/profile/dashboard/customer-screens/empty-screens/EmptyReview";
 
 const CustomerReviewPage = () => {
   return <EmptyReview />;

@@ -1,4 +1,4 @@
-import EmptyOverview from "@/features/profile/components/customer-screens/EmptyScreens/EmptyOverview";
+import EmptyOverview from "@/features/profile/dashboard/customer-screens/empty-screens/EmptyOverview";
 
 const CustomerOverviewPage = () => {
   return <EmptyOverview />;

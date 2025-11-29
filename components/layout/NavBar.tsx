@@ -3,13 +3,16 @@
 import { useState, useEffect, useRef } from "react";
 import { Heart, Search, Menu, ArrowLeft, ShoppingCart } from "lucide-react";
 import Link from "next/link";
-import { navItems } from "@/constant/data";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Logo from "../ui/logo";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import ProfileDropdown from "../ui/profile-dropdown";
 import { DropdownMenu, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import ProductImage from "../ui/images/product-image";
+import { navItems as hardcodedNavItems } from "@/constant/data";
+import { useGetCategories } from "@/features/profile/hooks/admin/useGetCategories";
+import { NavItem, NavSection } from "@/types/general";
+import { Category } from "@/features/profile/type/admin/product.type";
 
 const NavBar = () => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
@@ -21,6 +24,31 @@ const NavBar = () => {
     null
   );
 
+  const { data: categories = [], isLoading } = useGetCategories<Category[]>();
+
+  // Build dynamic category sections
+  const categorySections: NavSection[] = categories
+    .filter((cat: Category) => cat.parent === null)
+    .map((parent: Category) => ({
+      heading: parent.name,
+      items: categories
+        .filter((child: Category) => child.parent === parent.id)
+        .map((child: Category) => ({
+          name: child.name,
+          href: `/categories/${child.slug}`,
+        })),
+    }));
+
+  // Merge dynamic categories with other hardcoded nav items
+  const navItems: NavItem[] = [
+    {
+      title: "CATEGORIES",
+      href: "/categories",
+      sections: categorySections,
+    },
+    ...hardcodedNavItems.filter((item) => item.title !== "CATEGORIES"),
+  ];
+
   const currentItem = navItems.find((item) => item.title === mobileActiveItem);
   const currentSection = currentItem?.sections.find(
     (sec) => sec.heading === mobileActiveSection
@@ -31,14 +59,13 @@ const NavBar = () => {
     setMobileActiveSection(null);
   };
 
-  // Desktop submenu close
+  // Close desktop submenu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (navRef.current && !navRef.current.contains(event.target as Node)) {
         setActiveMenu(null);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -54,7 +81,6 @@ const NavBar = () => {
             <Menu className="size-6" />
           </SheetTrigger>
           <SheetContent side="left" className="p-4 w-full max-w-xs">
-            {/* Mobile Menu: 3 Levels */}
             {mobileActiveItem && mobileActiveSection ? (
               <>
                 <button
@@ -165,7 +191,6 @@ const NavBar = () => {
           {/* Center - Logo */}
           <div className="absolute left-1/2 -translate-x-1/2">
             <Link href="/">
-              {" "}
               <Logo width={100} height={40} />
             </Link>
           </div>
@@ -192,7 +217,7 @@ const NavBar = () => {
                   )}
 
                   <DropdownMenuTrigger>
-                    <Avatar className="size-6 bg-[#F5F5F5] text-black font-normal text-base  ">
+                    <Avatar className="size-6 bg-[#F5F5F5] text-black font-normal text-base">
                       <AvatarImage
                         src="https://github.com/shadcn.png"
                         alt="@shadcn"
@@ -219,7 +244,7 @@ const NavBar = () => {
                     <ProductImage
                       width={190}
                       height={100}
-                      alt="gift and sets images"
+                      alt="section-image"
                       src={section.image}
                       className="mb-6"
                     />

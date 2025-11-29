@@ -1,4 +1,4 @@
-import EmptyShipping from "@/features/profile/components/customer-screens/EmptyScreens/EmptyShipping";
+import EmptyShipping from "@/features/profile/dashboard/customer-screens/empty-screens/EmptyShipping";
 
 const CustomerShippingPage = () => {
   return <EmptyShipping />;
