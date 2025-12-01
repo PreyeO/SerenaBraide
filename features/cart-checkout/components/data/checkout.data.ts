@@ -6,6 +6,7 @@ export const paymentType = [
     height: 22,
     alt: "visa card logo",
     id: "1",
+    href: "/payment/visa",
   },
   {
     src: "/master-payment.png",
@@ -14,6 +15,7 @@ export const paymentType = [
     height: 22,
     alt: "master card logo",
     id: "2",
+    href: "/payment/master",
   },
   {
     src: "/paystack-payment.png",
@@ -22,13 +24,15 @@ export const paymentType = [
     height: 22,
     alt: "paystack card logo",
     id: "3",
+    href: "/payment/paystack",
   },
   {
     src: "/gift-payment.png",
     detail: "Gift card",
     width: 24.2,
     height: 22,
-    alt: "guft card logo",
+    alt: "gift card logo",
     id: "4",
+    href: "/payment/giftcard-payment",
   },
 ];

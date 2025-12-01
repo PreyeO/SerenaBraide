@@ -1,6 +1,7 @@
+"use client";
 import BackNavigation from "@/components/ui/btns/back-navigation";
 import CartHeader from "@/features/cart-checkout/shared/CartHeader";
-import React from "react";
+import React, { useState } from "react";
 import ShippingAddress from "./ShippingAddress";
 import SubHeading from "@/components/ui/typography/subHeading";
 import PaymentItem from "../../shared/PaymentItem";
@@ -12,8 +13,20 @@ import Receipt from "../../shared/Receipt";
 import CartItem from "../../shared/CartItem";
 import { ShoppingBag } from "lucide-react";
 import Paragraph from "@/components/ui/typography/paragraph";
+import { RadioGroup } from "@/components/ui/radio-group";
+import { useRouter } from "next/navigation";
 
 const CheckoutSection = () => {
+  const router = useRouter();
+  const [selectedPayment, setSelectedPayment] = useState(paymentType[0].id);
+
+  const handleSubmit = () => {
+    const payment = paymentType.find((p) => p.id === selectedPayment);
+    if (!payment) return;
+
+    router.push(payment.href!); // always routes to the correct page
+  };
+
   return (
     <section className="pt-[152px] px-16 mt-[40px] pb-[50px] ">
       <BackNavigation href="/cart" text="Cart" />
@@ -28,7 +41,10 @@ const CheckoutSection = () => {
               title="Shipping Address"
               className="text-[#3B3B3B] text-base font-medium"
             />
-            <div>
+            <RadioGroup
+              value={selectedPayment}
+              onValueChange={(val) => setSelectedPayment(val)}
+            >
               {paymentType.map((type, index) => (
                 <div key={index} className="mb-6">
                   <PaymentItem
@@ -42,9 +58,10 @@ const CheckoutSection = () => {
                   />
                 </div>
               ))}
-            </div>
+            </RadioGroup>
+
             <div>
-              <SubmitButton label="Pay $600" loadingLabel="Paying" />
+              <SubmitButton label="Continue" onClick={handleSubmit} />
               <AuthSpan className="text-sm w-[335px] mx-auto leading-[22px] pt-[10px] text-[#3B3B3B] font-normal">
                 By submitting my order, I confirm I have read and
                 acknowledged all
