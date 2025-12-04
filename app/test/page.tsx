@@ -4,8 +4,6 @@ import RecommendationSection from "@/features/products/components/Recommendation
 import ReviewSection from "@/features/products/components/ReviewSection";
 import { recommendedProducts } from "@/features/products/data/product.data";
 
-import React from "react";
-
 const ProductDetailPage = () => {
   return (
     <>

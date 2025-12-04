@@ -44,7 +44,7 @@ const RecipientForm = ({ closeModal }: RecipientFormProps) => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-6 text-[#3B3B3B] font-medium text-sm w-full pt-[29px]"
+          className="flex flex-col gap-6 text-[#3B3B3B] font-medium text-sm w-full "
         >
           {/* FIRST NAME */}
           <FormField

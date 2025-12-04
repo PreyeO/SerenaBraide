@@ -1,16 +1,14 @@
 "use client";
 
 import SubmitButton from "@/components/ui/btns/submit-cta";
-import UnderlineLink from "@/components/ui/btns/underline-cta";
 import ProductImage from "@/components/ui/images/product-image";
 import Paragraph from "@/components/ui/typography/paragraph";
 import SubHeading from "@/components/ui/typography/subHeading";
-import { CornerUpLeft } from "lucide-react";
 import { cardDesign } from "../general.data";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import Modal from "@/components/ui/modals/modal";
 import RecipientForm from "./forms/RecipientForm";
+import FormModal from "@/components/ui/modals/form-modals";
 
 const GiftCardSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -89,13 +87,13 @@ const GiftCardSection = () => {
             onClick={() => setIsModalOpen(true)}
           />
 
-          <Modal
-            isOpen={isModalOpen}
+          <FormModal
+            open={isModalOpen}
             onClose={() => setIsModalOpen(false)}
             title="Add gift card recipient details"
           >
             <RecipientForm closeModal={() => setIsModalOpen(false)} />
-          </Modal>
+          </FormModal>
           <div className="bg-[#F5F5F5] w-full mt-[40px] flex justify-between items-center">
             <ProductImage
               alt="shopping bag icon"

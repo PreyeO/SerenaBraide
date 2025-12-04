@@ -17,11 +17,11 @@ import { BalanceSchema } from "../../giftcard.schema";
 import { BalanceFormValues } from "../../giftcard.type";
 import AuthSpan from "@/components/ui/typography/auth-span";
 import Link from "next/link";
-import Modal from "@/components/ui/modals/modal";
 import SubHeading from "@/components/ui/typography/subHeading";
 import { useState } from "react";
-import { CircleCheck } from "lucide-react";
 import Paragraph from "@/components/ui/typography/paragraph";
+import FormModal from "@/components/ui/modals/form-modals";
+import LinkCta from "@/components/ui/btns/link-cta";
 
 const BalanceForm = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -92,15 +92,13 @@ const BalanceForm = () => {
             <SubmitButton label="Check card balance" />
           </div>
 
-          <Modal
-            isOpen={isModalOpen}
+          <FormModal
+            open={isModalOpen}
             onClose={() => setIsModalOpen(false)}
             title="Gift card balance"
-            icon={
-              <CircleCheck size={24} className="text-white" fill="#01AD73" />
-            }
+            showVideo={true}
           >
-            <div className="bg-[#F0F3F7] my-[40px] border rounded-[10px] py-[25px] flex flex-col items-center">
+            <div className="bg-[#F0F3F7] w-full  my-[30px] border rounded-[10px] py-[25px] flex flex-col items-center">
               <SubHeading
                 className="text-[40px] font-semibold"
                 title="$350.00"
@@ -108,18 +106,22 @@ const BalanceForm = () => {
               <h3 className="font-medium text-[#6F6E6C] text-[22px] pt-[10px] pb-4">
                 Available balance
               </h3>
+
               <Paragraph
-                className="text-[#3B3B3B] font-normal text-base  italic"
+                className="text-[#3B3B3B] leading-6 font-normal text-base  italic"
                 content="This balance can be used across Serena Braid products"
               />
             </div>
-            <SubmitButton label="Continue shopping" isPending={false} />
 
+            <LinkCta
+              className="w-full bg-[#3B3B3B] text-white hover:bg-[#2f2f2f] "
+              label="Continue shopping"
+            />
             <Paragraph
-              className="text-[#3B3B3B] font-normal text-sm pb-[30px]"
+              className="text-[#3B3B3B] font-normal text-sm pt-[10px]"
               content="Gift card balance is valid for 12 months from date of purchase"
             />
-          </Modal>
+          </FormModal>
         </form>
       </Form>
     </div>

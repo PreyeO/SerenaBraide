@@ -1,11 +1,14 @@
+"use client";
 import BorderLine from "@/components/ui/border-line";
 import ProductImage from "@/components/ui/images/product-image";
-import TextModal from "@/components/ui/modals/text-modal";
+import FormModal from "@/components/ui/modals/form-modals";
 import Paragraph from "@/components/ui/typography/paragraph";
 import SubHeading from "@/components/ui/typography/subHeading";
-import React from "react";
+import { ChevronRight } from "lucide-react";
+import React, { useState } from "react";
 
 const DetailInfoSection = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <section className="pt-6 px-16 text-[#3B3B3B] pb-[50px]">
       <div className="flex justify-center gap-[60px] mt-[34px]">
@@ -45,9 +48,33 @@ const DetailInfoSection = () => {
             floral notes, leaving a decidedly elegant scent in its wearer's wake."
             />
           </div>
-          <div className="flex gap-[10px] pt-[25px]">
-            <TextModal />
-          </div>
+
+          <button
+            className="flex gap-[10px] pt-[25px] items-center text-[#3B3B3B] text-lg font-medium"
+            onClick={() => setIsModalOpen(true)}
+          >
+            See Ingredients
+            <ChevronRight />
+            <FormModal
+              title="Ingredient List"
+              open={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+            >
+              <p className="text-sm max-w-[649px] leading-[22px]">
+                {" "}
+                ALCOHOL DENAT., FRAGRANCE (PARFUM), WATER/EAU (AQUA), HEXYL
+                CINNAMAL, DISODIUM EDTA, LIMONENE, ALPHA-ISOMETHYL IONONE,
+                BENZYL SALICYLATE, GERANIOL, LINALOOL, HYDROXYCITRONELLAL,
+                EUGENOL, BENZYL BENZOATE, CITRONELLOL, CITRAL, FARNESOL, EVERNIA
+                PRUNASTRI EXTRACT, BENZYL ALCOHOL, EVERNIA FURFURACEA EXTRACT.
+                IL#3A <br />
+                Please note that the ingredient list in the composition by
+                SERENA-BRAIDE may change or vary over time. Please refer to the
+                product packaging you receive before using for the most up to
+                date ingredient list.
+              </p>
+            </FormModal>
+          </button>
         </div>
       </div>
     </section>

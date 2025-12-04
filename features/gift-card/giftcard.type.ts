@@ -1,6 +1,5 @@
 import { z } from "zod";
-import RecipientForm from "./components/forms/RecipientForm";
-import BalanceForm from "./components/forms/BalanceForm";
+import { BalanceSchema, RecipientSchema } from "./giftcard.schema";
 
-export type RecipientFormValues = z.infer<typeof RecipientForm>;
-export type BalanceFormValues = z.infer<typeof BalanceForm>;
+export type RecipientFormValues = z.infer<typeof RecipientSchema>;
+export type BalanceFormValues = z.infer<typeof BalanceSchema>;

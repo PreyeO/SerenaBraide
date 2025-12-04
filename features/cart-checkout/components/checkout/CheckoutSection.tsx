@@ -24,7 +24,7 @@ const CheckoutSection = () => {
     const payment = paymentType.find((p) => p.id === selectedPayment);
     if (!payment) return;
 
-    router.push(payment.href!); // always routes to the correct page
+    router.push(payment.href!);
   };
 
   return (
@@ -66,7 +66,6 @@ const CheckoutSection = () => {
                 By submitting my order, I confirm I have read and
                 acknowledged all
                 <span className="underline font-medium ">
-                  {" "}
                   <Link href="/terms_of_service"> terms </Link> and{" "}
                   <Link href="/purchase_service"> policies.</Link>
                 </span>

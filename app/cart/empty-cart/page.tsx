@@ -1,4 +1,4 @@
-import EmptyCart from "@/features/cart-checkout/shared/EmptyCart";
+import EmptyCart from "@/features/cart-checkout/components/empty-screens/EmptyCart";
 import RecommendationSection from "@/features/products/components/RecommendationSection";
 
 import { recommendedProducts } from "@/features/products/data/product.data";
