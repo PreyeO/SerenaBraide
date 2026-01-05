@@ -8,20 +8,27 @@ import { ShoppingBasket, Star } from "lucide-react";
 import React, { useState } from "react";
 import { singleProduct } from "../data/product.data";
 import BackNavigation from "@/components/ui/btns/back-navigation";
+import { useAddToCart } from "@/features/cart-checkout/hooks/useAddToCart";
+import { notify } from "@/lib/notify";
 
 const DetailHeroSection = () => {
-  const [selectedVariant, setSelectedVariant] = useState<number | null>(null);
+  // ✅ Store REAL backend variant ID
+  const [selectedVariantId, setSelectedVariantId] = useState<number | null>(
+    null
+  );
 
-  const handleVariantClick = (index: number, status: string) => {
+  const { mutate: addToCart, isPending } = useAddToCart();
+
+  // ✅ Pass backend variantId, not array index
+  const handleVariantClick = (variantId: number, status: string) => {
     if (status === "available") {
-      setSelectedVariant(index);
+      setSelectedVariantId(variantId);
     }
   };
 
   return (
     <section className="pt-[152px] px-16">
       {/* Back Navigation */}
-
       <BackNavigation href="/categories/fragrances" text="Back to Fragrance" />
 
       <div className="flex justify-center gap-[60px] mt-[34px]">
@@ -38,11 +45,12 @@ const DetailHeroSection = () => {
 
         {/* Product Info */}
         <div className="w-full">
-          <div className=" max-w-[382px]">
+          <div className="max-w-[382px]">
             <SubHeading
               className="font-PPEditorialNew text-[40px] text-[#3B3B3B] font-normal leading-tight"
               title="Eau du Soir"
             />
+
             <Paragraph
               className="text-[#6F6E6C] font-normal text-lg mt-2"
               content="A refined, elegant, eternally feminine fragrance."
@@ -61,15 +69,17 @@ const DetailHeroSection = () => {
 
           {/* Variants */}
           <div className="grid grid-cols-2 gap-4 mt-[40px] max-w-[382px]">
-            {singleProduct.map((item, index) => {
-              const isSelected = selectedVariant === index;
+            {singleProduct.map((item) => {
+              const isSelected = selectedVariantId === item.variantId;
               const isOutOfStock = item.status === "out of stock";
 
               return (
                 <span
-                  key={index}
-                  onClick={() => handleVariantClick(index, item.status)}
-                  className={` font-normal text-sm text-[#3B3B3B] w-[163px] h-[83px] border rounded-[5px] flex flex-col justify-center px-4 transition-all duration-200 ${
+                  key={item.variantId}
+                  onClick={() =>
+                    handleVariantClick(item.variantId, item.status)
+                  }
+                  className={`font-normal text-sm text-[#3B3B3B] w-[163px] h-[83px] border rounded-[5px] flex flex-col justify-center px-4 transition-all duration-200 ${
                     isOutOfStock
                       ? "border-[#C40606] opacity-70 cursor-not-allowed"
                       : isSelected
@@ -77,12 +87,13 @@ const DetailHeroSection = () => {
                       : "border-[#D1D5DB] hover:border-[#3B3B3B] cursor-pointer"
                   }`}
                 >
-                  <Paragraph content={item.size} className=" " />
-                  <Paragraph content={item.price} className=" font-medium " />
+                  <Paragraph content={item.size} className="" />
+                  <Paragraph content={item.price} className="font-medium" />
+
                   {isOutOfStock && (
                     <Paragraph
                       content="Out of Stock"
-                      className="text-[#C40606]  mt-1 font-medium"
+                      className="text-[#C40606] mt-1 font-medium"
                     />
                   )}
                 </span>
@@ -90,13 +101,27 @@ const DetailHeroSection = () => {
             })}
           </div>
 
+          {/* Add to Cart */}
           <SubmitButton
             label="Add to Cart"
             loadingLabel="Adding to cart..."
             className="mt-[40px]"
-            // isPending={isPending}
             icon={ShoppingBasket}
+            isPending={isPending}
+            onClick={() => {
+              if (!selectedVariantId) {
+                notify.error("Please select a variant");
+                return;
+              }
+
+              addToCart({
+                variant_id: selectedVariantId, // ✅ REAL backend ID
+                quantity: 1,
+              });
+            }}
           />
+
+          {/* Loyalty */}
           <div className="bg-[#F5F5F5] w-full mt-[40px] flex justify-between items-center">
             <ProductImage
               alt="shopping bag icon"
@@ -105,17 +130,19 @@ const DetailHeroSection = () => {
               height={90.43}
               className="max-w-[85px]"
             />
-            <span className="text-sm leading-[22px] font-normal pr-[15px] ">
+
+            <span className="text-sm leading-[22px] font-normal pr-[15px]">
               <Paragraph content="16 points = $16.00" className="" />
               <Paragraph
                 content="Earn loyalty points with this product"
-                className=" font-medium "
+                className="font-medium"
               />
             </span>
           </div>
+
           <Paragraph
             content="Standard Delivery within 3-5 workings days"
-            className=" font-normal pt-6  "
+            className="font-normal pt-6"
           />
         </div>
       </div>

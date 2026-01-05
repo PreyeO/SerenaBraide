@@ -243,18 +243,21 @@ export const recommendedProducts: Record<string, Product[]> = {
 };
 export const singleProduct = [
   {
-    name: "30ml",
+    variantId: 1,
+    size: "30ml",
     price: "$160",
     color: "#D1D5DB",
     status: "available",
   },
   {
+    variantId: 2,
     size: "50ml",
     price: "$260",
     color: "#C40606",
     status: "out of stock",
   },
   {
+    variantId: 3,
     size: "100ml",
     price: "$360",
     color: "#D1D5DB",

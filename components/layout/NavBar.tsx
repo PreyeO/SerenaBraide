@@ -13,6 +13,7 @@ import { navItems as hardcodedNavItems } from "@/constant/data";
 import { useGetCategories } from "@/features/profile/hooks/admin/useGetCategories";
 import { NavItem, NavSection } from "@/types/general";
 import { Category } from "@/features/profile/type/admin/product.type";
+import { useCart } from "@/features/cart-checkout/hooks/useCart";
 
 const NavBar = () => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
@@ -23,6 +24,10 @@ const NavBar = () => {
   const [mobileActiveSection, setMobileActiveSection] = useState<string | null>(
     null
   );
+  const { data } = useCart();
+
+  const totalQuantity =
+    data?.items?.reduce((sum, i) => sum + i.quantity, 0) ?? 0;
 
   const { data: categories = [], isLoading } = useGetCategories<Category[]>();
 
@@ -157,7 +162,19 @@ const NavBar = () => {
         <div className="flex gap-4">
           <Search className="text-white size-5" />
           <Heart className="text-white size-5" />
-          <ShoppingCart className="text-white size-5" />
+          <div className="relative">
+            <Link href="/cart">
+              <ShoppingCart className="text-white size-5" />
+            </Link>
+
+            {totalQuantity > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {totalQuantity}
+              </span>
+            )}
+          </div>
+
+          {/* <ShoppingCart className="text-white size-5" /> */}
         </div>
       </div>
 
@@ -200,9 +217,17 @@ const NavBar = () => {
             <Search className="text-white size-5 cursor-pointer" />
             <Heart className="text-white size-5 cursor-pointer" />
             <div className="py-[13px] px-[17px] flex gap-[17px] bg-[#3B3B3B] rounded-[50px]">
-              <Link href="/cart">
-                <ShoppingCart className="text-white size-5" />
-              </Link>
+              <div className="relative">
+                <Link href="/cart">
+                  <ShoppingCart className="text-white size-5" />
+                </Link>
+
+                {totalQuantity > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {totalQuantity}
+                  </span>
+                )}
+              </div>
               <div className="border border-[#6F6E6C99]" />
               <DropdownMenu onOpenChange={setOpen}>
                 <div className="relative">

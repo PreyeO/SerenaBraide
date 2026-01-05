@@ -30,7 +30,7 @@ const CheckoutSection = () => {
   return (
     <section className="pt-[152px] px-16 mt-[40px] pb-[50px] ">
       <BackNavigation href="/cart" text="Cart" />
-      <CartHeader />
+      <CartHeader totalItems={totalQuantity} />
       <div className="flex gap-[40px] mt-[40px]">
         <div className=" flex flex-col gap-6">
           <div className="w-[700px]">
