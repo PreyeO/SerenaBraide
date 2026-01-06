@@ -1,6 +1,7 @@
-import EmptyOrders from "@/features/profile/dashboard/customer-screens/empty-screens/EmptyOrders";
+import CustomerOrders from "@/features/profile/dashboard/customer-screens/CustomerOrders";
 
 const CustomerOrdersPage = () => {
-  return <EmptyOrders />;
+  return <CustomerOrders />;
+  // <EmptyOrders />;
 };
 export default CustomerOrdersPage;

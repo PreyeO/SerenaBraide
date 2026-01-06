@@ -20,20 +20,20 @@ const EmptyCustomerSummary: React.FC<EmptyCustomerProps> = ({
   contentTwo,
 }) => {
   return (
-    <div className="w-full bg-[#F6F7F8] border border-[#F5F5F5] py-[19px] px-[34px]  rounded-[10px]">
+    <div className="w-full bg-[#F6F7F8] border border-[#F5F5F5] py-4.75 px-8.5  rounded-[10px]">
       <SubHeading
         title={subHeadingOne}
-        className="text-lg font-medium text-[#3B3B3B] py-[19px]"
+        className="text-lg font-medium text-[#3B3B3B] py-4.75"
       />
 
       <div className="flex flex-col items-center justify-center">
         <div className="border border-[#D1D5DB] w-full" />
 
-        <div className="flex justify-between pt-[19px] w-full">
+        <div className="flex justify-between pt-4.75 w-full">
           {/* LEFT SIDE */}
           <div className="flex gap-4">
             {/* Avatar + Plus Icon */}
-            <div className="relative w-[68px] h-[68px]">
+            <div className="relative w-17 h-17">
               <div className="rounded-full w-full h-full bg-[#6F6E6C]" />
 
               {/* Plus icon positioned bottom-right */}
@@ -56,13 +56,13 @@ const EmptyCustomerSummary: React.FC<EmptyCustomerProps> = ({
           </div>
 
           {/* RIGHT SIDE */}
-          <div className="max-w-[209px] flex justify-center items-start gap-[6px] text-[#3B3B3B]">
+          <div className="max-w-52.25 flex justify-center items-start gap-1.5 text-[#3B3B3B]">
             <SubHeading
               title={subHeadingThree}
               className="text-base font-normal"
             />
 
-            <div className="flex gap-[6px] items-center">
+            <div className="flex gap-1.5 items-center">
               <SubHeading
                 title={contentTwo}
                 className="font-medium text-base"

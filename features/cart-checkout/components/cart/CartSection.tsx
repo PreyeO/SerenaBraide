@@ -11,12 +11,13 @@ import { useUpdateCartItem } from "../../hooks/useUpdateCartItem";
 import { useRemoveCartItem } from "../../hooks/useRemoveCartItem";
 
 const CartSection = () => {
-  const { data, isLoading, isFetching } = useCart();
+  const { data, isLoading } = useCart();
   const updateMutation = useUpdateCartItem();
   const removeMutation = useRemoveCartItem();
 
-  if (isLoading || isFetching) {
-    return <p className="pt-[152px] px-16">Loading cart...</p>;
+  // Only show loading on initial load, not on refetches
+  if (isLoading) {
+    return <p className="pt-38 px-16">Loading cart...</p>;
   }
 
   const cartItems = data?.items ?? [];
@@ -27,12 +28,12 @@ const CartSection = () => {
   const totalPrice = cartItems.reduce((sum, i) => sum + i.subtotal, 0);
 
   return (
-    <section className="pt-[152px] px-16 mb-[100px]">
+    <section className="pt-38 px-16 mb-25">
       <BackNavigation href="/" text="Back to Home page" />
       <CartHeader totalItems={totalQuantity} />
 
-      <div className="flex gap-[40px] mt-[40px]">
-        <div className="flex flex-col gap-6 w-[700px]">
+      <div className="flex gap-10 mt-10">
+        <div className="flex flex-col gap-6 w-175">
           {cartItems.map((item) => {
             const image =
               item.variant.images.find((img) => img.is_primary)?.image_url ??
@@ -72,7 +73,7 @@ const CartSection = () => {
           })}
         </div>
 
-        <div className="w-[572px]">
+        <div className="w-143">
           <Receipt
             totalItems={totalQuantity}
             totalPrice={totalPrice}

@@ -24,7 +24,7 @@ export async function updateCartItem(
 ): Promise<CartItem> {
   const response = await api.patch<CartItem>(
     `/api/cart/update-item/${itemId}/`,
-    { quantity } // ✅ only send quantity
+    { quantity }
   );
   return response.data;
 }

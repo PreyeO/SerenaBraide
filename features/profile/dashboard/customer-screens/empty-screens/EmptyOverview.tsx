@@ -19,13 +19,13 @@ const EmptyOverview = () => {
   return (
     <section className="">
       <div className="flex flex-col gap-6">
-        <div className="text-[#3B3B3B] max-w-[437px] flex flex-col gap-[6px] pb-[34px]">
+        <div className="text-[#3B3B3B] max-w-109.25 flex flex-col gap-1.5 pb-8.5">
           <Heading
             className="text-[40px] font-normal"
             title={`Welcome back, ${user.first_name}.`}
           />
           <Paragraph
-            className="font-normal text-[#6F6E6C] leading-[26px] text-lg"
+            className="font-normal text-[#6F6E6C] leading-6.5 text-lg"
             content="Your orders, saved scents, and more — all in one place."
           />
         </div>
