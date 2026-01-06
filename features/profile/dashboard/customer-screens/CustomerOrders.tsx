@@ -107,7 +107,7 @@ const CustomerOrders = () => {
       <div className="border border-[#D1D5DB] w-full mb-4" />
       <div className="flex flex-col sm:flex-row gap-4 sm:justify-between">
         <div className="flex gap-2.5 items-center">
-          <Skeleton className="w-[102px] h-[102px] rounded-[5px]" />
+          <Skeleton className="w-25.5 h-25.5 rounded-[5px]" />
           <div className="flex flex-col gap-2">
             <Skeleton className="h-5 w-48" />
             <Skeleton className="h-4 w-32" />

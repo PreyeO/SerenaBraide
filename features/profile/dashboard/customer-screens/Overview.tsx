@@ -2,7 +2,6 @@ import React from "react";
 import EmptyCustomerSummary from "./shared/empty/EmptyCustomerSummary";
 import OverviewCard from "./shared/OverviewCard";
 import SubHeading from "@/components/ui/typography/subHeading";
-import Paragraph from "@/components/ui/typography/paragraph";
 import Image from "next/image";
 import EmptyCustomerLoyalty from "./shared/empty/EmptyCustomerLoyalty";
 

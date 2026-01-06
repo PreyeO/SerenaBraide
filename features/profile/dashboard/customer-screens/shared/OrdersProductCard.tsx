@@ -1,7 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import LinkCta from "@/components/ui/btns/link-cta";
 import SubmitButton from "@/components/ui/btns/submit-cta";
-import { Button } from "@/components/ui/button";
 import ProductImage from "@/components/ui/images/product-image";
 import Paragraph from "@/components/ui/typography/paragraph";
 import SubHeading from "@/components/ui/typography/subHeading";
@@ -40,7 +39,7 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
   const Icon = order.icon || BadgeCheckIcon;
 
   return (
-    <div className="w-full bg-[#F6F7F8] border border-[#F5F5F5] min-h-[200px] sm:h-auto px-4 sm:px-8.5 py-4 sm:py-6 rounded-[10px] transition-all duration-300 hover:shadow-sm">
+    <div className="w-full bg-[#F6F7F8] border border-[#F5F5F5] min-h-50 sm:h-auto px-4 sm:px-8.5 py-4 sm:py-6 rounded-[10px] transition-all duration-300 hover:shadow-sm">
       <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-3 sm:gap-0 text-[#3B3B3B] py-3 sm:py-4.75 text-xs font-normal">
         <Badge
           variant="secondary"
@@ -56,7 +55,7 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
         <div className="flex flex-wrap gap-2 sm:gap-2.5 items-center">
           <SubHeading
             title={order.orderNumber}
-            className="text-xs sm:text-sm truncate max-w-[150px] sm:max-w-none"
+            className="text-xs sm:text-sm truncate max-w-37.5 sm:max-w-none"
           />
           <div className="border h-4 hidden sm:block" />
           <button className="flex items-center font-medium text-xs sm:text-sm hover:opacity-80 transition-opacity">
@@ -74,7 +73,7 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
               alt={order.alt}
               width={102}
               height={102}
-              className="w-20 h-20 sm:w-[102px] sm:h-[102px] object-cover rounded-[5px] flex-shrink-0"
+              className="w-20 h-20 sm:w-25.5 sm:h-25.5 object-cover rounded-[5px] flex shrink-0"
             />
             <div className="flex flex-col gap-1 sm:gap-1.5 min-w-0 flex-1">
               <div>
@@ -89,7 +88,10 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
                     content={order.price}
                     className="text-xs sm:text-sm font-medium text-[#3B3B3B]"
                   />
-                  <Paragraph content={order.quantity} className="text-xs sm:text-sm" />
+                  <Paragraph
+                    content={order.quantity}
+                    className="text-xs sm:text-sm"
+                  />
                 </div>
 
                 <Paragraph
@@ -103,7 +105,7 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-1.5 sm:text-center sm:items-end">
+          <div className="flex flex-col gap-1.5 text-center ">
             <div className="">
               <Paragraph
                 content={order.total}

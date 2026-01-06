@@ -178,7 +178,7 @@ const UpdateAddressForm = () => {
             />
           </div>
 
-          <div className="flex gap-4 pb-[30px]">
+          <div className="flex gap-4 pb-7.5">
             {/* Left: State + LGA stacked */}
             <div className="flex-1 flex  gap-4">
               <FormField
@@ -243,14 +243,14 @@ const UpdateAddressForm = () => {
             />
           </div>
 
-          <div className="flex gap-[6px] items-center">
+          <div className="flex gap-1.5 items-center">
             <Checkbox className="border border-[#9A9A98]" />
             <Label className="text-sm text-[#3B3B3B] font-normal">
               Set as default shipping address
             </Label>
           </div>
 
-          <div className="mt-[40px] grid grid-cols-2 gap-4">
+          <div className="mt-10 grid grid-cols-2 gap-4">
             <SubmitButton
               label="Add Address"
               isPending={false}
