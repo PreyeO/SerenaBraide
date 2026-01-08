@@ -1,31 +1,15 @@
+"use client";
 import { Badge } from "@/components/ui/badge";
 import LinkCta from "@/components/ui/btns/link-cta";
 import SubmitButton from "@/components/ui/btns/submit-cta";
 import ProductImage from "@/components/ui/images/product-image";
 import Paragraph from "@/components/ui/typography/paragraph";
 import SubHeading from "@/components/ui/typography/subHeading";
-import { BadgeCheckIcon, ChevronRight, LucideIcon } from "lucide-react";
+import { OrderInfo } from "@/features/profile/type/customers/profile.type";
+import { BadgeCheckIcon, ChevronRight } from "lucide-react";
 
-import React from "react";
-
-export interface OrderInfo {
-  title: string;
-  color: string;
-  orderNumber: string;
-  productName: string;
-  src: string;
-  alt: string;
-  price: string;
-  size: string;
-  quantity: string;
-  date: string;
-  total: string;
-  extraInfo: string;
-  icon: LucideIcon;
-  iconBg: string;
-  OrderAction1: string;
-  orderAction2: string;
-}
+import React, { useState } from "react";
+import OrderFulfilmentModal from "../fulfilments/OrderFulfilmentModal";
 
 interface OrdersProductCardProps {
   order: OrderInfo;
@@ -37,6 +21,7 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
   orderDetail = "View Details",
 }) => {
   const Icon = order.icon || BadgeCheckIcon;
+  const [open, setOpen] = useState(false);
 
   return (
     <div className="w-full bg-[#F6F7F8] border border-[#F5F5F5] min-h-50 sm:h-auto px-4 sm:px-8.5 py-4 sm:py-6 rounded-[10px] transition-all duration-300 hover:shadow-sm">
@@ -58,9 +43,19 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
             className="text-xs sm:text-sm truncate max-w-37.5 sm:max-w-none"
           />
           <div className="border h-4 hidden sm:block" />
-          <button className="flex items-center font-medium text-xs sm:text-sm hover:opacity-80 transition-opacity">
-            {orderDetail} <ChevronRight className="size-3.5 sm:size-4.5" />
-          </button>
+          <>
+            <button
+              onClick={() => setOpen(true)}
+              className="flex items-center font-medium text-xs sm:text-sm hover:opacity-80 transition-opacity"
+            >
+              {orderDetail} <ChevronRight className="size-3.5 sm:size-4.5" />
+            </button>
+            <OrderFulfilmentModal
+              open={open}
+              onClose={() => setOpen(false)}
+              statusType={order.statusType}
+            />
+          </>
         </div>
       </div>
 

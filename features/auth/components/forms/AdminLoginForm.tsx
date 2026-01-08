@@ -22,7 +22,7 @@ import { LoginSchema } from "@/features/auth/auth.schema";
 import { useLogin } from "@/features/auth/hooks/useLogin";
 import AuthSwitchPrompt from "../shared/AuthSwitchPrompt";
 
-const LoginForm = () => {
+const AdminLoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(LoginSchema),
@@ -128,4 +128,4 @@ const LoginForm = () => {
     </div>
   );
 };
-export default LoginForm;
+export default AdminLoginForm;

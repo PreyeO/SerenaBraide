@@ -22,7 +22,7 @@ const FormModal: React.FC<ModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
-      <div className="bg-white w-full px-6 pb-[34px] max-w-lg rounded-lg shadow-lg relative maxh-[90vh]">
+      <div className="bg-white w-full px-6 pb-8.5 max-w-lg rounded-lg shadow-lg relative maxh-[90vh]">
         {/* Close button */}
         <div className="flex justify-end mt-2">
           <button
@@ -43,7 +43,7 @@ const FormModal: React.FC<ModalProps> = ({
                   autoPlay
                   loop
                   muted
-                  className="w-[100px] h-[100px] "
+                  className="w-25 h-25 "
                 />
               </div>
             )}
@@ -57,7 +57,7 @@ const FormModal: React.FC<ModalProps> = ({
         )}
 
         {/* Modal content */}
-        <div className="flex flex-col items-center justify-center w-full pt-[30px]">
+        <div className="flex flex-col items-center justify-center w-full pt-7.5">
           {children}
         </div>
       </div>

@@ -20,7 +20,7 @@ const SuccessModal = ({ isOpen }: SuccessModalProps) => {
 
   return (
     <AlertDialog open={isOpen}>
-      <AlertDialogContent className="px-[28px] w-full rounded-xl text-center pb-6">
+      <AlertDialogContent className="px-7 w-full rounded-xl text-center pb-6">
         {/* GIF */}
         <div className="flex justify-center mb-4">
           <video
@@ -28,7 +28,7 @@ const SuccessModal = ({ isOpen }: SuccessModalProps) => {
             autoPlay
             loop
             muted
-            className="w-[150px] h-auto rounded-md"
+            className="w-37.5 h-auto rounded-md"
           />
         </div>
         <div className="flex flex-col justify-center items-center">
@@ -40,10 +40,10 @@ const SuccessModal = ({ isOpen }: SuccessModalProps) => {
           </AlertDialogHeader>
 
           <Paragraph
-            className="pt-[6px] text-[#6C6C6C] font-normal text-base leading-6 mt-2"
+            className="pt-1.5 text-[#6C6C6C] font-normal text-base leading-6 mt-2"
             content="Thank you for your purchase. Your order is being processed and will be on its way soon."
           />
-          <span className=" mt-4 bg-[#F5F5F5] px-[5px] py-[5px] rounded-[5px] text-[12px] font-normal text-[#6F6E6C]">
+          <span className=" mt-4 bg-[#F5F5F5] px-1.3 py-1.5 rounded-[5px] text-[12px] font-normal text-[#6F6E6C]">
             Order #SB39460
           </span>
 
