@@ -181,12 +181,12 @@ const NavBar = () => {
       {/* ======= DESKTOP NAV ======= */}
       <div
         ref={navRef}
-        className={`hidden md:block transition-all duration-300 pt-[50px] ${
-          activeMenu ? "bg-white h-[470px]" : "h-[100px]"
+        className={`hidden md:block transition-all duration-300 pt-12.5 ${
+          activeMenu ? "bg-white h-117.5" : "h-25"
         }`}
         onMouseLeave={() => setActiveMenu(null)}
       >
-        <div className="bg-black/30 backdrop-blur-lg rounded-full h-[70px] my-4 mx-16 px-6 flex items-center justify-between">
+        <div className="bg-black/30 backdrop-blur-lg rounded-full h-17.5 my-4 mx-16 px-6 flex items-center justify-between">
           {/* Left - Nav Items */}
           <div className="flex gap-6 items-center">
             {navItems.map((item) => (
@@ -216,7 +216,7 @@ const NavBar = () => {
           <div className="flex gap-4 items-center">
             <Search className="text-white size-5 cursor-pointer" />
             <Heart className="text-white size-5 cursor-pointer" />
-            <div className="py-[13px] px-[17px] flex gap-[17px] bg-[#3B3B3B] rounded-[50px]">
+            <div className="py-3.25 px-4.25 flex gap-4.25 bg-[#3B3B3B] rounded-[50px]">
               <div className="relative">
                 <Link href="/cart">
                   <ShoppingCart className="text-white size-5" />
@@ -237,7 +237,7 @@ const NavBar = () => {
                       height={18}
                       alt="pentagon-icon"
                       src="/pentagon-icon.svg"
-                      className="absolute top-12 z-[200]"
+                      className="absolute top-12 z-200"
                     />
                   )}
 
@@ -260,11 +260,11 @@ const NavBar = () => {
 
         {/* Dropdown Panel */}
         {activeMenu && (
-          <div className="w-full px-16 pt-8 flex gap-[100px] h-[400px] bg-white transition-all duration-300">
+          <div className="w-full px-16 pt-8 flex gap-52 h-100 bg-white transition-all duration-300">
             {navItems
               .find((item) => item.title === activeMenu)
               ?.sections.map((section) => (
-                <div key={section.heading} className="min-w-[150px]">
+                <div key={section.heading} className="min-w-37.5">
                   {section.image && (
                     <ProductImage
                       width={190}
@@ -279,7 +279,7 @@ const NavBar = () => {
                   </h4>
                   <ul className="space-y-1 text-sm font-normal">
                     {section.items.map((link) => (
-                      <li key={link.name} className="mb-[10px]">
+                      <li key={link.name} className="mb-2.5">
                         <Link href={link.href} className="block">
                           {link.name}
                         </Link>

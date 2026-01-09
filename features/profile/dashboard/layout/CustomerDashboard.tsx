@@ -16,9 +16,9 @@ const CustomerDashboard = ({ children }: { children: React.ReactNode }) => {
   const role = getRole() ?? "customer"; // fallback
 
   return (
-    <SidebarProvider className=" my-[190px]">
+    <SidebarProvider className=" my-47.5">
       <div className="flex min-h-screen w-full ">
-        <Sidebar className=" ml-16 mb-[50px] h-full " variant="floating">
+        <Sidebar className=" ml-16 mb-12.5 h-full " variant="floating">
           <SidebarMenu
             role={role}
             activeBg="bg-[#3B3B3B] "
@@ -31,7 +31,7 @@ const CustomerDashboard = ({ children }: { children: React.ReactNode }) => {
 
         <SidebarInset className="">
           {/* <Header /> */}
-          <main className="mr-16  pl-[34px] ">{children}</main>
+          <main className="mr-16  pl-8.5 ">{children}</main>
         </SidebarInset>
       </div>
     </SidebarProvider>

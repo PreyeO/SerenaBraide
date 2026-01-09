@@ -24,7 +24,7 @@ const AdminDashboard = ({ children }: { children: React.ReactNode }) => {
             <SidebarMenu
               role={role}
               activeBg="bg-sidebar-accent"
-              activeText="text-text-sidebar-accent-foreground "
+              activeText="text-[#3B3B3B] "
             />
           )}
           <SidebarRail />
