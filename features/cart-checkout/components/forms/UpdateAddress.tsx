@@ -14,7 +14,7 @@ import {
 
 import { Input } from "@/components/ui/input";
 import SubmitButton from "@/components/ui/btns/submit-cta";
-import { AddressSchema } from "../schema/checkout.schema";
+import { AddressSchema } from "../../schema/checkout.schema";
 import { AddressFormValues } from "../../type/checkout.type";
 import LinkCta from "@/components/ui/btns/link-cta";
 import { Checkbox } from "@/components/ui/checkbox";

@@ -9,6 +9,12 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+} from "@/components/ui/table";
+import {
   Area,
   AreaChart,
   CartesianGrid,
@@ -65,19 +71,21 @@ const Overview = () => {
             return (
               <Card
                 key={key}
-                className={`cursor-pointer hover:shadow-md transition-all ${
-                  isSelected ? "ring-2 ring-[#3B3B3B] shadow-md" : ""
+                className={`cursor-pointer transition-all flex flex-col gap-1  ${
+                  isSelected
+                    ? "ring-2 ring-[#F0F0F0] bg-[#F5F5F5] shadow-md"
+                    : ""
                 }`}
                 onClick={() => setSelectedMetric(key as MetricType)}
               >
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-sm font-medium text-[#6F6E6C]">
+                <CardHeader className="">
+                  <CardTitle className="text-sm font-normal text-[#6F6E6C]">
                     {metric.label}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-2">
-                    <div className="text-2xl font-semibold text-[#3B3B3B]">
+                  <div className="">
+                    <div className="text-[22px] font-medium text-[#3B3B3B]">
                       {metric.value}
                     </div>
                     <div
@@ -119,7 +127,7 @@ const Overview = () => {
               </Button>
             </CardHeader>
             <CardContent>
-              <ChartContainer config={chartConfig} className="h-75 w-full">
+              <ChartContainer config={chartConfig} className="h-auto  w-full">
                 <AreaChart data={chartData}>
                   <defs>
                     <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
@@ -183,7 +191,7 @@ const Overview = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <ChartContainer config={chartConfig} className="h-75 w-full">
+              <ChartContainer config={chartConfig} className="h-auto w-full">
                 <PieChart>
                   <Pie
                     data={locationData}
@@ -241,16 +249,33 @@ const Overview = () => {
           </Button>
         </CardHeader>
         <CardContent>
-          {/* Table Header */}
-          <div className="hidden md:grid grid-cols-7 gap-4 py-3 px-4 bg-[#F9F9F9] rounded-lg mb-4 text-sm font-medium text-[#3B3B3B]">
-            <div>Product Name</div>
-            <div>Status</div>
-            <div>Inventory</div>
-            <div>Category</div>
-            <div>Price</div>
-            <div>Variants</div>
-            <div>Action</div>
-          </div>
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-[#F9F9F9] hover:bg-[#F9F9F9]">
+                <TableHead className="text-sm font-medium text-[#3B3B3B]">
+                  Product Name
+                </TableHead>
+                <TableHead className="text-sm font-medium text-[#3B3B3B]">
+                  Status
+                </TableHead>
+                <TableHead className="text-sm font-medium text-[#3B3B3B]">
+                  Inventory
+                </TableHead>
+                <TableHead className="text-sm font-medium text-[#3B3B3B]">
+                  Category
+                </TableHead>
+                <TableHead className="text-sm font-medium text-[#3B3B3B]">
+                  Price
+                </TableHead>
+                <TableHead className="text-sm font-medium text-[#3B3B3B]">
+                  Variants
+                </TableHead>
+                <TableHead className="text-sm font-medium text-[#3B3B3B]">
+                  Action
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+          </Table>
           <div className="text-center py-12 space-y-4">
             <p className="text-[#6F6E6C]">No product yet</p>
             <p className="text-sm text-[#9A9A98]">

@@ -38,7 +38,7 @@ const GiftPaymentForm = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-6 text-[#3B3B3B] font-medium text-sm w-full pt-[29px]"
+          className="flex flex-col gap-6 text-[#3B3B3B] font-medium text-sm w-full pt-7.25"
         >
           <FormField
             control={form.control}
@@ -49,7 +49,7 @@ const GiftPaymentForm = () => {
                   <Input
                     {...field}
                     placeholder="Gift card number"
-                    className="rounded-[50px] border h-[50px]"
+                    className="rounded-[50px] border h-12.5"
                   />
                 </FormControl>
                 <FormMessage />
@@ -66,11 +66,11 @@ const GiftPaymentForm = () => {
                   <Input
                     {...field}
                     placeholder="Pin"
-                    className="rounded-[50px] border h-[50px]"
+                    className="rounded-[50px] border h-12.5"
                   />
                 </FormControl>
                 <FormMessage />
-                <AuthSpan className="font-normal text-sm leading-[22px]">
+                <AuthSpan className="font-normal text-sm leading-5.5">
                   <Link href="/">
                     <span className="font-medium text-black">
                       {" "}

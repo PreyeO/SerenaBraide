@@ -13,3 +13,17 @@ export async function initiatePayment(
   return response.data;
 }
 
+export async function verifyPaymentRedirect(params: {
+  status: string;
+  tx_ref: string;
+  transaction_id: string;
+}): Promise<PaymentResponse> {
+  const response: AxiosResponse<PaymentResponse> = await api.get(
+    `/api/orders/payments/payment-redirect/`,
+    {
+      params,
+    }
+  );
+  return response.data;
+}
+

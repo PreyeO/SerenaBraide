@@ -1,5 +1,5 @@
 import z from "zod";
-import { AddressSchema } from "../components/schema/checkout.schema";
+import { AddressSchema } from "../schema/checkout.schema";
 
 export type AddressFormValues = z.infer<typeof AddressSchema>;
 
