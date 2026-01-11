@@ -14,8 +14,8 @@ const PaymentItem: React.FC<PaymentItemProps> = ({
   optionID,
 }) => {
   return (
-    <div className="border border-[#D1D5DB] px-[10px] py-[14px] rounded-[10px]">
-      <div className="flex items-center space-x-[10px]">
+    <div className="border border-[#D1D5DB] px-2.5 py-3.5 rounded-[10px]">
+      <div className="flex items-center space-x-2.5">
         <RadioGroupItem value={optionID} id={optionID} />
         <Label
           className="text-sm text-[#3B3B3B] font-medium flex items-center gap-2"

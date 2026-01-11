@@ -27,14 +27,14 @@ const CartItem = ({
 }: CartItemProps) => {
   return (
     <div
-      className={` ${className} w-full  border border-[#F5F5F5]  rounded-[10px] py-[10px] px-[30px] `}
+      className={` ${className} w-full  border border-[#F5F5F5]  rounded-[10px] py-2.5 px-7.5 `}
     >
       {/* Remove Button */}
       {showRemoveButton && (
         <div className="flex justify-end">
           <span
             onClick={onRemove}
-            className="bg-white rounded-full w-[30px] h-[30px] flex justify-center items-center cursor-pointer"
+            className="bg-white rounded-full w-7.5 h-7.5 flex justify-center items-center cursor-pointer"
           >
             <X className="size-[22.5px]" />
           </span>
@@ -48,7 +48,7 @@ const CartItem = ({
           src={image}
           width={width}
           height={height}
-          className="max-w-[150px]"
+          className="max-w-37.5"
         />
 
         <div>
@@ -58,11 +58,11 @@ const CartItem = ({
           />
 
           <Paragraph
-            className="text-black font-medium text-base pt-[6px]"
+            className="text-black font-medium text-base pt-1.5"
             content={price}
           />
 
-          <AuthSpan className="text-[#3B3B3B] font-normal text-base pt-[10px]">
+          <AuthSpan className="text-[#3B3B3B] font-normal text-base pt-2.5">
             {metaLabel}
           </AuthSpan>
 
@@ -72,18 +72,18 @@ const CartItem = ({
               <div className="flex text-[#3B3B3B] font-medium text-base mt-4">
                 <span
                   onClick={onIncrease}
-                  className="w-[30px] h-[30px] bg-white border border-[#F0F0F0] flex justify-center items-center cursor-pointer"
+                  className="w-7.5 h-7.5 bg-white border border-[#F0F0F0] flex justify-center items-center cursor-pointer"
                 >
                   <Plus />
                 </span>
 
-                <span className="w-[30px] h-[30px] bg-white border border-[#F0F0F0] flex justify-center items-center">
+                <span className="w-7.5 h-7.5 bg-white border border-[#F0F0F0] flex justify-center items-center">
                   {quantity}
                 </span>
 
                 <span
                   onClick={onDecrease}
-                  className="w-[30px] h-[30px] bg-white border border-[#F0F0F0] flex justify-center items-center cursor-pointer"
+                  className="w-7.5 h-7.5 bg-white border border-[#F0F0F0] flex justify-center items-center cursor-pointer"
                 >
                   <Minus />
                 </span>

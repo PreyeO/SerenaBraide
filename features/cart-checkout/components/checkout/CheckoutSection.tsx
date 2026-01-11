@@ -1,7 +1,7 @@
 "use client";
 import BackNavigation from "@/components/ui/btns/back-navigation";
 import CartHeader from "@/features/cart-checkout/shared/CartHeader";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ShippingAddress from "./ShippingAddress";
 import SubHeading from "@/components/ui/typography/subHeading";
 import PaymentItem from "../../shared/PaymentItem";
@@ -14,31 +14,118 @@ import CartItem from "../../shared/CartItem";
 import { ShoppingBag } from "lucide-react";
 import Paragraph from "@/components/ui/typography/paragraph";
 import { RadioGroup } from "@/components/ui/radio-group";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useAuthStore } from "@/features/auth/auth.store";
+import { useCreateOrder } from "../../hooks/useCreateOrder";
+import { useOrderDetail } from "../../hooks/useOrderDetail";
+import { useInitiatePayment } from "@/features/payment/hooks/useInitiatePayment";
+import { notify } from "@/lib/notify";
 
 const CheckoutSection = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const { user, isHydrated } = useAuthStore();
   const [selectedPayment, setSelectedPayment] = useState(paymentType[0].id);
+  const [orderCreated, setOrderCreated] = useState(false);
+  const createOrderMutation = useCreateOrder({ redirectToCheckout: false });
+  const initiatePaymentMutation = useInitiatePayment();
+
+  // Get order_number from URL params
+  const orderNumberParam = searchParams.get("order_number");
+  const orderNumber = orderNumberParam ? parseInt(orderNumberParam, 10) : null;
+
+  // Fetch order details if order_number exists
+  const { data: orderData, isLoading: isLoadingOrder } =
+    useOrderDetail(orderNumber);
+
+  // Use order data if available, otherwise calculate from cart (fallback)
+  const orderItems = orderData?.items ?? [];
+  const totalQuantity =
+    orderData?.items_count ??
+    orderItems.reduce((sum, item) => sum + item.quantity, 0);
+  const totalPrice = orderData?.total_amount
+    ? parseFloat(orderData.total_amount)
+    : 0;
+  const orderTotal = orderData?.total_amount
+    ? parseFloat(orderData.total_amount)
+    : 0;
+  const subtotal = orderData?.subtotal ? parseFloat(orderData.subtotal) : 0;
+  const shippingCost = orderData?.shipping_cost
+    ? parseFloat(orderData.shipping_cost)
+    : 0;
+  const tax = orderData?.tax ? parseFloat(orderData.tax) : 0;
+
+  // Create order when user arrives from auth flow
+  useEffect(() => {
+    if (
+      !isHydrated ||
+      orderCreated ||
+      createOrderMutation.isPending ||
+      createOrderMutation.isSuccess ||
+      orderNumber
+    )
+      return;
+
+    const returnUrl = searchParams.get("return_url");
+
+    // If user is authenticated, verified, and coming from auth flow, create order
+    if (user?.email_validated && returnUrl === "/checkout") {
+      createOrderMutation.mutate(undefined, {
+        onSuccess: (order) => {
+          setOrderCreated(true);
+          // Update URL with order_number
+          router.push(`/checkout?order_number=${order.order_number}`);
+        },
+      });
+    }
+  }, [
+    isHydrated,
+    user,
+    searchParams,
+    orderCreated,
+    createOrderMutation,
+    orderNumber,
+    router,
+  ]);
 
   const handleSubmit = () => {
     const payment = paymentType.find((p) => p.id === selectedPayment);
     if (!payment) return;
 
+    // If Flutterwave is selected and order exists, initiate payment
+    if (selectedPayment === "2") {
+      if (!orderNumber) {
+        notify.error("Order not found. Please try again.");
+        return;
+      }
+
+      // Check if user is authenticated
+      if (!user || !user.email_validated) {
+        notify.error("Please log in to continue with payment.");
+        router.push("/auth/login?return_url=/checkout");
+        return;
+      }
+
+      initiatePaymentMutation.mutate({ orderNumber });
+      return;
+    }
+
+    // For gift card or other payment methods, navigate to payment page
     router.push(payment.href!);
   };
 
   return (
-    <section className="pt-[152px] px-16 mt-[40px] pb-[50px] ">
+    <section className="pt-38 px-16 mt-10 pb-12.5 ">
       <BackNavigation href="/cart" text="Cart" />
       <CartHeader totalItems={totalQuantity} />
-      <div className="flex gap-[40px] mt-[40px]">
+      <div className="flex gap-10 mt-10">
         <div className=" flex flex-col gap-6">
-          <div className="w-[700px]">
+          <div className="w-175">
             <ShippingAddress />
           </div>
-          <div className="bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5] w-[700px]  flex flex-col gap-[34px] px-[60px] py-[30px] ">
+          <div className="bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5] w-175  flex flex-col gap-8.5 px-15 py-7.5">
             <SubHeading
-              title="Shipping Address"
+              title="Payment Method"
               className="text-[#3B3B3B] text-base font-medium"
             />
             <RadioGroup
@@ -61,8 +148,13 @@ const CheckoutSection = () => {
             </RadioGroup>
 
             <div>
-              <SubmitButton label="Continue" onClick={handleSubmit} />
-              <AuthSpan className="text-sm w-[335px] mx-auto leading-[22px] pt-[10px] text-[#3B3B3B] font-normal">
+              <SubmitButton
+                label="Continue"
+                loadingLabel="Processing..."
+                isPending={initiatePaymentMutation.isPending}
+                onClick={handleSubmit}
+              />
+              <AuthSpan className="text-sm w-83.75 mx-auto leading-5.5 pt-2.5 text-[#3B3B3B] font-normal">
                 By submitting my order, I confirm I have read and
                 acknowledged all
                 <span className="underline font-medium ">
@@ -74,74 +166,75 @@ const CheckoutSection = () => {
           </div>
         </div>
         <div className="flex flex-col gap-6">
-          <div className="w-[572x]  py-4 px-4 bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5]">
-            <div className="bg-[#3B3B3B] py-[30px] px-[32.5px] flex gap-[30px]">
+          <div className="w-143 py-4 px-4 bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5]">
+            <div className="bg-[#3B3B3B] py-7.5 px-[32.5px] flex gap-7.5">
               <ShoppingBag />
               <div>
                 <Paragraph
                   className="text-white font-medium text-sm"
-                  content="My cart - $235"
+                  content={`My order - $${totalPrice.toFixed(2)}`}
                 />
                 <Paragraph
                   className="text-[#9A9A98] italic font-normal text-sm"
-                  content="You will earn 24 points earned from this purchase*"
+                  content={`You will earn ${
+                    totalQuantity * 2
+                  } points earned from this purchase*`}
                 />
               </div>
             </div>
-            <div className="  flex flex-col gap-4 ">
-              <CartItem
-                image="/cart-image-1.png"
-                name="Eau du Soir"
-                price="$160.00"
-                metaLabel="Size: 30ml"
-                className="bg-white"
-                quantity={1}
-                showQuantity={true}
-                height={150}
-                width={130}
-                showRemoveButton={false}
-                showQuantityBox={false}
-                showRemoveEdit={false}
-              />
-              <CartItem
-                image="/cart-image-2.png"
-                name="I love Serena"
-                price="$210.00"
-                className="bg-white"
-                metaLabel={
-                  <span className="flex items-center gap-2">
-                    Color:
-                    <span
-                      className="w-4 h-4 rounded-full border"
-                      style={{ backgroundColor: "#BE4856" }}
-                    ></span>
-                    Red rose
-                  </span>
-                }
-                showQuantity={false}
-                height={150}
-                width={130}
-                showRemoveButton={false}
-                showQuantityBox={false}
-                showRemoveEdit={false}
-              />
-              <CartItem
-                image="/cart-image-3.png"
-                name="E-Gift Card"
-                price="$510.00"
-                className="bg-white"
-                metaLabel="Delivery via email within few hours of purchase"
-                showQuantity={false}
-                height={150}
-                width={130}
-                showRemoveButton={false}
-                showQuantityBox={false}
-                showRemoveEdit={false}
-              />
+            <div className="flex flex-col gap-4">
+              {isLoadingOrder ? (
+                <div className="py-8 text-center text-[#6F6E6C]">
+                  Loading order...
+                </div>
+              ) : orderItems.length > 0 ? (
+                orderItems.map((item) => {
+                  const image =
+                    item.variant.images.find((img) => img.is_primary)
+                      ?.image_url ??
+                    item.variant.images[0]?.image_url ??
+                    "/cart-placeholder.png";
+
+                  return (
+                    <CartItem
+                      key={item.id}
+                      image={image}
+                      name={item.variant.product_name}
+                      price={`$${item.price}`}
+                      metaLabel={
+                        item.variant.size
+                          ? `Size: ${item.variant.size}`
+                          : item.variant.color
+                          ? `Color: ${item.variant.color}`
+                          : ""
+                      }
+                      className="bg-white"
+                      quantity={item.quantity}
+                      showQuantity={true}
+                      height={150}
+                      width={130}
+                      showRemoveButton={false}
+                      showQuantityBox={false}
+                      showRemoveEdit={false}
+                    />
+                  );
+                })
+              ) : (
+                <div className="py-8 text-center text-[#6F6E6C]">
+                  No items in order
+                </div>
+              )}
             </div>
           </div>
           <div className="pt-6">
-            <Receipt showButton={false} />
+            <Receipt
+              totalItems={totalQuantity}
+              totalPrice={orderTotal}
+              subtotal={subtotal}
+              shippingCost={shippingCost}
+              tax={tax}
+              showButton={false}
+            />
           </div>
         </div>
       </div>

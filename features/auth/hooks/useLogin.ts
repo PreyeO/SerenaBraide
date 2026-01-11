@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { AxiosError } from "axios";
 import { useAuthStore } from "../auth.store";
 import { notify } from "@/lib/notify";
@@ -16,6 +16,7 @@ interface UseLoginOptions {
 export const useLogin = ({ onSuccess, onError }: UseLoginOptions = {}) => {
   const setAuth = useAuthStore((state) => state.setAuth);
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   return useMutation<
     LoginResponse,
@@ -27,7 +28,21 @@ export const useLogin = ({ onSuccess, onError }: UseLoginOptions = {}) => {
       const { tokens, ...user } = data;
       setAuth({ user, tokens });
       notify.success("Login successful!");
-      router.push("/profile");
+
+      // Check for return URL
+      const returnUrl = searchParams.get("return_url");
+
+      if (returnUrl === "/checkout" && user.email_validated) {
+        // Route to checkout with return_url param, the checkout page will create the order
+        router.push("/checkout?return_url=/checkout");
+      } else if (returnUrl) {
+        // If there's a return URL but not checkout, redirect to it
+        router.push(returnUrl);
+      } else {
+        // Default redirect to profile
+        router.push("/profile");
+      }
+
       onSuccess?.(data);
     },
     onError: (error) => {
