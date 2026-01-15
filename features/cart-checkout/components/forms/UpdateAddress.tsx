@@ -2,6 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 
 import {
   Form,
@@ -14,31 +15,61 @@ import {
 
 import { Input } from "@/components/ui/input";
 import SubmitButton from "@/components/ui/btns/submit-cta";
-import { AddressSchema } from "../../schema/checkout.schema";
-import { AddressFormValues } from "../../type/checkout.type";
+import { UpdateAddressSchema } from "../../schema/checkout.schema";
+import { UpdateAddressFormValues, Address, UpdateAddressPayload } from "../../type/checkout.type";
 import LinkCta from "@/components/ui/btns/link-cta";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
+import { useUpdateAddress } from "../../hooks/useUpdateAddress";
 
-const UpdateAddressForm = () => {
-  const form = useForm<AddressFormValues>({
-    resolver: zodResolver(AddressSchema),
-    defaultValues: {
-      full_name: "",
-      phone_number: "",
-      country: "",
-      address_title: "",
-      state: "",
-      LGA: "",
-      zipcode: "",
-      city: "",
-      street_name: "",
-      unit_info: "",
+interface UpdateAddressFormProps {
+  address: Address;
+  onSuccess?: () => void;
+}
+
+const UpdateAddressForm = ({ address, onSuccess }: UpdateAddressFormProps) => {
+  const updateAddressMutation = useUpdateAddress({
+    onSuccess: () => {
+      onSuccess?.();
     },
   });
 
-  const onSubmit = (data: AddressFormValues) => {
-    console.log("ADDRESS DATA:", data);
+  const form = useForm<UpdateAddressFormValues>({
+    resolver: zodResolver(UpdateAddressSchema),
+    defaultValues: {
+      address: address.address || "",
+      city: address.city || "",
+      state: address.state || "",
+      zip_code: address.zip_code || "",
+      country: address.country || "",
+    },
+  });
+
+  useEffect(() => {
+    form.reset({
+      address: address.address || "",
+      city: address.city || "",
+      state: address.state || "",
+      zip_code: address.zip_code || "",
+      country: address.country || "",
+    });
+  }, [address, form]);
+
+  const onSubmit = (data: UpdateAddressFormValues) => {
+    const payload: UpdateAddressPayload = {};
+    if (data.address) payload.address = data.address;
+    if (data.city) payload.city = data.city;
+    if (data.state) payload.state = data.state;
+    if (data.zip_code) {
+      // Convert zip_code string to number if it's a valid number, otherwise keep as string
+      payload.zip_code = data.zip_code && !isNaN(Number(data.zip_code))
+        ? Number(data.zip_code)
+        : data.zip_code;
+    }
+    if (data.country) payload.country = data.country;
+
+    updateAddressMutation.mutate({
+      id: address.id,
+      payload,
+    });
   };
 
   return (
@@ -60,7 +91,7 @@ const UpdateAddressForm = () => {
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="Nigeria"
+                      placeholder="NG"
                       className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-5"
                     />
                   </FormControl>
@@ -70,16 +101,16 @@ const UpdateAddressForm = () => {
             />
             <FormField
               control={form.control}
-              name="address_title"
+              name="city"
               render={({ field }) => (
                 <FormItem className="flex-1">
                   <FormLabel className="font-semibold text-[#3B3B3B]">
-                    Address Title
+                    City
                   </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="Home, Office etc"
+                      placeholder="City"
                       className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-5 "
                     />
                   </FormControl>
@@ -88,87 +119,24 @@ const UpdateAddressForm = () => {
               )}
             />
           </div>
-          <span className="font-semibold pb-4 text-sm text-[#3B3B3B]">
-            Contact Information
-          </span>
 
-          {/* Row: Country & Address Title */}
-          <div className="flex gap-4 pb-6">
-            <FormField
-              control={form.control}
-              name="full_name"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel className=" font-medium text-sm text-[#3B3B3B] ">
-                    Full Name
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="Contact name*"
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-5 "
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="phone_number"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel className=" font-medium text-sm text-[#3B3B3B]">
-                    Phone Number
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="Phone number*"
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-5"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
           <span className="font-semibold pb-4 text-sm text-[#3B3B3B]">
             Address
           </span>
 
-          <div className="flex gap-4 pb-4">
+          <div className="pb-6">
             <FormField
               control={form.control}
-              name="street_name"
+              name="address"
               render={({ field }) => (
-                <FormItem className="flex-1">
+                <FormItem>
                   <FormLabel className="font-medium text-sm text-[#3B3B3B]">
-                    Street Name
+                    Address
                   </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="Street, house/apartment*"
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-5 "
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="unit_info"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel className="font-medium text-sm text-[#3B3B3B]">
-                    Apt / Suite / Unit
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="Apt, suit, unit, etc (optional)"
+                      placeholder="Street, house/apartment, etc*"
                       className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-5 "
                     />
                   </FormControl>
@@ -179,56 +147,33 @@ const UpdateAddressForm = () => {
           </div>
 
           <div className="flex gap-4 pb-7.5">
-            {/* Left: State + LGA stacked */}
-            <div className="flex-1 flex  gap-4">
-              <FormField
-                control={form.control}
-                name="state"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-medium text-sm text-[#3B3B3B]">
-                      State/City
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="State"
-                        className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-5"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="LGA"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-medium text-sm text-[#3B3B3B]">
-                      LGA
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="LGA"
-                        className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-5"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
             <FormField
               control={form.control}
-              name="zipcode"
+              name="state"
               render={({ field }) => (
                 <FormItem className="flex-1">
                   <FormLabel className="font-medium text-sm text-[#3B3B3B]">
-                    Zipcode
+                    State
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="State"
+                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-5"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="zip_code"
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormLabel className="font-medium text-sm text-[#3B3B3B]">
+                    Zip Code
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -243,24 +188,18 @@ const UpdateAddressForm = () => {
             />
           </div>
 
-          <div className="flex gap-1.5 items-center">
-            <Checkbox className="border border-[#9A9A98]" />
-            <Label className="text-sm text-[#3B3B3B] font-normal">
-              Set as default shipping address
-            </Label>
-          </div>
-
           <div className="mt-10 grid grid-cols-2 gap-4">
             <SubmitButton
-              label="Add Address"
-              isPending={false}
-              loadingLabel="Adding..."
+              label="Update Address"
+              isPending={updateAddressMutation.isPending}
+              loadingLabel="Updating..."
               className="w-full"
             />
 
             <LinkCta
               className="w-full text-[#3B3B3B] border border-[#6F6E6C] bg-white"
               label="Cancel"
+              onClick={onSuccess}
             />
           </div>
         </form>

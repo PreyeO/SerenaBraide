@@ -1,7 +1,40 @@
 import z from "zod";
-import { AddressSchema } from "../schema/checkout.schema";
+import { AddressSchema, CreateAddressSchema, UpdateAddressSchema } from "../schema/checkout.schema";
 
+// Form values (what the form uses - all strings)
 export type AddressFormValues = z.infer<typeof AddressSchema>;
+export type CreateAddressFormValues = z.infer<typeof CreateAddressSchema>;
+export type UpdateAddressFormValues = z.infer<typeof UpdateAddressSchema>;
+
+// Address Types
+export interface Address {
+  id: number;
+  customer_profile: number;
+  address: string;
+  city: string;
+  state: string;
+  zip_code: string;
+  country: string;
+  is_default: boolean;
+  created_on: string;
+  updated_on: string;
+}
+
+export interface CreateAddressPayload {
+  address: string;
+  city: string;
+  state: string;
+  zip_code: string | number;
+  country: string;
+}
+
+export interface UpdateAddressPayload {
+  address?: string;
+  city?: string;
+  state?: string;
+  zip_code?: string | number;
+  country?: string;
+}
 
 export interface PaymentItemProps {
   width: number;

@@ -14,31 +14,51 @@ import {
 
 import { Input } from "@/components/ui/input";
 import SubmitButton from "@/components/ui/btns/submit-cta";
-import { AddressSchema } from "../../schema/checkout.schema";
-import { AddressFormValues } from "../../type/checkout.type";
+import { CreateAddressSchema } from "../../schema/checkout.schema";
+import {
+  CreateAddressFormValues,
+  CreateAddressPayload,
+} from "../../type/checkout.type";
 import LinkCta from "@/components/ui/btns/link-cta";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
+import { useCreateAddress } from "../../hooks/useCreateAddress";
 
-const AddNewAddressForm = () => {
-  const form = useForm<AddressFormValues>({
-    resolver: zodResolver(AddressSchema),
-    defaultValues: {
-      full_name: "",
-      phone_number: "",
-      country: "",
-      address_title: "",
-      state: "",
-      LGA: "",
-      zipcode: "",
-      city: "",
-      street_name: "",
-      unit_info: "",
+interface AddNewAddressFormProps {
+  onSuccess?: () => void;
+}
+
+const AddNewAddressForm = ({ onSuccess }: AddNewAddressFormProps) => {
+  const createAddressMutation = useCreateAddress({
+    onSuccess: () => {
+      onSuccess?.();
     },
   });
 
-  const onSubmit = (data: AddressFormValues) => {
-    console.log("ADDRESS DATA:", data);
+  const form = useForm<CreateAddressFormValues>({
+    resolver: zodResolver(CreateAddressSchema),
+    defaultValues: {
+      address: "",
+      city: "",
+      state: "",
+      zip_code: "",
+      country: "",
+    },
+  });
+
+  const onSubmit = (data: CreateAddressFormValues) => {
+    // Convert zip_code string to number if it's a valid number, otherwise keep as string
+    const zipCode =
+      data.zip_code && !isNaN(Number(data.zip_code))
+        ? Number(data.zip_code)
+        : data.zip_code;
+
+    const payload: CreateAddressPayload = {
+      address: data.address,
+      city: data.city,
+      state: data.state,
+      zip_code: zipCode,
+      country: data.country,
+    };
+    createAddressMutation.mutate(payload);
   };
 
   return (
@@ -60,7 +80,7 @@ const AddNewAddressForm = () => {
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="Nigeria"
+                      placeholder="NG"
                       className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-5"
                     />
                   </FormControl>
@@ -70,16 +90,16 @@ const AddNewAddressForm = () => {
             />
             <FormField
               control={form.control}
-              name="address_title"
+              name="city"
               render={({ field }) => (
                 <FormItem className="flex-1">
                   <FormLabel className="font-semibold text-[#3B3B3B]">
-                    Address Title
+                    City
                   </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="Home, Office etc"
+                      placeholder="City"
                       className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-5 "
                     />
                   </FormControl>
@@ -88,87 +108,24 @@ const AddNewAddressForm = () => {
               )}
             />
           </div>
-          <span className="font-semibold pb-4 text-sm text-[#3B3B3B]">
-            Contact Information
-          </span>
 
-          {/* Row: Country & Address Title */}
-          <div className="flex gap-4 pb-6">
-            <FormField
-              control={form.control}
-              name="full_name"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel className=" font-medium text-sm text-[#3B3B3B] ">
-                    Full Name
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="Contact name*"
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-5 "
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="phone_number"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel className=" font-medium text-sm text-[#3B3B3B]">
-                    Phone Number
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="Phone number*"
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-5"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
           <span className="font-semibold pb-4 text-sm text-[#3B3B3B]">
             Address
           </span>
 
-          <div className="flex gap-4 pb-4">
+          <div className="pb-6">
             <FormField
               control={form.control}
-              name="street_name"
+              name="address"
               render={({ field }) => (
-                <FormItem className="flex-1">
+                <FormItem>
                   <FormLabel className="font-medium text-sm text-[#3B3B3B]">
-                    Street Name
+                    Address
                   </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="Street, house/apartment*"
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-5 "
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="unit_info"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel className="font-medium text-sm text-[#3B3B3B]">
-                    Apt / Suite / Unit
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="Apt, suit, unit, etc (optional)"
+                      placeholder="Street, house/apartment, etc*"
                       className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-5 "
                     />
                   </FormControl>
@@ -178,57 +135,34 @@ const AddNewAddressForm = () => {
             />
           </div>
 
-          <div className="flex gap-4 pb-[30px]">
-            {/* Left: State + LGA stacked */}
-            <div className="flex-1 flex  gap-4">
-              <FormField
-                control={form.control}
-                name="state"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-medium text-sm text-[#3B3B3B]">
-                      State/City
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="State"
-                        className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-5"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="LGA"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-medium text-sm text-[#3B3B3B]">
-                      LGA
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="LGA"
-                        className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-5"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
+          <div className="flex gap-4 pb-7.5">
             <FormField
               control={form.control}
-              name="zipcode"
+              name="state"
               render={({ field }) => (
                 <FormItem className="flex-1">
                   <FormLabel className="font-medium text-sm text-[#3B3B3B]">
-                    Zipcode
+                    State
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="State"
+                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-5"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="zip_code"
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormLabel className="font-medium text-sm text-[#3B3B3B]">
+                    Zip Code
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -243,17 +177,10 @@ const AddNewAddressForm = () => {
             />
           </div>
 
-          <div className="flex gap-[6px] items-center">
-            <Checkbox className="border border-[#9A9A98]" />
-            <Label className="text-sm text-[#3B3B3B] font-normal">
-              Set as default shipping address
-            </Label>
-          </div>
-
-          <div className="mt-[40px] grid grid-cols-2 gap-4">
+          <div className="mt-10 grid grid-cols-2 gap-4">
             <SubmitButton
               label="Add Address"
-              isPending={false}
+              isPending={createAddressMutation.isPending}
               loadingLabel="Adding..."
               className="w-full"
             />
@@ -261,6 +188,7 @@ const AddNewAddressForm = () => {
             <LinkCta
               className="w-full text-[#3B3B3B] border border-[#6F6E6C] bg-white"
               label="Cancel"
+              onClick={onSuccess}
             />
           </div>
         </form>

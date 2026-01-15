@@ -7,8 +7,8 @@ interface AddAddressButtonProps {
 }
 
 const AddAddressButton: React.FC<AddAddressButtonProps> = ({ onClick }) => (
-  <div className="flex space-x-[10px] pt-4 cursor-pointer" onClick={onClick}>
-    <span className="rounded-full w-[22px] h-[22px] bg-[#3B3B3B] flex justify-center items-center">
+  <div className="flex space-x-2.5 pt-4 cursor-pointer" onClick={onClick}>
+    <span className="rounded-full w-5.5 h-5.5 bg-[#3B3B3B] flex justify-center items-center">
       <Plus className="text-white size-5" strokeWidth={2} />
     </span>
     <Paragraph

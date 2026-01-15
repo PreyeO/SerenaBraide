@@ -20,7 +20,7 @@ const OverviewCard: React.FC<OverviewCardProps> = ({
 
       <div className=" flex flex-col">
         <div className="border border-[#D1D5DB] w-full" />
-        <div className="pt-6 max-w-99 text-[#6F6E6C]   ">{children}</div>
+        <div className="pt-6  text-[#6F6E6C]   ">{children}</div>
       </div>
     </div>
   );
