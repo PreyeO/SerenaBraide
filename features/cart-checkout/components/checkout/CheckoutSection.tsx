@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import ShippingAddress from "./ShippingAddress";
 import SubHeading from "@/components/ui/typography/subHeading";
 import PaymentItem from "../../shared/PaymentItem";
+import { paymentType } from "../data/checkout.data";
 import SubmitButton from "@/components/ui/btns/submit-cta";
 import AuthSpan from "@/components/ui/typography/auth-span";
 import Link from "next/link";
@@ -19,7 +20,6 @@ import { useCreateOrder } from "../../hooks/useCreateOrder";
 import { useOrderDetail } from "../../hooks/useOrderDetail";
 import { useInitiatePayment } from "@/features/payment/hooks/useInitiatePayment";
 import { notify } from "@/lib/notify";
-import { paymentType } from "../../data/checkout.data";
 
 const CheckoutSection = () => {
   const router = useRouter();

@@ -9,22 +9,20 @@ import EmptyCart from "../empty-screens/EmptyCart";
 import { useCart } from "../../hooks/useCart";
 import { useUpdateCartItem } from "../../hooks/useUpdateCartItem";
 import { useRemoveCartItem } from "../../hooks/useRemoveCartItem";
-import LoadingState from "@/components/ui/loaders/loading-state";
 
 const CartSection = () => {
-  const { data, isLoading, isFetching } = useCart();
+  const { data, isLoading } = useCart();
   const updateMutation = useUpdateCartItem();
   const removeMutation = useRemoveCartItem();
 
-  // Show loading state only on initial load (not on background refetches)
+  // Only show loading on initial load, not on refetches
   if (isLoading) {
-    return <LoadingState />;
+    return <p className="pt-38 px-16">Loading cart...</p>;
   }
 
   const cartItems = data?.items ?? [];
 
-  // Only show empty cart if we have data but no items (not while loading)
-  if (!isLoading && !cartItems.length) return <EmptyCart />;
+  if (!cartItems.length) return <EmptyCart />;
 
   const totalQuantity = cartItems.reduce((sum, i) => sum + i.quantity, 0);
   const totalPrice = cartItems.reduce((sum, i) => sum + i.subtotal, 0);
