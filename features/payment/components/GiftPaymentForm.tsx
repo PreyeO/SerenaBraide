@@ -30,7 +30,7 @@ const GiftPaymentForm = () => {
 
   const onSubmit = (data: BalanceFormValues) => {
     console.log("SUBMITTED DATA:", data);
-    setIsModalOpen(true);
+    // TODO: Implement payment processing and success modal
   };
 
   return (
