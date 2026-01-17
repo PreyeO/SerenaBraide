@@ -43,7 +43,7 @@ const NavBar = () => {
     }
   };
 
-  const { data: categories = [], isLoading } = useGetCategories<Category[]>();
+  const { data: categories = [], isLoading } = useGetCategories();
 
   // Build dynamic category sections
   const categorySections: NavSection[] = categories
