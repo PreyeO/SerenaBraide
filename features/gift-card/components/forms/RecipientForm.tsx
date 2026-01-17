@@ -115,6 +115,7 @@ const RecipientForm = ({ closeModal }: RecipientFormProps) => {
                 <FormControl>
                   <Textarea
                     {...field}
+                    value={field.value ?? ""}
                     placeholder="Leave a short message..."
                     className="border rounded-xl min-h-[120px] p-4 focus:border-[#3B3B3B] focus:bg-[#F5F5F5]"
                   />
