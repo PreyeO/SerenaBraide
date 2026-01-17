@@ -17,6 +17,7 @@ export interface FulfilmentStatusProps {
   size: string;
 }
 export interface OrderInfo {
+  id?: number; // Order item ID for API calls
   statusType: FulfilmentType; // ✅ ADD THIS
   title: string;
   color: string;

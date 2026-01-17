@@ -5,11 +5,12 @@ import ReviewSection from "@/features/products/components/ReviewSection";
 import { recommendedProducts } from "@/features/products/data/product.data";
 
 const ProductDetailPage = () => {
+  const productId = 6;
   return (
     <>
       <DetailHeroSection />
       <DetailInfoSection />
-      <ReviewSection />
+      <ReviewSection productId={productId} />
       <RecommendationSection
         products={Object.values(recommendedProducts).flat()}
       />

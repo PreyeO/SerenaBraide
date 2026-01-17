@@ -1,10 +1,33 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import EmptyCustomerDefault from "../shared/empty/EmptyCustomerDefault";
 import { Stars } from "lucide-react";
+import OrdersTabCard from "../shared/OrdersTabCard";
 
 const EmptyReview = () => {
+  const [activeTab, setActiveTab] = useState("ready-for-review");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterValue, setFilterValue] = useState("all");
+
+  const reviewTabs = [
+    {
+      value: "ready-for-review",
+      label: "Orders ready for review (0)",
+    },
+  ];
+
   return (
-    <section>
+    <section className="flex flex-col gap-4 sm:gap-6 px-4 sm:px-0">
+      <OrdersTabCard
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        filterValue={filterValue}
+        onFilterChange={setFilterValue}
+        tabs={reviewTabs}
+      />
       <EmptyCustomerDefault
         src="/empty-payment-icon.png"
         alt="icon of a cards"

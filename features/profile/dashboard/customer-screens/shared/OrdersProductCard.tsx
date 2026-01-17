@@ -10,18 +10,30 @@ import { BadgeCheckIcon, ChevronRight } from "lucide-react";
 
 import React, { useState } from "react";
 import OrderFulfilmentModal from "../fulfilments/OrderFulfilmentModal";
+import ReviewModal from "../reviews/ReviewModal";
 
 interface OrdersProductCardProps {
   order: OrderInfo;
   orderDetail?: string;
+  onReviewClick?: (order: OrderInfo) => void;
 }
 
 const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
   order,
   orderDetail = "View Details",
+  onReviewClick,
 }) => {
   const Icon = order.icon || BadgeCheckIcon;
   const [open, setOpen] = useState(false);
+  const [reviewOpen, setReviewOpen] = useState(false);
+
+  const handleReviewClick = () => {
+    if (onReviewClick) {
+      onReviewClick(order);
+    } else {
+      setReviewOpen(true);
+    }
+  };
 
   return (
     <div className="w-full bg-[#F6F7F8] border border-[#F5F5F5] min-h-50 sm:h-auto px-4 sm:px-8.5 py-4 sm:py-6 rounded-[10px] transition-all duration-300 hover:shadow-sm">
@@ -58,6 +70,12 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
           </>
         </div>
       </div>
+
+      <ReviewModal
+        open={reviewOpen}
+        onClose={() => setReviewOpen(false)}
+        order={order}
+      />
 
       <div className="flex flex-col">
         <div className="border border-[#D1D5DB] w-full" />
@@ -117,10 +135,18 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
                 className="text-xs sm:text-sm py-2 sm:py-3"
               />
 
-              <LinkCta
-                className="w-full text-xs sm:text-sm text-[#3B3B3B] border border-[#6F6E6C] hover:bg-gray-50 bg-white py-2 sm:py-3 transition-colors"
-                label={order.orderAction2}
-              />
+              {order.orderAction2 === "Leave a review" ? (
+                <LinkCta
+                  className="w-full text-xs sm:text-sm text-[#3B3B3B] border border-[#6F6E6C] hover:bg-gray-50 bg-white py-2 sm:py-3 transition-colors"
+                  label={order.orderAction2}
+                  onClick={handleReviewClick}
+                />
+              ) : (
+                <LinkCta
+                  className="w-full text-xs sm:text-sm text-[#3B3B3B] border border-[#6F6E6C] hover:bg-gray-50 bg-white py-2 sm:py-3 transition-colors"
+                  label={order.orderAction2}
+                />
+              )}
             </div>
           </div>
         </div>
