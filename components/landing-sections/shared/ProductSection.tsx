@@ -28,14 +28,14 @@ const ProductSection: React.FC<ProductSectionProps> = ({
   productDisplay,
 }) => {
   return (
-    <section className={`px-16 py-[50px] ${bgColor}`}>
+    <section className={`px-16 py-12.5 ${bgColor}`}>
       <div className="flex flex-col">
         <SubHeading
           title={title}
           className={` ${textColor} font-extralight italic text-[40px] text-center pt-5`}
         />
       </div>
-      <div className="flex gap-[10px] items-center justify-end">
+      <div className="flex gap-2.5 items-center justify-end">
         <UnderlineLink
           href={linkHref}
           text={linkText}
@@ -46,9 +46,9 @@ const ProductSection: React.FC<ProductSectionProps> = ({
 
       <Tabs
         defaultValue={categories[0]}
-        className="w-full bg-transparent pt-[21px] text-white"
+        className="w-full bg-transparent pt-5.25 text-white"
       >
-        <TabsList className="mx-auto gap-4 max-w-[583px]">
+        <TabsList className="mx-auto gap-4 max-w-145.7">
           {categories.map((cat) => (
             <TabsTrigger key={cat} value={cat}>
               {cat.toUpperCase()}

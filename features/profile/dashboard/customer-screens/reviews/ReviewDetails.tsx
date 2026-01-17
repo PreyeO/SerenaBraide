@@ -7,7 +7,10 @@ import { Badge } from "@/components/ui/badge";
 import ProductImage from "@/components/ui/images/product-image";
 import Paragraph from "@/components/ui/typography/paragraph";
 import SubHeading from "@/components/ui/typography/subHeading";
-import { OrderInfo } from "@/features/profile/type/customers/profile.type";
+import {
+  CreateRatingPayload,
+  OrderInfo,
+} from "@/features/profile/type/customers/profile.type";
 import { Star } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import SubmitButton from "@/components/ui/btns/submit-cta";
@@ -16,7 +19,7 @@ import {
   CreateRatingSchema,
   CreateRatingFormValues,
 } from "@/features/profile/schema/customer.schema";
-import { CreateRatingPayload } from "@/features/profile/type/customer/rating.type";
+
 import {
   Form,
   FormField,

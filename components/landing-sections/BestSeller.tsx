@@ -8,7 +8,7 @@ import {
 const BestSeller = () => {
   return (
     <ProductSection
-      title="Our Product Categories"
+      title="Best Sellers"
       linkText="Shop More Best Sellers"
       linkHref="/best-sellers"
       bgColor="bg-black"

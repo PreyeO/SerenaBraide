@@ -14,6 +14,7 @@ interface AuthSubmitButtonProps {
   className?: string;
   icon?: LucideIcon;
   iconPosition?: "left" | "right";
+  disabled?: boolean;
 }
 
 const SubmitButton = ({
@@ -24,16 +25,17 @@ const SubmitButton = ({
   className,
   icon: Icon,
   iconPosition = "left",
+  disabled = false,
 }: AuthSubmitButtonProps) => {
   return (
     <Button
       type="submit"
       onClick={onClick}
-      disabled={isPending}
+      disabled={isPending || disabled}
       className={cn(
         "relative w-full flex items-center justify-center gap-2 bg-[#3B3B3B] text-white hover:bg-[#2f2f2f] py-6 text-base font-semibold rounded-[50px] transition-all duration-200 ease-in-out",
-        isPending && "opacity-80 cursor-not-allowed",
-        className
+        (isPending || disabled) && "opacity-80 cursor-not-allowed",
+        className,
       )}
     >
       <AnimatePresence mode="wait" initial={false}>

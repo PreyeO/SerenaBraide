@@ -14,7 +14,7 @@ const breakpointColumnsObj = {
 
 const ProductCategory = () => {
   return (
-    <section className="px-16 py-[50px] bg-[#FAF5EF]">
+    <section className="px-16 py-12.5 bg-[#FAF5EF]">
       <SubHeading
         title="Our Product Categories"
         className="text-[#3B3B3B] font-extralight italic text-[40px] text-center"
@@ -22,13 +22,13 @@ const ProductCategory = () => {
 
       <Masonry
         breakpointCols={breakpointColumnsObj}
-        className="flex gap-5 mt-[50px]" // Container for columns
+        className="flex gap-5 mt-12.5" // Container for columns
         columnClassName="space-y-5" // Spacing between items in a column
       >
         {productCategories.map((product, index) => (
           <div key={index}>
             <ProductImage
-              className="w-full max-w-[424px]" // Ensure image respects size
+              className="w-full max-w-106" // Ensure image respects size
               src={product.src}
               alt={product.name}
               width={424}

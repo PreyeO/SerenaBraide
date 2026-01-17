@@ -14,20 +14,34 @@ import { useGetCategories } from "@/features/profile/hooks/admin/useGetCategorie
 import { NavItem, NavSection } from "@/types/general";
 import { Category } from "@/features/profile/type/admin/product.type";
 import { useCart } from "@/features/cart-checkout/hooks/useCart";
+import { useWishlist } from "@/features/profile/hooks/customer/useWishlist";
+import { useAuthStore } from "@/features/auth/auth.store";
+import { useRouter } from "next/navigation";
 
 const NavBar = () => {
+  const router = useRouter();
+  const user = useAuthStore((state) => state.user);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const navRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
 
   const [mobileActiveItem, setMobileActiveItem] = useState<string | null>(null);
   const [mobileActiveSection, setMobileActiveSection] = useState<string | null>(
-    null
+    null,
   );
   const { data } = useCart();
+  const { data: wishlistData } = useWishlist();
 
   const totalQuantity =
     data?.items?.reduce((sum, i) => sum + i.quantity, 0) ?? 0;
+  const wishlistCount = wishlistData?.count ?? 0;
+
+  const handleWishlistClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!user) {
+      e.preventDefault();
+      router.push("/auth/register?return_url=/profile/wishlist");
+    }
+  };
 
   const { data: categories = [], isLoading } = useGetCategories<Category[]>();
 
@@ -56,7 +70,7 @@ const NavBar = () => {
 
   const currentItem = navItems.find((item) => item.title === mobileActiveItem);
   const currentSection = currentItem?.sections.find(
-    (sec) => sec.heading === mobileActiveSection
+    (sec) => sec.heading === mobileActiveSection,
   );
 
   const resetMobileMenu = () => {
@@ -161,7 +175,16 @@ const NavBar = () => {
         </Link>
         <div className="flex gap-4">
           <Search className="text-white size-5" />
-          <Heart className="text-white size-5" />
+          <div className="relative">
+            <Link href="/profile/wishlist" onClick={handleWishlistClick}>
+              <Heart className="text-white size-5" />
+            </Link>
+            {wishlistCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {wishlistCount}
+              </span>
+            )}
+          </div>
           <div className="relative">
             <Link href="/cart">
               <ShoppingCart className="text-white size-5" />
@@ -173,8 +196,6 @@ const NavBar = () => {
               </span>
             )}
           </div>
-
-          {/* <ShoppingCart className="text-white size-5" /> */}
         </div>
       </div>
 
@@ -215,7 +236,19 @@ const NavBar = () => {
           {/* Right - Icons */}
           <div className="flex gap-4 items-center">
             <Search className="text-white size-5 cursor-pointer" />
-            <Heart className="text-white size-5 cursor-pointer" />
+            <div className="relative">
+              <Link
+                href="/profile/wishlist"
+                onClick={handleWishlistClick}
+              >
+                <Heart className="text-white size-5 cursor-pointer" />
+              </Link>
+              {wishlistCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {wishlistCount}
+                </span>
+              )}
+            </div>
             <div className="py-3.25 px-4.25 flex gap-4.25 bg-[#3B3B3B] rounded-[50px]">
               <div className="relative">
                 <Link href="/cart">

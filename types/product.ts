@@ -9,4 +9,6 @@ export interface Product {
   sizes?: string[]; // for fragrance
   colors?: string[];
   reviews?: number;
+  variantId?: number; // For wishlist functionality
+  productId?: number; // For review count
 }

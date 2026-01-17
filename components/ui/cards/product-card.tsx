@@ -1,13 +1,62 @@
+"use client";
+
 import { Product } from "@/types/product";
 import ProductImage from "../images/product-image";
 import Caption from "../typography/caption";
 import { Heart, Star } from "lucide-react";
+import { useWishlist } from "@/features/profile/hooks/customer/useWishlist";
+import { useAddToWishlist } from "@/features/profile/hooks/customer/useAddToWishlist";
+import { useRemoveFromWishlist } from "@/features/profile/hooks/customer/useRemoveFromWishlist";
+import { useAuthStore } from "@/features/auth/auth.store";
+import { useRouter } from "next/navigation";
+import { useMemo } from "react";
 
 interface ProductCardProps {
   product: Product;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const router = useRouter();
+  const user = useAuthStore((state) => state.user);
+  const { data: wishlistData } = useWishlist();
+  const addToWishlistMutation = useAddToWishlist();
+  const removeFromWishlistMutation = useRemoveFromWishlist();
+
+  // Check if product variant is in wishlist
+  const isInWishlist = useMemo(() => {
+    if (!product.variantId || !wishlistData?.results) return false;
+    return wishlistData.results.some(
+      (item) => item.product_variant.id === product.variantId,
+    );
+  }, [product.variantId, wishlistData]);
+
+  // Get wishlist item ID if in wishlist
+  const wishlistItemId = useMemo(() => {
+    if (!product.variantId || !wishlistData?.results) return null;
+    const item = wishlistData.results.find(
+      (item) => item.product_variant.id === product.variantId,
+    );
+    return item?.id || null;
+  }, [product.variantId, wishlistData]);
+
+  const handleWishlistToggle = () => {
+    if (!product.variantId) return;
+
+    // Check if user is authenticated
+    if (!user) {
+      // Redirect to register with return_url to current page
+      const currentPath = window.location.pathname;
+      router.push(`/auth/register?return_url=${encodeURIComponent(currentPath)}`);
+      return;
+    }
+
+    if (isInWishlist && wishlistItemId) {
+      removeFromWishlistMutation.mutate(wishlistItemId);
+    } else {
+      addToWishlistMutation.mutate({ product_variant: product.variantId });
+    }
+  };
+
   // Generate star rating
   const renderStars = (rating: number = 0) => {
     return Array.from({ length: 5 }, (_, i) => {
@@ -68,7 +117,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                   title="Available in:"
                   className="text-[12px] font-normal text-[#D1D5DB]"
                 />
-                <div className="flex items-center gap-[5px]">
+                <div className="flex items-center gap-1.25">
                   {product.colors.map((color, index) => (
                     <div
                       key={index}
@@ -85,19 +134,43 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               />
             ) : null}
 
-            <div className="rounded-full bg-white/30 backdrop-blur-[40px] w-5 h-5 flex items-center justify-center">
-              <Heart className="size-[15px] text-black" />
-            </div>
+            <button
+              onClick={handleWishlistToggle}
+              disabled={!product.variantId}
+              className={`rounded-full bg-white/30 backdrop-blur-2xl w-5 h-5 flex items-center justify-center transition-colors ${
+                product.variantId
+                  ? "cursor-pointer hover:bg-white/50"
+                  : "cursor-not-allowed opacity-50"
+              }`}
+            >
+              <Heart
+                className="size3.75"
+                fill={isInWishlist ? "#EF4444" : "transparent"}
+                color={isInWishlist ? "#EF4444" : "#000000"}
+              />
+            </button>
           </div>
 
           {/* Reviews + Sold */}
-          <div className="flex items-center gap-[6px]">
-            <div className="flex items-center gap-[3px] text-[12px] font-normal text-[#D1D5DB]">
+          <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-0.75 text-[12px] font-normal text-[#D1D5DB]">
               {renderStars(product.rating)}
               <Caption title={product.rating?.toString() ?? "0"} />
             </div>
-            <div className="border-[0.8px] h-[10px] border-[#D1D5DB]/30" />
-            {product.sold && <Caption title={`${product.sold} sold`} />}
+            {product.reviews !== undefined && (
+              <>
+                <div className="border-[0.8px] h-2.5 border-[#D1D5DB]/30" />
+                <Caption
+                  title={`${product.reviews} ${product.reviews === 1 ? "review" : "reviews"}`}
+                />
+              </>
+            )}
+            {product.sold && (
+              <>
+                <div className="border-[0.8px] h-2.5 border-[#D1D5DB]/30" />
+                <Caption title={`${product.sold} sold`} />
+              </>
+            )}
           </div>
         </div>
       </div>

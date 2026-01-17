@@ -1,14 +1,41 @@
 import { api } from "@/lib/axios";
 import { AxiosResponse } from "axios";
-import { CreateRatingPayload, Rating } from "../../type/customer/rating.type";
+import {
+  CreateRatingPayload,
+  CreateWishlistPayload,
+  Rating,
+  WishlistItem,
+  WishlistResponse,
+} from "../../type/customers/profile.type";
 
 export async function createRating(
-  payload: CreateRatingPayload
+  payload: CreateRatingPayload,
 ): Promise<Rating> {
   const response: AxiosResponse<Rating> = await api.post(
     "/api/ratings/",
-    payload
+    payload,
   );
   return response.data;
 }
 
+export async function getWishlist(): Promise<WishlistResponse> {
+  const response: AxiosResponse<WishlistResponse> =
+    await api.get("/api/favourites/");
+  return response.data;
+}
+
+export async function addToWishlist(
+  payload: CreateWishlistPayload,
+): Promise<WishlistItem> {
+  const response: AxiosResponse<WishlistItem> = await api.post(
+    "/api/favourites/",
+    payload,
+  );
+  return response.data;
+}
+
+export async function removeFromWishlist(
+  wishlistItemId: number,
+): Promise<void> {
+  await api.delete(`/api/favourites/${wishlistItemId}/`);
+}

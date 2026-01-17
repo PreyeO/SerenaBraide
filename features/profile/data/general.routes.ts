@@ -22,7 +22,7 @@ export const customerRoutes: SidebarItem[] = [
     href: "/profile/shipping-detail",
     icon: BookUser,
   },
-  { title: "Payments", href: "/profile/payments", icon: CreditCard },
+
   { title: "Ratings & Reviews", href: "/profile/review", icon: Star },
   {
     title: "Account Settings",

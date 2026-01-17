@@ -1,4 +1,6 @@
 import { LucideIcon } from "lucide-react";
+import { Variant, VariantImage } from "@/features/products/product.type";
+import { CreateRatingFormValues } from "../../schema/customer.schema";
 
 export type FulfilmentType = "PROCESSING" | "IN_TRANSIT" | "DELIVERED";
 
@@ -39,4 +41,33 @@ export interface OrderInfo {
 
 export interface Props {
   statusType: FulfilmentType;
+}
+
+export type CreateRatingPayload = CreateRatingFormValues;
+
+export interface Rating {
+  id: number;
+  order_item: number;
+  rating: number;
+  review: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface WishlistItem {
+  id: number;
+  customer_profile: number;
+  product_variant: Variant;
+  created_on: string;
+}
+
+export interface WishlistResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: WishlistItem[];
+}
+
+export interface CreateWishlistPayload {
+  product_variant: number;
 }

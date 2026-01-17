@@ -41,7 +41,7 @@ export const orderInfo: OrderInfo[] = [
     icon: CalendarClock,
     iconBg: "#D97705",
     OrderAction1: "Buy this again",
-    orderAction2: "Cancel Order",
+    orderAction2: "Track Order",
   },
   {
     title: "In Transit",
