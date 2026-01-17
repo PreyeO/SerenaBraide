@@ -1,5 +1,5 @@
 import { LucideIcon } from "lucide-react";
-import { Variant, VariantImage } from "@/features/products/product.type";
+import { Variant } from "@/features/products/product.type";
 import { CreateRatingFormValues } from "../../schema/customer.schema";
 
 export type FulfilmentType = "PROCESSING" | "IN_TRANSIT" | "DELIVERED";

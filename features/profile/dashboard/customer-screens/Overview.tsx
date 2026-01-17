@@ -3,7 +3,6 @@
 import React from "react";
 import EmptyCustomerSummary from "./shared/empty/EmptyCustomerSummary";
 import OverviewCard from "./shared/OverviewCard";
-import Image from "next/image";
 import EmptyCustomerLoyalty from "./shared/empty/EmptyCustomerLoyalty";
 import { useGetAddresses } from "@/features/cart-checkout/hooks/useGetAddresses";
 import { useAuthStore } from "@/features/auth/auth.store";
@@ -29,7 +28,7 @@ const Overview = () => {
         subHeadingTwo={`Hello, ${user.first_name} ${user.last_name}`}
         subHeadingThree="Country/Region:"
         contentOne={`Member since ${new Date(
-          user.date_joined
+          user.date_joined,
         ).toLocaleDateString("en-US", { month: "long", year: "numeric" })}`}
         contentTwo={user.country}
       />
