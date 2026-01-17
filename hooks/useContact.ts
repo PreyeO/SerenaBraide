@@ -3,7 +3,7 @@
 import { useMutation } from "@tanstack/react-query";
 
 import { notify } from "@/lib/notify";
-import { contactUser } from "@/lib/api/user";
+import { contactUser } from "@/lib/api/auth";
 
 export function useContact() {
   return useMutation({

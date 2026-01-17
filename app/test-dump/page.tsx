@@ -1,3 +1,4 @@
+"use client";
 import SuccessModal from "@/components/ui/modals/sucess";
 import React, { useState } from "react";
 

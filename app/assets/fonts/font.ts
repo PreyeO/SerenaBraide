@@ -19,7 +19,7 @@ export const generalSans = localFont({
       style: "medium",
     },
     {
-      path: "./GeneralSans-SemiBold.woff2",
+      path: "./GeneralSans-Semibold.woff2",
       weight: "600",
       style: "semi-bold",
     },
