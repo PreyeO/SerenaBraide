@@ -15,13 +15,11 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { useTempOtpStore } from "@/features/auth/auth.store";
 
 const ForgotPasswordOtpForm = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const email = searchParams.get("email")!;
-  const { setTempOtp } = useTempOtpStore();
 
   const form = useForm<OtpFormValues>({
     resolver: zodResolver(VerifyOtpSchema),
@@ -29,9 +27,7 @@ const ForgotPasswordOtpForm = () => {
   });
 
   const onSubmit = (values: OtpFormValues) => {
-    const joinedOtp = values.otp.join("");
-
-    setTempOtp(email, joinedOtp); // ⭐ Store OTP locally
+    console.log(values);
     router.push(`/auth/reset-password?email=${email}`);
   };
 
