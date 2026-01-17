@@ -1,8 +1,12 @@
 "use client";
 
 import CategorySection from "@/features/products/components/CategorySection";
+import { useParams } from "next/navigation";
 
-const CategoryPage = ({ params }: { params: { category: string } }) => {
-  return <CategorySection category={params.category} />;
+const CategoryPage = () => {
+  const params = useParams();
+  const category = params?.category as string;
+
+  return <CategorySection category={category} />;
 };
 export default CategoryPage;
