@@ -4,18 +4,16 @@ import LegalTypography from "./shared-components/LegalTypography";
 import Paragraph from "../ui/typography/paragraph";
 import {
   giftCardList,
-  ordersList,
   purchaseOrdersList,
   purchasePaymentList,
   returnList,
   shippingList,
-  useOfWebsite,
 } from "@/components/legal-sections/data/legal";
 import Link from "next/link";
 
 const Purchase = () => {
   return (
-    <section className="px-[50px] flex flex-col gap-[34px] pb-[50px]">
+    <section className="px-12.5 flex flex-col gap-8.5 pb-12.5">
       <LegalIntro
         title="Purchase Policy — Serena Braide"
         content="Thank you for choosing Serena Braide. We’re committed to 
@@ -25,7 +23,7 @@ const Purchase = () => {
       />
 
       <LegalTypography className="" title="Order Processing">
-        <div className="text-sm leading-[22px]  w-[832px]">
+        <div className="text-sm leading-5.5  w-208">
           <ul className="list-disc ml-8 ">
             {purchaseOrdersList.map((item, index) => (
               <li key={index} className="">
@@ -37,7 +35,7 @@ const Purchase = () => {
       </LegalTypography>
 
       <LegalTypography className="" title="Orders & Payments">
-        <div className="text-sm leading-[22px]  w-[832px]">
+        <div className="text-sm leading-5.5  w-208">
           <Paragraph
             className=" "
             content="We accept the following payment options:"
@@ -56,7 +54,7 @@ const Purchase = () => {
         </div>
       </LegalTypography>
       <LegalTypography className="" title="Shipping & Delivery">
-        <div className="text-sm leading-[22px]  w-[832px]">
+        <div className="text-sm leading-5.5  w-208">
           <ul className="list-disc ml-8 ">
             {shippingList.map((item, index) => (
               <li key={index} className="">
@@ -67,7 +65,7 @@ const Purchase = () => {
         </div>
       </LegalTypography>
       <LegalTypography className="" title="Returns & Exchanges">
-        <div className="text-sm leading-[22px]  w-[832px]">
+        <div className="text-sm leading-5.5  w-208">
           <ul className="list-disc ml-8 ">
             {returnList.map((item, index) => (
               <li key={index} className="">
@@ -78,7 +76,7 @@ const Purchase = () => {
         </div>
       </LegalTypography>
       <LegalTypography className="" title="Gift Card Terms">
-        <div className="text-sm leading-[22px]  w-[832px]">
+        <div className="text-sm leading-5.5  w-208">
           <ul className="list-disc ml-8 ">
             {giftCardList.map((item, index) => (
               <li key={index} className="">

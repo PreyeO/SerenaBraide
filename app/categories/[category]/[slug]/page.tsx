@@ -5,14 +5,14 @@ import ReviewSection from "@/features/products/components/ReviewSection";
 import { recommendedProducts } from "@/features/products/data/product.data";
 import React from "react";
 
-const ProductDetailPage = ({
-  params: _params,
-}: {
-  params: { category: string; slug: string };
-}) => {
-  // TODO: Extract productId from slug or fetch product data
-  // For now, pass null - you'll need to integrate with your product fetching logic
-  const productId = 6; // Replace with actual product ID from your data source
+const ProductDetailPage = (
+  {
+    //   params: _params,
+    // }: {
+    //   params: { category: string; slug: string };
+  },
+) => {
+  const productId = 6;
 
   return (
     <>
