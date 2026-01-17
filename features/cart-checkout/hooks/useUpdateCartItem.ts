@@ -15,7 +15,8 @@ export const useUpdateCartItem = () => {
   return useMutation<
     CartItem,
     AxiosError<{ message: string }>,
-    { id: number; quantity: number }
+    { id: number; quantity: number },
+    { previousCart: CartResponse | undefined }
   >({
     mutationFn: ({ id, quantity }) => {
       if (!id) throw new Error("Invalid cart item ID");
