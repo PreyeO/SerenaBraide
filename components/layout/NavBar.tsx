@@ -43,7 +43,7 @@ const NavBar = () => {
     }
   };
 
-  const { data: categories = [], isLoading } = useGetCategories();
+  const { data: categories = [] } = useGetCategories();
 
   // Build dynamic category sections
   const categorySections: NavSection[] = categories
@@ -237,10 +237,7 @@ const NavBar = () => {
           <div className="flex gap-4 items-center">
             <Search className="text-white size-5 cursor-pointer" />
             <div className="relative">
-              <Link
-                href="/profile/wishlist"
-                onClick={handleWishlistClick}
-              >
+              <Link href="/profile/wishlist" onClick={handleWishlistClick}>
                 <Heart className="text-white size-5 cursor-pointer" />
               </Link>
               {wishlistCount > 0 && (
