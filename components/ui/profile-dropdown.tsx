@@ -40,7 +40,7 @@ const ProfileDropdown = () => {
     <DropdownMenuContent
       align="start"
       sideOffset={40}
-      className="px-2.5 w-full py-2.5 -translate-x-5 relative z-200"
+      className="px-2.5 w-[260px] py-2.5 -translate-x-5 relative z-200"
     >
       <div className=" w-65flex flex-col  gap-1.5 ">
         {profileRoutes.map((route, index) => {

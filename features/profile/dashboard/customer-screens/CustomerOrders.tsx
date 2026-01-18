@@ -10,7 +10,7 @@ const CustomerOrders = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterValue, setFilterValue] = useState("all");
 
-  const { data: ordersData, isLoading, error } = useOrders();
+  const { data: ordersData, isLoading } = useOrders();
 
   // Transform API response to OrderInfo format
   const orders = useMemo(() => {

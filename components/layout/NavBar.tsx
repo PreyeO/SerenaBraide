@@ -246,8 +246,8 @@ const NavBar = () => {
                 </span>
               )}
             </div>
-            <div className="py-3.25 px-4.25 flex gap-4.25 bg-[#3B3B3B] rounded-[50px]">
-              <div className="relative">
+            <div className="py-3.25 px-4.25 flex items-center gap-4.25 bg-[#3B3B3B] rounded-[50px] shrink-0 h-fit">
+              <div className="relative shrink-0 h-5 flex items-center">
                 <Link href="/cart">
                   <ShoppingCart className="text-white size-5" />
                 </Link>
@@ -258,29 +258,29 @@ const NavBar = () => {
                   </span>
                 )}
               </div>
-              <div className="border border-[#6F6E6C99]" />
+              <div className="border border-[#6F6E6C99] h-5 shrink-0" />
               <DropdownMenu onOpenChange={setOpen}>
-                <div className="relative">
-                  {open && (
-                    <ProductImage
-                      width={26}
-                      height={18}
-                      alt="pentagon-icon"
-                      src="/pentagon-icon.svg"
-                      className="absolute top-12 z-200"
-                    />
-                  )}
+                <DropdownMenuTrigger asChild>
+                  <button className="relative w-6 h-6 p-0 m-0 border-0 bg-transparent shrink-0 flex items-center justify-center overflow-visible">
+                    {open && (
+                      <ProductImage
+                        width={26}
+                        height={18}
+                        alt="pentagon-icon"
+                        src="/pentagon-icon.svg"
+                        className="absolute top-12 left-1/2 -translate-x-1/2 z-200 pointer-events-none"
+                      />
+                    )}
 
-                  <DropdownMenuTrigger>
-                    <Avatar className="size-6 bg-[#F5F5F5] text-black font-normal text-base">
+                    <Avatar className="size-6 bg-[#F5F5F5] text-black font-normal text-base cursor-pointer shrink-0">
                       <AvatarImage
                         src="https://github.com/shadcn.png"
                         alt="@shadcn"
                       />
                       <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
-                  </DropdownMenuTrigger>
-                </div>
+                  </button>
+                </DropdownMenuTrigger>
 
                 <ProfileDropdown />
               </DropdownMenu>

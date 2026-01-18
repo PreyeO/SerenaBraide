@@ -6,6 +6,7 @@ import LoadingState from "@/components/ui/loaders/loading-state";
 import OverviewCard from "./shared/OverviewCard";
 import AuthSpan from "@/components/ui/typography/auth-span";
 import UnderlineLink from "@/components/ui/btns/underline-cta";
+import { CheckCircle } from "lucide-react";
 
 const AccountSetting = () => {
   const user = useAuthStore((state) => state.user);
@@ -58,9 +59,10 @@ const AccountSetting = () => {
           {displayValue(user.last_name)}
         </AuthSpan>
 
-        <AuthSpan className="text-base font-medium pb-2.5">
+        <AuthSpan className="text-base font-medium pb-2.5 items-center gap-1.5 flex">
           <span className="text-[#6F6E6C] font-normal">Email Address: </span>
-          {displayValue(user.email)}
+          {displayValue(user.email)}{" "}
+          <CheckCircle fill="#01AD73" size={15} color="white" />
         </AuthSpan>
 
         <AuthSpan className="text-base font-medium pb-2.5">
@@ -71,25 +73,6 @@ const AccountSetting = () => {
         <AuthSpan className="text-base font-medium pb-2.5">
           <span className="text-[#6F6E6C] font-normal">Date of Birth: </span>
           {formatDateOfBirth(user.date_of_birth)}
-        </AuthSpan>
-
-        <AuthSpan className="text-base font-medium pb-2.5">
-          <span className="text-[#6F6E6C] font-normal">City: </span>
-          {displayValue(user.city)}
-        </AuthSpan>
-
-        <AuthSpan className="text-base font-medium pb-2.5">
-          <span className="text-[#6F6E6C] font-normal">Country: </span>
-          {displayValue(user.country)}
-        </AuthSpan>
-
-        <AuthSpan className="text-base font-medium pb-2.5">
-          <span className="text-[#6F6E6C] font-normal">Date Joined: </span>
-          {new Date(user.date_joined).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
         </AuthSpan>
       </OverviewCard>
       <OverviewCard subHeading="Password & Security">
