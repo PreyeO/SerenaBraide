@@ -13,6 +13,13 @@ import {
 } from "@/components/ui/form";
 
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import SubmitButton from "@/components/ui/btns/submit-cta";
 import { CreateAddressSchema } from "../../schema/checkout.schema";
 import {
@@ -21,6 +28,7 @@ import {
 } from "../../type/checkout.type";
 import LinkCta from "@/components/ui/btns/link-cta";
 import { useCreateAddress } from "../../hooks/useCreateAddress";
+import { countries } from "../../data/countries";
 
 interface AddNewAddressFormProps {
   onSuccess?: () => void;
@@ -41,6 +49,7 @@ const AddNewAddressForm = ({ onSuccess }: AddNewAddressFormProps) => {
       state: "",
       zip_code: "",
       country: "",
+      phone_number: "",
     },
   });
 
@@ -57,6 +66,7 @@ const AddNewAddressForm = ({ onSuccess }: AddNewAddressFormProps) => {
       state: data.state,
       zip_code: zipCode,
       country: data.country,
+      phone_number: data.phone_number || null,
     };
     createAddressMutation.mutate(payload);
   };
@@ -77,13 +87,20 @@ const AddNewAddressForm = ({ onSuccess }: AddNewAddressFormProps) => {
                   <FormLabel className="font-semibold text-[#3B3B3B]">
                     Country
                   </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="NG"
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-5"
-                    />
-                  </FormControl>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger className="w-full rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-5">
+                        <SelectValue placeholder="Select country" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {countries.map((country) => (
+                        <SelectItem key={country.code} value={country.code}>
+                          {country.name} ({country.code})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -109,16 +126,12 @@ const AddNewAddressForm = ({ onSuccess }: AddNewAddressFormProps) => {
             />
           </div>
 
-          <span className="font-semibold pb-4 text-sm text-[#3B3B3B]">
-            Address
-          </span>
-
-          <div className="pb-6">
+          <div className="flex gap-4 pb-6">
             <FormField
               control={form.control}
               name="address"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="flex-1">
                   <FormLabel className="font-medium text-sm text-[#3B3B3B]">
                     Address
                   </FormLabel>
@@ -133,9 +146,29 @@ const AddNewAddressForm = ({ onSuccess }: AddNewAddressFormProps) => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="phone_number"
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormLabel className="font-medium text-sm text-[#3B3B3B]">
+                    Phone Number
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="tel"
+                      placeholder="Phone number (optional)"
+                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-5 "
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
 
-          <div className="flex gap-4 pb-7.5">
+          <div className="flex gap-4 pb-6">
             <FormField
               control={form.control}
               name="state"

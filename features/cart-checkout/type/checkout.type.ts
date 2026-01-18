@@ -10,6 +10,7 @@ export type UpdateAddressFormValues = z.infer<typeof UpdateAddressSchema>;
 export interface Address {
   id: number;
   customer_profile: number;
+  phone_number: string | null;
   address: string;
   city: string;
   state: string;
@@ -26,6 +27,7 @@ export interface CreateAddressPayload {
   state: string;
   zip_code: string | number;
   country: string;
+  phone_number?: string | null;
 }
 
 export interface UpdateAddressPayload {
@@ -34,6 +36,7 @@ export interface UpdateAddressPayload {
   state?: string;
   zip_code?: string | number;
   country?: string;
+  phone_number?: string | null;
 }
 
 export interface PaymentItemProps {

@@ -197,6 +197,12 @@ const FulfilmentStatus: React.FC<FulfilmentStatusProps> = ({
               content={shippingAddress.country}
               className="text-sm text-[#3B3B3B]"
             />
+            {shippingAddress.phone_number && (
+              <Paragraph
+                content={`Phone: ${shippingAddress.phone_number}`}
+                className="text-sm text-[#3B3B3B]"
+              />
+            )}
           </div>
         ) : (
           <div className="flex flex-col space-y-1">

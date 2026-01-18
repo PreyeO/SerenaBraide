@@ -14,11 +14,23 @@ import {
 } from "@/components/ui/form";
 
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import SubmitButton from "@/components/ui/btns/submit-cta";
 import { UpdateAddressSchema } from "../../schema/checkout.schema";
-import { UpdateAddressFormValues, Address, UpdateAddressPayload } from "../../type/checkout.type";
+import {
+  UpdateAddressFormValues,
+  Address,
+  UpdateAddressPayload,
+} from "../../type/checkout.type";
 import LinkCta from "@/components/ui/btns/link-cta";
 import { useUpdateAddress } from "../../hooks/useUpdateAddress";
+import { countries } from "../../data/countries";
 
 interface UpdateAddressFormProps {
   address: Address;
@@ -40,6 +52,7 @@ const UpdateAddressForm = ({ address, onSuccess }: UpdateAddressFormProps) => {
       state: address.state || "",
       zip_code: address.zip_code || "",
       country: address.country || "",
+      phone_number: address.phone_number || "",
     },
   });
 
@@ -50,6 +63,7 @@ const UpdateAddressForm = ({ address, onSuccess }: UpdateAddressFormProps) => {
       state: address.state || "",
       zip_code: address.zip_code || "",
       country: address.country || "",
+      phone_number: address.phone_number || "",
     });
   }, [address, form]);
 
@@ -60,11 +74,15 @@ const UpdateAddressForm = ({ address, onSuccess }: UpdateAddressFormProps) => {
     if (data.state) payload.state = data.state;
     if (data.zip_code) {
       // Convert zip_code string to number if it's a valid number, otherwise keep as string
-      payload.zip_code = data.zip_code && !isNaN(Number(data.zip_code))
-        ? Number(data.zip_code)
-        : data.zip_code;
+      payload.zip_code =
+        data.zip_code && !isNaN(Number(data.zip_code))
+          ? Number(data.zip_code)
+          : data.zip_code;
     }
     if (data.country) payload.country = data.country;
+    if (data.phone_number !== undefined) {
+      payload.phone_number = data.phone_number || null;
+    }
 
     updateAddressMutation.mutate({
       id: address.id,
@@ -88,13 +106,20 @@ const UpdateAddressForm = ({ address, onSuccess }: UpdateAddressFormProps) => {
                   <FormLabel className="font-semibold text-[#3B3B3B]">
                     Country
                   </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="NG"
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-5"
-                    />
-                  </FormControl>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger className="w-full rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-5">
+                        <SelectValue placeholder="Select country" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {countries.map((country) => (
+                        <SelectItem key={country.code} value={country.code}>
+                          {country.name} ({country.code})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -120,16 +145,12 @@ const UpdateAddressForm = ({ address, onSuccess }: UpdateAddressFormProps) => {
             />
           </div>
 
-          <span className="font-semibold pb-4 text-sm text-[#3B3B3B]">
-            Address
-          </span>
-
-          <div className="pb-6">
+          <div className="flex gap-4 pb-6">
             <FormField
               control={form.control}
               name="address"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="flex-1">
                   <FormLabel className="font-medium text-sm text-[#3B3B3B]">
                     Address
                   </FormLabel>
@@ -144,9 +165,29 @@ const UpdateAddressForm = ({ address, onSuccess }: UpdateAddressFormProps) => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="phone_number"
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormLabel className="font-medium text-sm text-[#3B3B3B]">
+                    Phone Number
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="tel"
+                      placeholder="Phone number (optional)"
+                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-5 "
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
 
-          <div className="flex gap-4 pb-7.5">
+          <div className="flex gap-4 pb-6">
             <FormField
               control={form.control}
               name="state"

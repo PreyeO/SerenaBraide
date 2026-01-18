@@ -6,6 +6,7 @@ import OrdersTabCard from "./OrdersTabCard";
 import OrdersSearchFilter from "./OrdersSearchFilter";
 import OrderSkeleton from "./OrderSkeleton";
 import { OrderInfo } from "@/features/profile/type/customers/profile.type";
+import EmptyOrders from "../empty-screens/EmptyOrders";
 
 interface OrdersListProps {
   orders: OrderInfo[];
@@ -144,6 +145,9 @@ const OrdersList: React.FC<OrdersListProps> = ({
             <OrderSkeleton />
             <OrderSkeleton />
           </>
+        ) : orders.length === 0 ? (
+          // Show EmptyOrders when there are no orders at all
+          <EmptyOrders />
         ) : filteredOrders.length > 0 ? (
           <div className="space-y-4 sm:space-y-6">
             {filteredOrders.map((order, index) => (
@@ -157,6 +161,7 @@ const OrdersList: React.FC<OrdersListProps> = ({
             ))}
           </div>
         ) : (
+          // Show this message when orders exist but filters result in no matches
           <div className="text-center py-12 text-[#6F6E6C]">
             <p className="text-sm sm:text-base">
               No orders found matching your criteria.

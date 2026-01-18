@@ -6,14 +6,12 @@ import {
   RegisterSchema,
   ResetPasswordSchema,
 } from "@/features/auth/auth.schema";
-import { contactSchema } from "@/lib/schemas/schema";
 
 // -------------------- Form Values --------------------
 export type RegisterFormValues = z.infer<typeof RegisterSchema>;
 export type LoginFormValues = z.infer<typeof LoginSchema>;
 export type ForgotPasswordFormValues = z.infer<typeof ForgotPasswordSchema>;
 export type ResetPasswordFormValues = z.infer<typeof ResetPasswordSchema>;
-export type ContactFormValues = z.infer<typeof contactSchema>;
 
 export interface UserTokens {
   refresh: string;

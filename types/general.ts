@@ -1,3 +1,6 @@
+import { contactSchema } from "@/lib/schemas/schema";
+import z from "zod";
+
 export type FooterItem =
   | { name: string; href: string }
   | { name: string; src: string; width: number };
@@ -18,3 +21,4 @@ export type NavItem = {
   href: string;
   sections: NavSection[];
 };
+export type ContactFormValues = z.infer<typeof contactSchema>;

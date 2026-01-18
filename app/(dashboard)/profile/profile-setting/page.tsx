@@ -1,6 +1,6 @@
-import EmptyReview from "@/features/profile/dashboard/customer-screens/empty-screens/EmptyReview";
+import AccountSetting from "@/features/profile/dashboard/customer-screens/AccountSetting";
 
 const CustomerSettingsPage = () => {
-  return <EmptyReview />;
+  return <AccountSetting />;
 };
 export default CustomerSettingsPage;

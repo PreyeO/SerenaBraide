@@ -4,7 +4,6 @@ import React, { useMemo, useState } from "react";
 import OrdersList from "./shared/OrdersList";
 import { useOrders } from "../../hooks/customer/useOrders";
 import { transformOrdersToOrderInfo } from "../../utils/order.utils";
-import EmptyOrders from "./empty-screens/EmptyOrders";
 
 const CustomerOrders = () => {
   const [activeTab, setActiveTab] = useState("all");
@@ -18,11 +17,6 @@ const CustomerOrders = () => {
     if (!ordersData?.results) return [];
     return transformOrdersToOrderInfo(ordersData.results);
   }, [ordersData]);
-
-  // Show empty state if no orders
-  if (!isLoading && !error && orders.length === 0) {
-    return <EmptyOrders />;
-  }
 
   return (
     <OrdersList

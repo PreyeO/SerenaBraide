@@ -21,6 +21,7 @@ export interface FulfilmentStatusProps {
   shippingAddress?: {
     id: number;
     customer_profile: number;
+    phone_number: string | null;
     address: string;
     city: string;
     state: string;

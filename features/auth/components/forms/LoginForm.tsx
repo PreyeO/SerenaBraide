@@ -121,7 +121,7 @@ const LoginForm = () => {
           <AuthSwitchPrompt
             message="New Customer?"
             linkText="Create account"
-            href="/auth/signup"
+            href="/auth/register"
           />
         </form>
       </Form>
