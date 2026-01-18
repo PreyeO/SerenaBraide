@@ -2,17 +2,26 @@
 
 import React, { useState, useMemo } from "react";
 import OrdersList from "./shared/OrdersList";
-import { orderInfo } from "../../data/data.profile";
+import { useOrders } from "../../hooks/customer/useOrders";
+import { transformOrdersToOrderInfo } from "../../utils/order.utils";
 
 const ReviewProduct = () => {
   const [activeTab, setActiveTab] = useState("ready-for-review");
   const [searchQuery, setSearchQuery] = useState("");
   const [filterValue, setFilterValue] = useState("all");
 
+  const { data: ordersData, isLoading } = useOrders();
+
+  // Transform API response to OrderInfo format
+  const allOrders = useMemo(() => {
+    if (!ordersData?.results) return [];
+    return transformOrdersToOrderInfo(ordersData.results);
+  }, [ordersData]);
+
   // Filter to show only delivered orders
   const deliveredOrders = useMemo(() => {
-    return orderInfo.filter((order) => order.statusType === "DELIVERED");
-  }, []);
+    return allOrders.filter((order) => order.statusType === "DELIVERED");
+  }, [allOrders]);
 
   // Create tabs with count
   const reviewTabs = useMemo(() => {
@@ -36,6 +45,7 @@ const ReviewProduct = () => {
       showTabs={true}
       tabs={reviewTabs}
       orderDetail="View Details"
+      isLoading={isLoading}
     />
   );
 };

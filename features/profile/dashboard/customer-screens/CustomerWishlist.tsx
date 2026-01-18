@@ -123,10 +123,15 @@ const CustomerWishlist = () => {
                 <div className="flex-1 flex flex-col  justify-between ">
                   <div className="flex justify-between items-start">
                     <div className="flex-1 max-w-100">
+                      <Paragraph
+                        content="Serena Braide"
+                        className="text-sm text-[#6F6E6C] font-normal pb-2.5"
+                      />
                       <SubHeading
                         title={item.product_variant.product_name}
                         className="text-lg font-medium text-[#3B3B3B] mb-1.5"
                       />
+
                       <div className="flex flex-col">
                         <Paragraph
                           content={`NGN${parseFloat(

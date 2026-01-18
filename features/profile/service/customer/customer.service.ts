@@ -3,6 +3,7 @@ import { AxiosResponse } from "axios";
 import {
   CreateRatingPayload,
   CreateWishlistPayload,
+  OrdersResponse,
   Rating,
   WishlistItem,
   WishlistResponse,
@@ -39,3 +40,11 @@ export async function removeFromWishlist(
 ): Promise<void> {
   await api.delete(`/api/favourites/${wishlistItemId}/`);
 }
+
+export async function getOrders(): Promise<OrdersResponse> {
+  const response: AxiosResponse<OrdersResponse> = await api.get(
+    "/api/orders/",
+  );
+  return response.data;
+}
+

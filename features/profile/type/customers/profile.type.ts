@@ -17,9 +17,23 @@ export interface FulfilmentStatusProps {
   price: string;
   quantity: string;
   size: string;
+  orderDetail?: any; // Using Order from cart-checkout type
+  shippingAddress?: {
+    id: number;
+    customer_profile: number;
+    address: string;
+    city: string;
+    state: string;
+    zip_code: string;
+    country: string;
+    is_default: boolean;
+    created_on: string;
+    updated_on: string;
+  };
 }
 export interface OrderInfo {
   id?: number; // Order item ID for API calls
+  orderNumberId?: number; // Order number (numeric) for API calls
   statusType: FulfilmentType; // ✅ ADD THIS
   title: string;
   color: string;
@@ -70,4 +84,64 @@ export interface WishlistResponse {
 
 export interface CreateWishlistPayload {
   product_variant: number;
+}
+
+// API Response Types for Orders
+export interface OrderItemImage {
+  id: number;
+  image_url: string;
+  is_primary: boolean;
+  alt_text: string;
+  order: number;
+  variant: number;
+  created_at: string;
+}
+
+export interface OrderItemVariant {
+  id: number;
+  product: number;
+  product_name: string;
+  sku: string;
+  size: string;
+  color: string | null;
+  price: string;
+  effective_price: number;
+  stock_quantity: number;
+  is_in_stock: boolean;
+  is_active: boolean;
+  images: OrderItemImage[];
+  created_at: string;
+  updated_at: string;
+}
+
+export interface OrderItem {
+  id: number;
+  variant: OrderItemVariant;
+  variant_id: number;
+  quantity: number;
+  price: string;
+  subtotal: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Order {
+  order_number: number;
+  customer_profile: number;
+  status: "delivered" | "pending" | "paid" | "processing" | "in_transit";
+  subtotal: string;
+  shipping_cost: string;
+  tax: string;
+  total_amount: string;
+  items: OrderItem[];
+  items_count: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface OrdersResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Order[];
 }

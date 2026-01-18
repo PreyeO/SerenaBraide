@@ -66,6 +66,7 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
               open={open}
               onClose={() => setOpen(false)}
               statusType={order.statusType}
+              orderNumber={order.orderNumberId || null}
             />
           </>
         </div>

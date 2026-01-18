@@ -2,12 +2,9 @@ import { Badge } from "@/components/ui/badge";
 import ProductImage from "@/components/ui/images/product-image";
 import Paragraph from "@/components/ui/typography/paragraph";
 import SubHeading from "@/components/ui/typography/subHeading";
-import {
-  orderSummary,
-  shippingSummary,
-  trackingTimeline,
-} from "@/features/profile/data/data.profile";
+import { trackingTimeline } from "@/features/profile/data/data.profile";
 import { FulfilmentStatusProps } from "@/features/profile/type/customers/profile.type";
+import { Order } from "@/features/cart-checkout/type/checkout.type";
 import { Check } from "lucide-react";
 import React from "react";
 
@@ -24,8 +21,51 @@ const FulfilmentStatus: React.FC<FulfilmentStatusProps> = ({
   quantity,
   size,
   statusType,
+  orderDetail,
+  shippingAddress,
 }) => {
   const isInTransit = statusType === "IN_TRANSIT";
+
+  // Format currency
+  const formatCurrency = (amount: string | number): string => {
+    const num = typeof amount === "string" ? parseFloat(amount) : amount;
+    return `₦${num.toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
+  };
+
+  // Format date
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  };
+
+  // Build order summary from orderDetail
+  const orderSummary = orderDetail
+    ? [
+        {
+          label: "Sub total:",
+          value: formatCurrency(orderDetail.subtotal),
+        },
+        {
+          label: "Shipping fee:",
+          value: formatCurrency(orderDetail.shipping_cost),
+        },
+        ...(parseFloat(orderDetail.tax) > 0
+          ? [
+              {
+                label: "Tax:",
+                value: formatCurrency(orderDetail.tax),
+              },
+            ]
+          : []),
+      ]
+    : [];
 
   return (
     <div className="space-y-1.5">
@@ -90,7 +130,7 @@ const FulfilmentStatus: React.FC<FulfilmentStatusProps> = ({
       )}
 
       {/* ❌ Payment Details (HIDDEN for IN_TRANSIT) */}
-      {!isInTransit && (
+      {!isInTransit && orderDetail && (
         <>
           <SubHeading
             title="Payment details"
@@ -107,9 +147,7 @@ const FulfilmentStatus: React.FC<FulfilmentStatusProps> = ({
                   />
                   <Paragraph
                     content={item.value}
-                    className={`text-sm ${
-                      item.isDiscount ? "text-[#D97705]" : "text-[#3B3B3B]"
-                    }`}
+                    className="text-sm text-[#3B3B3B]"
                   />
                 </div>
               ))}
@@ -122,22 +160,17 @@ const FulfilmentStatus: React.FC<FulfilmentStatusProps> = ({
                   className="text-sm font-medium text-[#3B3B3B]"
                 />
                 <Paragraph
-                  content="₦7,045.75"
+                  content={formatCurrency(orderDetail.total_amount)}
                   className="text-sm font-medium text-[#3B3B3B]"
                 />
               </div>
 
-              <ProductImage
-                src="/card-details-img.png"
-                alt="card details image"
-                width={256}
-                height={28}
-              />
-
-              <Paragraph
-                content="Paid on Mar 27, 2025"
-                className="text-xs text-[#6F6E6C]"
-              />
+              {orderDetail.updated_at && (
+                <Paragraph
+                  content={`Paid on ${formatDate(orderDetail.updated_at)}`}
+                  className="text-xs text-[#6F6E6C]"
+                />
+              )}
             </div>
           </div>
         </>
@@ -150,24 +183,29 @@ const FulfilmentStatus: React.FC<FulfilmentStatusProps> = ({
       />
 
       <div className="border border-[#D1D5DB] py-3.75 px-3.75 rounded-md">
-        <div className="flex flex-col space-y-1">
-          <Paragraph
-            content={shippingSummary.name}
-            className="text-sm font-medium text-[#3B3B3B]"
-          />
-          <Paragraph
-            content={shippingSummary.phone}
-            className="text-xs text-[#6F6E6C]"
-          />
-          <Paragraph
-            content={shippingSummary.street}
-            className="text-sm text-[#3B3B3B]"
-          />
-          <Paragraph
-            content={shippingSummary.city}
-            className="text-sm text-[#3B3B3B]"
-          />
-        </div>
+        {shippingAddress ? (
+          <div className="flex flex-col space-y-1">
+            <Paragraph
+              content={shippingAddress.address}
+              className="text-sm font-medium text-[#3B3B3B]"
+            />
+            <Paragraph
+              content={`${shippingAddress.city}, ${shippingAddress.state} ${shippingAddress.zip_code}`}
+              className="text-sm text-[#3B3B3B]"
+            />
+            <Paragraph
+              content={shippingAddress.country}
+              className="text-sm text-[#3B3B3B]"
+            />
+          </div>
+        ) : (
+          <div className="flex flex-col space-y-1">
+            <Paragraph
+              content="No shipping address available"
+              className="text-sm text-[#6F6E6C]"
+            />
+          </div>
+        )}
       </div>
       {isInTransit && (
         <div className="pt-4.5">

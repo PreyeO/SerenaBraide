@@ -6,12 +6,13 @@ interface Props {
   open: boolean;
   onClose: () => void;
   statusType: FulfilmentType;
+  orderNumber: number | null;
 }
 
-const OrderFulfilmentModal = ({ open, onClose, statusType }: Props) => {
+const OrderFulfilmentModal = ({ open, onClose, statusType, orderNumber }: Props) => {
   return (
     <GeneralModal open={open} onClose={onClose}>
-      <FulfilmentDetails statusType={statusType} />
+      <FulfilmentDetails statusType={statusType} orderNumber={orderNumber} />
     </GeneralModal>
   );
 };
