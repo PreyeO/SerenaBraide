@@ -18,8 +18,10 @@ import { useAuthStore } from "@/features/auth/auth.store";
 import { useCreateOrder } from "../../hooks/useCreateOrder";
 import { useOrderDetail } from "../../hooks/useOrderDetail";
 import { useInitiatePayment } from "@/features/payment/hooks/useInitiatePayment";
+import { useOrderPayments } from "@/features/payment/hooks/useOrderPayments";
 import { notify } from "@/lib/notify";
 import { paymentType } from "../../data/checkout.data";
+import SuccessModal from "@/components/ui/modals/sucess";
 
 const CheckoutSection = () => {
   const router = useRouter();
@@ -27,6 +29,7 @@ const CheckoutSection = () => {
   const { user, isHydrated } = useAuthStore();
   const [selectedPayment, setSelectedPayment] = useState(paymentType[0].id);
   const [orderCreated, setOrderCreated] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const createOrderMutation = useCreateOrder({ redirectToCheckout: false });
   const initiatePaymentMutation = useInitiatePayment();
 
@@ -34,9 +37,50 @@ const CheckoutSection = () => {
   const orderNumberParam = searchParams.get("order_number");
   const orderNumber = orderNumberParam ? parseInt(orderNumberParam, 10) : null;
 
+  // Check for payment success in URL params (from Flutterwave redirect)
+  const paymentStatusParam = searchParams.get("status");
+
   // Fetch order details if order_number exists
   const { data: orderData, isLoading: isLoadingOrder } =
     useOrderDetail(orderNumber);
+
+  // Fetch payment details to check payment status
+  const { data: payments } = useOrderPayments(orderNumber);
+
+  // Show success modal when payment is successful
+  useEffect(() => {
+    // Check URL params first (from Flutterwave redirect)
+    if (
+      paymentStatusParam === "successful" ||
+      paymentStatusParam === "success"
+    ) {
+      setShowSuccessModal(true);
+      return;
+    }
+
+    // Check payment status from API
+    if (payments && payments.length > 0) {
+      const latestPayment = payments[payments.length - 1];
+      const paymentStatus = latestPayment.status.toLowerCase();
+      if (
+        paymentStatus === "successful" ||
+        paymentStatus === "completed" ||
+        (latestPayment.redirect_verified === true &&
+          latestPayment.amount_paid !== null)
+      ) {
+        setShowSuccessModal(true);
+        return;
+      }
+    }
+
+    // Fallback: Check order status
+    if (orderData?.status) {
+      const status = orderData.status.toLowerCase();
+      if (status === "paid" || status === "completed") {
+        setShowSuccessModal(true);
+      }
+    }
+  }, [orderData, payments, paymentStatusParam]);
 
   // Use order data if available, otherwise calculate from cart (fallback)
   const orderItems = orderData?.items ?? [];
@@ -115,130 +159,136 @@ const CheckoutSection = () => {
   };
 
   return (
-    <section className="pt-38 px-16 mt-10 pb-12.5 ">
-      <BackNavigation href="/cart" text="Cart" />
-      <CartHeader totalItems={totalQuantity} />
-      <div className="flex gap-10 mt-10">
-        <div className=" flex flex-col gap-6">
-          <div className="w-175">
-            <ShippingAddress />
-          </div>
-          <div className="bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5] w-175  flex flex-col gap-8.5 px-15 py-7.5">
-            <SubHeading
-              title="Payment Method"
-              className="text-[#3B3B3B] text-base font-medium"
-            />
-            <RadioGroup
-              value={selectedPayment}
-              onValueChange={(val) => setSelectedPayment(val)}
-            >
-              {paymentType.map((type, index) => (
-                <div key={index} className="mb-6">
-                  <PaymentItem
-                    src={type.src}
-                    alt={type.alt}
-                    className=""
-                    height={type.height}
-                    width={type.width}
-                    detail={type.detail}
-                    optionID={type.id}
-                  />
-                </div>
-              ))}
-            </RadioGroup>
-
-            <div>
-              <SubmitButton
-                label="Continue"
-                loadingLabel="Processing..."
-                isPending={initiatePaymentMutation.isPending}
-                onClick={handleSubmit}
-              />
-              <AuthSpan className="text-sm w-83.75 mx-auto leading-5.5 pt-2.5 text-[#3B3B3B] font-normal">
-                By submitting my order, I confirm I have read and
-                acknowledged all
-                <span className="underline font-medium ">
-                  <Link href="/terms_of_service"> terms </Link> and{" "}
-                  <Link href="/purchase_service"> policies.</Link>
-                </span>
-              </AuthSpan>
+    <>
+      <SuccessModal
+        isOpen={showSuccessModal}
+        orderNumber={orderData?.order_number}
+      />
+      <section className="pt-38 px-16 mt-10 pb-12.5 ">
+        <BackNavigation href="/cart" text="Cart" />
+        <CartHeader totalItems={totalQuantity} />
+        <div className="flex gap-10 mt-10">
+          <div className=" flex flex-col gap-6">
+            <div className="w-175">
+              <ShippingAddress />
             </div>
-          </div>
-        </div>
-        <div className="flex flex-col gap-6">
-          <div className="w-143 py-4 px-4 bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5]">
-            <div className="bg-[#3B3B3B] py-7.5 px-[32.5px] flex gap-7.5">
-              <ShoppingBag />
+            <div className="bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5] w-175  flex flex-col gap-8.5 px-15 py-7.5">
+              <SubHeading
+                title="Payment Method"
+                className="text-[#3B3B3B] text-base font-medium"
+              />
+              <RadioGroup
+                value={selectedPayment}
+                onValueChange={(val) => setSelectedPayment(val)}
+              >
+                {paymentType.map((type, index) => (
+                  <div key={index} className="mb-6">
+                    <PaymentItem
+                      src={type.src}
+                      alt={type.alt}
+                      className=""
+                      height={type.height}
+                      width={type.width}
+                      detail={type.detail}
+                      optionID={type.id}
+                    />
+                  </div>
+                ))}
+              </RadioGroup>
+
               <div>
-                <Paragraph
-                  className="text-white font-medium text-sm"
-                  content={`My order - $${totalPrice.toFixed(2)}`}
+                <SubmitButton
+                  label="Continue"
+                  loadingLabel="Processing..."
+                  isPending={initiatePaymentMutation.isPending}
+                  onClick={handleSubmit}
                 />
-                <Paragraph
-                  className="text-[#9A9A98] italic font-normal text-sm"
-                  content={`You will earn ${
-                    totalQuantity * 2
-                  } points earned from this purchase*`}
-                />
+                <AuthSpan className="text-sm w-83.75 mx-auto leading-5.5 pt-2.5 text-[#3B3B3B] font-normal">
+                  By submitting my order, I confirm I have read and
+                  acknowledged all
+                  <span className="underline font-medium ">
+                    <Link href="/terms_of_service"> terms </Link> and{" "}
+                    <Link href="/purchase_service"> policies.</Link>
+                  </span>
+                </AuthSpan>
               </div>
             </div>
-            <div className="flex flex-col gap-4">
-              {isLoadingOrder ? (
-                <div className="py-8 text-center text-[#6F6E6C]">
-                  Loading order...
+          </div>
+          <div className="flex flex-col gap-6">
+            <div className="w-143 py-4 px-4 bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5]">
+              <div className="bg-[#3B3B3B] py-7.5 px-[32.5px] flex gap-7.5">
+                <ShoppingBag />
+                <div>
+                  <Paragraph
+                    className="text-white font-medium text-sm"
+                    content={`My order - $${totalPrice.toFixed(2)}`}
+                  />
+                  <Paragraph
+                    className="text-[#9A9A98] italic font-normal text-sm"
+                    content={`You will earn ${
+                      totalQuantity * 2
+                    } points earned from this purchase*`}
+                  />
                 </div>
-              ) : orderItems.length > 0 ? (
-                orderItems.map((item) => {
-                  const image =
-                    item.variant.images.find((img) => img.is_primary)
-                      ?.image_url ??
-                    item.variant.images[0]?.image_url ??
-                    "/cart-placeholder.png";
+              </div>
+              <div className="flex flex-col gap-4">
+                {isLoadingOrder ? (
+                  <div className="py-8 text-center text-[#6F6E6C]">
+                    Loading order...
+                  </div>
+                ) : orderItems.length > 0 ? (
+                  orderItems.map((item) => {
+                    const image =
+                      item.variant.images.find((img) => img.is_primary)
+                        ?.image_url ??
+                      item.variant.images[0]?.image_url ??
+                      "/cart-placeholder.png";
 
-                  return (
-                    <CartItem
-                      key={item.id}
-                      image={image}
-                      name={item.variant.product_name}
-                      price={`$${item.price}`}
-                      metaLabel={
-                        item.variant.size
-                          ? `Size: ${item.variant.size}`
-                          : item.variant.color
-                          ? `Color: ${item.variant.color}`
-                          : ""
-                      }
-                      className="bg-white"
-                      quantity={item.quantity}
-                      showQuantity={true}
-                      height={150}
-                      width={130}
-                      showRemoveButton={false}
-                      showQuantityBox={false}
-                      showRemoveEdit={false}
-                    />
-                  );
-                })
-              ) : (
-                <div className="py-8 text-center text-[#6F6E6C]">
-                  No items in order
-                </div>
-              )}
+                    return (
+                      <CartItem
+                        key={item.id}
+                        image={image}
+                        name={item.variant.product_name}
+                        price={`$${item.price}`}
+                        metaLabel={
+                          item.variant.size
+                            ? `Size: ${item.variant.size}`
+                            : item.variant.color
+                              ? `Color: ${item.variant.color}`
+                              : ""
+                        }
+                        className="bg-white"
+                        quantity={item.quantity}
+                        showQuantity={true}
+                        height={150}
+                        width={130}
+                        showRemoveButton={false}
+                        showQuantityBox={false}
+                        showRemoveEdit={false}
+                      />
+                    );
+                  })
+                ) : (
+                  <div className="py-8 text-center text-[#6F6E6C]">
+                    No items in order
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="pt-6">
+              <Receipt
+                totalItems={totalQuantity}
+                totalPrice={orderTotal}
+                subtotal={subtotal}
+                shippingCost={shippingCost}
+                tax={tax}
+                showButton={false}
+              />
             </div>
           </div>
-          <div className="pt-6">
-            <Receipt
-              totalItems={totalQuantity}
-              totalPrice={orderTotal}
-              subtotal={subtotal}
-              shippingCost={shippingCost}
-              tax={tax}
-              showButton={false}
-            />
-          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 

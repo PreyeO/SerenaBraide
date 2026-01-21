@@ -18,12 +18,18 @@ import { RecipientSchema } from "../../giftcard.schema";
 import { RecipientFormValues } from "../../giftcard.type";
 import { Textarea } from "@/components/ui/textarea";
 import Paragraph from "@/components/ui/typography/paragraph";
-import { ShoppingBasket } from "lucide-react";
+import { usePurchaseGiftCard } from "../../hooks/usePurchaseGiftCard";
+import { useGiftCardStore } from "../../giftcard.store";
+import { useRouter } from "next/navigation";
 
 interface RecipientFormProps {
   closeModal: () => void;
 }
 const RecipientForm = ({ closeModal }: RecipientFormProps) => {
+  const router = useRouter();
+  const { selectedAmount } = useGiftCardStore();
+  const purchaseMutation = usePurchaseGiftCard();
+
   const form = useForm<RecipientFormValues>({
     resolver: zodResolver(RecipientSchema),
     defaultValues: {
@@ -35,8 +41,25 @@ const RecipientForm = ({ closeModal }: RecipientFormProps) => {
   });
 
   const onSubmit = (data: RecipientFormValues) => {
-    console.log("SUBMITTED DATA:", data);
-    closeModal();
+    if (!selectedAmount) return;
+
+    const payload = {
+      initial_amount: selectedAmount,
+      recipient_first_name: data.first_name,
+      recipient_last_name: data.last_name,
+      recipient_email: data.email,
+      message: data.message || undefined,
+    };
+
+    purchaseMutation.mutate(payload, {
+      onSuccess: (giftCardData) => {
+        // Store the gift card data
+        useGiftCardStore.getState().setGiftCardData(giftCardData);
+        closeModal();
+        // Redirect to gift card checkout
+        router.push("/giftcard-checkout");
+      },
+    });
   };
 
   return (
@@ -137,10 +160,9 @@ const RecipientForm = ({ closeModal }: RecipientFormProps) => {
           {/* SUBMIT */}
           <div className="mt-2">
             <SubmitButton
-              label="Add to cart"
-              isPending={false}
-              loadingLabel="Adding to cart..."
-              icon={ShoppingBasket}
+              label="Proceed to checkout"
+              isPending={purchaseMutation.isPending}
+              loadingLabel="Proceeding to checkout"
             />
           </div>
         </form>

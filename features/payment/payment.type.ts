@@ -6,7 +6,7 @@ export interface PaymentResponse {
   amount: string;
   amount_paid: string | null;
   currency: string;
-  status: "pending" | "completed" | "failed" | "cancelled";
+  status: "pending" | "completed" | "failed" | "cancelled" | "successful";
   transaction_id: string | null;
   payment_link: string;
   redirect_verified: boolean | null;

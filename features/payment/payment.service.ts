@@ -13,3 +13,22 @@ export async function initiatePayment(
   return response.data;
 }
 
+export async function getPaymentDetails(
+  orderNumber: number,
+  paymentId: number
+): Promise<PaymentResponse> {
+  const response: AxiosResponse<PaymentResponse> = await api.get(
+    `/api/orders/${orderNumber}/payments/${paymentId}/`
+  );
+  return response.data;
+}
+
+export async function getOrderPayments(
+  orderNumber: number
+): Promise<PaymentResponse[]> {
+  const response: AxiosResponse<PaymentResponse[]> = await api.get(
+    `/api/orders/${orderNumber}/payments/`
+  );
+  return response.data;
+}
+

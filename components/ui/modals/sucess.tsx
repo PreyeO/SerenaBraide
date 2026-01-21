@@ -13,9 +13,10 @@ import Link from "next/link";
 interface SuccessModalProps {
   isOpen: boolean;
   message?: string;
+  orderNumber?: number | string;
 }
 
-const SuccessModal = ({ isOpen }: SuccessModalProps) => {
+const SuccessModal = ({ isOpen, message, orderNumber }: SuccessModalProps) => {
   if (!isOpen) return null;
 
   return (
@@ -41,14 +42,17 @@ const SuccessModal = ({ isOpen }: SuccessModalProps) => {
 
           <Paragraph
             className="pt-1.5 text-[#6C6C6C] font-normal text-base leading-6 mt-2"
-            content="Thank you for your purchase. Your order is being processed and will be on its way soon."
+            content={
+              message ??
+              "Thank you for your purchase. Your order is being processed and will be on its way soon."
+            }
           />
           <span className=" mt-4 bg-[#F5F5F5] px-1.3 py-1.5 rounded-[5px] text-[12px] font-normal text-[#6F6E6C]">
-            Order #SB39460
+            {orderNumber ? `Order #${orderNumber}` : "Order #"}
           </span>
 
           <div className="mt-6 flex flex-col gap-5 w-full">
-            <Link href="">
+            <Link href="/profile/order">
               <LinkCta
                 className="bg-[#3B3B3B] w-full text-white hover:bg-[#2f2f2f]"
                 label="View Order Summary"
@@ -56,7 +60,7 @@ const SuccessModal = ({ isOpen }: SuccessModalProps) => {
             </Link>
             <Link href="/">
               <LinkCta
-                className="text-[#3B3B3B] border border-[#6F6E6C] w-full bg-white"
+                className="text-[#3B3B3B] border border-[#6F6E6C] w-full bg-white hover:bg-transparent"
                 label="Continue Shopping"
               />
             </Link>

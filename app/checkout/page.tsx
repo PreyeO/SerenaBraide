@@ -2,7 +2,7 @@ import CheckoutSection from "@/features/cart-checkout/components/checkout/Checko
 
 import React from "react";
 
-const CartPage = () => {
+const CheckoutPage = () => {
   return (
     <>
       <CheckoutSection />
@@ -10,4 +10,4 @@ const CartPage = () => {
   );
 };
 
-export default CartPage;
+export default CheckoutPage;

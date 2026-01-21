@@ -2,16 +2,104 @@
 
 import SubmitButton from "@/components/ui/btns/submit-cta";
 import ProductImage from "@/components/ui/images/product-image";
-import Paragraph from "@/components/ui/typography/paragraph";
+import Paragraph from "@/components/ui/typography/subHeading";
 import SubHeading from "@/components/ui/typography/subHeading";
 import { cardDesign } from "../general.data";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import RecipientForm from "./forms/RecipientForm";
 import FormModal from "@/components/ui/modals/form-modals";
+import { useGiftCardStore } from "../giftcard.store";
+import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/features/auth/auth.store";
+import { useSearchParams } from "next/navigation";
 
 const GiftCardSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [customAmount, setCustomAmount] = useState("");
+  const searchParams = useSearchParams();
+  const { user, isHydrated } = useAuthStore();
+  const {
+    selectedAmount,
+    selectedDesign,
+    setSelectedAmount,
+    setSelectedDesign,
+  } = useGiftCardStore();
+
+  // Handle return from login/register
+  useEffect(() => {
+    if (isHydrated && user?.email_validated) {
+      const returnUrl = searchParams.get("return_url");
+      if (returnUrl === "/giftcard") {
+        // Restore selections from localStorage
+        const storedSelections = localStorage.getItem("giftcard_selections");
+        if (storedSelections) {
+          const {
+            selectedAmount: storedAmount,
+            selectedDesign: storedDesign,
+            customAmount: storedCustom,
+          } = JSON.parse(storedSelections);
+          setSelectedAmount(storedAmount);
+          setSelectedDesign(storedDesign);
+          setCustomAmount(storedCustom || "");
+          // Clear stored data
+          localStorage.removeItem("giftcard_selections");
+        }
+        // Open the modal if we have selections
+        if (selectedAmount) {
+          setIsModalOpen(true);
+        }
+      }
+    }
+  }, [
+    isHydrated,
+    user,
+    searchParams,
+    selectedAmount,
+    setSelectedAmount,
+    setSelectedDesign,
+  ]);
+
+  const handleDesignSelect = (designName: string) => {
+    setSelectedDesign(selectedDesign === designName ? null : designName);
+  };
+
+  const handleAmountSelect = (amount: number) => {
+    setSelectedAmount(selectedAmount === amount ? null : amount);
+    setCustomAmount(""); // Clear custom amount when selecting predefined
+  };
+
+  const handleCustomAmountChange = (value: string) => {
+    setCustomAmount(value);
+    const numValue = parseFloat(value);
+    if (!isNaN(numValue) && numValue >= 50 && numValue <= 700) {
+      setSelectedAmount(numValue);
+    } else {
+      setSelectedAmount(null);
+    }
+  };
+
+  const handleContinue = () => {
+    if (!user || !user.email_validated) {
+      // Store current selections in localStorage for when they return
+      localStorage.setItem(
+        "giftcard_selections",
+        JSON.stringify({
+          selectedAmount,
+          selectedDesign,
+          customAmount,
+        }),
+      );
+      // Redirect to login
+      window.location.href = `/auth/login?return_url=/giftcard`;
+      return;
+    }
+    // User is authenticated, open the modal
+    setIsModalOpen(true);
+  };
+
+  const canContinue = selectedAmount !== null;
+
   return (
     <section className="pt-[152px] px-16">
       <div className="flex justify-center gap-[60px] mt-[34px]">
@@ -42,49 +130,78 @@ const GiftCardSection = () => {
           {/* Variants */}
           <Paragraph
             className="text-[#3B3B3B] font-medium text-base mt-[40px] mb-4"
-            content="Choose a design"
+            content="Choose a design (optional)"
           />
           <div className="grid grid-cols-4 max-w-[382px] mb-[40px]  ">
             {cardDesign.map((item, index) => (
-              <div key={index} className="">
+              <div
+                key={index}
+                className="cursor-pointer"
+                onClick={() => handleDesignSelect(item.name)}
+              >
                 <ProductImage
                   alt={item.name}
                   src={item.src}
                   width={80}
                   height={80}
-                  className=""
+                  className={cn(
+                    "border-2",
+                    selectedDesign === item.name
+                      ? "border-[#3B3B3B]"
+                      : "border-transparent",
+                  )}
                 />
               </div>
             ))}
           </div>
           <Paragraph
             className="text-[#3B3B3B] font-medium text-base mb-4 "
-            content="Choose a amount"
+            content="Choose an amount"
           />
           <div className="grid grid-cols-4 max-w-[311px] mb-[40px]">
-            {cardDesign.map((item, index) => (
-              <div key={index} className="">
-                <span className="hover:border-[#3B3B3B] cursor-pointer px-2 py-2 rounded-[5px] text-[#6F6E6C] text-base font-normal border">
-                  {item.amount}
-                </span>
-              </div>
-            ))}
+            {cardDesign.map((item, index) => {
+              const amountValue = parseFloat(item.amount.replace("$", ""));
+              return (
+                <div
+                  key={index}
+                  className="cursor-pointer"
+                  onClick={() => handleAmountSelect(amountValue)}
+                >
+                  <span
+                    className={cn(
+                      "px-2 py-2 rounded-[5px] text-base font-normal border hover:border-[#3B3B3B]",
+                      selectedAmount === amountValue
+                        ? "border-[#3B3B3B] bg-[#3B3B3B] text-white"
+                        : "text-[#6F6E6C] border-gray-300",
+                    )}
+                  >
+                    {item.amount}
+                  </span>
+                </div>
+              );
+            })}
           </div>
           <div className="w-full">
             <Paragraph
               className="text-[#3B3B3B] font-medium text-base mb-4 "
-              content="Custom amount"
+              content="Custom amount ($50 - $700)"
             />
             <Input
               className="rounded-[50px] text-[#9A9A98] px-5 h-[50px]"
               placeholder="$50 - $700"
+              value={customAmount}
+              onChange={(e) => handleCustomAmountChange(e.target.value)}
+              type="number"
+              min="50"
+              max="700"
             />
           </div>
           <SubmitButton
             label="Continue"
             loadingLabel="Continue..."
             className="mt-[40px]"
-            onClick={() => setIsModalOpen(true)}
+            onClick={handleContinue}
+            disabled={!canContinue}
           />
 
           <FormModal
