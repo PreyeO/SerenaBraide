@@ -3,7 +3,6 @@ import BackNavigation from "@/components/ui/btns/back-navigation";
 import CartHeader from "@/features/cart-checkout/shared/CartHeader";
 import React, { useState, useEffect } from "react";
 import ShippingAddress from "./ShippingAddress";
-import SubHeading from "@/components/ui/typography/subHeading";
 import PaymentItem from "../../shared/PaymentItem";
 import SubmitButton from "@/components/ui/btns/submit-cta";
 import AuthSpan from "@/components/ui/typography/auth-span";
@@ -22,6 +21,12 @@ import { useOrderPayments } from "@/features/payment/hooks/useOrderPayments";
 import { notify } from "@/lib/notify";
 import { paymentType } from "../../data/checkout.data";
 import SuccessModal from "@/components/ui/modals/sucess";
+import GiftCardForm from "@/features/gift-card/components/forms/GiftCardForm";
+import FormModal from "@/components/ui/modals/form-modals";
+import { useApplyGiftCard } from "@/features/gift-card/hooks/useApplyGiftCard";
+import { BalanceFormValues } from "@/features/gift-card/giftcard.type";
+import RemainingBalanceModal from "../modals/RemainingBalanceModal";
+import SubHeading from "@/components/ui/typography/subHeading";
 
 const CheckoutSection = () => {
   const router = useRouter();
@@ -30,8 +35,38 @@ const CheckoutSection = () => {
   const [selectedPayment, setSelectedPayment] = useState(paymentType[0].id);
   const [orderCreated, setOrderCreated] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showGiftCardModal, setShowGiftCardModal] = useState(false);
+  const [showRemainingBalanceModal, setShowRemainingBalanceModal] =
+    useState(false);
+  const [giftCardResponse, setGiftCardResponse] = useState<{
+    remaining_amount: string;
+    gift_card_amount: string;
+    gift_card_balance: string;
+  } | null>(null);
   const createOrderMutation = useCreateOrder({ redirectToCheckout: false });
   const initiatePaymentMutation = useInitiatePayment();
+  const applyGiftCardMutation = useApplyGiftCard({
+    onSuccess: (response) => {
+      // If there's remaining balance, show remaining balance modal
+      if (parseFloat(response.remaining_amount) > 0) {
+        setGiftCardResponse({
+          remaining_amount: response.remaining_amount,
+          gift_card_amount: response.gift_card_amount,
+          gift_card_balance: response.gift_card_balance,
+        });
+        setShowGiftCardModal(false);
+        setShowRemainingBalanceModal(true);
+      } else {
+        // Full payment - show success modal
+        setShowGiftCardModal(false);
+        setShowSuccessModal(true);
+      }
+      // Refresh order data to get updated status
+      if (orderNumber) {
+        // The order data will be refetched automatically by React Query
+      }
+    },
+  });
 
   // Get order_number from URL params
   const orderNumberParam = searchParams.get("order_number");
@@ -39,6 +74,7 @@ const CheckoutSection = () => {
 
   // Check for payment success in URL params (from Flutterwave redirect)
   const paymentStatusParam = searchParams.get("status");
+  const txRef = searchParams.get("tx_ref");
 
   // Fetch order details if order_number exists
   const { data: orderData, isLoading: isLoadingOrder } =
@@ -136,26 +172,56 @@ const CheckoutSection = () => {
     const payment = paymentType.find((p) => p.id === selectedPayment);
     if (!payment) return;
 
-    // If Flutterwave is selected and order exists, initiate payment
+    // Check if user is authenticated
+    if (!user || !user.email_validated) {
+      notify.error("Please log in to continue with payment.");
+      router.push("/auth/login?return_url=/checkout");
+      return;
+    }
+
+    if (!orderNumber) {
+      notify.error("Order not found. Please try again.");
+      return;
+    }
+
+    // If Gift Card is selected, show gift card modal
+    if (selectedPayment === "1") {
+      setShowGiftCardModal(true);
+      return;
+    }
+
+    // If Flutterwave is selected, initiate payment
     if (selectedPayment === "2") {
-      if (!orderNumber) {
-        notify.error("Order not found. Please try again.");
-        return;
-      }
-
-      // Check if user is authenticated
-      if (!user || !user.email_validated) {
-        notify.error("Please log in to continue with payment.");
-        router.push("/auth/login?return_url=/checkout");
-        return;
-      }
-
       initiatePaymentMutation.mutate({ orderNumber });
       return;
     }
 
-    // For gift card or other payment methods, navigate to payment page
+    // For other payment methods, navigate to payment page
     router.push(payment.href!);
+  };
+
+  const handleGiftCardSubmit = (data: BalanceFormValues) => {
+    if (!orderNumber) {
+      notify.error("Order not found. Please try again.");
+      return;
+    }
+
+    applyGiftCardMutation.mutate({
+      orderNumber,
+      payload: {
+        card_number: data.card_number,
+        pin: data.pin,
+      },
+    });
+  };
+
+  const handlePayRemainingBalance = () => {
+    // Switch to Flutterwave payment for remaining balance
+    setShowRemainingBalanceModal(false);
+    setSelectedPayment("2");
+    if (orderNumber) {
+      initiatePaymentMutation.mutate({ orderNumber });
+    }
   };
 
   return (
@@ -164,6 +230,41 @@ const CheckoutSection = () => {
         isOpen={showSuccessModal}
         orderNumber={orderData?.order_number}
       />
+
+      {/* Gift Card Payment Modal */}
+      <FormModal
+        open={showGiftCardModal}
+        onClose={() => setShowGiftCardModal(false)}
+        title="Pay with Gift Card"
+      >
+        <div className="w-full">
+          <SubHeading
+            className="text-base font-medium text-[#3B3B3B] mb-4 text-center"
+            title={`Order Total: $${orderTotal.toFixed(2)}`}
+          />
+          <GiftCardForm
+            onSubmit={handleGiftCardSubmit}
+            isLoading={applyGiftCardMutation.isPending}
+            buttonLabel="Pay Now"
+            showHelpText={false}
+          />
+        </div>
+      </FormModal>
+
+      {/* Remaining Balance Modal */}
+      {giftCardResponse && (
+        <RemainingBalanceModal
+          open={showRemainingBalanceModal}
+          onClose={() => {
+            setShowRemainingBalanceModal(false);
+            setGiftCardResponse(null);
+          }}
+          remainingAmount={giftCardResponse.remaining_amount}
+          giftCardAmount={giftCardResponse.gift_card_amount}
+          giftCardBalance={giftCardResponse.gift_card_balance}
+          onPayRemaining={handlePayRemainingBalance}
+        />
+      )}
       <section className="pt-38 px-16 mt-10 pb-12.5 ">
         <BackNavigation href="/cart" text="Cart" />
         <CartHeader totalItems={totalQuantity} />

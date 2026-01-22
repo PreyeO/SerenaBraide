@@ -32,3 +32,28 @@ export async function getOrderPayments(
   return response.data;
 }
 
+export async function applyGiftCard(
+  orderNumber: number,
+  payload: { card_number: string; pin: string }
+): Promise<{
+  order_number: number;
+  gift_card_amount: string;
+  remaining_amount: string;
+  status: string;
+  gift_card_balance: string;
+  message: string;
+}> {
+  const response: AxiosResponse<{
+    order_number: number;
+    gift_card_amount: string;
+    remaining_amount: string;
+    status: string;
+    gift_card_balance: string;
+    message: string;
+  }> = await api.post(
+    `/api/orders/${orderNumber}/apply-gift-card/`,
+    payload
+  );
+  return response.data;
+}
+

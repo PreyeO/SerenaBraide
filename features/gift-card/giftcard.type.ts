@@ -34,3 +34,17 @@ export interface GiftCardBalanceResponse {
   currency: string;
   status: string;
 }
+
+export interface ApplyGiftCardPayload {
+  card_number: string;
+  pin: string;
+}
+
+export interface ApplyGiftCardResponse {
+  order_number: number;
+  gift_card_amount: string;
+  remaining_amount: string;
+  status: string;
+  gift_card_balance: string;
+  message: string;
+}
