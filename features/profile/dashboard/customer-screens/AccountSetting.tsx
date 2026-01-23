@@ -7,9 +7,11 @@ import OverviewCard from "./shared/OverviewCard";
 import AuthSpan from "@/components/ui/typography/auth-span";
 import UnderlineLink from "@/components/ui/btns/underline-cta";
 import { CheckCircle } from "lucide-react";
+import { useGetAddresses } from "@/features/cart-checkout/hooks/useGetAddresses";
 
 const AccountSetting = () => {
   const user = useAuthStore((state) => state.user);
+  const { data: addresses, isLoading: isLoadingAddresses } = useGetAddresses();
 
   if (!user) {
     return <LoadingState />;
@@ -21,6 +23,32 @@ const AccountSetting = () => {
       return "null";
     }
     return value;
+  };
+
+  // Prefer a phone number from the customer's addresses (default first),
+  // then fall back to the top-level user.phone_number.
+  const getPrimaryPhoneNumber = (): string | null => {
+    if (!addresses || addresses.length === 0) {
+      return user?.phone_number ?? null;
+    }
+
+    // Prefer default address if it has a phone number
+    const defaultWithPhone = addresses.find(
+      (addr) => addr.is_default && addr.phone_number,
+    );
+
+    if (defaultWithPhone?.phone_number) {
+      return defaultWithPhone.phone_number;
+    }
+
+    // Otherwise, use the first address that has a phone number
+    const anyWithPhone = addresses.find((addr) => addr.phone_number);
+    if (anyWithPhone?.phone_number) {
+      return anyWithPhone.phone_number;
+    }
+
+    // Fallback to user.phone_number (may be null)
+    return user?.phone_number ?? null;
   };
 
   // Format date of birth if available
@@ -67,7 +95,7 @@ const AccountSetting = () => {
 
         <AuthSpan className="text-base font-medium pb-2.5">
           <span className="text-[#6F6E6C] font-normal">Phone Number: </span>
-          {displayValue(user.phone_number)}
+          {displayValue(getPrimaryPhoneNumber())}
         </AuthSpan>
 
         <AuthSpan className="text-base font-medium pb-2.5">

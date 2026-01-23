@@ -10,7 +10,21 @@ const CustomerOrders = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterValue, setFilterValue] = useState("all");
 
-  const { data: ordersData, isLoading } = useOrders();
+  // Map UI tab to backend status filter
+  const statusFilter =
+    activeTab === "processing"
+      ? "paid"
+      : activeTab === "in-transit"
+      ? "shipped"
+      : activeTab === "delivered"
+      ? "delivered"
+      : undefined;
+
+  const { data: ordersData, isLoading } = useOrders({
+    status: statusFilter,
+    // Let the API handle searching against product name
+    search: searchQuery || undefined,
+  });
 
   // Transform API response to OrderInfo format
   const orders = useMemo(() => {

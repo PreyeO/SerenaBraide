@@ -17,7 +17,9 @@ function mapStatusToFulfilmentType(
     case "pending":
       return "PROCESSING";
     case "paid":
-      return "IN_TRANSIT";
+      return "PROCESSING"; // Paid status = Processing in UI
+    case "shipped":
+      return "IN_TRANSIT"; // Shipped status = In Transit in UI
     case "processing":
       return "PROCESSING";
     case "in_transit":
@@ -78,7 +80,7 @@ function getStatusConfig(
         color: "#D97705",
         title: "Processing",
         OrderAction1: "Buy this again",
-        orderAction2: "Track Order",
+        orderAction2: "View Order",
       };
     case "IN_TRANSIT":
       return {
@@ -86,8 +88,8 @@ function getStatusConfig(
         iconBg: "#2F88FF",
         color: "#2F88FF",
         title: "In Transit",
-        OrderAction1: "Track",
-        orderAction2: "Buy this again",
+        OrderAction1: "Buy this again",
+        orderAction2: "View Order",
       };
   }
 }
@@ -133,7 +135,7 @@ function transformOrderItemToOrderInfo(
     extraInfo:
       parseFloat(order.shipping_cost) > 0
         ? "Shipping fee included"
-        : "Free shipping",
+        : "",
     icon: statusConfig.icon,
     iconBg: statusConfig.iconBg,
     OrderAction1: statusConfig.OrderAction1,

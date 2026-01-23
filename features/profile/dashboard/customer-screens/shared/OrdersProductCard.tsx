@@ -125,10 +125,12 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
                 content={order.total}
                 className="text-xs sm:text-sm font-medium text-[#3B3B3B] pb-0.75"
               />
-              <Paragraph
-                content={order.extraInfo}
-                className="text-xs text-[#6F6E6C]"
-              />
+              {order.extraInfo && (
+                <Paragraph
+                  content={order.extraInfo}
+                  className="text-xs text-[#6F6E6C]"
+                />
+              )}
             </div>
             <div className="flex flex-col sm:flex-col gap-2 w-full sm:w-50">
               <SubmitButton
@@ -141,6 +143,12 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
                   className="w-full text-xs sm:text-sm text-[#3B3B3B] border border-[#6F6E6C] hover:bg-gray-50 bg-white py-2 sm:py-3 transition-colors"
                   label={order.orderAction2}
                   onClick={handleReviewClick}
+                />
+              ) : order.orderAction2 === "View Order" ? (
+                <LinkCta
+                  className="w-full text-xs sm:text-sm text-[#3B3B3B] border border-[#6F6E6C] hover:bg-gray-50 bg-white py-2 sm:py-3 transition-colors"
+                  label={order.orderAction2}
+                  onClick={() => setOpen(true)}
                 />
               ) : (
                 <LinkCta

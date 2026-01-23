@@ -41,10 +41,29 @@ export async function removeFromWishlist(
   await api.delete(`/api/favourites/${wishlistItemId}/`);
 }
 
-export async function getOrders(): Promise<OrdersResponse> {
+// Supported filters for the orders list API
+export interface GetOrdersParams {
+  /**
+   * Backend status filter.
+   * - "paid"     → Processing in UI
+   * - "shipped"  → In Transit in UI
+   * - "delivered"→ Delivered in UI
+   */
+  status?: "paid" | "shipped" | "delivered";
+  /**
+   * Free-text search applied by the API, e.g. against product name.
+   */
+  search?: string;
+}
+
+export async function getOrders(
+  params?: GetOrdersParams,
+): Promise<OrdersResponse> {
   const response: AxiosResponse<OrdersResponse> = await api.get(
     "/api/orders/",
+    { params },
   );
   return response.data;
 }
 
+//

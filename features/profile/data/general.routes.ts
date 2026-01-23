@@ -1,6 +1,5 @@
 import { MenuItem, SidebarItem } from "@/features/profile/type/profile.general";
 import {
-  CreditCard,
   BookUser,
   MessageSquareMore,
   User,
