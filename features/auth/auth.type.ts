@@ -29,6 +29,10 @@ export interface User {
   city: string | null;
   is_customer: boolean;
   is_admin: boolean;
+  customer_profile: number | null;
+  admin_profile: {
+    user: number;
+  } | null;
   email_validated: boolean;
   is_active: boolean;
   is_staff: boolean;

@@ -32,15 +32,22 @@ export const useLogin = ({ onSuccess, onError }: UseLoginOptions = {}) => {
       // Check for return URL
       const returnUrl = searchParams.get("return_url");
 
+      // Determine if user is admin
+      const isAdmin = user.is_superuser || user.is_admin;
+
       if (returnUrl === "/checkout" && user.email_validated) {
         // Route to checkout with return_url param, the checkout page will create the order
         router.push("/checkout?return_url=/checkout");
       } else if (returnUrl) {
-        // If there's a return URL but not checkout, redirect to it
+        // If there's a return URL, redirect to it
         router.push(returnUrl);
       } else {
-        // Default redirect to profile
-        router.push("/profile");
+        // Default redirect based on user role
+        if (isAdmin) {
+          router.push("/admin");
+        } else {
+          router.push("/profile");
+        }
       }
 
       onSuccess?.(data);

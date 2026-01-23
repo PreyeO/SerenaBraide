@@ -17,7 +17,6 @@ import { BalanceSchema } from "../../giftcard.schema";
 import { BalanceFormValues } from "../../giftcard.type";
 import AuthSpan from "@/components/ui/typography/auth-span";
 import Link from "next/link";
-import Paragraph from "@/components/ui/typography/paragraph";
 
 interface GiftCardFormProps {
   onSubmit: (data: BalanceFormValues) => void;
@@ -45,7 +44,7 @@ const GiftCardForm = ({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-6 text-[#3B3B3B] font-medium text-sm w-full pt-[29px]"
+          className="flex flex-col gap-6 text-[#3B3B3B] font-medium text-sm w-full pt-7.5"
         >
           <FormField
             control={form.control}
@@ -56,7 +55,7 @@ const GiftCardForm = ({
                   <Input
                     {...field}
                     placeholder="Gift card number"
-                    className="rounded-[50px] border h-[50px]"
+                    className="rounded-[50px] border h-12.5"
                   />
                 </FormControl>
                 <FormMessage />
@@ -74,12 +73,12 @@ const GiftCardForm = ({
                     {...field}
                     type="password"
                     placeholder="Pin"
-                    className="rounded-[50px] border h-[50px]"
+                    className="rounded-[50px] border h-12.5"
                   />
                 </FormControl>
                 <FormMessage />
                 {showHelpText && (
-                  <AuthSpan className="font-normal text-sm leading-[22px]">
+                  <AuthSpan className="font-normal text-sm leading-5.5">
                     <Link href="/">
                       <span className="font-medium text-black">
                         {" "}

@@ -6,7 +6,10 @@ import Paragraph from "@/components/ui/typography/paragraph";
 import FormModal from "@/components/ui/modals/form-modals";
 import LinkCta from "@/components/ui/btns/link-cta";
 import { useCheckBalance } from "../../hooks/useCheckBalance";
-import { GiftCardBalanceResponse, BalanceFormValues } from "../../giftcard.type";
+import {
+  GiftCardBalanceResponse,
+  BalanceFormValues,
+} from "../../giftcard.type";
 import { useAuthStore } from "@/features/auth/auth.store";
 import { useRouter } from "next/navigation";
 import GiftCardForm from "./GiftCardForm";
@@ -16,7 +19,8 @@ const BalanceForm = () => {
   const router = useRouter();
   const { user, isHydrated } = useAuthStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [balanceData, setBalanceData] = useState<GiftCardBalanceResponse | null>(null);
+  const [balanceData, setBalanceData] =
+    useState<GiftCardBalanceResponse | null>(null);
 
   const checkBalanceMutation = useCheckBalance({
     onSuccess: (balance) => {
@@ -34,10 +38,10 @@ const BalanceForm = () => {
     if (storedFormData) {
       try {
         const { card_number, pin } = JSON.parse(storedFormData);
-        
+
         // Auto-submit the form
         checkBalanceMutation.mutate({ card_number, pin });
-        
+
         // Clear stored data
         sessionStorage.removeItem("giftcard_balance_form");
       } catch (error) {
@@ -54,9 +58,9 @@ const BalanceForm = () => {
       // Store form data in sessionStorage
       sessionStorage.setItem(
         "giftcard_balance_form",
-        JSON.stringify({ card_number: data.card_number, pin: data.pin })
+        JSON.stringify({ card_number: data.card_number, pin: data.pin }),
       );
-      
+
       // Redirect to login with return_url
       router.push("/auth/login?return_url=/giftcard-balance");
       return;
@@ -88,15 +92,18 @@ const BalanceForm = () => {
         showVideo={true}
       >
         {balanceData && (
-          <div className="bg-[#F0F3F7] w-full  my-[30px] border rounded-[10px] py-[25px] flex flex-col items-center">
+          <div className="bg-[#F0F3F7] w-full  my-7.5 border rounded-[10px] py-6.25 flex flex-col items-center">
             <SubHeading
               className="text-[40px] font-semibold"
-              title={`${balanceData.currency} ${balanceData.balance.toLocaleString("en-US", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}`}
+              title={`${balanceData.currency} ${balanceData.balance.toLocaleString(
+                "en-US",
+                {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                },
+              )}`}
             />
-            <h3 className="font-medium text-[#6F6E6C] text-[22px] pt-[10px] pb-4">
+            <h3 className="font-medium text-[#6F6E6C] text-[22px] pt-2.5 pb-4">
               Available balance
             </h3>
 
@@ -120,7 +127,7 @@ const BalanceForm = () => {
           />
         </Link>
         <Paragraph
-          className="text-[#3B3B3B] font-normal text-sm pt-[10px]"
+          className="text-[#3B3B3B] font-normal text-sm pt-2.5"
           content="Gift card balance is valid for 12 months from date of purchase"
         />
       </FormModal>

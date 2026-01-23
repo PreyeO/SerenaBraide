@@ -4,8 +4,8 @@ import SubHeading from "@/components/ui/typography/subHeading";
 
 const GiftCardBalance = () => {
   return (
-    <section className="pt-[252px] px-16 pb-[302px]">
-      <div className="flex gap-[40px] justify-center">
+    <section className="pt-63 px-16 pb-75.5">
+      <div className="flex gap-10 justify-center">
         <ProductImage
           alt="Product image"
           src="/giftcard-balance.png"
@@ -13,7 +13,7 @@ const GiftCardBalance = () => {
           height={400}
           className=""
         />
-        <div className="flex flex-col gap-[30px] max-w-[552px]">
+        <div className="flex flex-col gap-7.5 max-w-138">
           <SubHeading
             className="font-PPEditorialNew text-[40px] text-[#3B3B3B] font-normal leading-tight"
             title="Check your Gift Card Balance"

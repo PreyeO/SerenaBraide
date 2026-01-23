@@ -1,6 +1,6 @@
-import AdminLoginForm from "@/features/auth/components/forms/AdminLoginForm";
+import LoginForm from "@/features/auth/components/forms/LoginForm";
 
 const AdminLoginPage = () => {
-  return <AdminLoginForm />;
+  return <LoginForm />;
 };
 export default AdminLoginPage;

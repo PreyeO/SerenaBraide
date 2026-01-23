@@ -74,7 +74,6 @@ const CheckoutSection = () => {
 
   // Check for payment success in URL params (from Flutterwave redirect)
   const paymentStatusParam = searchParams.get("status");
-  const txRef = searchParams.get("tx_ref");
 
   // Fetch order details if order_number exists
   const { data: orderData, isLoading: isLoadingOrder } =
