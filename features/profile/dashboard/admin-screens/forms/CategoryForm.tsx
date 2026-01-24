@@ -70,30 +70,6 @@ const CategoryForm = () => {
           )}
         />
 
-        {/* PARENT INPUT (optional) */}
-        <FormField
-          control={form.control}
-          name="parent"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Parent Category ID (optional)</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Leave empty for no parent"
-                  type="number"
-                  value={field.value ?? ""}
-                  onChange={(e) =>
-                    field.onChange(
-                      e.target.value === "" ? null : Number(e.target.value)
-                    )
-                  }
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
         {/* SUBMIT */}
         <div className="md:col-span-2">
           <SubmitButton

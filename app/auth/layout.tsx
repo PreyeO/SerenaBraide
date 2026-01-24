@@ -8,20 +8,18 @@ interface AuthLayoutProps {
 
 export default function AuthLayout({ children }: AuthLayoutProps) {
   return (
-    <main className="min-h-screen flex">
-      <div className="hidden md:flex  max-w-[576px]  ">
-        <ProductImage
+    <main className="flex items-stretch">
+      <div className="hidden md:flex max-w-xl shrink-0">
+        <img
           src="/auth-image.png"
           alt="Silhouette spraying perfume"
-          width={576}
-          height={728}
-          className=" h-full "
+          className="w-full h-full object-cover"
         />
       </div>
 
       {/* Right Side Form/Content */}
-      <div className="flex flex-col w-full  pt-16 bg-white ">
-        <div className="items-center justify-between flex px-[62px]">
+      <div className="flex flex-col w-full pt-16 bg-white flex-1">
+        <div className="items-center justify-between flex px-15.5">
           <ProductImage
             alt="logo image"
             src="/auth-logo.svg"
@@ -29,12 +27,12 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
             width={107.59}
             className=""
           />
-          <div className="flex text-[#6F6E6C] items-center gap-[3px]">
-            <CornerUpLeft className="size-[18px] text-[#6F6E6C]" />
+          <div className="flex text-[#6F6E6C] items-center gap-0.75">
+            <CornerUpLeft className="size-4.5 text-[#6F6E6C]" />
             <UnderlineLink href="/" text="Home Page" className="text-sm" />
           </div>
         </div>
-        <div className="max-w-[552px] flex mx-auto">{children}</div>
+        <div className="max-w-138 flex mx-auto flex-1 pb-16">{children}</div>
       </div>
     </main>
   );

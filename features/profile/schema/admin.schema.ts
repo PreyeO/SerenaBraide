@@ -1,22 +1,5 @@
 import { z } from "zod";
 
-// export const CreateProductSchema = z.object({
-//   name: z.string().min(1, "Product name is required"),
-//   description: z.string().min(1, "Description is required"),
-//   category: z.number().min(1, "Category is required"),
-//   base_price: z.string().min(1, "Base price is required"),
-//   is_featured: z.boolean(), // FIXED — removed default(false)
-//   images: z
-//     .array(
-//       z.object({
-//         file: z.instanceof(File), // <-- FILE INSTEAD OF image_url
-//         is_primary: z.boolean(),
-//         alt_text: z.string().optional(),
-//         order: z.number(),
-//       })
-//     )
-//     .min(1, "At least one image is required"),
-// });
 export const CreateProductSchema = z.object({
   name: z.string().min(1),
   description: z.string().min(1),
@@ -30,7 +13,7 @@ export const CreateProductSchema = z.object({
         is_primary: z.boolean(),
         alt_text: z.string().optional(),
         order: z.number(),
-      })
+      }),
     )
     .min(1, "At least one image is required"),
 });
@@ -39,6 +22,25 @@ export const CreateCategorySchema = z.object({
   name: z.string().min(1, "Category name is required"),
   description: z.string().min(1, "Description is required"),
   parent: z.number().nullable(),
+});
+
+export const CreateVariantSchema = z.object({
+  sku: z.string().min(1, "SKU is required"),
+  size: z.string().min(1, "Size is required"),
+  color: z.string().optional(),
+  price: z.string().min(1, "Price is required"),
+  stock_quantity: z.number().min(0, "Stock quantity must be 0 or greater"),
+  is_active: z.boolean(),
+  images: z
+    .array(
+      z.object({
+        file: z.instanceof(File, { message: "Image file is required" }),
+        is_primary: z.boolean(),
+        alt_text: z.string().optional(),
+        order: z.number(),
+      }),
+    )
+    .min(1, "At least one image is required"),
 });
 
 export const LoginSchema = z.object({

@@ -42,7 +42,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
 
   return (
     <SidebarContent className="overflow-hidden    ">
-      <SidebarHeader className="flex px-5 py-2.5">
+      <SidebarHeader className="flex px-5 py-2.5 items-center">
         <ProductImage
           alt="logo image"
           src="/logo-2.svg"
@@ -64,7 +64,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
               return (
                 <SidebarMenuItem
                   key={item.title}
-                  className="pb-3.75 text-[#6F6E6C] font-normal text-sm hover:font-medium hover:text-[#3B3B3B]"
+                  className="pb-3.75 text-[#6F6E6C] font-normal text-sm hover:font-medium hover:text-[#3B3B3B] "
                 >
                   <Link href={item.href ?? "#"} passHref>
                     <SidebarMenuButton
@@ -73,7 +73,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
                         "transition-all",
                         isActive
                           ? `px-4 py-5 rounded-lg font-medium ${activeBg} ${activeText}   `
-                          : `px-3 py-5  `
+                          : `px-3 py-5  `,
                       )}
                     >
                       <Icon className="size-5.5" />

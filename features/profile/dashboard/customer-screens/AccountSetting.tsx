@@ -11,7 +11,7 @@ import { useGetAddresses } from "@/features/cart-checkout/hooks/useGetAddresses"
 
 const AccountSetting = () => {
   const user = useAuthStore((state) => state.user);
-  const { data: addresses, isLoading: isLoadingAddresses } = useGetAddresses();
+  const { data: addresses } = useGetAddresses();
 
   if (!user) {
     return <LoadingState />;

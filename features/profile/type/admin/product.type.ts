@@ -2,10 +2,12 @@ import z from "zod";
 import {
   CreateCategorySchema,
   CreateProductSchema,
+  CreateVariantSchema,
 } from "../../schema/admin.schema";
 
 export type CreateProductValues = z.infer<typeof CreateProductSchema>;
 export type CreateCategoryValues = z.infer<typeof CreateCategorySchema>;
+export type CreateVariantValues = z.infer<typeof CreateVariantSchema>;
 
 export interface Category {
   id: number;

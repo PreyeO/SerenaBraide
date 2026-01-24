@@ -37,7 +37,12 @@ export const adminRoutes: SidebarItem[] = [
     icon: House,
   },
   {
-    title: "Products",
+    title: "New Products",
+    href: "/admin/products/new-product",
+    icon: BookUser,
+  },
+  {
+    title: "All Products",
     href: "/admin/products",
     icon: BookUser,
   },

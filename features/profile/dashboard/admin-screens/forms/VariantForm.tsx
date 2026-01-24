@@ -3,11 +3,8 @@
 import { useForm, useFieldArray, ControllerRenderProps } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef, useState, useEffect } from "react";
-import { CreateProductSchema } from "@/features/profile/schema/admin.schema";
-import {
-  Category,
-  CreateProductValues,
-} from "@/features/profile/type/admin/product.type";
+import { CreateVariantSchema } from "@/features/profile/schema/admin.schema";
+import { CreateVariantValues } from "@/features/profile/type/admin/product.type";
 import {
   Form,
   FormField,
@@ -17,38 +14,29 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import SubmitButton from "@/components/ui/btns/submit-cta";
-import { useCreateProduct } from "@/features/profile/hooks/admin/useCreateProduct";
-import { useGetCategories } from "@/features/profile/hooks/admin/useGetCategories";
-import Image from "next/image";
+import { useCreateVariant } from "@/features/profile/hooks/admin/useCreateVariant";
 
-interface ProductFormProps {
-  onProductCreated?: (productId: number) => void;
+interface VariantFormProps {
+  productId: number;
+  onVariantCreated?: () => void;
 }
 
 // Separate component for image upload field to properly use hooks
-interface ImageUploadFieldProps {
-  field: ControllerRenderProps<CreateProductValues, `images.${number}.file`>;
+interface VariantImageUploadFieldProps {
+  field: ControllerRenderProps<CreateVariantValues, `images.${number}.file`>;
   index: number;
   fileInputRef: (el: HTMLInputElement | null) => void;
   onButtonClick: () => void;
 }
 
-const ImageUploadField = ({
+const VariantImageUploadField = ({
   field,
 
   fileInputRef,
   onButtonClick,
-}: ImageUploadFieldProps) => {
+}: VariantImageUploadFieldProps) => {
   const [preview, setPreview] = useState<string | null>(null);
 
   useEffect(() => {
@@ -76,11 +64,10 @@ const ImageUploadField = ({
       {preview ? (
         <div className="w-full space-y-3">
           <div className="relative w-full max-w-xs mx-auto h-48">
-            <Image
+            <img
               src={preview}
               alt="Preview"
-              fill
-              className="object-cover rounded-lg border border-gray-300"
+              className="w-full h-full object-cover rounded-lg border border-gray-300"
             />
           </div>
           <button
@@ -107,24 +94,18 @@ const ImageUploadField = ({
   );
 };
 
-const ProductForm = ({ onProductCreated }: ProductFormProps) => {
-  const { mutate, isPending } = useCreateProduct({
-    onSuccess: (data) => {
-      if (onProductCreated && data?.id) {
-        onProductCreated(data.id);
-      }
-    },
-  });
-  const { data: categories = [], isLoading } = useGetCategories();
+const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
+  const { mutate, isPending } = useCreateVariant();
 
-  const form = useForm<CreateProductValues>({
-    resolver: zodResolver(CreateProductSchema),
+  const form = useForm<CreateVariantValues>({
+    resolver: zodResolver(CreateVariantSchema),
     defaultValues: {
-      name: "",
-      description: "",
-      category: 1,
-      base_price: "",
-      is_featured: false,
+      sku: "",
+      size: "",
+      color: "",
+      price: "",
+      stock_quantity: 0,
+      is_active: true,
       images: [
         {
           file: undefined,
@@ -151,30 +132,26 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
     }
   };
 
-  const onSubmit = (values: CreateProductValues) => {
-    // Validate that all images have files
-    const hasInvalidImage = values.images.some((img) => !img.file);
-    if (hasInvalidImage) {
-      values.images.forEach((img, index) => {
-        if (!img.file) {
-          form.setError(`images.${index}.file`, {
-            message: "Image file is required",
-          });
-        }
-      });
-      return; // Stop submission if validation fails
-    }
+  const onSubmit = (values: CreateVariantValues) => {
+    values.images.forEach((img, index) => {
+      if (!img.file) {
+        form.setError(`images.${index}.file`, {
+          message: "Image file is required",
+        });
+        throw new Error("Missing image file");
+      }
+    });
 
-    // Ensure is_featured is always a boolean
-    const submitData = {
-      ...values,
-      is_featured: Boolean(values.is_featured ?? false),
-    };
-
-    mutate(submitData);
+    mutate(
+      { productId, data: values },
+      {
+        onSuccess: () => {
+          form.reset();
+          onVariantCreated?.();
+        },
+      },
+    );
   };
-
-  if (isLoading) return <p>Loading categories...</p>;
 
   return (
     <Form {...form}>
@@ -182,52 +159,136 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-6 max-w-150 border px-6 py-6 rounded-[25px] border-[#F0F0F0]"
       >
-        {/* PRODUCT NAME */}
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-sm font-normal text-[#3B3B3B]">
-                Product name
-              </FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Enter product name"
-                  className="h-11"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {/* SKU, SIZE, COLOR, PRICE */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormField
+            control={form.control}
+            name="sku"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-normal text-[#3B3B3B]">
+                  SKU
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="e.g., FRAG-MEN-100ML-BLUE"
+                    className="h-11"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        {/* DESCRIPTION */}
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-sm font-normal text-[#3B3B3B]">
-                Product description
-              </FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Add a product description"
-                  className="min-h-24"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="size"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-normal text-[#3B3B3B]">
+                  Size
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="e.g., 100ML"
+                    className="h-11"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="color"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-normal text-[#3B3B3B]">
+                  Color (Optional)
+                </FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g., Blue" className="h-11" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="price"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-normal text-[#3B3B3B]">
+                  Price
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    step="0.01"
+                    placeholder="30.00"
+                    className="h-11"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        {/* STOCK QUANTITY AND IS ACTIVE */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormField
+            control={form.control}
+            name="stock_quantity"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-normal text-[#3B3B3B]">
+                  Stock Quantity
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    min="0"
+                    value={field.value}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                    placeholder="15"
+                    className="h-11"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="is_active"
+            render={({ field }) => (
+              <FormItem className="flex items-center gap-4 pt-8">
+                <FormLabel className="text-sm font-normal text-[#3B3B3B]">
+                  Active Variant?
+                </FormLabel>
+                <FormControl>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         {/* MEDIA SECTION */}
         <div className="space-y-3">
-          <FormLabel className="text-sm font-normal text-[#3B3B3B]">
-            Media
+          <FormLabel className="text-sm font-medium text-[#3B3B3B]">
+            Variant Images
           </FormLabel>
           <div className="space-y-4">
             {fields.map((item, index) => (
@@ -242,7 +303,7 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormControl>
-                          <ImageUploadField
+                          <VariantImageUploadField
                             field={field}
                             index={index}
                             fileInputRef={(el) => setFileInputRef(index, el!)}
@@ -256,14 +317,13 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
                     )}
                   />
 
-                  {/* Additional image metadata fields */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mt-4">
                     <FormField
                       control={form.control}
                       name={`images.${index}.alt_text`}
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-xs">
+                          <FormLabel className="text-sm">
                             Alt Text (Optional)
                           </FormLabel>
                           <FormControl>
@@ -281,7 +341,7 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
                       name={`images.${index}.order`}
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-xs">Order</FormLabel>
+                          <FormLabel className="text-sm">Order</FormLabel>
                           <FormControl>
                             <Input
                               type="number"
@@ -301,7 +361,7 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
                       name={`images.${index}.is_primary`}
                       render={({ field }) => (
                         <FormItem className="flex items-center gap-3 pt-6">
-                          <FormLabel className="text-xs">
+                          <FormLabel className="text-sm">
                             Primary Image
                           </FormLabel>
                           <FormControl>
@@ -330,7 +390,7 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
 
           <button
             type="button"
-            className="text-[#3B3B3B] hover:text-[#2B2B2B] text-sm font-medium transition-colors"
+            className="text-[#3B3B3B] hover:text-[#2B2B2B] text-sm font-normal transition-colors"
             onClick={() =>
               append({
                 file: undefined as unknown as File,
@@ -344,87 +404,11 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <FormField
-            control={form.control}
-            name="category"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm font-medium text-[#3B3B3B]">
-                  Category
-                </FormLabel>
-                <Select
-                  value={field.value ? String(field.value) : undefined}
-                  onValueChange={(v) => field.onChange(Number(v))}
-                  disabled={isLoading}
-                >
-                  <FormControl>
-                    <SelectTrigger className="h-11">
-                      <SelectValue placeholder="Choose a product category" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {categories.map((option: Category) => (
-                      <SelectItem key={option.id} value={String(option.id)}>
-                        {option.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="base_price"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm font-medium text-[#3B3B3B]">
-                  Base Price
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    step="0.01"
-                    placeholder="Enter base price"
-                    className="h-11"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="is_featured"
-            render={({ field }) => (
-              <FormItem className="flex items-center gap-4">
-                <FormLabel className="text-sm font-medium text-[#3B3B3B]">
-                  Featured Product?
-                </FormLabel>
-                <FormControl>
-                  <Switch
-                    checked={Boolean(field.value)}
-                    onCheckedChange={(checked) => {
-                      field.onChange(Boolean(checked));
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
         {/* SUBMIT */}
         <div className="pt-4">
           <SubmitButton
-            label="Continue"
-            loadingLabel="Continue to variant..."
+            label="Create Variant"
+            loadingLabel="Creating variant..."
             isPending={isPending}
           />
         </div>
@@ -433,4 +417,4 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
   );
 };
 
-export default ProductForm;
+export default VariantForm;

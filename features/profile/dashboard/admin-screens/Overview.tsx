@@ -8,12 +8,7 @@ import {
 } from "@/components/ui/chart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableHeader,
-  TableRow,
-  TableHead,
-} from "@/components/ui/table";
+import { Table, TableHeader, TableRow, TableHead } from "@/components/ui/table";
 import {
   Area,
   AreaChart,
@@ -35,6 +30,7 @@ import {
 import { generateTimeSeriesData } from "@/features/profile/utils/chart-data";
 import DateRangePicker from "@/features/profile/components/admin/DateRangePicker";
 import { useDateRange } from "../../hooks/admin/useDateRange";
+import SubHeading from "@/components/ui/typography/subHeading";
 
 const Overview = () => {
   const { dateRange, period, displayLabel, setDateRange, setPeriod } =
@@ -54,7 +50,10 @@ const Overview = () => {
       <div className="space-y-6">
         {/* Header with Title and Date Range Picker */}
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-semibold text-[#3B3B3B]">Overview</h2>
+          <SubHeading
+            title="Overview"
+            className="text-sm text-[#3B3B3B] font-semibold  "
+          />
           <DateRangePicker
             dateRange={dateRange}
             onDateRangeChange={setDateRange}
