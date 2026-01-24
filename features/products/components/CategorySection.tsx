@@ -60,14 +60,14 @@ const CategorySection = ({ category }: ProductCategoryProps) => {
         sorted.sort(
           (a, b) =>
             parseInt(a.price.replace(/\D/g, "")) -
-            parseInt(b.price.replace(/\D/g, ""))
+            parseInt(b.price.replace(/\D/g, "")),
         );
         break;
       case "price-desc":
         sorted.sort(
           (a, b) =>
             parseInt(b.price.replace(/\D/g, "")) -
-            parseInt(a.price.replace(/\D/g, ""))
+            parseInt(a.price.replace(/\D/g, "")),
         );
         break;
       case "newest":
