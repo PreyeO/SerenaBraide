@@ -55,6 +55,11 @@ export async function getProducts() {
   return res.data;
 }
 
+export async function getProductVariants(productId: number) {
+  const res = await api.get(`/api/products/${productId}/variants/`);
+  return res.data;
+}
+
 export async function createVariant(
   productId: number,
   data: CreateVariantValues

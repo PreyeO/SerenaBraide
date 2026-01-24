@@ -5,7 +5,7 @@ import { useGetProducts } from "@/features/profile/hooks/admin/useGetProducts";
 import ProductForm from "./components/forms/ProductForm";
 import CategoryForm from "./components/forms/CategoryForm";
 import VariantForm from "./components/forms/VariantForm";
-import ProductTable from "./components/ProductTable";
+import ProductTable from "./components/tables/ProductTable";
 import SubHeading from "@/components/ui/typography/subHeading";
 
 const ProductScreen = () => {

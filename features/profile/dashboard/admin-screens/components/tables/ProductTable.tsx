@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import {
   Table,
@@ -10,25 +11,57 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { AllProduct } from "@/features/profile/type/admin/product.type";
+import { MoreVertical } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 
 interface ProductTableProps {
   products: AllProduct[];
 }
 
 const ProductTable = ({ products }: ProductTableProps) => {
+  const router = useRouter();
+
+  const handleViewMore = (productId: number) => {
+    router.push(`/admin/products/${productId}/variants`);
+  };
+
+  const handleDelete = (productId: number) => {
+    // TODO: Implement delete functionality
+    if (confirm(`Are you sure you want to delete product #${productId}?`)) {
+      console.log("Delete product:", productId);
+    }
+  };
   return (
     <div className="bg-white rounded-lg border border-[#F0F0F0] overflow-hidden">
       <Table>
         <TableHeader>
           <TableRow className="bg-[#FAFAFA] hover:bg-[#FAFAFA]">
             <TableHead className="font-semibold text-[#3B3B3B]">ID</TableHead>
-            <TableHead className="font-semibold text-[#3B3B3B]">Image</TableHead>
+            <TableHead className="font-semibold text-[#3B3B3B]">
+              Image
+            </TableHead>
             <TableHead className="font-semibold text-[#3B3B3B]">Name</TableHead>
-            <TableHead className="font-semibold text-[#3B3B3B]">Category</TableHead>
-            <TableHead className="font-semibold text-[#3B3B3B]">Price</TableHead>
-            <TableHead className="font-semibold text-[#3B3B3B]">Featured</TableHead>
-            <TableHead className="font-semibold text-[#3B3B3B]">Stock</TableHead>
-            <TableHead className="font-semibold text-[#3B3B3B]">Created At</TableHead>
+            <TableHead className="font-semibold text-[#3B3B3B]">
+              Category
+            </TableHead>
+            <TableHead className="font-semibold text-[#3B3B3B]">
+              Featured
+            </TableHead>
+            <TableHead className="font-semibold text-[#3B3B3B]">
+              Stock
+            </TableHead>
+            <TableHead className="font-semibold text-[#3B3B3B]">
+              Created At
+            </TableHead>
+            <TableHead className="font-semibold text-[#3B3B3B]">
+              Actions
+            </TableHead>
           </TableRow>
         </TableHeader>
 
@@ -61,10 +94,6 @@ const ProductTable = ({ products }: ProductTableProps) => {
                 {product.category_name}
               </TableCell>
 
-              <TableCell className="font-medium text-[#3B3B3B]">
-                ₦{product.base_price}
-              </TableCell>
-
               <TableCell>
                 {product.is_featured ? (
                   <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
@@ -92,6 +121,34 @@ const ProductTable = ({ products }: ProductTableProps) => {
               <TableCell className="text-[#6F6E6C]">
                 {new Date(product.created_at).toLocaleDateString()}
               </TableCell>
+
+              <TableCell>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 w-8 p-0 hover:bg-[#F0F0F0]"
+                    >
+                      <MoreVertical className="h-4 w-4 text-[#3B3B3B]" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem
+                      onClick={() => handleViewMore(product.id)}
+                      className="cursor-pointer"
+                    >
+                      View More
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => handleDelete(product.id)}
+                      className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50"
+                    >
+                      Delete
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -101,4 +158,3 @@ const ProductTable = ({ products }: ProductTableProps) => {
 };
 
 export default ProductTable;
-

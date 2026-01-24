@@ -44,7 +44,7 @@ export const adminRoutes: SidebarItem[] = [
 
   {
     title: "Orders",
-    href: "/admin/payment",
+    href: "/admin/orders",
     icon: ShoppingBag,
   },
   {

@@ -126,16 +126,48 @@ export interface OrderItem {
   updated_at: string;
 }
 
+export interface CustomerAddress {
+  id: number;
+  customer_profile: number;
+  phone_number: string | null;
+  address: string;
+  city: string;
+  state: string;
+  zip_code: string;
+  country: string;
+  is_default: boolean;
+  created_on: string;
+  updated_on: string;
+}
+
+export interface CustomerProfile {
+  user: number;
+  addresses: CustomerAddress[];
+}
+
+export interface GiftCard {
+  card_number: string;
+  initial_amount: string;
+  current_balance: string;
+  currency: string;
+  status: string;
+  created_at: string;
+}
+
 export interface Order {
   order_number: number;
-  customer_profile: number;
-  status: "delivered" | "pending" | "paid" | "processing" | "in_transit";
+  customer_profile: CustomerProfile | number;
+  status: "delivered" | "pending" | "paid" | "processing" | "in_transit" | "shipped";
   subtotal: string;
   shipping_cost: string;
   tax: string;
   total_amount: string;
   items: OrderItem[];
   items_count: number;
+  gift_card_amount: string;
+  remaining_amount: string;
+  purchased_gift_card: GiftCard | null;
+  address: string | null;
   created_at: string;
   updated_at: string;
 }
