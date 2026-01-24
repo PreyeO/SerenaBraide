@@ -1,8 +1,8 @@
 "use client";
 
-import { useForm, useFieldArray, ControllerRenderProps } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { CreateProductSchema } from "@/features/profile/schema/admin.schema";
 import {
   Category,
@@ -25,91 +25,24 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
 import SubmitButton from "@/components/ui/btns/submit-cta";
 import { useCreateProduct } from "@/features/profile/hooks/admin/useCreateProduct";
 import { useGetCategories } from "@/features/profile/hooks/admin/useGetCategories";
-import Image from "next/image";
+import {
+  ImageUploadField,
+  ImageMetadataFields,
+  ToggleField,
+} from "../shared/ImageComponents";
 
 interface ProductFormProps {
   onProductCreated?: (productId: number) => void;
 }
 
-// Separate component for image upload field to properly use hooks
-interface ImageUploadFieldProps {
-  field: ControllerRenderProps<CreateProductValues, `images.${number}.file`>;
-  index: number;
-  fileInputRef: (el: HTMLInputElement | null) => void;
-  onButtonClick: () => void;
-}
-
-const ImageUploadField = ({
-  field,
-
-  fileInputRef,
-  onButtonClick,
-}: ImageUploadFieldProps) => {
-  const [preview, setPreview] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (field.value) {
-      const objectUrl = URL.createObjectURL(field.value);
-      setPreview(objectUrl);
-
-      return () => {
-        URL.revokeObjectURL(objectUrl);
-      };
-    } else {
-      setPreview(null);
-    }
-  }, [field.value]);
-
-  return (
-    <div className="flex flex-col items-center space-y-3">
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/*"
-        className="hidden"
-        onChange={(e) => field.onChange(e.target.files?.[0])}
-      />
-      {preview ? (
-        <div className="w-full space-y-3">
-          <div className="relative w-full max-w-xs mx-auto h-48">
-            <Image
-              src={preview}
-              alt="Preview"
-              fill
-              className="object-cover rounded-lg border border-gray-300"
-            />
-          </div>
-          <button
-            type="button"
-            onClick={onButtonClick}
-            className="bg-[#3B3B3B] hover:bg-[#2B2B2B] text-white px-6 py-2.5 rounded-md text-sm font-medium transition-colors"
-          >
-            Change image
-          </button>
-          <p className="text-xs text-[#6F6E6C] text-center">
-            {field.value?.name}
-          </p>
-        </div>
-      ) : (
-        <button
-          type="button"
-          onClick={onButtonClick}
-          className="bg-[#3B3B3B] hover:bg-[#2B2B2B] text-white px-6 py-2.5 rounded-md text-sm font-medium transition-colors"
-        >
-          + Upload new image
-        </button>
-      )}
-    </div>
-  );
-};
-
 const ProductForm = ({ onProductCreated }: ProductFormProps) => {
+  const [isProductCreated, setIsProductCreated] = useState(false);
   const { mutate, isPending } = useCreateProduct({
     onSuccess: (data) => {
+      setIsProductCreated(true);
       if (onProductCreated && data?.id) {
         onProductCreated(data.id);
       }
@@ -249,6 +182,7 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
                             onButtonClick={() =>
                               fileInputRefs.current.get(index)?.click()
                             }
+                            useNextImage={true}
                           />
                         </FormControl>
                         <FormMessage />
@@ -257,63 +191,11 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
                   />
 
                   {/* Additional image metadata fields */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mt-4">
-                    <FormField
-                      control={form.control}
-                      name={`images.${index}.alt_text`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-xs">
-                            Alt Text (Optional)
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="Image alt text"
-                              className="h-9 text-sm"
-                              {...field}
-                            />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name={`images.${index}.order`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-xs">Order</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              value={field.value}
-                              onChange={(e) =>
-                                field.onChange(Number(e.target.value))
-                              }
-                              className="h-9 text-sm"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name={`images.${index}.is_primary`}
-                      render={({ field }) => (
-                        <FormItem className="flex items-center gap-3 pt-6">
-                          <FormLabel className="text-xs">
-                            Primary Image
-                          </FormLabel>
-                          <FormControl>
-                            <Switch
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                  <ImageMetadataFields
+                    control={form.control}
+                    index={index}
+                    baseName="images"
+                  />
                   {index > 0 && (
                     <button
                       type="button"
@@ -398,25 +280,10 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
             )}
           />
 
-          <FormField
+          <ToggleField
             control={form.control}
             name="is_featured"
-            render={({ field }) => (
-              <FormItem className="flex items-center gap-4">
-                <FormLabel className="text-sm font-medium text-[#3B3B3B]">
-                  Featured Product?
-                </FormLabel>
-                <FormControl>
-                  <Switch
-                    checked={Boolean(field.value)}
-                    onCheckedChange={(checked) => {
-                      field.onChange(Boolean(checked));
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="Featured Product?"
           />
         </div>
 
@@ -426,6 +293,7 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
             label="Continue"
             loadingLabel="Continue to variant..."
             isPending={isPending}
+            disabled={isProductCreated}
           />
         </div>
       </form>

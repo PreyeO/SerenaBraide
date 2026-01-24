@@ -6,6 +6,7 @@ export type SidebarItem = {
   active?: boolean;
   onClick?: () => void;
   href?: string;
+  children?: SidebarItem[];
 };
 
 export type MenuItem = {

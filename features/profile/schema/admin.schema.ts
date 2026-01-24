@@ -25,6 +25,7 @@ export const CreateCategorySchema = z.object({
 });
 
 export const CreateVariantSchema = z.object({
+  product_id: z.number().min(1, "Product is required"),
   sku: z.string().min(1, "SKU is required"),
   size: z.string().min(1, "Size is required"),
   color: z.string().optional(),

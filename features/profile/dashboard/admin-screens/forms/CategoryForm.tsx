@@ -38,7 +38,7 @@ const CategoryForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full"
+        className="space-y-6 max-w-150 border px-6 py-6 rounded-[25px] border-[#F0F0F0]"
       >
         {/* CATEGORY NAME */}
         <FormField

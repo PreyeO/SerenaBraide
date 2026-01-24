@@ -56,7 +56,11 @@ const Overview = () => {
           />
           <DateRangePicker
             dateRange={dateRange}
-            onDateRangeChange={setDateRange}
+            onDateRangeChange={(range) => {
+              if (range) {
+                setDateRange(range);
+              }
+            }}
             displayLabel={displayLabel}
             period={period}
             onPeriodChange={setPeriod}
