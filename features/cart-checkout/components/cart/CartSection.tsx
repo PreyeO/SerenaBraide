@@ -9,6 +9,7 @@ import EmptyCart from "../empty-screens/EmptyCart";
 import { useCart } from "../../hooks/useCart";
 import { useUpdateCartItem } from "../../hooks/useUpdateCartItem";
 import { useRemoveCartItem } from "../../hooks/useRemoveCartItem";
+import LoadingState from "@/components/ui/loaders/loading-state";
 
 const CartSection = () => {
   const { data, isLoading } = useCart();
@@ -17,7 +18,7 @@ const CartSection = () => {
 
   // Only show loading on initial load, not on refetches
   if (isLoading) {
-    return <p className="pt-38 px-16">Loading cart...</p>;
+    return <LoadingState />;
   }
 
   const cartItems = data?.items ?? [];
@@ -45,7 +46,7 @@ const CartSection = () => {
                 key={item.id}
                 image={image}
                 name={item.variant.product_name}
-                price={`$${item.variant.price}`}
+                price={`#${item.variant.price}`}
                 metaLabel={
                   item.variant.size ? `Size: ${item.variant.size}` : ""
                 }

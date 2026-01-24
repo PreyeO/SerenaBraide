@@ -3,38 +3,52 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
-interface ProductImageProps {
+interface ProductImagePropsBase {
   className?: string;
-  height: number;
-  width: number;
   alt: string;
   src: string;
 }
 
-const ProductImage: React.FC<ProductImageProps> = ({
-  className = "",
-  height,
-  width,
-  src,
-  alt,
-}) => {
+interface ProductImagePropsWithDimensions extends ProductImagePropsBase {
+  height: number;
+  width: number;
+  fill?: never;
+}
+
+interface ProductImagePropsWithFill extends ProductImagePropsBase {
+  fill: true;
+  height?: never;
+  width?: never;
+}
+
+type ProductImageProps = ProductImagePropsWithDimensions | ProductImagePropsWithFill;
+
+const ProductImage: React.FC<ProductImageProps> = (props) => {
+  const { className = "", src, alt } = props;
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
+  const isFillMode = 'fill' in props && props.fill === true;
+
   return (
-    <div className={`relative ${className}`} style={{ width, height }}>
+    <div 
+      className={`relative ${isFillMode ? 'w-full h-full' : ''} ${className}`} 
+      style={!isFillMode ? { width: props.width, height: props.height } : undefined}
+    >
       {isLoading && (
         <Skeleton className="absolute inset-0 w-full h-full rounded-[5px]" />
       )}
       {!hasError ? (
         <Image
           src={src}
-          className={`${className} transition-opacity duration-300 ${
+          className={`transition-opacity duration-300 ${
             isLoading ? "opacity-0" : "opacity-100"
-          }`}
+          } ${className}`}
           alt={alt}
-          width={width}
-          height={height}
+          {...(isFillMode 
+            ? { fill: true } 
+            : { width: props.width, height: props.height }
+          )}
           onLoad={() => setIsLoading(false)}
           onError={() => {
             setIsLoading(false);

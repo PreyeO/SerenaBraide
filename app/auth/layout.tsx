@@ -14,10 +14,16 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
         <Image
           src="/auth-image.png"
           alt="Silhouette spraying perfume"
-          fill
+          width={576}
+          height={576}
           className="object-cover"
           priority
         />
+        {/* <img
+          src="/auth-image.png"
+          alt="Silhouette spraying perfume"
+          className="w-full h-full object-cover"
+        /> */}
       </div>
 
       {/* Right Side Form/Content */}

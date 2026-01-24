@@ -5,41 +5,83 @@ import FormModal from "@/components/ui/modals/form-modals";
 import Paragraph from "@/components/ui/typography/paragraph";
 import SubHeading from "@/components/ui/typography/subHeading";
 import { ChevronRight } from "lucide-react";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
+import { ProductDetail } from "../product.type";
 
-const DetailInfoSection = () => {
+interface DetailInfoSectionProps {
+  product: ProductDetail;
+}
+
+const DetailInfoSection: React.FC<DetailInfoSectionProps> = ({ product }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Get additional product images (not primary)
+  const additionalImages = useMemo(() => {
+    const images = product.images
+      .filter((img) => !img.is_primary && img.variant === null)
+      .slice(0, 2);
+
+    // If we don't have enough images, use variant images
+    if (images.length < 2 && product.variants.length > 0) {
+      for (const variant of product.variants) {
+        for (const img of variant.images) {
+          if (!img.is_primary && images.length < 2) {
+            images.push({
+              ...img,
+              variant: variant.id,
+            });
+          }
+        }
+      }
+    }
+
+    return images;
+  }, [product]);
+
   return (
     <section className="pt-6 px-16 text-[#3B3B3B] pb-[50px]">
       <div className="flex justify-center gap-[60px] mt-[34px]">
-        {/* Product Image */}
-        <div className="w-full flex justify-between">
-          <ProductImage
-            alt="Product image"
-            src="/product-2.png"
-            width={338}
-            height={289}
-            className="max-w-[338px]"
-          />
-          <ProductImage
-            alt="Product image"
-            src="/product-3.png"
-            width={338}
-            height={289}
-            className="max-w-[338px]"
-          />
+        {/* Product Images */}
+        <div className="w-full flex justify-between gap-4">
+          {additionalImages.length > 0 ? (
+            additionalImages.map((img, index) => (
+              <ProductImage
+                key={img.id}
+                alt={img.alt_text || `${product.name} image ${index + 1}`}
+                src={img.image_url}
+                width={338}
+                height={289}
+                className="max-w-[338px]"
+              />
+            ))
+          ) : (
+            <>
+              <ProductImage
+                alt="Product image"
+                src="/product-2.png"
+                width={338}
+                height={289}
+                className="max-w-[338px]"
+              />
+              <ProductImage
+                alt="Product image"
+                src="/product-3.png"
+                width={338}
+                height={289}
+                className="max-w-[338px]"
+              />
+            </>
+          )}
         </div>
         <div className="">
           <BorderLine className="mt-[37px]" />
           <div className="pt-[50px] flex flex-col gap-[16px] text-[#6F6E6C] leading-[22px] font-normal text-sm ">
-            <SubHeading title="Inspiration" className="text-lg  font-medium" />
+            <SubHeading title="About This Product" className="text-lg font-medium text-[#3B3B3B]" />
             <Paragraph
               className=""
-              content="A refined, elegant and timeless Eau de Parfum for women.Eau du Soir evokes a 
-            stroll through the gardens of Alcazar in Seville, Spain at dusk, when the Syringa flower
-             exhales its fragrance. A refined eau de parfum, combining the freshness of citrus with 
-             the sensuality of florals, highlighted by an elegant chypre signature."
+              content={product.description}
             />
+            {/* Hardcoded additional info for now */}
             <Paragraph
               className=""
               content="It's love at first sight between mandarin orange and sun-drenched grapefruit. 

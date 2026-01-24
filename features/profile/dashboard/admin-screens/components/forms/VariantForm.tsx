@@ -83,7 +83,7 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
   const onSubmit = (values: CreateVariantValues) => {
     console.log("Form values on submit:", values);
     console.log("Files from ref:", Array.from(filesRef.current.entries()));
-    
+
     // Validate that all images have files stored in the ref
     const missingFiles: number[] = [];
     values.images.forEach((img, index) => {
@@ -209,10 +209,32 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-sm font-normal text-[#3B3B3B]">
-                  Color (Optional)
+                  Color (optional)
                 </FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g., Blue" className="h-11" {...field} />
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="color"
+                      value={field.value || "#000000"}
+                      onChange={(e) => field.onChange(e.target.value)}
+                      className="w-12 h-11 rounded-md cursor-pointer border border-gray-200 p-1"
+                    />
+                    <Input
+                      placeholder="Leave empty if no color"
+                      className="h-11 flex-1"
+                      value={field.value || ""}
+                      onChange={(e) => field.onChange(e.target.value)}
+                    />
+                    {field.value && (
+                      <button
+                        type="button"
+                        onClick={() => field.onChange("")}
+                        className="text-gray-400 hover:text-gray-600 text-sm"
+                      >
+                        Clear
+                      </button>
+                    )}
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>

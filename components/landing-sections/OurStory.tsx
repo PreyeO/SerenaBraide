@@ -6,28 +6,28 @@ import ProductImage from "../ui/images/product-image";
 
 const OurStory = () => {
   return (
-    <section className="px-16 pt-[100px] pb-[75px]">
+    <section className="px-16 pt-25 pb-18.75">
       <div>
         <div className="flex justify-between">
           <TitleSpan
             title="ULTIMATE SOPHISTICATION AND TIMELESS"
-            className="text-[22px] leading-7 w-[304px]"
+            className="text-[22px] leading-7 w-76"
             span="LUXURY"
           />
-          <div className="border text-[#3B3B3B] border-[#3B3B3B] text-sm rounded-full w-[114px] h-[42px] items-center justify-center flex">
+          <div className="border text-[#3B3B3B] border-[#3B3B3B] text-sm rounded-full w-28.5 h-10.5 items-center justify-center flex">
             <Dot size={18} />
             <h4>Our Story</h4>
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-[50px] items-end ">
+        <div className="grid grid-cols-3 gap-12.5 items-end ">
           <div
-            className="bg-[#F5F5F5] rounded-[30px] px-[25px] 
-          py-[25px] flex flex-col gap-[25px] max-w-[350px] "
+            className="bg-[#F5F5F5] rounded-[30px] px-6.25
+          py-6.25 flex flex-col gap-6.25 max-w-87.5 "
           >
             <div className="flex items-end flex-col  ">
               <TitleSpan
                 title="Exploring a life written in perfume from the key qualities that colors the world of"
-                className="text-sm leading-[22px]  text-[#6F6E6C] w-[223px]  "
+                className="text-sm leading-5.5  text-[#6F6E6C] w-55.75 "
                 span="SERENA BRAIDE "
               >
                 perfumes
@@ -50,10 +50,10 @@ const OurStory = () => {
             height={546}
             className="rounded-[30px]"
           />
-          <div className="flex flex-col gap-4 max-w-[421px]">
+          <div className="flex flex-col gap-4 max-w-105.25">
             <TitleSpan
               title="Conscious"
-              className="text-[40px] leading-[48px]  "
+              className="text-[40px] leading-12  "
               span="Fragrance"
             >
               Creation
@@ -70,7 +70,7 @@ const OurStory = () => {
             <UnderlineLink
               href="/our-story"
               text="  Read more of our story"
-              className={`text-[12px] text-[#3B3B3B] font-semibold  w-[68px]  leading-[18px] `}
+              className={`text-[12px] text-[#3B3B3B] font-semibold  w-17  leading-4.5 `}
             />
           </div>
         </div>

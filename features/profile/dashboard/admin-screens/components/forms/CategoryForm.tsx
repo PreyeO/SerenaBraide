@@ -27,7 +27,7 @@ const CategoryForm = () => {
     defaultValues: {
       name: "",
       description: "",
-      parent: null,
+      parent_name: "",
     },
   });
   const onSubmit = (values: CreateCategoryValues) => {
@@ -43,12 +43,25 @@ const CategoryForm = () => {
         {/* CATEGORY NAME */}
         <FormField
           control={form.control}
+          name="parent_name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Parent Name</FormLabel>
+              <FormControl>
+                <Input placeholder="e.g. Fragrances, Lips" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
           name="name"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Category Name</FormLabel>
               <FormControl>
-                <Input placeholder="e.g. Fragrances" {...field} />
+                <Input placeholder="e.g. Perfume, Body mist" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

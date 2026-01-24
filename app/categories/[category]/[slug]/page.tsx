@@ -1,29 +1,16 @@
-import DetailHeroSection from "@/features/products/components/DetailHeroSection";
-import DetailInfoSection from "@/features/products/components/DetailInfoSection";
-import RecommendationSection from "@/features/products/components/RecommendationSection";
-import ReviewSection from "@/features/products/components/ReviewSection";
-import { recommendedProducts } from "@/features/products/data/product.data";
-import React from "react";
+import ProductDetailContent from "@/features/products/components/ProductDetailContent";
 
-const ProductDetailPage = (
-  {
-    //   params: _params,
-    // }: {
-    //   params: { category: string; slug: string };
-  },
-) => {
-  const productId = 6;
+interface ProductDetailPageProps {
+  params: Promise<{
+    category: string;
+    slug: string;
+  }>;
+}
 
-  return (
-    <>
-      <DetailHeroSection />
-      <DetailInfoSection />
-      <ReviewSection productId={productId} />
-      <RecommendationSection
-        products={Object.values(recommendedProducts).flat()}
-      />
-    </>
-  );
+const ProductDetailPage = async ({ params }: ProductDetailPageProps) => {
+  const { category, slug } = await params;
+
+  return <ProductDetailContent category={category} slug={slug} />;
 };
 
 export default ProductDetailPage;

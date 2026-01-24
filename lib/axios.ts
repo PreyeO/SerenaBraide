@@ -26,6 +26,12 @@ api.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
 
+  // For FormData, let axios set the Content-Type automatically
+  // This ensures proper multipart/form-data boundary is set
+  if (config.data instanceof FormData) {
+    delete config.headers["Content-Type"];
+  }
+
   return config;
 });
 
@@ -33,7 +39,21 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (res) => res,
   (error) => {
-    toast.error(error?.response?.data?.message || "Something went wrong");
+    // Don't show toast for 401 errors (unauthenticated) - let the app handle redirect
+    // Don't show toast for cancelled requests
+    if (error?.response?.status === 401) {
+      return Promise.reject(error);
+    }
+    
+    // Don't show generic error for network errors or cancelled requests
+    if (error.code === "ERR_CANCELED" || error.message === "canceled") {
+      return Promise.reject(error);
+    }
+
+    const errorMessage = error?.response?.data?.message || 
+                         error?.response?.data?.detail ||
+                         "Something went wrong";
+    toast.error(errorMessage);
     return Promise.reject(error);
   }
 );

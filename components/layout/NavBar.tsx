@@ -10,9 +10,9 @@ import ProfileDropdown from "../ui/profile-dropdown";
 import { DropdownMenu, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import ProductImage from "../ui/images/product-image";
 import { navItems as hardcodedNavItems } from "@/constant/data";
-import { useGetCategories } from "@/features/profile/hooks/admin/useGetCategories";
+import { useGetCategoriesTree } from "@/features/products/hooks/useGetCategoriesTree";
 import { NavItem, NavSection } from "@/types/general";
-import { Category } from "@/features/profile/type/admin/product.type";
+import { CategoryTree } from "@/features/products/product.type";
 import { useCart } from "@/features/cart-checkout/hooks/useCart";
 import { useWishlist } from "@/features/profile/hooks/customer/useWishlist";
 import { useAuthStore } from "@/features/auth/auth.store";
@@ -43,19 +43,28 @@ const NavBar = () => {
     }
   };
 
-  const { data: categories = [] } = useGetCategories();
+  const { data: categories = [] } = useGetCategoriesTree();
 
-  // Build dynamic category sections
+  // Build dynamic category sections from the tree API
+  // Each parent category becomes a column, children become items
   const categorySections: NavSection[] = categories
-    .filter((cat: Category) => cat.parent === null)
-    .map((parent: Category) => ({
-      heading: parent.name,
-      items: categories
-        .filter((child: Category) => child.parent === parent.id)
-        .map((child: Category) => ({
-          name: child.name,
-          href: `/categories/${child.slug}`,
-        })),
+    .filter((cat: CategoryTree) => cat.is_active)
+    .map((category: CategoryTree) => ({
+      heading: category.name,
+      items: [
+        // If category has children, show them
+        ...(category.children || [])
+          .filter((child: CategoryTree) => child.is_active)
+          .map((child: CategoryTree) => ({
+            name: child.name,
+            href: `/categories/${category.slug}/${child.slug}`,
+          })),
+        // Always add "See all" link at the end
+        {
+          name: "See all",
+          href: `/categories/${category.slug}`,
+        },
+      ],
     }));
 
   // Merge dynamic categories with other hardcoded nav items

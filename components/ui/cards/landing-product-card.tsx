@@ -4,79 +4,24 @@ import { Product } from "@/types/product";
 import ProductImage from "../images/product-image";
 import Caption from "../typography/caption";
 import { Heart, Star } from "lucide-react";
-import { useWishlist } from "@/features/profile/hooks/customer/useWishlist";
-import { useAddToWishlist } from "@/features/profile/hooks/customer/useAddToWishlist";
-import { useRemoveFromWishlist } from "@/features/profile/hooks/customer/useRemoveFromWishlist";
-import { useAuthStore } from "@/features/auth/auth.store";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
-interface ProductCardProps {
+interface LandingProductCardProps {
   product: Product;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const router = useRouter();
-  const user = useAuthStore((state) => state.user);
-  const { data: wishlistData } = useWishlist();
-  const addToWishlistMutation = useAddToWishlist();
-  const removeFromWishlistMutation = useRemoveFromWishlist();
-  const [isAnimating, setIsAnimating] = useState(false);
-  // Local state for visual toggle when no variantId (products from list API)
-  const [isLocallyLiked, setIsLocallyLiked] = useState(false);
+/**
+ * A simplified product card for landing page sections (Best Sellers, Gift Sets, etc.)
+ * This card doesn't integrate with the wishlist API - just shows a visual heart icon
+ */
+const LandingProductCard: React.FC<LandingProductCardProps> = ({ product }) => {
+  const [isLiked, setIsLiked] = useState(false);
 
-  // Check if product variant is in wishlist (only works when variantId exists)
-  const isInWishlist = useMemo(() => {
-    if (!product.variantId || !wishlistData?.results) return false;
-    return wishlistData.results.some(
-      (item) => item.product_variant.id === product.variantId,
-    );
-  }, [product.variantId, wishlistData]);
-
-  // Get wishlist item ID if in wishlist
-  const wishlistItemId = useMemo(() => {
-    if (!product.variantId || !wishlistData?.results) return null;
-    const item = wishlistData.results.find(
-      (item) => item.product_variant.id === product.variantId,
-    );
-    return item?.id || null;
-  }, [product.variantId, wishlistData]);
-
-  const isLoading = addToWishlistMutation.isPending || removeFromWishlistMutation.isPending;
-  
-  // Combined liked state - from API if variantId exists, otherwise local state
-  const isLiked = product.variantId ? isInWishlist : isLocallyLiked;
-
-  const handleWishlistToggle = (e: React.MouseEvent) => {
+  const handleHeartClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-
-    // Check if user is authenticated first
-    if (!user) {
-      // Redirect to login with return_url to current page
-      const currentPath = window.location.pathname;
-      router.push(`/auth/login?return_url=${encodeURIComponent(currentPath)}`);
-      return;
-    }
-
-    // Trigger bounce animation
-    setIsAnimating(true);
-    setTimeout(() => setIsAnimating(false), 300);
-    
-    // If no variant ID, just toggle local state (visual feedback only)
-    // The actual wishlist add will happen on the product detail page
-    if (!product.variantId) {
-      setIsLocallyLiked(!isLocallyLiked);
-      return;
-    }
-
-    // With variantId, actually call the API
-    if (isInWishlist && wishlistItemId) {
-      removeFromWishlistMutation.mutate(wishlistItemId);
-    } else {
-      addToWishlistMutation.mutate({ product_variant: product.variantId });
-    }
+    setIsLiked(!isLiked);
   };
 
   // Generate star rating
@@ -92,7 +37,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             size={11}
             fill="url(#half)"
             stroke="#D1D5DB"
-            className="#D1D5DB"
           />
         );
       } else {
@@ -101,7 +45,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     });
   };
 
-  // Build product link
+  // Build product link - for landing page products, link to category page
   const productLink = product.slug && product.categorySlug
     ? `/categories/${product.categorySlug}/${product.slug}`
     : "#";
@@ -128,15 +72,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <span className="absolute top-2 right-2 text-sm text-white z-10">
             <Caption title={product.price} className="font-medium" />
           </span>
-
-          {/* Stock Badge */}
-          {product.inStock === false && (
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-              <span className="bg-black/70 text-white text-xs px-3 py-1 rounded-full">
-                Out of Stock
-              </span>
-            </div>
-          )}
 
           {/* Bottom overlay with product info */}
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3 pt-8">
@@ -177,9 +112,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 ) : null}
               </div>
 
+              {/* Heart icon - visual only, no API call */}
               <button
-                onClick={handleWishlistToggle}
-                disabled={isLoading}
+                onClick={handleHeartClick}
                 className={`
                   group/heart rounded-full w-6 h-6 flex items-center justify-center 
                   transition-all duration-200 flex-shrink-0 ml-2
@@ -187,17 +122,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                     ? "bg-black" 
                     : "bg-white/30 backdrop-blur-2xl hover:bg-white/50"
                   }
-                  ${isLoading ? "opacity-50 cursor-wait" : "cursor-pointer"}
-                  ${isAnimating ? "animate-bounce" : ""}
-                  hover:scale-110 active:scale-95
+                  cursor-pointer hover:scale-110 active:scale-95
                 `}
-                aria-label={isLiked ? "Remove from wishlist" : "Add to wishlist"}
+                aria-label={isLiked ? "Unlike" : "Like"}
               >
                 <Heart
                   className={`
                     w-3.5 h-3.5 transition-all duration-200
                     group-hover/heart:scale-110
-                    ${isAnimating ? "scale-125" : ""}
                   `}
                   fill={isLiked ? "#FFFFFF" : "transparent"}
                   color={isLiked ? "#FFFFFF" : "#000000"}
@@ -206,7 +138,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               </button>
             </div>
 
-            {/* Reviews + Sold - Only show if data exists */}
+            {/* Reviews + Sold */}
             {(product.rating !== undefined || product.reviews !== undefined || product.sold) && (
               <div className="flex items-center gap-1 mt-1.5 flex-wrap">
                 {product.rating !== undefined && (
@@ -238,4 +170,5 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   );
 };
 
-export default ProductCard;
+export default LandingProductCard;
+

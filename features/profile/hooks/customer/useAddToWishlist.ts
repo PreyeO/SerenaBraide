@@ -14,17 +14,23 @@ export const useAddToWishlist = () => {
 
   return useMutation<
     WishlistItem,
-    AxiosError<{ message?: string }>,
+    AxiosError<{ message?: string; detail?: string }>,
     CreateWishlistPayload
   >({
-    mutationFn: addToWishlist,
-    onSuccess: () => {
+    mutationFn: (payload) => {
+      console.log("Adding to wishlist with payload:", payload);
+      return addToWishlist(payload);
+    },
+    onSuccess: (data) => {
+      console.log("Successfully added to wishlist:", data);
       notify.success("Added to wishlist");
       queryClient.invalidateQueries({ queryKey: ["wishlist"] });
     },
     onError: (error) => {
+      console.error("Failed to add to wishlist:", error.response?.data);
       const errorMessage =
         error.response?.data?.message ||
+        error.response?.data?.detail ||
         error.message ||
         "Failed to add to wishlist";
       notify.error(errorMessage);

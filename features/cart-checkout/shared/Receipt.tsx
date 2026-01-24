@@ -30,7 +30,7 @@ const Receipt = ({
 
   const handleProceedToCheckout = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    
+
     // Check if user is authenticated
     if (!user) {
       // Redirect to register with return URL
@@ -59,14 +59,16 @@ const Receipt = ({
 
       <div className="flex justify-between">
         <h5 className="font-medium">Subtotal</h5>
-        <h5>${(subtotal !== undefined ? subtotal : totalPrice ?? 0).toFixed(2)}</h5>
+        <h5>
+          #{(subtotal !== undefined ? subtotal : (totalPrice ?? 0)).toFixed(2)}
+        </h5>
       </div>
 
       {/* Shipping Cost */}
       {shippingCost !== undefined && (
         <div className="flex justify-between">
           <h5 className="font-medium">Shipping</h5>
-          <h5>${shippingCost.toFixed(2)}</h5>
+          <h5>#{shippingCost.toFixed(2)}</h5>
         </div>
       )}
 
@@ -74,7 +76,7 @@ const Receipt = ({
       {tax !== undefined && (
         <div className="flex justify-between">
           <h5 className="font-medium">Tax</h5>
-          <h5>${tax.toFixed(2)}</h5>
+          <h5>#{tax.toFixed(2)}</h5>
         </div>
       )}
 
@@ -87,28 +89,25 @@ const Receipt = ({
         />
 
         <p className="text-[#3B3B3B] font-normal pt-4">
-          You have <span className="font-medium">0 Loyalty points = $0.00</span>
+          You have <span className="font-medium">0 Loyalty points = #0.00</span>
         </p>
       </div>
 
       {/* Total */}
       <div className="flex font-medium justify-between pb-10">
         <h5>Total</h5>
-        <h5>${(totalPrice ?? 0).toFixed(2)}</h5>
+        <h5>#{(totalPrice ?? 0).toFixed(2)}</h5>
       </div>
 
       {showButton && (
         <>
-          <Link 
-            href="/checkout" 
-            onClick={handleProceedToCheckout}
-          >
-            <LinkCta 
+          <Link href="/checkout" onClick={handleProceedToCheckout}>
+            <LinkCta
               label={
                 createOrderMutation.isPending
                   ? "Creating order..."
                   : "Proceed to checkout"
-              } 
+              }
               className="w-full"
               disabled={createOrderMutation.isPending}
             />
