@@ -60,7 +60,7 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
       is_featured: false,
       images: [
         {
-          file: undefined,
+          file: null, // Will be stored in filesRef
           is_primary: true,
           alt_text: "",
           order: 1,
@@ -76,6 +76,8 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
 
   // Create refs for file inputs
   const fileInputRefs = useRef<Map<number, HTMLInputElement>>(new Map());
+  // Store files separately in a ref since React Hook Form might not handle File objects well
+  const filesRef = useRef<Map<number, File>>(new Map());
   const setFileInputRef = (index: number, element: HTMLInputElement | null) => {
     if (element) {
       fileInputRefs.current.set(index, element);
@@ -85,25 +87,38 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
   };
 
   const onSubmit = (values: CreateProductValues) => {
-    // Validate that all images have files
-    const hasInvalidImage = values.images.some((img) => !img.file);
-    if (hasInvalidImage) {
-      values.images.forEach((img, index) => {
-        if (!img.file) {
-          form.setError(`images.${index}.file`, {
-            message: "Image file is required",
-          });
-        }
+    console.log("Form values on submit:", values);
+    console.log("Files from ref:", Array.from(filesRef.current.entries()));
+    
+    // Validate that all images have files stored in the ref
+    const missingFiles: number[] = [];
+    values.images.forEach((img, index) => {
+      const file = filesRef.current.get(index);
+      if (!file || !(file instanceof File)) {
+        missingFiles.push(index);
+      }
+    });
+
+    if (missingFiles.length > 0) {
+      missingFiles.forEach((index) => {
+        form.setError(`images.${index}.file`, {
+          message: "Image file is required",
+        });
       });
       return; // Stop submission if validation fails
     }
 
-    // Ensure is_featured is always a boolean
-    const submitData = {
+    // Create submit data with actual files from ref
+    const submitData: CreateProductValues = {
       ...values,
       is_featured: Boolean(values.is_featured ?? false),
+      images: values.images.map((img, index) => ({
+        ...img,
+        file: filesRef.current.get(index)!,
+      })),
     };
 
+    console.log("Submitting data with files:", submitData);
     mutate(submitData);
   };
 
@@ -183,6 +198,13 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
                               fileInputRefs.current.get(index)?.click()
                             }
                             useNextImage={true}
+                            onFileChange={(file) => {
+                              if (file) {
+                                filesRef.current.set(index, file);
+                              } else {
+                                filesRef.current.delete(index);
+                              }
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -210,20 +232,20 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
             ))}
           </div>
 
-          <button
-            type="button"
-            className="text-[#3B3B3B] hover:text-[#2B2B2B] text-sm font-medium transition-colors"
-            onClick={() =>
-              append({
-                file: undefined as unknown as File,
-                is_primary: false,
-                alt_text: "",
-                order: fields.length + 1,
-              })
-            }
-          >
-            + Add Another Image
-          </button>
+              <button
+                type="button"
+                className="text-[#3B3B3B] hover:text-[#2B2B2B] text-sm font-medium transition-colors"
+                onClick={() =>
+                  append({
+                    file: null, // Will be stored in filesRef
+                    is_primary: false,
+                    alt_text: "",
+                    order: fields.length + 1,
+                  })
+                }
+              >
+                + Add Another Image
+              </button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

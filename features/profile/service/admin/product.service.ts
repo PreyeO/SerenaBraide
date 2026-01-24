@@ -16,22 +16,27 @@ export async function createProduct(data: CreateProductValues) {
   formData.append("base_price", data.base_price);
   formData.append("is_featured", String(data.is_featured));
 
+  // For Django REST Framework, use dot notation for nested list items
+  // This creates a proper list structure instead of a nested dict
   data.images.forEach((img, index) => {
-    if (!img.file) {
-      throw new Error("Image file missing");
+    if (!img.file || !(img.file instanceof File)) {
+      throw new Error(`Image file missing or invalid at index ${index}`);
     }
 
-    formData.append(`images[${index}][file]`, img.file);
-    formData.append(`images[${index}][is_primary]`, String(img.is_primary));
-    formData.append(`images[${index}][alt_text]`, img.alt_text || "");
-    formData.append(`images[${index}][order]`, String(img.order));
+    // Use dot notation: images.0.field_name (DRF parses this as a list)
+    formData.append(`images.${index}.image_url`, img.file);
+    formData.append(`images.${index}.is_primary`, String(img.is_primary));
+    formData.append(`images.${index}.alt_text`, img.alt_text || "");
+    formData.append(`images.${index}.order`, String(img.order));
   });
 
-  const response = await api.post("/api/products/", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  // Log FormData contents for debugging
+  console.log("FormData entries:");
+  for (const [key, value] of formData.entries()) {
+    console.log(`  ${key}:`, value instanceof File ? `File(${value.name})` : value);
+  }
+
+  const response = await api.post("/api/products/", formData);
 
   return response.data;
 }
@@ -75,25 +80,28 @@ export async function createVariant(
   formData.append("stock_quantity", String(data.stock_quantity));
   formData.append("is_active", String(data.is_active));
 
+  // For Django REST Framework, use dot notation for nested list items
   data.images.forEach((img, index) => {
-    if (!img.file) {
-      throw new Error("Image file missing");
+    if (!img.file || !(img.file instanceof File)) {
+      throw new Error(`Image file missing or invalid at index ${index}`);
     }
 
-    formData.append(`images[${index}][file]`, img.file);
-    formData.append(`images[${index}][is_primary]`, String(img.is_primary));
-    formData.append(`images[${index}][alt_text]`, img.alt_text || "");
-    formData.append(`images[${index}][order]`, String(img.order));
+    // Use dot notation: images.0.field_name (DRF parses this as a list)
+    formData.append(`images.${index}.image_url`, img.file);
+    formData.append(`images.${index}.is_primary`, String(img.is_primary));
+    formData.append(`images.${index}.alt_text`, img.alt_text || "");
+    formData.append(`images.${index}.order`, String(img.order));
   });
+
+  // Log FormData contents for debugging
+  console.log("FormData entries:");
+  for (const [key, value] of formData.entries()) {
+    console.log(`  ${key}:`, value instanceof File ? `File(${value.name})` : value);
+  }
 
   const response = await api.post(
     `/api/products/${productId}/variants/`,
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }
+    formData
   );
 
   return response.data;

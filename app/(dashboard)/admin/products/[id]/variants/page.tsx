@@ -12,3 +12,4 @@ const VariantsPage = ({ params }: VariantsPageProps) => {
 
 export default VariantsPage;
 
+

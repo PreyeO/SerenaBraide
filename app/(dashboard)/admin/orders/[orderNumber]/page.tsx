@@ -12,3 +12,4 @@ const OrderDetailPage = ({ params }: OrderDetailPageProps) => {
 
 export default OrderDetailPage;
 
+

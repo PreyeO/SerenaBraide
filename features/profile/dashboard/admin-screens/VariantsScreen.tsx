@@ -177,3 +177,4 @@ const VariantsScreen = ({ productId }: VariantsScreenProps) => {
 
 export default VariantsScreen;
 
+

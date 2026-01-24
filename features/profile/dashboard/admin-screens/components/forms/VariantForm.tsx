@@ -54,7 +54,7 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
       is_active: true,
       images: [
         {
-          file: undefined,
+          file: null, // Will be stored in filesRef
           is_primary: true,
           alt_text: "",
           order: 1,
@@ -70,6 +70,8 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
 
   // Create refs for file inputs
   const fileInputRefs = useRef<Map<number, HTMLInputElement>>(new Map());
+  // Store files separately in a ref since React Hook Form might not handle File objects well
+  const filesRef = useRef<Map<number, File>>(new Map());
   const setFileInputRef = (index: number, element: HTMLInputElement | null) => {
     if (element) {
       fileInputRefs.current.set(index, element);
@@ -79,20 +81,43 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
   };
 
   const onSubmit = (values: CreateVariantValues) => {
+    console.log("Form values on submit:", values);
+    console.log("Files from ref:", Array.from(filesRef.current.entries()));
+    
+    // Validate that all images have files stored in the ref
+    const missingFiles: number[] = [];
     values.images.forEach((img, index) => {
-      if (!img.file) {
-        form.setError(`images.${index}.file`, {
-          message: "Image file is required",
-        });
-        throw new Error("Missing image file");
+      const file = filesRef.current.get(index);
+      if (!file || !(file instanceof File)) {
+        missingFiles.push(index);
       }
     });
 
+    if (missingFiles.length > 0) {
+      missingFiles.forEach((index) => {
+        form.setError(`images.${index}.file`, {
+          message: "Image file is required",
+        });
+      });
+      return; // Stop submission if validation fails
+    }
+
+    // Create submit data with actual files from ref
+    const submitData: CreateVariantValues = {
+      ...values,
+      images: values.images.map((img, index) => ({
+        ...img,
+        file: filesRef.current.get(index)!,
+      })),
+    };
+
+    console.log("Submitting data with files:", submitData);
     mutate(
-      { productId: values.product_id, data: values },
+      { productId: values.product_id, data: submitData },
       {
         onSuccess: () => {
           form.reset();
+          filesRef.current.clear(); // Clear file refs on success
           onVariantCreated?.();
         },
       },
@@ -275,6 +300,13 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
                             onButtonClick={() =>
                               fileInputRefs.current.get(index)?.click()
                             }
+                            onFileChange={(file) => {
+                              if (file) {
+                                filesRef.current.set(index, file);
+                              } else {
+                                filesRef.current.delete(index);
+                              }
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -306,7 +338,7 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
             className="text-[#3B3B3B] hover:text-[#2B2B2B] text-sm font-normal transition-colors"
             onClick={() =>
               append({
-                file: undefined as unknown as File,
+                file: null, // Will be stored in filesRef
                 is_primary: false,
                 alt_text: "",
                 order: fields.length + 1,

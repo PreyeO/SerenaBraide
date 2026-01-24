@@ -1,5 +1,6 @@
 "use client";
 
+import AdminAuthGuard from "@/features/auth/components/AdminAuthGuard";
 import AdminDashboard from "@/features/profile/dashboard/layout/AdminDashboard";
 import { ThemeProvider } from "@/features/profile/dashboard/layout/theme-provider";
 
@@ -11,7 +12,9 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
       enableSystem
       disableTransitionOnChange
     >
-      <AdminDashboard>{children}</AdminDashboard>
+      <AdminAuthGuard>
+        <AdminDashboard>{children}</AdminDashboard>
+      </AdminAuthGuard>
     </ThemeProvider>
   );
 };

@@ -9,7 +9,7 @@ export const CreateProductSchema = z.object({
   images: z
     .array(
       z.object({
-        file: z.instanceof(File, { message: "Image file is required" }),
+        file: z.any(), // Accept any type since we store File in ref
         is_primary: z.boolean(),
         alt_text: z.string().optional(),
         order: z.number(),
@@ -35,7 +35,7 @@ export const CreateVariantSchema = z.object({
   images: z
     .array(
       z.object({
-        file: z.instanceof(File, { message: "Image file is required" }),
+        file: z.any(), // Accept any type since we store File in ref
         is_primary: z.boolean(),
         alt_text: z.string().optional(),
         order: z.number(),

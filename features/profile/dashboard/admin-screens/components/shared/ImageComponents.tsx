@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   ControllerRenderProps,
   Control,
   FieldValues,
   Path,
+  useFormContext,
 } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
@@ -16,7 +17,6 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import Image from "next/image";
 
 interface ImageUploadFieldProps<T extends FieldValues> {
   field: ControllerRenderProps<T, Path<T>>;
@@ -24,6 +24,7 @@ interface ImageUploadFieldProps<T extends FieldValues> {
   fileInputRef: (el: HTMLInputElement | null) => void;
   onButtonClick: () => void;
   useNextImage?: boolean;
+  onFileChange?: (file: File | null) => void;
 }
 
 export const ImageUploadField = <T extends FieldValues>({
@@ -31,12 +32,14 @@ export const ImageUploadField = <T extends FieldValues>({
   fileInputRef,
   onButtonClick,
   useNextImage = false,
+  onFileChange,
 }: ImageUploadFieldProps<T>) => {
   const [preview, setPreview] = useState<string | null>(null);
+  const [currentFile, setCurrentFile] = useState<File | null>(null);
 
   useEffect(() => {
-    if (field.value && (field.value as unknown) instanceof File) {
-      const objectUrl = URL.createObjectURL(field.value as File);
+    if (currentFile) {
+      const objectUrl = URL.createObjectURL(currentFile);
       setPreview(objectUrl);
 
       return () => {
@@ -45,7 +48,7 @@ export const ImageUploadField = <T extends FieldValues>({
     } else {
       setPreview(null);
     }
-  }, [field.value]);
+  }, [currentFile]);
 
   return (
     <div className="flex flex-col items-center space-y-3">
@@ -54,26 +57,31 @@ export const ImageUploadField = <T extends FieldValues>({
         type="file"
         accept="image/*"
         className="hidden"
-        onChange={(e) => field.onChange(e.target.files?.[0])}
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file && file instanceof File) {
+            console.log("File selected:", file.name, file.size, file.type);
+            setCurrentFile(file);
+            // Store a placeholder in React Hook Form (for validation)
+            field.onChange({ name: file.name, size: file.size, type: file.type });
+            // Store the actual file via callback
+            onFileChange?.(file);
+          } else {
+            console.error("No file selected or invalid file");
+            setCurrentFile(null);
+            field.onChange(null);
+            onFileChange?.(null);
+          }
+        }}
       />
       {preview ? (
         <div className="w-full space-y-3">
           <div className="relative w-full max-w-xs mx-auto h-48">
-            {useNextImage ? (
-              <Image
-                src={preview}
-                alt="Preview"
-                fill
-                className="object-cover rounded-lg border border-gray-300"
-              />
-            ) : (
-              <Image
-                src={preview}
-                alt="Preview"
-                fill
-                className="w-full h-full object-cover rounded-lg border border-gray-300"
-              />
-            )}
+            <img
+              src={preview}
+              alt="Preview"
+              className="w-full h-full object-cover rounded-lg border border-gray-300"
+            />
           </div>
           <button
             type="button"
@@ -83,7 +91,7 @@ export const ImageUploadField = <T extends FieldValues>({
             Change image
           </button>
           <p className="text-xs text-[#6F6E6C] text-center">
-            {field.value?.name}
+            {currentFile?.name || field.value?.name}
           </p>
         </div>
       ) : (

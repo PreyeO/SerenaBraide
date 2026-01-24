@@ -37,17 +37,18 @@ const ProductScreen = () => {
             All Products
           </TabsTrigger>
           <TabsTrigger
-            value="add-product"
-            className="px-6 py-3 text-sm font-medium text-[#6F6E6C] border-b-2 border-transparent rounded-none data-[state=active]:text-[#3B3B3B] data-[state=active]:border-[#3B3B3B] data-[state=active]:bg-transparent hover:text-[#3B3B3B] transition-colors"
-          >
-            Add Product
-          </TabsTrigger>
-          <TabsTrigger
             value="add-category"
             className="px-6 py-3 text-sm font-medium text-[#6F6E6C] border-b-2 border-transparent rounded-none data-[state=active]:text-[#3B3B3B] data-[state=active]:border-[#3B3B3B] data-[state=active]:bg-transparent hover:text-[#3B3B3B] transition-colors"
           >
-            Add Category
+            Add Product Category
           </TabsTrigger>
+          <TabsTrigger
+            value="add-product"
+            className="px-6 py-3 text-sm font-medium text-[#6F6E6C] border-b-2 border-transparent rounded-none data-[state=active]:text-[#3B3B3B] data-[state=active]:border-[#3B3B3B] data-[state=active]:bg-transparent hover:text-[#3B3B3B] transition-colors"
+          >
+            Add New Product
+          </TabsTrigger>
+
           <TabsTrigger
             value="add-variant"
             className="px-6 py-3 text-sm font-medium text-[#6F6E6C] border-b-2 border-transparent rounded-none data-[state=active]:text-[#3B3B3B] data-[state=active]:border-[#3B3B3B] data-[state=active]:bg-transparent hover:text-[#3B3B3B] transition-colors"
