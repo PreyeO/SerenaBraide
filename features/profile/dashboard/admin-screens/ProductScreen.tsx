@@ -1,90 +1,77 @@
 "use client";
 
-import Image from "next/image";
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-} from "@/components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGetProducts } from "@/features/profile/hooks/admin/useGetProducts";
-import { AllProduct } from "@/features/profile/type/admin/product.type";
+import ProductForm from "./components/forms/ProductForm";
+import CategoryForm from "./components/forms/CategoryForm";
+import VariantForm from "./components/forms/VariantForm";
+import ProductTable from "./components/ProductTable";
+import SubHeading from "@/components/ui/typography/subHeading";
 
 const ProductScreen = () => {
-  const { data: products, isLoading } = useGetProducts();
+  const { data: products, isLoading, refetch } = useGetProducts();
 
   if (isLoading) return <p>Loading products...</p>;
 
+  const handleProductCreated = () => {
+    refetch();
+  };
+
+  const handleVariantCreated = () => {
+    refetch();
+  };
+
   return (
-    <section className="p-4">
-      <h1 className="text-xl font-semibold mb-4">Products</h1>
+    <section className="py-7.5">
+      <SubHeading
+        title="Product Management"
+        className="text-sm text-[#3B3B3B] font-semibold pb-6  "
+      />
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>Image</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Category</TableHead>
-            <TableHead>Price</TableHead>
-            <TableHead>Featured</TableHead>
-            <TableHead>Stock</TableHead>
-            <TableHead>Created At</TableHead>
-          </TableRow>
-        </TableHeader>
+      <Tabs defaultValue="all-products" className="w-full">
+        <TabsList className="inline-flex h-12 items-center justify-start gap-2 bg-transparent p-0 mb-6 border-b border-[#E5E5E5] w-full">
+          <TabsTrigger
+            value="all-products"
+            className="px-6 py-3 text-sm font-medium text-[#6F6E6C] border-b-2 border-transparent rounded-none data-[state=active]:text-[#3B3B3B] data-[state=active]:border-[#3B3B3B] data-[state=active]:bg-transparent hover:text-[#3B3B3B] transition-colors"
+          >
+            All Products
+          </TabsTrigger>
+          <TabsTrigger
+            value="add-product"
+            className="px-6 py-3 text-sm font-medium text-[#6F6E6C] border-b-2 border-transparent rounded-none data-[state=active]:text-[#3B3B3B] data-[state=active]:border-[#3B3B3B] data-[state=active]:bg-transparent hover:text-[#3B3B3B] transition-colors"
+          >
+            Add Product
+          </TabsTrigger>
+          <TabsTrigger
+            value="add-category"
+            className="px-6 py-3 text-sm font-medium text-[#6F6E6C] border-b-2 border-transparent rounded-none data-[state=active]:text-[#3B3B3B] data-[state=active]:border-[#3B3B3B] data-[state=active]:bg-transparent hover:text-[#3B3B3B] transition-colors"
+          >
+            Add Category
+          </TabsTrigger>
+          <TabsTrigger
+            value="add-variant"
+            className="px-6 py-3 text-sm font-medium text-[#6F6E6C] border-b-2 border-transparent rounded-none data-[state=active]:text-[#3B3B3B] data-[state=active]:border-[#3B3B3B] data-[state=active]:bg-transparent hover:text-[#3B3B3B] transition-colors"
+          >
+            Add Variant
+          </TabsTrigger>
+        </TabsList>
 
-        <TableBody>
-          {products?.map((product: AllProduct) => (
-            <TableRow key={product.id}>
-              <TableCell>{product.id}</TableCell>
+        <TabsContent value="all-products" className="mt-0">
+          <ProductTable products={products || []} />
+        </TabsContent>
 
-              <TableCell>
-                {product.primary_image ? (
-                  <div className="w-12 h-12 relative">
-                    <Image
-                      src={product.primary_image}
-                      alt={product.name}
-                      fill
-                      className="object-cover rounded"
-                    />
-                  </div>
-                ) : (
-                  <div className="w-12 h-12 bg-gray-200 flex items-center justify-center text-xs rounded">
-                    No Image
-                  </div>
-                )}
-              </TableCell>
+        <TabsContent value="add-product" className="mt-0">
+          <ProductForm onProductCreated={handleProductCreated} />
+        </TabsContent>
 
-              <TableCell>{product.name}</TableCell>
-              <TableCell>{product.category_name}</TableCell>
+        <TabsContent value="add-category" className="mt-0">
+          <CategoryForm />
+        </TabsContent>
 
-              <TableCell>₦{product.base_price}</TableCell>
-
-              <TableCell>
-                {product.is_featured ? (
-                  <span className="text-green-600 font-medium">Yes</span>
-                ) : (
-                  <span className="text-gray-500">No</span>
-                )}
-              </TableCell>
-
-              <TableCell>
-                {product.in_stock ? (
-                  <span className="text-green-600 font-medium">In Stock</span>
-                ) : (
-                  <span className="text-red-600">Out</span>
-                )}
-              </TableCell>
-
-              <TableCell>
-                {new Date(product.created_at).toLocaleDateString()}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+        <TabsContent value="add-variant" className="mt-0">
+          <VariantForm onVariantCreated={handleVariantCreated} />
+        </TabsContent>
+      </Tabs>
     </section>
   );
 };

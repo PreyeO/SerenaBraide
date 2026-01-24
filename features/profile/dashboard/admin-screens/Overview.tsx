@@ -46,9 +46,7 @@ const Overview = () => {
 
   return (
     <section className="px-6 py-6 space-y-6">
-      {/* Overview Section */}
       <div className="space-y-6">
-        {/* Header with Title and Date Range Picker */}
         <div className="flex items-center justify-between">
           <SubHeading
             title="Overview"

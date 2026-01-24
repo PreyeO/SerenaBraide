@@ -110,16 +110,16 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
           control={form.control}
           name="product_id"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="">
               <FormLabel className="text-sm font-normal text-[#3B3B3B]">
-                Product
+                Product Name
               </FormLabel>
               <Select
                 onValueChange={(value) => field.onChange(Number(value))}
                 value={field.value?.toString()}
               >
                 <FormControl>
-                  <SelectTrigger className="h-11">
+                  <SelectTrigger className="h-11 w-full">
                     <SelectValue placeholder="Select a product" />
                   </SelectTrigger>
                 </FormControl>
