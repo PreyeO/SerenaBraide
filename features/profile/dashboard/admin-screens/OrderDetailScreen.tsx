@@ -166,7 +166,7 @@ const OrderDetailScreen = ({ orderNumber }: OrderDetailScreenProps) => {
                     className="flex gap-4 p-4 border border-[#F0F0F0] rounded-lg hover:bg-[#FAFAFA] transition-colors"
                   >
                     {primaryImage && (
-                      <div className="w-24 h-24 relative rounded-md overflow-hidden flex-shrink-0">
+                      <div className="w-24 h-24 relative rounded-md overflow-hidden shrink-0">
                         <Image
                           src={primaryImage.image_url}
                           alt={item.variant.product_name}

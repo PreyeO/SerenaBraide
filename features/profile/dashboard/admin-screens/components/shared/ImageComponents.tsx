@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import {
   ControllerRenderProps,
   Control,
   FieldValues,
   Path,
-  useFormContext,
 } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
@@ -17,6 +16,7 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import Image from "next/image";
 
 interface ImageUploadFieldProps<T extends FieldValues> {
   field: ControllerRenderProps<T, Path<T>>;
@@ -31,7 +31,6 @@ export const ImageUploadField = <T extends FieldValues>({
   field,
   fileInputRef,
   onButtonClick,
-  useNextImage = false,
   onFileChange,
 }: ImageUploadFieldProps<T>) => {
   const [preview, setPreview] = useState<string | null>(null);
@@ -63,7 +62,11 @@ export const ImageUploadField = <T extends FieldValues>({
             console.log("File selected:", file.name, file.size, file.type);
             setCurrentFile(file);
             // Store a placeholder in React Hook Form (for validation)
-            field.onChange({ name: file.name, size: file.size, type: file.type });
+            field.onChange({
+              name: file.name,
+              size: file.size,
+              type: file.type,
+            });
             // Store the actual file via callback
             onFileChange?.(file);
           } else {
@@ -76,11 +79,13 @@ export const ImageUploadField = <T extends FieldValues>({
       />
       {preview ? (
         <div className="w-full space-y-3">
-          <div className="relative w-full max-w-xs mx-auto h-48">
-            <img
+          <div className="relative  w-full max-w-xs mx-auto h-48">
+            <Image
               src={preview}
               alt="Preview"
-              className="w-full h-full object-cover rounded-lg border border-gray-300"
+              fill
+              className="object-cover"
+              unoptimized
             />
           </div>
           <button

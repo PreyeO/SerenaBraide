@@ -1,6 +1,7 @@
 import UnderlineLink from "@/components/ui/btns/underline-cta";
 import ProductImage from "@/components/ui/images/product-image";
 import { CornerUpLeft } from "lucide-react";
+import Image from "next/image";
 
 interface AuthLayoutProps {
   children: React.ReactNode;
@@ -10,10 +11,12 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <main className="flex items-stretch">
       <div className="hidden md:flex max-w-xl shrink-0">
-        <img
+        <Image
           src="/auth-image.png"
           alt="Silhouette spraying perfume"
-          className="w-full h-full object-cover"
+          fill
+          className="object-cover"
+          priority
         />
       </div>
 
