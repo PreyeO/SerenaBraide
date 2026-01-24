@@ -1,15 +1,14 @@
 import OrderDetailScreen from "@/features/profile/dashboard/admin-screens/OrderDetailScreen";
 
 interface OrderDetailPageProps {
-  params: {
+  params: Promise<{
     orderNumber: string;
-  };
+  }>;
 }
 
-const OrderDetailPage = ({ params }: OrderDetailPageProps) => {
-  return <OrderDetailScreen orderNumber={parseInt(params.orderNumber)} />;
+const OrderDetailPage = async ({ params }: OrderDetailPageProps) => {
+  const { orderNumber } = await params;
+  return <OrderDetailScreen orderNumber={parseInt(orderNumber)} />;
 };
 
 export default OrderDetailPage;
-
-
