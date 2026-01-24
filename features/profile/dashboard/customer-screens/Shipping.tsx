@@ -16,6 +16,7 @@ import LoadingState from "@/components/ui/loaders/loading-state";
 import OverviewCard from "./shared/OverviewCard";
 import { Plus } from "lucide-react";
 import Paragraph from "@/components/ui/typography/paragraph";
+import DashboardLoader from "@/components/ui/loaders/dasboard-loader";
 
 const Shipping = () => {
   const user = useAuthStore((state) => state.user);
@@ -63,7 +64,7 @@ const Shipping = () => {
   };
 
   if (isLoading) {
-    return <LoadingState />;
+    return <DashboardLoader />;
   }
 
   if (!addresses || addresses.length === 0) {

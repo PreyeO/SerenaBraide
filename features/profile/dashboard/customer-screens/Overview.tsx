@@ -9,13 +9,14 @@ import { useAuthStore } from "@/features/auth/auth.store";
 import AddressCard from "@/features/cart-checkout/shared/AddressCard";
 import EmptyCustomerDefault from "./shared/empty/EmptyCustomerDefault";
 import LoadingState from "@/components/ui/loaders/loading-state";
+import DashboardLoader from "@/components/ui/loaders/dasboard-loader";
 
 const Overview = () => {
   const user = useAuthStore((state) => state.user);
   const { data: addresses, isLoading } = useGetAddresses();
 
   if (!user) {
-    return <LoadingState />;
+    return <DashboardLoader />;
   }
 
   const defaultAddress =
@@ -57,25 +58,6 @@ const Overview = () => {
           useCircle
         />
       )}
-      {/* 
-      <OverviewCard subHeading="Payment Card">
-        <div className="font-normal text-base flex  gap-6">
-          <Image
-            className=""
-            alt="customer card"
-            src="/payment-card-1.png"
-            width={352}
-            height={175}
-          />
-          <Image
-            className=""
-            alt="customer card"
-            src="/payment-card-2.png"
-            width={352}
-            height={175}
-          />
-        </div>
-      </OverviewCard> */}
 
       <EmptyCustomerLoyalty
         subHeading="Loyalty Points"

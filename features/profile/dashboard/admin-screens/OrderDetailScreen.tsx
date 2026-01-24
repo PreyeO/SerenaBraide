@@ -10,6 +10,7 @@ import { Order } from "@/features/profile/type/customers/profile.type";
 import UpdateShippingStatusModal from "./components/UpdateShippingStatusModal";
 import { Button } from "@/components/ui/button";
 import { Edit } from "lucide-react";
+import DashboardLoader from "@/components/ui/loaders/dasboard-loader";
 
 interface OrderDetailScreenProps {
   orderNumber: number;
@@ -79,13 +80,7 @@ const OrderDetailScreen = ({ orderNumber }: OrderDetailScreenProps) => {
   };
 
   if (isLoading) {
-    return (
-      <section className="py-7.5">
-        <div className="py-12 text-center text-[#6F6E6C]">
-          Loading order details...
-        </div>
-      </section>
-    );
+    return <DashboardLoader />;
   }
 
   if (!order) {

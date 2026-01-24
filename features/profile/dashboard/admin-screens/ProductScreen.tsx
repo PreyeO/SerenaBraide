@@ -7,11 +7,12 @@ import CategoryForm from "./components/forms/CategoryForm";
 import VariantForm from "./components/forms/VariantForm";
 import ProductTable from "./components/tables/ProductTable";
 import SubHeading from "@/components/ui/typography/subHeading";
+import DashboardLoader from "@/components/ui/loaders/dasboard-loader";
 
 const ProductScreen = () => {
   const { data: products, isLoading, refetch } = useGetProducts();
 
-  if (isLoading) return <p>Loading products...</p>;
+  if (isLoading) return <DashboardLoader />;
 
   const handleProductCreated = () => {
     refetch();

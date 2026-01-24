@@ -17,6 +17,7 @@ import { useAuthStore } from "@/features/auth/auth.store";
 import { WishlistItem } from "../../type/customers/profile.type";
 import { VariantImage } from "@/features/products/product.type";
 import { format } from "date-fns";
+import DashboardLoader from "@/components/ui/loaders/dasboard-loader";
 
 const CustomerWishlist = () => {
   const user = useAuthStore((state) => state.user);
@@ -67,11 +68,11 @@ const CustomerWishlist = () => {
   };
 
   if (!user) {
-    return <LoadingState />;
+    return <DashboardLoader />;
   }
 
   if (isLoading) {
-    return <LoadingState />;
+    return <DashboardLoader />;
   }
 
   if (!wishlistData?.results || wishlistData.results.length === 0) {

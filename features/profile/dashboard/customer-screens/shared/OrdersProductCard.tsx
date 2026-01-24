@@ -126,10 +126,10 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
                 className="text-xs sm:text-sm font-medium text-[#3B3B3B] pb-0.75"
               />
               {order.extraInfo && (
-                <Paragraph
-                  content={order.extraInfo}
-                  className="text-xs text-[#6F6E6C]"
-                />
+              <Paragraph
+                content={order.extraInfo}
+                className="text-xs text-[#6F6E6C]"
+              />
               )}
             </div>
             <div className="flex flex-col sm:flex-col gap-2 w-full sm:w-50">

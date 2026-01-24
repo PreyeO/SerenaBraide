@@ -2,19 +2,19 @@
 import React from "react";
 import EmptyCustomerSummary from "./shared/empty/EmptyCustomerSummary";
 import { useAuthStore } from "@/features/auth/auth.store";
-import LoadingState from "@/components/ui/loaders/loading-state";
 import OverviewCard from "./shared/OverviewCard";
 import AuthSpan from "@/components/ui/typography/auth-span";
 import UnderlineLink from "@/components/ui/btns/underline-cta";
 import { CheckCircle } from "lucide-react";
 import { useGetAddresses } from "@/features/cart-checkout/hooks/useGetAddresses";
+import DashboardLoader from "@/components/ui/loaders/dasboard-loader";
 
 const AccountSetting = () => {
   const user = useAuthStore((state) => state.user);
   const { data: addresses } = useGetAddresses();
 
   if (!user) {
-    return <LoadingState />;
+    return <DashboardLoader />;
   }
 
   // Helper function to display value or "null"
