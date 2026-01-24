@@ -10,12 +10,8 @@ import { faq } from "@/constant/data";
 
 const Faq = () => {
   return (
-    <section className="pb-[80px] pt-[152px] text-[#3B3B3B] ">
-      <Accordion
-        type="single"
-        collapsible
-        className="w-full max-w-[700px] mx-auto"
-      >
+    <section className="pb-20 pt-38 text-[#3B3B3B] ">
+      <Accordion type="single" collapsible className="w-full max-w-175 mx-auto">
         <SubHeading
           className=" font-normal text-[26px]"
           title="Frequently Asked Questions — Serena Braide"
@@ -24,7 +20,7 @@ const Faq = () => {
           <AccordionItem
             key={index}
             value={`item-${index}`}
-            className="pt-[50px]"
+            className="pt-12.5"
           >
             <AccordionTrigger className="text-base font-normal ">
               {item.question}

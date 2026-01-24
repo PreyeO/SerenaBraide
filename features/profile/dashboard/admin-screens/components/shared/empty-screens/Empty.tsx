@@ -21,7 +21,7 @@ const Empty = ({
   showButton = true,
 }: EmptyProps) => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[400px] px-4">
+    <div className="flex flex-col items-center justify-center min-h-100 px-4">
       {Icon && (
         <div className="w-16 h-16 bg-[#F5F5F5] rounded-full flex items-center justify-center mb-6">
           <Icon className="w-8 h-8 text-[#6F6E6C]" />
@@ -46,4 +46,3 @@ const Empty = ({
 };
 
 export default Empty;
-

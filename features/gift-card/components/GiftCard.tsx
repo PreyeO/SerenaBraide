@@ -2,7 +2,6 @@
 
 import SubmitButton from "@/components/ui/btns/submit-cta";
 import ProductImage from "@/components/ui/images/product-image";
-import Paragraph from "@/components/ui/typography/subHeading";
 import SubHeading from "@/components/ui/typography/subHeading";
 import { cardDesign } from "../general.data";
 import { Input } from "@/components/ui/input";
@@ -13,6 +12,7 @@ import { useGiftCardStore } from "../giftcard.store";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/features/auth/auth.store";
 import { useSearchParams } from "next/navigation";
+import Paragraph from "@/components/ui/typography/paragraph";
 
 const GiftCardSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
