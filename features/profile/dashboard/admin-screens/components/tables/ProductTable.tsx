@@ -19,12 +19,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import TableEmpty from "../shared/empty-screens/TableEmpty";
 
 interface ProductTableProps {
   products: AllProduct[];
+  onAddProduct?: () => void;
 }
 
-const ProductTable = ({ products }: ProductTableProps) => {
+const ProductTable = ({ products, onAddProduct }: ProductTableProps) => {
   const router = useRouter();
 
   const handleViewMore = (productId: number) => {
@@ -37,6 +39,48 @@ const ProductTable = ({ products }: ProductTableProps) => {
       console.log("Delete product:", productId);
     }
   };
+
+  // Show empty state if no products
+  if (!products || products.length === 0) {
+    return (
+      <div className="bg-white rounded-lg border border-[#F0F0F0] overflow-hidden">
+        <Table>
+          <TableHeader>
+            <TableRow className="bg-[#FAFAFA] hover:bg-[#FAFAFA]">
+              <TableHead className="font-semibold text-[#3B3B3B]">
+                Product Name
+              </TableHead>
+              <TableHead className="font-semibold text-[#3B3B3B]">
+                Status
+              </TableHead>
+              <TableHead className="font-semibold text-[#3B3B3B]">
+                Inventory
+              </TableHead>
+              <TableHead className="font-semibold text-[#3B3B3B]">
+                Category
+              </TableHead>
+              <TableHead className="font-semibold text-[#3B3B3B]">
+                Price
+              </TableHead>
+              <TableHead className="font-semibold text-[#3B3B3B]">
+                Variants
+              </TableHead>
+              <TableHead className="font-semibold text-[#3B3B3B]">
+                Action
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+        </Table>
+        <TableEmpty
+          title="No product yet"
+          description="Upload your first product to get started!"
+          buttonLabel="Add new product"
+          onAction={onAddProduct}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white rounded-lg border border-[#F0F0F0] overflow-hidden">
       <Table>
@@ -66,7 +110,7 @@ const ProductTable = ({ products }: ProductTableProps) => {
         </TableHeader>
 
         <TableBody>
-          {products?.map((product: AllProduct) => (
+          {products.map((product: AllProduct) => (
             <TableRow key={product.id} className="hover:bg-[#FAFAFA]">
               <TableCell className="text-[#6F6E6C]">{product.id}</TableCell>
 

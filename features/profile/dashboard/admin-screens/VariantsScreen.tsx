@@ -7,6 +7,8 @@ import { ProductVariant } from "@/features/profile/type/admin/product.type";
 import BackNavigation from "@/components/ui/btns/back-navigation";
 import SubHeading from "@/components/ui/typography/subHeading";
 import DashboardLoader from "@/components/ui/loaders/dasboard-loader";
+import Empty from "./components/shared/empty-screens/Empty";
+import { Package } from "lucide-react";
 
 interface VariantsScreenProps {
   productId: number;
@@ -36,17 +38,13 @@ const VariantsScreen = ({ productId }: VariantsScreenProps) => {
       {isLoading ? (
         <DashboardLoader />
       ) : !variantsData?.results || variantsData.results.length === 0 ? (
-        <div className="py-12 text-center">
-          <p className="text-[#6F6E6C] mb-4">
-            No variants found for this product.
-          </p>
-          <button
-            onClick={() => router.push("/admin/products")}
-            className="text-[#3B3B3B] hover:underline"
-          >
-            Return to Products
-          </button>
-        </div>
+        <Empty
+          icon={Package}
+          title="No variants found"
+          description="This product doesn't have any variants yet. Add variants to offer different sizes, colors, or options."
+          buttonLabel="Add Variant"
+          onAction={() => router.push("/admin/products?tab=add-variant")}
+        />
       ) : (
         <div className="space-y-4">
           {variantsData.results.map((variant: ProductVariant) => (

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGetProducts } from "@/features/profile/hooks/admin/useGetProducts";
 import ProductForm from "./components/forms/ProductForm";
@@ -11,15 +12,21 @@ import DashboardLoader from "@/components/ui/loaders/dasboard-loader";
 
 const ProductScreen = () => {
   const { data: products, isLoading, refetch } = useGetProducts();
+  const [activeTab, setActiveTab] = useState("all-products");
 
   if (isLoading) return <DashboardLoader />;
 
   const handleProductCreated = () => {
     refetch();
+    setActiveTab("all-products");
   };
 
   const handleVariantCreated = () => {
     refetch();
+  };
+
+  const handleAddProduct = () => {
+    setActiveTab("add-product");
   };
 
   return (
@@ -29,7 +36,7 @@ const ProductScreen = () => {
         className="text-sm text-[#3B3B3B] font-semibold pb-6  "
       />
 
-      <Tabs defaultValue="all-products" className="w-full">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="inline-flex h-12 items-center justify-start gap-2 bg-transparent p-0 mb-6 border-b border-[#E5E5E5] w-full">
           <TabsTrigger
             value="all-products"
@@ -59,7 +66,7 @@ const ProductScreen = () => {
         </TabsList>
 
         <TabsContent value="all-products" className="mt-0">
-          <ProductTable products={products || []} />
+          <ProductTable products={products || []} onAddProduct={handleAddProduct} />
         </TabsContent>
 
         <TabsContent value="add-product" className="mt-0">

@@ -18,6 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import TableEmpty from "../shared/empty-screens/TableEmpty";
 
 interface OrdersTableProps {
   orders: Order[];
@@ -66,6 +67,40 @@ const OrdersTable = ({ orders }: OrdersTableProps) => {
     return order.items.reduce((total, item) => total + item.quantity, 0);
   };
 
+  // Show empty state if no orders
+  if (!orders || orders.length === 0) {
+    return (
+      <div className="bg-white rounded-lg border border-[#F0F0F0] overflow-hidden">
+        <Table>
+          <TableHeader>
+            <TableRow className="bg-[#FAFAFA] hover:bg-[#FAFAFA]">
+              <TableHead className="font-semibold text-[#3B3B3B]">
+                Order Number
+              </TableHead>
+              <TableHead className="font-semibold text-[#3B3B3B]">
+                Status
+              </TableHead>
+              <TableHead className="font-semibold text-[#3B3B3B]">
+                Total Amount
+              </TableHead>
+              <TableHead className="font-semibold text-[#3B3B3B]">
+                Total Quantity
+              </TableHead>
+              <TableHead className="font-semibold text-[#3B3B3B]">
+                Actions
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+        </Table>
+        <TableEmpty
+          title="No orders yet"
+          description="Orders will appear here once customers make purchases."
+          showButton={false}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white rounded-lg border border-[#F0F0F0] overflow-hidden">
       <Table>
@@ -86,7 +121,7 @@ const OrdersTable = ({ orders }: OrdersTableProps) => {
         </TableHeader>
 
         <TableBody>
-          {orders?.map((order: Order) => (
+          {orders.map((order: Order) => (
             <TableRow key={order.order_number} className="hover:bg-[#FAFAFA]">
               <TableCell className="font-medium text-[#3B3B3B]">
                 #{order.order_number}

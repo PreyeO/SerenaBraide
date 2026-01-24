@@ -89,7 +89,7 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
   const onSubmit = (values: CreateProductValues) => {
     console.log("Form values on submit:", values);
     console.log("Files from ref:", Array.from(filesRef.current.entries()));
-    
+
     // Validate that all images have files stored in the ref
     const missingFiles: number[] = [];
     values.images.forEach((img, index) => {
@@ -121,8 +121,6 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
     console.log("Submitting data with files:", submitData);
     mutate(submitData);
   };
-
-  if (isLoading) return <p>Loading categories...</p>;
 
   return (
     <Form {...form}>
@@ -232,20 +230,20 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
             ))}
           </div>
 
-              <button
-                type="button"
-                className="text-[#3B3B3B] hover:text-[#2B2B2B] text-sm font-medium transition-colors"
-                onClick={() =>
-                  append({
-                    file: null, // Will be stored in filesRef
-                    is_primary: false,
-                    alt_text: "",
-                    order: fields.length + 1,
-                  })
-                }
-              >
-                + Add Another Image
-              </button>
+          <button
+            type="button"
+            className="text-[#3B3B3B] hover:text-[#2B2B2B] text-sm font-medium transition-colors"
+            onClick={() =>
+              append({
+                file: null, // Will be stored in filesRef
+                is_primary: false,
+                alt_text: "",
+                order: fields.length + 1,
+              })
+            }
+          >
+            + Add Another Image
+          </button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

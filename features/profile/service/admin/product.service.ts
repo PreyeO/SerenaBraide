@@ -16,18 +16,17 @@ export async function createProduct(data: CreateProductValues) {
   formData.append("base_price", data.base_price);
   formData.append("is_featured", String(data.is_featured));
 
-  // For Django REST Framework, use dot notation for nested list items
-  // This creates a proper list structure instead of a nested dict
+  // Try format: images[0].image_url (with dot before field name)
+  // This is the format used by some DRF parsers
   data.images.forEach((img, index) => {
     if (!img.file || !(img.file instanceof File)) {
       throw new Error(`Image file missing or invalid at index ${index}`);
     }
 
-    // Use dot notation: images.0.field_name (DRF parses this as a list)
-    formData.append(`images.${index}.image_url`, img.file);
-    formData.append(`images.${index}.is_primary`, String(img.is_primary));
-    formData.append(`images.${index}.alt_text`, img.alt_text || "");
-    formData.append(`images.${index}.order`, String(img.order));
+    formData.append(`images[${index}].image_url`, img.file);
+    formData.append(`images[${index}].is_primary`, String(img.is_primary));
+    formData.append(`images[${index}].alt_text`, img.alt_text || "");
+    formData.append(`images[${index}].order`, String(img.order));
   });
 
   // Log FormData contents for debugging
@@ -80,17 +79,15 @@ export async function createVariant(
   formData.append("stock_quantity", String(data.stock_quantity));
   formData.append("is_active", String(data.is_active));
 
-  // For Django REST Framework, use dot notation for nested list items
   data.images.forEach((img, index) => {
     if (!img.file || !(img.file instanceof File)) {
       throw new Error(`Image file missing or invalid at index ${index}`);
     }
 
-    // Use dot notation: images.0.field_name (DRF parses this as a list)
-    formData.append(`images.${index}.image_url`, img.file);
-    formData.append(`images.${index}.is_primary`, String(img.is_primary));
-    formData.append(`images.${index}.alt_text`, img.alt_text || "");
-    formData.append(`images.${index}.order`, String(img.order));
+    formData.append(`images[${index}].image_url`, img.file);
+    formData.append(`images[${index}].is_primary`, String(img.is_primary));
+    formData.append(`images[${index}].alt_text`, img.alt_text || "");
+    formData.append(`images[${index}].order`, String(img.order));
   });
 
   // Log FormData contents for debugging

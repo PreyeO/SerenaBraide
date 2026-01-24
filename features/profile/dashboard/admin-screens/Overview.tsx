@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import {
   ChartContainer,
   ChartTooltip,
@@ -31,11 +32,17 @@ import { generateTimeSeriesData } from "@/features/profile/utils/chart-data";
 import DateRangePicker from "@/features/profile/components/admin/DateRangePicker";
 import { useDateRange } from "../../hooks/admin/useDateRange";
 import SubHeading from "@/components/ui/typography/subHeading";
+import TableEmpty from "./components/shared/empty-screens/TableEmpty";
 
 const Overview = () => {
+  const router = useRouter();
   const { dateRange, period, displayLabel, setDateRange, setPeriod } =
     useDateRange();
   const [selectedMetric, setSelectedMetric] = useState<MetricType>("revenue");
+
+  const handleAddProduct = () => {
+    router.push("/admin/products?tab=add-product");
+  };
 
   const chartData = useMemo(() => {
     if (!dateRange.from || !dateRange.to) return [];
@@ -277,15 +284,12 @@ const Overview = () => {
               </TableRow>
             </TableHeader>
           </Table>
-          <div className="text-center py-12 space-y-4">
-            <p className="text-[#6F6E6C]">No product yet</p>
-            <p className="text-sm text-[#9A9A98]">
-              Upload your first product to get started!
-            </p>
-            <Button className="bg-[#3B3B3B] text-white hover:bg-[#2B2B2B] px-6 py-2.5 rounded-lg">
-              + Add new product
-            </Button>
-          </div>
+          <TableEmpty
+            title="No product yet"
+            description="Upload your first product to get started!"
+            buttonLabel="Add new product"
+            onAction={handleAddProduct}
+          />
         </CardContent>
       </Card>
     </section>
