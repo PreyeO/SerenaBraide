@@ -18,7 +18,7 @@ import { contactSchema } from "../../lib/schemas/schema";
 import SubHeading from "@/components/ui/typography/subHeading";
 import { useContact } from "@/hooks/useContact";
 import Paragraph from "../ui/typography/paragraph";
-import { ContactFormValues } from "@/features/auth/auth.type";
+import { ContactFormValues } from "@/types/general";
 
 export default function ContactForm() {
   const form = useForm<ContactFormValues>({
@@ -36,14 +36,14 @@ export default function ContactForm() {
   const { mutate, isPending } = useContact();
 
   function onSubmit(values: ContactFormValues) {
-    mutate(values);
+    // mutate(values);
     console.log(values);
   }
 
   return (
-    <div className="pt-[50px] w-full gap-[34px] mb-[111px] flex flex-col items-center">
+    <div className="pt-12.5 w-full gap-8.5 mb-27.75 flex flex-col items-center">
       {/* Heading Section */}
-      <div className="w-full max-w-[700px] flex flex-col gap-[6px] font-normal items-start">
+      <div className="w-full max-w-175 flex flex-col gap-1.5 font-normal items-start">
         <SubHeading
           className="text-[#3B3B3B] text-[26px]"
           title="We'd Love to Hear from You"
@@ -57,7 +57,7 @@ export default function ContactForm() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 text-[#3B3B3B] font-normal w-full max-w-[700px]"
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 text-[#3B3B3B] font-normal w-full max-w-175"
         >
           {/* Full Name */}
           <FormField
@@ -72,7 +72,7 @@ export default function ContactForm() {
                   <Input
                     placeholder="John Doe"
                     {...field}
-                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-[50px]"
+                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-12.5"
                   />
                 </FormControl>
                 <FormMessage />
@@ -92,7 +92,7 @@ export default function ContactForm() {
                     type="email"
                     placeholder="john@example.com"
                     {...field}
-                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-[50px]"
+                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-12.5"
                   />
                 </FormControl>
                 <FormMessage />
@@ -113,7 +113,7 @@ export default function ContactForm() {
                   <Input
                     placeholder="+234 801 234 5678"
                     {...field}
-                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-[50px]"
+                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-12.5"
                   />
                 </FormControl>
                 <FormMessage />
@@ -133,7 +133,7 @@ export default function ContactForm() {
                   <Input
                     placeholder="Enter your country"
                     {...field}
-                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-[50px]"
+                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-12.5"
                   />
                 </FormControl>
                 <FormMessage />
@@ -153,7 +153,7 @@ export default function ContactForm() {
                   <Input
                     placeholder="Enter subject"
                     {...field}
-                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-[50px]"
+                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-12.5"
                   />
                 </FormControl>
                 <FormMessage />
@@ -175,7 +175,7 @@ export default function ContactForm() {
                     rows={5}
                     placeholder="Write your message here..."
                     {...field}
-                    className="rounded-[20px] h-[130px] border  focus:border-[#3B3B3B] focus:bg-[#F5F5F5]"
+                    className="rounded-[20px] h-32.5 border  focus:border-[#3B3B3B] focus:bg-[#F5F5F5]"
                   />
                 </FormControl>
                 <FormMessage />
@@ -185,7 +185,7 @@ export default function ContactForm() {
 
           {/* Submit */}
           <div className="mt-4 w-full flex justify-center md:col-span-2">
-            <div className="w-[400px] flex justify-center">
+            <div className="w-100 flex justify-center">
               <SubmitButton
                 label="Send Message"
                 loadingLabel="Sending..."
