@@ -36,7 +36,7 @@ export default function ContactForm() {
   const { mutate, isPending } = useContact();
 
   function onSubmit(values: ContactFormValues) {
-    // mutate(values);
+    mutate(values);
     console.log(values);
   }
 
