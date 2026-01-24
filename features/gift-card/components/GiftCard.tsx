@@ -101,8 +101,8 @@ const GiftCardSection = () => {
   const canContinue = selectedAmount !== null;
 
   return (
-    <section className="pt-[152px] px-16">
-      <div className="flex justify-center gap-[60px] mt-[34px]">
+    <section className="pt-28 px-16">
+      <div className="flex justify-center gap-15 mt-8.5">
         {/* Product Image */}
         <div className="w-full">
           <ProductImage
@@ -110,13 +110,13 @@ const GiftCardSection = () => {
             src="/big-giftcard.png"
             width={700}
             height={500}
-            className="max-w-[700px]"
+            className="max-w-175"
           />
         </div>
 
         {/* Product Info */}
         <div className="w-full">
-          <div className=" max-w-[511px]">
+          <div className=" max-w-127.75">
             <SubHeading
               className="font-PPEditorialNew text-[40px] text-[#3B3B3B] font-normal leading-tight"
               title="Serena Braide E-Gift Card"
@@ -129,10 +129,10 @@ const GiftCardSection = () => {
 
           {/* Variants */}
           <Paragraph
-            className="text-[#3B3B3B] font-medium text-base mt-[40px] mb-4"
+            className="text-[#3B3B3B] font-medium text-base mt-10 mb-4"
             content="Choose a design (optional)"
           />
-          <div className="grid grid-cols-4 max-w-[382px] mb-[40px]  ">
+          <div className="grid grid-cols-4 max-w-95.5 mb-20  ">
             {cardDesign.map((item, index) => (
               <div
                 key={index}
@@ -158,7 +158,7 @@ const GiftCardSection = () => {
             className="text-[#3B3B3B] font-medium text-base mb-4 "
             content="Choose an amount"
           />
-          <div className="grid grid-cols-4 max-w-[311px] mb-[40px]">
+          <div className="grid grid-cols-4 max-w-77.75 mb-10">
             {cardDesign.map((item, index) => {
               const amountValue = parseFloat(item.amount.replace("$", ""));
               return (
@@ -187,7 +187,7 @@ const GiftCardSection = () => {
               content="Custom amount ($50 - $700)"
             />
             <Input
-              className="rounded-[50px] text-[#9A9A98] px-5 h-[50px]"
+              className="rounded-[50px] text-[#9A9A98] px-5 h-12.5"
               placeholder="$50 - $700"
               value={customAmount}
               onChange={(e) => handleCustomAmountChange(e.target.value)}
@@ -199,7 +199,7 @@ const GiftCardSection = () => {
           <SubmitButton
             label="Continue"
             loadingLabel="Continue..."
-            className="mt-[40px]"
+            className="mt-10"
             onClick={handleContinue}
             disabled={!canContinue}
           />
@@ -211,15 +211,15 @@ const GiftCardSection = () => {
           >
             <RecipientForm closeModal={() => setIsModalOpen(false)} />
           </FormModal>
-          <div className="bg-[#F5F5F5] w-full mt-[40px] flex justify-between items-center">
+          <div className="bg-[#F5F5F5] w-full mt-10 flex justify-between items-center">
             <ProductImage
               alt="shopping bag icon"
               src="/shop-bag.svg"
               width={85}
               height={90.43}
-              className="max-w-[85px]"
+              className="max-w-21.25"
             />
-            <span className="text-sm leading-[22px] font-normal pr-[15px] ">
+            <span className="text-sm leading-5.5 font-normal pr-3.75 ">
               <Paragraph content="16 points = $16.00" className="" />
               <Paragraph
                 content="Earn loyalty points with this product"
