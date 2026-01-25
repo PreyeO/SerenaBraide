@@ -17,6 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -52,6 +53,8 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
       price: "",
       stock_quantity: 0,
       is_active: true,
+      ingredients: null,
+      inspiration: null,
       images: [
         {
           file: null, // Will be stored in filesRef
@@ -294,6 +297,51 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
             name="is_active"
             label="Active Variant?"
             className="flex items-center gap-4 pt-8"
+          />
+        </div>
+
+        {/* INGREDIENTS AND INSPIRATION */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormField
+            control={form.control}
+            name="ingredients"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-normal text-[#3B3B3B]">
+                  Ingredients
+                </FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="List the ingredients for this variant..."
+                    className="min-h-[100px]"
+                    value={field.value || ""}
+                    onChange={(e) => field.onChange(e.target.value || null)}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="inspiration"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-normal text-[#3B3B3B]">
+                  Inspiration
+                </FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Describe the inspiration behind this variant..."
+                    className="min-h-[100px]"
+                    value={field.value || ""}
+                    onChange={(e) => field.onChange(e.target.value || null)}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
         </div>
 

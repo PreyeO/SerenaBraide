@@ -132,6 +132,16 @@ export async function createVariant(
   formData.append("stock_quantity", String(data.stock_quantity));
   formData.append("is_active", String(data.is_active));
 
+  // Append ingredients if provided
+  if (data.ingredients !== null && data.ingredients !== undefined) {
+    formData.append("ingredients", data.ingredients);
+  }
+
+  // Append inspiration if provided
+  if (data.inspiration !== null && data.inspiration !== undefined) {
+    formData.append("inspiration", data.inspiration);
+  }
+
   data.images.forEach((img, index) => {
     if (!img.file || !(img.file instanceof File)) {
       throw new Error(`Image file missing or invalid at index ${index}`);

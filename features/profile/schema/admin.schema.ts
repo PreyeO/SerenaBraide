@@ -24,7 +24,7 @@ export const CreateCategorySchema = z.object({
   parent: z.number().nullable().optional(), // Parent category ID (optional for root categories)
   image_url: z.any().optional(), // Category image file
   image_alt_text: z.string().optional(), // Image alt text
-  is_active: z.boolean().optional().default(true), // Category active status (default to true)
+  is_active: z.boolean(), // Category active status (required, default to true in form)
 });
 
 export const CreateVariantSchema = z.object({
@@ -35,6 +35,8 @@ export const CreateVariantSchema = z.object({
   price: z.string().min(1, "Price is required"),
   stock_quantity: z.number().min(0, "Stock quantity must be 0 or greater"),
   is_active: z.boolean(),
+  ingredients: z.string().nullable().optional(),
+  inspiration: z.string().nullable().optional(),
   images: z
     .array(
       z.object({

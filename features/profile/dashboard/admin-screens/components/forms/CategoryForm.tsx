@@ -38,10 +38,10 @@ import { Spinner } from "@/components/ui/spinner";
 
 const CategoryForm = () => {
   const { mutate: createCategoryMutation, isPending } = useCreateCategory();
-  const { 
-    data: categories = [], 
+  const {
+    data: categories = [],
     isLoading: categoriesLoading,
-    isError: categoriesError 
+    isError: categoriesError,
   } = useGetCategories();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -149,7 +149,10 @@ const CategoryForm = () => {
                       </SelectItem>
                       {(categories as Category[]).length > 0 ? (
                         (categories as Category[]).map((category) => (
-                          <SelectItem key={category.id} value={String(category.id)}>
+                          <SelectItem
+                            key={category.id}
+                            value={String(category.id)}
+                          >
                             {category.name}
                           </SelectItem>
                         ))
@@ -200,7 +203,7 @@ const CategoryForm = () => {
               <FormControl>
                 <Textarea
                   placeholder="Category description..."
-                  className="min-h-[100px]"
+                  className="min-h-25"
                   {...field}
                 />
               </FormControl>
