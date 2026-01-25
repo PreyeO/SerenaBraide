@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useGetCategoriesTree } from "../hooks/useGetCategoriesTree";
 import { useMemo } from "react";
+import ProductImage from "@/components/ui/images/product-image";
 
 interface HeroSectionProps {
   categorySlug: string;
@@ -11,20 +12,37 @@ interface HeroSectionProps {
 const HeroSection = ({ categorySlug }: HeroSectionProps) => {
   const { data: categories = [] } = useGetCategoriesTree();
 
-  // Find category info from API data
+  // Find category info from API data - search both root categories and children
   const categoryInfo = useMemo(() => {
-    return categories.find((cat) => cat.slug === categorySlug);
+    // First, try to find in root categories
+    const rootCategory = categories.find((cat) => cat.slug === categorySlug);
+    if (rootCategory) return rootCategory;
+
+    // If not found, search in children
+    for (const category of categories) {
+      if (category.children && category.children.length > 0) {
+        const childCategory = category.children.find(
+          (child) => child.slug === categorySlug,
+        );
+        if (childCategory) return childCategory;
+      }
+    }
+
+    return null;
   }, [categories, categorySlug]);
 
   // Format title from slug if API data not available yet
-  const title = categoryInfo?.name || 
-    categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1).replace(/-/g, " ");
-  
-  const description = categoryInfo?.description || 
-    "Explore our collection of premium products.";
+  const title =
+    categoryInfo?.name ||
+    categorySlug.charAt(0).toUpperCase() +
+      categorySlug.slice(1).replace(/-/g, " ");
 
-  // Default hero image (since API doesn't provide images yet)
-  const heroImage = "/fragrance-hero.png";
+  const description =
+    categoryInfo?.description || "Explore our collection of premium products.";
+
+  // Use category image if available, otherwise use default
+  const heroImage = categoryInfo?.image_url || "/fragrance-hero.png";
+  const imageAlt = categoryInfo?.image_alt_text || title;
 
   return (
     <section className="pt-[152px] px-16">
@@ -35,13 +53,25 @@ const HeroSection = ({ categorySlug }: HeroSectionProps) => {
           </h2>
           <p className="text-sm text-[#6F6E6C]">{description}</p>
         </div>
-        <Image
-          src={heroImage}
-          alt={title}
-          width={379.98}
-          height={381}
-          className="max-w-[379.89px]"
-        />
+        <div className="relative max-w-[379.89px] w-full h-[381px] rounded-lg overflow-hidden bg-gray-50 shadow-sm">
+          {categoryInfo?.image_url ? (
+            <ProductImage
+              src={heroImage}
+              alt={imageAlt}
+              width={379.98}
+              height={381}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <Image
+              src={heroImage}
+              alt={imageAlt}
+              width={379.98}
+              height={381}
+              className="w-full h-full object-cover"
+            />
+          )}
+        </div>
       </div>
     </section>
   );

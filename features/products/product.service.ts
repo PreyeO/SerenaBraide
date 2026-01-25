@@ -10,7 +10,7 @@ import {
 
 export async function getReviews(productId: number): Promise<ReviewsResponse> {
   const response: AxiosResponse<ReviewsResponse> = await api.get(
-    `/api/ratings/?order_item__variant__product=${productId}`,
+    `/api/ratings/${productId}/`,
   );
   return response.data;
 }

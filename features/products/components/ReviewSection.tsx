@@ -16,7 +16,7 @@ interface ReviewSectionProps {
 }
 
 const ReviewSection = ({ productId }: ReviewSectionProps) => {
-  const { data: reviewsData, isLoading } = useGetReviews(productId);
+  const { data: reviewsData, isLoading, error } = useGetReviews(productId);
 
   // Calculate average rating and total count
   const { averageRating, totalReviews, recommendationRate } = useMemo(() => {
@@ -83,7 +83,7 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
     );
   };
 
-  // Don't render if no productId or no reviews
+  // Don't render if no productId
   if (!productId) {
     return null;
   }
@@ -99,8 +99,30 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
     );
   }
 
-  if (!reviewsData?.results || reviewsData.results.length === 0) {
-    return null; // Don't show review section if no reviews
+  // Check if error indicates no reviews (404 or "No Rating matches" message)
+  const isNoReviewsError = error && (
+    error.response?.status === 404 || 
+    error.response?.data?.detail?.includes("No Rating matches") ||
+    error.response?.data?.detail === "No Rating matches the given query."
+  );
+
+  // Show "No reviews" message if error (no reviews) or no reviews data
+  if (isNoReviewsError || !reviewsData?.results || reviewsData.results.length === 0) {
+    return (
+      <section className="px-16 text-[#3B3B3B]">
+        <BorderLine className="" />
+        <div className="pt-12.5 flex flex-col gap-1.5 max-w-125.75 justify-center mx-auto items-center font-normal text-base">
+          <SubHeading
+            title="What customers are saying"
+            className="text-[40px] font-medium"
+          />
+          <Paragraph
+            className="leading-6 text-[#6F6E6C]"
+            content="No reviews yet. Be the first to review this product!"
+          />
+        </div>
+      </section>
+    );
   }
 
   return (

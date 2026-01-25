@@ -19,11 +19,18 @@ const ProductDetailContent: React.FC<ProductDetailContentProps> = ({
   slug,
 }) => {
   const { data: product, isLoading, error } = useGetProductBySlug(slug);
-  const [selectedVariantId, setSelectedVariantId] = useState<number | null>(null);
+  const [selectedVariantId, setSelectedVariantId] = useState<number | null>(
+    null,
+  );
 
   // Set default variant when product loads
   React.useEffect(() => {
-    if (product && product.variants && product.variants.length > 0 && !selectedVariantId) {
+    if (
+      product &&
+      product.variants &&
+      product.variants.length > 0 &&
+      !selectedVariantId
+    ) {
       setSelectedVariantId(product.variants[0].id);
     }
   }, [product, selectedVariantId]);
@@ -53,17 +60,18 @@ const ProductDetailContent: React.FC<ProductDetailContentProps> = ({
 
   return (
     <>
-      <DetailHeroSection 
-        product={product} 
+      <DetailHeroSection
+        product={product}
         category={category}
         selectedVariantId={selectedVariantId}
         onVariantChange={setSelectedVariantId}
       />
-      <DetailInfoSection 
+      <DetailInfoSection
         product={product}
         selectedVariantId={selectedVariantId}
       />
       <ReviewSection productId={product.id} />
+
       <RecommendationSection
         products={Object.values(recommendedProducts).flat()}
       />
