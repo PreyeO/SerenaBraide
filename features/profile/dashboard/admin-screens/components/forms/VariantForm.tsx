@@ -137,7 +137,7 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
           render={({ field }) => (
             <FormItem className="">
               <FormLabel className="text-sm font-normal text-[#3B3B3B]">
-                Product Name
+                Product Name <span className="text-red-500">*</span>
               </FormLabel>
               <Select
                 onValueChange={(value) => field.onChange(Number(value))}
@@ -169,7 +169,7 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-sm font-normal text-[#3B3B3B]">
-                  SKU
+                  SKU <span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -189,7 +189,7 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-sm font-normal text-[#3B3B3B]">
-                  Size
+                  Size <span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -247,7 +247,7 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-sm font-normal text-[#3B3B3B]">
-                  Price
+                  Price <span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -272,7 +272,7 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-sm font-normal text-[#3B3B3B]">
-                  Stock Quantity
+                  Stock Quantity <span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -299,8 +299,8 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
 
         {/* MEDIA SECTION */}
         <div className="space-y-3">
-          <FormLabel className="text-sm font-medium text-[#3B3B3B]">
-            Variant Images
+          <FormLabel className="text-sm font-normal text-[#3B3B3B]">
+            Variant Images <span className="text-red-500">*</span>
           </FormLabel>
           <div className="space-y-4">
             {fields.map((item, index) => (

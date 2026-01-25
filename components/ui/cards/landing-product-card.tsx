@@ -172,3 +172,5 @@ const LandingProductCard: React.FC<LandingProductCardProps> = ({ product }) => {
 
 export default LandingProductCard;
 
+
+

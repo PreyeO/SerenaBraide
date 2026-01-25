@@ -135,7 +135,7 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-sm font-normal text-[#3B3B3B]">
-                Product name
+                Product name <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <Input
@@ -156,7 +156,7 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-sm font-normal text-[#3B3B3B]">
-                Product description
+                Product description <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <Textarea
@@ -173,7 +173,7 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
         {/* MEDIA SECTION */}
         <div className="space-y-3">
           <FormLabel className="text-sm font-normal text-[#3B3B3B]">
-            Media
+            Media <span className="text-red-500">*</span>
           </FormLabel>
           <div className="space-y-4">
             {fields.map((item, index) => (
@@ -252,8 +252,8 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
             name="category"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-sm font-medium text-[#3B3B3B]">
-                  Category
+                <FormLabel className="text-sm font-normal text-[#3B3B3B]">
+                  Category <span className="text-red-500">*</span>
                 </FormLabel>
                 <Select
                   value={field.value ? String(field.value) : undefined}
@@ -283,8 +283,8 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
             name="base_price"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-sm font-medium text-[#3B3B3B]">
-                  Base Price
+                <FormLabel className="text-sm font-normal text-[#3B3B3B]">
+                  Base Price <span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
                   <Input

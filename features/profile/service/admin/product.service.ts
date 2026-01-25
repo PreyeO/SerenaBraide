@@ -43,16 +43,46 @@ export async function createProduct(data: CreateProductValues) {
 export async function createCategory(
   data: CreateCategoryValues
 ): Promise<CreateCategoryValues> {
+  const formData = new FormData();
+
+  formData.append("name", data.name);
+  formData.append("description", data.description);
+
+  // Only append parent if it's not null (for subcategories)
+  if (data.parent !== null && data.parent !== undefined) {
+    formData.append("parent", String(data.parent));
+  }
+
+  // Append image if provided
+  if (data.image_url && data.image_url instanceof File) {
+    formData.append("image_url", data.image_url);
+  }
+
+  // Append image alt text if provided
+  if (data.image_alt_text) {
+    formData.append("image_alt_text", data.image_alt_text);
+  }
+
+  // Log FormData contents for debugging
+  console.log("Category FormData entries:");
+  for (const [key, value] of formData.entries()) {
+    console.log(
+      `  ${key}:`,
+      value instanceof File ? `File(${value.name})` : value
+    );
+  }
+
   const response: AxiosResponse<CreateCategoryValues> = await api.post(
     "/api/categories/",
-    data
+    formData
   );
   return response.data;
 }
 
 export async function getCategories() {
   const res = await api.get("/api/categories/");
-  return res.data;
+  // API returns paginated response with results array
+  return res.data.results || res.data;
 }
 export async function getProducts() {
   const res = await api.get("/api/products/");

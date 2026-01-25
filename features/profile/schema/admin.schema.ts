@@ -21,7 +21,9 @@ export const CreateProductSchema = z.object({
 export const CreateCategorySchema = z.object({
   name: z.string().min(1, "Category name is required"),
   description: z.string().min(1, "Description is required"),
-  parent_name: z.string().min(1, "Parent name is required"),
+  parent: z.number().nullable().optional(), // Parent category ID (optional for root categories)
+  image_url: z.any().optional(), // Category image file
+  image_alt_text: z.string().optional(), // Image alt text
 });
 
 export const CreateVariantSchema = z.object({
