@@ -59,11 +59,6 @@ const NavBar = () => {
             name: child.name,
             href: `/categories/${category.slug}/${child.slug}`,
           })),
-        // Always add "See all" link at the end
-        {
-          name: "See all",
-          href: `/categories/${category.slug}`,
-        },
       ],
     }));
 
