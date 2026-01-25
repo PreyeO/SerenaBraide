@@ -48,10 +48,18 @@ export async function createCategory(
   formData.append("name", data.name);
   formData.append("description", data.description);
 
-  // Only append parent if it's not null (for subcategories)
+  // Append parent - send empty string if null/undefined for root categories
+  // Some APIs expect the field to be present even if it's empty
   if (data.parent !== null && data.parent !== undefined) {
     formData.append("parent", String(data.parent));
+  } else {
+    // Explicitly send empty string for root categories if API requires it
+    // Comment out the next line if API doesn't accept empty parent field
+    // formData.append("parent", "");
   }
+
+  // Append is_active - default to true so categories appear in lists immediately
+  formData.append("is_active", String(data.is_active ?? true));
 
   // Append image if provided
   if (data.image_url && data.image_url instanceof File) {
@@ -63,15 +71,6 @@ export async function createCategory(
     formData.append("image_alt_text", data.image_alt_text);
   }
 
-  // Log FormData contents for debugging
-  console.log("Category FormData entries:");
-  for (const [key, value] of formData.entries()) {
-    console.log(
-      `  ${key}:`,
-      value instanceof File ? `File(${value.name})` : value
-    );
-  }
-
   const response: AxiosResponse<CreateCategoryValues> = await api.post(
     "/api/categories/",
     formData
@@ -80,9 +79,33 @@ export async function createCategory(
 }
 
 export async function getCategories() {
-  const res = await api.get("/api/categories/");
+  const res = await api.get("/api/categories/", {
+    params: {
+      page_size: 1000,
+    },
+  });
+  
   // API returns paginated response with results array
-  return res.data.results || res.data;
+  // Extract the results array from the paginated response
+  let categories: any[] = [];
+  
+  if (Array.isArray(res.data)) {
+    categories = res.data;
+  } else if (Array.isArray(res.data.results)) {
+    categories = res.data.results;
+  } else if (res.data && typeof res.data === 'object') {
+    const arrayKey = Object.keys(res.data).find(key => Array.isArray(res.data[key]));
+    if (arrayKey) {
+      categories = res.data[arrayKey];
+    }
+  }
+  
+  // Ensure we return an array (even if empty)
+  if (!Array.isArray(categories)) {
+    return [];
+  }
+  
+  return categories;
 }
 export async function getProducts() {
   const res = await api.get("/api/products/");

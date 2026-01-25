@@ -24,6 +24,7 @@ export const CreateCategorySchema = z.object({
   parent: z.number().nullable().optional(), // Parent category ID (optional for root categories)
   image_url: z.any().optional(), // Category image file
   image_alt_text: z.string().optional(), // Image alt text
+  is_active: z.boolean().optional().default(true), // Category active status (default to true)
 });
 
 export const CreateVariantSchema = z.object({

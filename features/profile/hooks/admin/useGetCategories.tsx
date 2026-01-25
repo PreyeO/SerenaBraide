@@ -5,12 +5,8 @@ export const useGetCategories = () => {
   return useQuery({
     queryKey: ["categories"],
     queryFn: getCategories,
-    select: (data) => {
-      // Handle both cases: data might be an array or an object with results
-      if (Array.isArray(data)) {
-        return data;
-      }
-      return data?.results ?? [];
-    },
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+    refetchOnMount: "always",
   });
 };

@@ -1,16 +1,29 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { notify } from "@/lib/notify";
 import { createCategory } from "../../service/admin/product.service";
+import { AxiosError } from "axios";
 
 export const useCreateCategory = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: createCategory,
-    onSuccess: () => {
+    onSuccess: async () => {
       notify.success("Category created successfully!");
-      queryClient.invalidateQueries({ queryKey: ["categories"] }); // <- refetch categories
+      // Invalidate and refetch categories to show the newly created category
+      await queryClient.invalidateQueries({ queryKey: ["categories"] });
+      // Explicitly refetch to ensure the dropdown updates
+      await queryClient.refetchQueries({ queryKey: ["categories"] });
     },
-    onError: () => notify.error("Failed to create category"),
+    onError: (error: AxiosError<any>) => {
+      const errorMessage =
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        error.response?.data?.detail ||
+        (typeof error.response?.data === "string"
+          ? error.response.data
+          : "Failed to create category");
+      notify.error(errorMessage);
+    },
   });
 };

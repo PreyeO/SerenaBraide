@@ -1,9 +1,10 @@
 "use client";
 
+import { Suspense } from "react";
 import VerifyOtpForm from "@/features/auth/components/forms/VerifyOtpForm";
 import { useSearchParams } from "next/navigation";
 
-const VerifyOtpPage = () => {
+const VerifyOtpContent = () => {
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
 
@@ -16,6 +17,14 @@ const VerifyOtpPage = () => {
   }
 
   return <VerifyOtpForm email={email} />;
+};
+
+const VerifyOtpPage = () => {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+      <VerifyOtpContent />
+    </Suspense>
+  );
 };
 
 export default VerifyOtpPage;

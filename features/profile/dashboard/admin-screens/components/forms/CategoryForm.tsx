@@ -43,6 +43,7 @@ const CategoryForm = () => {
     isLoading: categoriesLoading,
     isError: categoriesError 
   } = useGetCategories();
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -55,6 +56,7 @@ const CategoryForm = () => {
       parent: null,
       image_url: undefined,
       image_alt_text: "",
+      is_active: true, // Default to active so categories appear in lists
     },
   });
 
