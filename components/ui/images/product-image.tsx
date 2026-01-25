@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProductImagePropsBase {
@@ -30,6 +30,12 @@ const ProductImage: React.FC<ProductImageProps> = (props) => {
 
   const isFillMode = 'fill' in props && props.fill === true;
 
+  // Reset loading state when src changes
+  useEffect(() => {
+    setIsLoading(true);
+    setHasError(false);
+  }, [src]);
+
   return (
     <div 
       className={`relative ${isFillMode ? 'w-full h-full' : ''} ${className}`} 
@@ -49,6 +55,8 @@ const ProductImage: React.FC<ProductImageProps> = (props) => {
             ? { fill: true } 
             : { width: props.width, height: props.height }
           )}
+          unoptimized={src.includes('assistfactory.s3.amazonaws.com')}
+          priority={false}
           onLoad={() => setIsLoading(false)}
           onError={() => {
             setIsLoading(false);

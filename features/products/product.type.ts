@@ -21,6 +21,8 @@ export interface Variant {
   is_in_stock: boolean;
   is_active: boolean;
   images: VariantImage[];
+  ingredients: string | null;
+  inspiration: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -60,9 +62,13 @@ export interface CategoryTree {
   slug: string;
   description: string;
   parent: number | null;
+  parent_name?: string; // Present in children
+  full_path?: string; // Present in parent categories
   is_active: boolean;
-  children_count: number;
+  children_count?: number; // Present in children
   children?: CategoryTree[];
+  image_url?: string | null;
+  image_alt_text?: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -124,6 +130,8 @@ export interface ProductDetail {
   is_featured: boolean;
   variants: Variant[];
   images: ProductImage[];
+  ingredients: string | null;
+  inspiration: string | null;
   created_at: string;
   updated_at: string;
 }

@@ -19,17 +19,18 @@ import { useRouter } from "next/navigation";
 interface DetailHeroSectionProps {
   product: ProductDetail;
   category: string;
+  selectedVariantId: number | null;
+  onVariantChange: (variantId: number | null) => void;
 }
 
 const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
   product,
   category,
+  selectedVariantId,
+  onVariantChange,
 }) => {
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
-  const [selectedVariantId, setSelectedVariantId] = useState<number | null>(
-    product.variants && product.variants.length > 0 ? product.variants[0].id : null,
-  );
   const [isAnimating, setIsAnimating] = useState(false);
 
   const { mutate: addToCart, isPending } = useAddToCart();
@@ -59,20 +60,37 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
     return item?.id || null;
   }, [selectedVariantId, wishlistData]);
 
-  // Get primary image
+  // Get primary image - should update when variant changes
   const primaryImage = useMemo(() => {
-    // First try to get primary image from product images
+    // If a variant is selected, prioritize its images
+    if (selectedVariantId && selectedVariant && selectedVariant.images) {
+      const variantPrimaryImage = selectedVariant.images.find(
+        (img) => img.is_primary
+      );
+      if (variantPrimaryImage) return variantPrimaryImage.image_url;
+      
+      // Fallback to first variant image
+      if (selectedVariant.images.length > 0) {
+        return selectedVariant.images[0].image_url;
+      }
+    }
+
+    // First try to get primary image from product images (variant === null)
     const productPrimaryImage = product.images.find(
       (img) => img.is_primary && img.variant === null,
     );
     if (productPrimaryImage) return productPrimaryImage.image_url;
 
-    // Then try any product image
+    // Then try any product image (variant === null)
     const anyProductImage = product.images.find((img) => img.variant === null);
     if (anyProductImage) return anyProductImage.image_url;
 
-    // Then try variant images
-    if (product.variants && product.variants.length > 0 && product.variants[0].images?.length > 0) {
+    // Then try first variant images if no variant selected
+    if (
+      product.variants &&
+      product.variants.length > 0 &&
+      product.variants[0].images?.length > 0
+    ) {
       const variantPrimaryImage = product.variants[0].images.find(
         (img) => img.is_primary,
       );
@@ -84,11 +102,11 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
 
     // Fallback
     return "/product-1.png";
-  }, [product]);
+  }, [product, selectedVariantId, selectedVariant]);
 
   const handleVariantClick = (variant: Variant) => {
     if (variant.is_in_stock) {
-      setSelectedVariantId(variant.id);
+      onVariantChange(variant.id);
     }
   };
 
@@ -155,12 +173,14 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
         {/* Product Image */}
         <div className="w-full relative">
           <ProductImage
+            key={`${product.id}-${selectedVariantId}-${primaryImage}`}
             alt={product.name}
             src={primaryImage}
             width={700}
             height={500}
-            className="max-w-175"
+            className="max-w-[700px] h-[500px] object-cover"
           />
+
           {/* Wishlist Heart - Top right of image */}
           <button
             onClick={handleWishlistToggle}
@@ -193,7 +213,8 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
             {/* Available in X shades badge - only for color variants */}
             {hasColorVariants && colorVariants.length > 0 && (
               <span className="inline-block text-xs text-[#6F6E6C] border border-[#D1D5DB] rounded-full px-3 py-1 mb-3">
-                Available in {colorVariants.length} {colorVariants.length === 1 ? "shade" : "shades"}
+                Available in {colorVariants.length}{" "}
+                {colorVariants.length === 1 ? "shade" : "shades"}
               </span>
             )}
 
@@ -214,7 +235,9 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
                   <Star key={i} fill="#3B3B3B" className="w-4 h-4" />
                 ))}
               </div>
-              <span className="font-normal text-sm text-[#6F6E6C]">200 Reviews</span>
+              <span className="font-normal text-sm text-[#6F6E6C]">
+                200 Reviews
+              </span>
             </div>
           </div>
 
@@ -263,7 +286,10 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
                 {/* Selected Color Name */}
                 {selectedVariant?.color && (
                   <p className="text-sm text-[#6F6E6C] mt-3">
-                    Available: <span className="text-[#3B3B3B]">{selectedVariant.color}</span>
+                    Available:{" "}
+                    <span className="text-[#3B3B3B]">
+                      {selectedVariant.color}
+                    </span>
                   </p>
                 )}
 
