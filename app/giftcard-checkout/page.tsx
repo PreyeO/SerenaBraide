@@ -1,11 +1,12 @@
+import { Suspense } from "react";
 import GiftCardCheckout from "@/features/gift-card/components/checkout/GiftCardCheckout";
-
-import React from "react";
 
 const GiftCardCheckoutPage = () => {
   return (
     <>
-      <GiftCardCheckout />
+      <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+        <GiftCardCheckout />
+      </Suspense>
     </>
   );
 };
