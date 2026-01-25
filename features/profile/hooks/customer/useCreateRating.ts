@@ -3,8 +3,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { createRating } from "../../service/customer/customer.service";
-import { CreateRatingPayload, Rating } from "../../type/customer/rating.type";
 import { notify } from "@/lib/notify";
+import { CreateRatingPayload, Rating } from "../../type/customers/profile.type";
 
 interface UseCreateRatingOptions {
   onSuccess?: (rating: Rating) => void;
@@ -17,7 +17,11 @@ export const useCreateRating = ({
 }: UseCreateRatingOptions = {}) => {
   const queryClient = useQueryClient();
 
-  return useMutation<Rating, AxiosError<{ message?: string }>, CreateRatingPayload>({
+  return useMutation<
+    Rating,
+    AxiosError<{ message?: string }>,
+    CreateRatingPayload
+  >({
     mutationFn: createRating,
     onSuccess: (rating) => {
       notify.success("Review submitted successfully!");
@@ -27,12 +31,11 @@ export const useCreateRating = ({
     },
     onError: (error) => {
       const errorMessage =
-        error.response?.data?.message || error.message || "Failed to submit review";
+        error.response?.data?.message ||
+        error.message ||
+        "Failed to submit review";
       notify.error(errorMessage);
       onError?.(error);
     },
   });
 };
-
-
-

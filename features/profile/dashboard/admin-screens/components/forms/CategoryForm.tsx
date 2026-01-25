@@ -34,11 +34,15 @@ import { useCreateCategory } from "@/features/profile/hooks/admin/useCreateCateg
 import { useGetCategories } from "@/features/profile/hooks/admin/useGetCategories";
 import { Upload, X } from "lucide-react";
 import Image from "next/image";
+import { Spinner } from "@/components/ui/spinner";
 
 const CategoryForm = () => {
   const { mutate: createCategoryMutation, isPending } = useCreateCategory();
-  const { data: categories = [], isLoading: categoriesLoading } =
-    useGetCategories();
+  const { 
+    data: categories = [], 
+    isLoading: categoriesLoading,
+    isError: categoriesError 
+  } = useGetCategories();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -114,18 +118,46 @@ const CategoryForm = () => {
               >
                 <FormControl>
                   <SelectTrigger className="h-11">
-                    <SelectValue placeholder="Select parent category (or leave empty for root)" />
+                    {categoriesLoading ? (
+                      <div className="flex items-center gap-2 text-muted-foreground">
+                        <Spinner className="size-4" />
+                        <span>Loading categories...</span>
+                      </div>
+                    ) : (
+                      <SelectValue placeholder="Select parent category (or leave empty for root)" />
+                    )}
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="none">
-                    No Parent (Root Category)
-                  </SelectItem>
-                  {(categories as Category[]).map((category) => (
-                    <SelectItem key={category.id} value={String(category.id)}>
-                      {category.name}
-                    </SelectItem>
-                  ))}
+                  {categoriesLoading ? (
+                    <div className="flex items-center justify-center py-4">
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Spinner className="size-4" />
+                        <span>Loading categories...</span>
+                      </div>
+                    </div>
+                  ) : categoriesError ? (
+                    <div className="px-2 py-4 text-sm text-destructive text-center">
+                      Failed to load categories
+                    </div>
+                  ) : (
+                    <>
+                      <SelectItem value="none">
+                        No Parent (Root Category)
+                      </SelectItem>
+                      {(categories as Category[]).length > 0 ? (
+                        (categories as Category[]).map((category) => (
+                          <SelectItem key={category.id} value={String(category.id)}>
+                            {category.name}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <div className="px-2 py-4 text-sm text-muted-foreground text-center">
+                          No categories available
+                        </div>
+                      )}
+                    </>
+                  )}
                 </SelectContent>
               </Select>
               <FormMessage />
