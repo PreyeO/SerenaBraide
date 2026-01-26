@@ -19,14 +19,15 @@ export default function ReactQueryProvider({
   const pathSegments = pathname.split("/").filter(Boolean);
   const excludedSegments = ["auth", "admin"];
   const isExcludedRoute = pathSegments.some((segment) =>
-    excludedSegments.includes(segment)
+    excludedSegments.includes(segment),
   );
 
   return (
     <QueryClientProvider client={queryClient}>
       {!isExcludedRoute && <Header />}
       {!isExcludedRoute && <NavBar />}
-      {children} {!isExcludedRoute && <Footer />}
+      {children}
+      {/* {!isExcludedRoute && <Footer />} */}
       <Toaster />
     </QueryClientProvider>
   );

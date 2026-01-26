@@ -20,7 +20,7 @@ const Header = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) =>
-        prev === headerAdvert.length - 1 ? 0 : prev + 1
+        prev === headerAdvert.length - 1 ? 0 : prev + 1,
       );
     }, 4000);
 
@@ -50,23 +50,24 @@ const Header = () => {
   };
 
   return (
-    <div className="bg-[#3B3B3B] h-[50px] w-full fixed top-0 left-0 z-50 flex items-center justify-center md:justify-between px-4 text-white text-sm">
-      <div className="absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
+    <div className="bg-[#3B3B3B] h-12.5 w-full fixed top-0 left-0 z-50 flex items-center justify-center lg:justify-between px-4 lg:px-12 text-white text-xs lg:text-sm">
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-full pointer-events-none">
         <AnimatePresence mode="wait">
-          <motion.span
+          <motion.div
             key={currentIndex}
             initial={{ y: "100%", opacity: 0, rotateX: 90 }}
             animate={{ y: "0%", opacity: 1, rotateX: 0 }}
             exit={{ y: "-100%", opacity: 0, rotateX: -90 }}
             transition={{ duration: 0.6 }}
+            className="flex items-center justify-center text-center px-4 lg:px-0"
           >
-            {renderText()}
-          </motion.span>
+            <span className="truncate max-w-full block pointer-events-auto">{renderText()}</span>
+          </motion.div>
         </AnimatePresence>
       </div>
 
       {/* Right section */}
-      <div className="ml-auto items-center gap-[23px] hidden md:flex">
+      <div className="ml-auto items-center gap-5.75 hidden lg:flex relative z-10">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="flex items-center gap-1 outline-none">
@@ -110,7 +111,7 @@ const Header = () => {
         </DropdownMenu>
 
         <SubHeading
-          className="font-GeneralSans leading-[22px] font-normal text-sm"
+          className="font-GeneralSans leading-5.5 font-normal text-sm"
           title="Contact Us"
         />
       </div>

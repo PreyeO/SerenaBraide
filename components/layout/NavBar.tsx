@@ -1,7 +1,14 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Heart, Search, Menu, ArrowLeft, ShoppingCart } from "lucide-react";
+import {
+  Heart,
+  Search,
+  Menu,
+  ShoppingCart,
+  ChevronRight,
+  ChevronLeft,
+} from "lucide-react";
 import Link from "next/link";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Logo from "../ui/logo";
@@ -17,6 +24,7 @@ import { useCart } from "@/features/cart-checkout/hooks/useCart";
 import { useWishlist } from "@/features/profile/hooks/customer/useWishlist";
 import { useAuthStore } from "@/features/auth/auth.store";
 import { useRouter } from "next/navigation";
+import SubHeading from "../ui/typography/subHeading";
 
 const NavBar = () => {
   const router = useRouter();
@@ -24,6 +32,7 @@ const NavBar = () => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const navRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
 
   const [mobileActiveItem, setMobileActiveItem] = useState<string | null>(null);
   const [mobileActiveSection, setMobileActiveSection] = useState<string | null>(
@@ -48,19 +57,24 @@ const NavBar = () => {
   // Build dynamic category sections from the tree API
   // Each parent category becomes a column, children become items
   const categorySections: NavSection[] = categories
-    .filter((cat: CategoryTree) => cat.is_active)
-    .map((category: CategoryTree) => ({
-      heading: category.name,
-      items: [
-        // If category has children, show them
-        ...(category.children || [])
-          .filter((child: CategoryTree) => child.is_active)
-          .map((child: CategoryTree) => ({
+    .filter((cat: CategoryTree) => cat.is_active && cat.parent === null) // Only show root categories
+    .map((category: CategoryTree) => {
+      // Get active children for this category
+      const activeChildren = (category.children || []).filter(
+        (child: CategoryTree) => child.is_active,
+      );
+
+      return {
+        heading: category.name,
+        items: [
+          // Add children as items
+          ...activeChildren.map((child: CategoryTree) => ({
             name: child.name,
             href: `/categories/${category.slug}/${child.slug}`,
           })),
-      ],
-    }));
+        ],
+      };
+    });
 
   // Merge dynamic categories with other hardcoded nav items
   const navItems: NavItem[] = [
@@ -82,6 +96,48 @@ const NavBar = () => {
     setMobileActiveSection(null);
   };
 
+  const handleLinkClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    e.preventDefault();
+    // Close sheet first
+    setSheetOpen(false);
+
+    // Navigate after sheet starts closing
+    setTimeout(() => {
+      router.push(href);
+      // Reset menu state after navigation
+      setTimeout(() => {
+        resetMobileMenu();
+      }, 100);
+    }, 150);
+  };
+
+  // Reset menu state when sheet is fully closed
+  useEffect(() => {
+    if (!sheetOpen) {
+      resetMobileMenu();
+    }
+  }, [sheetOpen]);
+
+  // Close sheet when resizing to desktop view
+  useEffect(() => {
+    const handleResize = () => {
+      const isDesktop = window.innerWidth >= 1024; // lg breakpoint
+      if (isDesktop && sheetOpen) {
+        setSheetOpen(false);
+        resetMobileMenu();
+      }
+    };
+
+    // Check on mount
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [sheetOpen]);
+
   // Close desktop submenu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -98,97 +154,160 @@ const NavBar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-40 font-GeneralSans">
       {/* ======= MOBILE NAV ======= */}
-      <div className="md:hidden px-4 py-2 flex items-center justify-between bg-black">
-        <Sheet>
-          <SheetTrigger className="text-white">
-            <Menu className="size-6" />
-          </SheetTrigger>
-          <SheetContent side="left" className="p-4 w-full max-w-xs">
-            {mobileActiveItem && mobileActiveSection ? (
-              <>
-                <button
-                  className="mb-4 text-sm text-gray-500 flex items-center gap-1"
-                  onClick={() => setMobileActiveSection(null)}
+      <div className="lg:hidden  mx-6 mt-15 px-3.25 py-2 flex items-center justify-between bg-black/30 backdrop-blur-lg rounded-full ">
+        <div className="flex gap-2.5 items-center">
+          <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+            <SheetTrigger className="text-white">
+              <Menu className="size-6" />
+            </SheetTrigger>
+            <SheetContent
+              side="left"
+              className="px-6 py-6 w-full max-w-xs top-10"
+            >
+              <SubHeading
+                className=" font-medium text-sm text-[#3B3B3B]"
+                title="Menu"
+              />
+
+              <div className="relative overflow-hidden">
+                {/* Main Menu Level */}
+                <div
+                  className={`transition-all duration-300 ease-in-out ${
+                    mobileActiveItem
+                      ? "opacity-0 -translate-x-full absolute inset-0"
+                      : "opacity-100 translate-x-0"
+                  }`}
                 >
-                  <ArrowLeft className="size-4" />
-                  Back to {mobileActiveItem}
-                </button>
-                <h4 className="text-lg font-semibold mb-2">
-                  {mobileActiveSection}
-                </h4>
-                <ul className="space-y-2">
-                  {currentSection?.items.map((link) => (
-                    <li key={link.name}>
-                      <Link href={link.href} onClick={resetMobileMenu}>
-                        {link.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            ) : mobileActiveItem ? (
-              <>
-                <button
-                  className="mb-4 text-sm text-gray-500 flex items-center gap-1"
-                  onClick={() => setMobileActiveItem(null)}
+                  <div className="flex flex-col">
+                    <ul className="space-y-3 my-6">
+                      {navItems.map((item) => (
+                        <li
+                          key={item.title}
+                          className="text-sm font-normal text-[#6F6E6C] transition-colors duration-200 hover:text-[#3B3B3B]"
+                        >
+                          {item.sections.length > 0 ? (
+                            <button
+                              onClick={() => setMobileActiveItem(item.title)}
+                              className="text-left w-full flex justify-between items-center"
+                            >
+                              {item.title}
+                              <ChevronRight color="#3B3B3B" size={18} />
+                            </button>
+                          ) : (
+                            <Link
+                              href={item.href}
+                              onClick={(e) => handleLinkClick(e, item.href)}
+                              className="flex justify-between items-center"
+                            >
+                              {item.title}
+                              <ChevronRight color="#3B3B3B" size={18} />
+                            </Link>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="border border-[#F0F0F0] w-full shrink-0 my-6" />
+                    <ul className="flex flex-col text-sm font-normal text-[#6F6E6C]">
+                      <li className="flex justify-between w-full items-center transition-colors duration-200 hover:text-[#3B3B3B] cursor-pointer">
+                        CONTACT US <ChevronRight color="#3B3B3B" size={18} />
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Section Menu Level */}
+                <div
+                  className={`transition-all duration-300 ease-in-out ${
+                    mobileActiveItem && !mobileActiveSection
+                      ? "opacity-100 translate-x-0"
+                      : "opacity-0 translate-x-full absolute inset-0"
+                  }`}
                 >
-                  <ArrowLeft className="size-4" />
-                  Back to Menu
-                </button>
-                <h4 className="text-lg font-semibold mb-2">
-                  {mobileActiveItem}
-                </h4>
-                <ul className="space-y-3">
-                  {currentItem?.sections.map((section) => (
-                    <li key={section.heading}>
+                  {mobileActiveItem && !mobileActiveSection && (
+                    <>
                       <button
-                        onClick={() => setMobileActiveSection(section.heading)}
-                        className="text-left w-full"
+                        className="mb-4 text-sm text-gray-500 flex items-center gap-1.25 transition-colors duration-200 hover:text-[#3B3B3B]"
+                        onClick={() => setMobileActiveItem(null)}
                       >
-                        {section.heading}
+                        <ChevronLeft className="size-6" />
+                        <h2 className="text-sm font-medium text-[#3B3B3B]">
+                          {mobileActiveItem}
+                        </h2>
                       </button>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            ) : (
-              <ul className="space-y-3">
-                {navItems.map((item) => (
-                  <li key={item.title}>
-                    {item.sections.length > 0 ? (
+
+                      <ul className="space-y-3">
+                        {currentItem?.sections.map((section) => (
+                          <li
+                            key={section.heading}
+                            className="text-sm font-normal text-[#6F6E6C] transition-colors duration-200 hover:text-[#3B3B3B]"
+                          >
+                            <button
+                              onClick={() =>
+                                setMobileActiveSection(section.heading)
+                              }
+                              className="text-left w-full flex justify-between items-center"
+                            >
+                              {section.heading}
+                              <ChevronRight color="#3B3B3B" size={18} />
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                </div>
+
+                {/* Item Menu Level */}
+                <div
+                  className={`transition-all duration-300 ease-in-out ${
+                    mobileActiveSection
+                      ? "opacity-100 translate-x-0"
+                      : "opacity-0 translate-x-full absolute inset-0"
+                  }`}
+                >
+                  {mobileActiveSection && (
+                    <>
                       <button
-                        onClick={() => setMobileActiveItem(item.title)}
-                        className="text-left w-full"
+                        className="mb-4 text-sm text-gray-500 flex items-center gap-1.25 transition-colors duration-200 hover:text-[#3B3B3B]"
+                        onClick={() => setMobileActiveSection(null)}
                       >
-                        {item.title}
+                        <ChevronLeft className="size-6" />
+                        <h2 className="text-sm font-medium text-[#3B3B3B]">
+                          {mobileActiveSection}
+                        </h2>
                       </button>
-                    ) : (
-                      <Link href={item.href} onClick={resetMobileMenu}>
-                        {item.title}
-                      </Link>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </SheetContent>
-        </Sheet>
+
+                      <ul className="space-y-2 my-6">
+                        {currentSection?.items.map((link) => (
+                          <li
+                            key={link.name}
+                            className="text-sm font-normal text-[#6F6E6C] transition-colors duration-200 hover:text-[#3B3B3B]"
+                          >
+                            <Link
+                              href={link.href}
+                              onClick={(e) => handleLinkClick(e, link.href)}
+                              className="flex justify-between items-center"
+                            >
+                              {link.name}
+                              <ChevronRight color="#3B3B3B" size={18} />
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
+
+          <Search className="text-white size-6" />
+        </div>
 
         <Link href="/">
-          <Logo width={100} height={40} />
+          <Logo width={80.69} height={30} />
         </Link>
-        <div className="flex gap-4">
-          <Search className="text-white size-5" />
-          <div className="relative">
-            <Link href="/profile/wishlist" onClick={handleWishlistClick}>
-              <Heart className="text-white size-5" />
-            </Link>
-            {wishlistCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                {wishlistCount}
-              </span>
-            )}
-          </div>
+        <div className="flex gap-2.5">
           <div className="relative">
             <Link href="/cart">
               <ShoppingCart className="text-white size-5" />
@@ -200,20 +319,46 @@ const NavBar = () => {
               </span>
             )}
           </div>
+
+          <DropdownMenu onOpenChange={setOpen}>
+            <DropdownMenuTrigger asChild>
+              <button className="relative w-6 h-6 p-0 m-0 border-0 bg-transparent shrink-0 flex items-center justify-center overflow-visible">
+                {open && (
+                  <ProductImage
+                    width={26}
+                    height={18}
+                    alt="pentagon-icon"
+                    src="/pentagon-icon.svg"
+                    className="absolute top-12 left-1/2 -translate-x-1/2 z-200 pointer-events-none"
+                  />
+                )}
+
+                <Avatar className="size-6 bg-[#F5F5F5] text-black font-normal text-base cursor-pointer shrink-0">
+                  <AvatarImage
+                    src="https://github.com/shadcn.png"
+                    alt="@shadcn"
+                  />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+              </button>
+            </DropdownMenuTrigger>
+
+            <ProfileDropdown />
+          </DropdownMenu>
         </div>
       </div>
 
       {/* ======= DESKTOP NAV ======= */}
       <div
         ref={navRef}
-        className={`hidden md:block transition-all duration-300 pt-12.5 ${
+        className={`hidden lg:block transition-all duration-300 pt-12.5 ${
           activeMenu ? "bg-white h-117.5" : "h-25"
         }`}
         onMouseLeave={() => setActiveMenu(null)}
       >
         <div className="bg-black/30 backdrop-blur-lg rounded-full h-17.5 my-4 mx-16 px-6 flex items-center justify-between">
           {/* Left - Nav Items */}
-          <div className="flex gap-6 items-center">
+          <div className="flex gap-6 items-center xl:w-136 ">
             {navItems.map((item) => (
               <div key={item.title} className="relative">
                 <button
@@ -231,15 +376,15 @@ const NavBar = () => {
           </div>
 
           {/* Center - Logo */}
-          <div className="absolute left-1/2 -translate-x-1/2">
+          <div className="">
             <Link href="/">
               <Logo width={100} height={40} />
             </Link>
           </div>
 
           {/* Right - Icons */}
-          <div className="flex gap-4 items-center">
-            <Search className="text-white size-5 cursor-pointer" />
+          <div className="flex gap-4 items-center justify-end xl:w-136 max-w-136 ">
+            <Search className="text-white size-6 cursor-pointer" />
             <div className="relative">
               <Link href="/profile/wishlist" onClick={handleWishlistClick}>
                 <Heart className="text-white size-5 cursor-pointer" />

@@ -36,7 +36,7 @@ const HeroSection = ({ categorySlug }: HeroSectionProps) => {
     categoryInfo?.name ||
     categorySlug.charAt(0).toUpperCase() +
       categorySlug.slice(1).replace(/-/g, " ");
-
+  
   const description =
     categoryInfo?.description || "Explore our collection of premium products.";
 
@@ -63,13 +63,13 @@ const HeroSection = ({ categorySlug }: HeroSectionProps) => {
               className="w-full h-full object-cover"
             />
           ) : (
-            <Image
-              src={heroImage}
+        <Image
+          src={heroImage}
               alt={imageAlt}
-              width={379.98}
-              height={381}
+          width={379.98}
+          height={381}
               className="w-full h-full object-cover"
-            />
+        />
           )}
         </div>
       </div>

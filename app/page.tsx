@@ -10,14 +10,14 @@ import Wholesale from "@/components/landing-sections/Wholesale";
 export default function Home() {
   return (
     <>
-      <Hero />
+      {/* <Hero />
       <OurStory />
       <ProductCategory />
       <BestSeller />
       <GiftSet />
       <GiftCard />
       <Wholesale />
-      <ConnectWithUs />
+      <ConnectWithUs /> */}
     </>
   );
 }
