@@ -32,8 +32,55 @@ export const currencies = [
     src: "/usa-flag.svg",
   },
 ];
+export const dummySearchItems = Array(3).fill({
+  name: "Orphéon - Eau de parfum",
+  price: "$160",
+  image: "/recent-searched.png", // replace later
+});
 
-// data/navLinks.ts
+export const currencyNavItem = {
+  title: "CURRENCY",
+  href: "/currency", // optional fallback
+  sections: [
+    {
+      heading: "Select Currency",
+      items: [
+        {
+          name: "USD",
+          href: "#",
+          icon: "/usa-flag.svg",
+        },
+        {
+          name: "EUR",
+          href: "#",
+          icon: "/eu-flag.svg",
+        },
+        {
+          name: "NGN",
+          href: "#",
+          icon: "/nigeria-flag.svg",
+        },
+        {
+          name: "GBP",
+          href: "#",
+          icon: "/usa-flag.svg", // You might want to change this to UK flag
+        },
+      ],
+    },
+  ],
+};
+
+export const NAVIGATION_CONFIG = {
+  DESKTOP_BREAKPOINT: 1024,
+  SHEET_CLOSE_DELAY: 150,
+  MENU_RESET_DELAY: 100,
+} as const;
+
+export const BADGE_STYLES = {
+  cart: "absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center",
+  wishlist:
+    "absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center",
+} as const;
 
 export const navItems: NavItem[] = [
   {

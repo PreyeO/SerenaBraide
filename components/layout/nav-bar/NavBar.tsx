@@ -11,12 +11,16 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import Logo from "../ui/logo";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import ProfileDropdown from "../ui/profile-dropdown";
-import { DropdownMenu, DropdownMenuTrigger } from "../ui/dropdown-menu";
-import ProductImage from "../ui/images/product-image";
-import { navItems as hardcodedNavItems } from "@/constant/data";
+import Logo from "../../ui/logo";
+import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
+import ProfileDropdown from "../../ui/profile-dropdown";
+import { DropdownMenu, DropdownMenuTrigger } from "../../ui/dropdown-menu";
+import ProductImage from "../../ui/images/product-image";
+import {
+  currencyNavItem,
+  dummySearchItems,
+  navItems as hardcodedNavItems,
+} from "@/constant/data";
 import { useGetCategoriesTree } from "@/features/products/hooks/useGetCategoriesTree";
 import { NavItem, NavSection } from "@/types/general";
 import { CategoryTree } from "@/features/products/product.type";
@@ -24,7 +28,8 @@ import { useCart } from "@/features/cart-checkout/hooks/useCart";
 import { useWishlist } from "@/features/profile/hooks/customer/useWishlist";
 import { useAuthStore } from "@/features/auth/auth.store";
 import { useRouter } from "next/navigation";
-import SubHeading from "../ui/typography/subHeading";
+import SubHeading from "../../ui/typography/subHeading";
+import { Input } from "../../ui/input";
 
 const NavBar = () => {
   const router = useRouter();
@@ -33,6 +38,9 @@ const NavBar = () => {
   const navRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [avatarSheetOpen, setAvatarSheetOpen] = useState(false);
+  const [searchSheetOpen, setSearchSheetOpen] = useState(false);
+  const [selectedCurrency, setSelectedCurrency] = useState("USD");
 
   const [mobileActiveItem, setMobileActiveItem] = useState<string | null>(null);
   const [mobileActiveSection, setMobileActiveSection] = useState<string | null>(
@@ -50,6 +58,13 @@ const NavBar = () => {
       e.preventDefault();
       router.push("/auth/register?return_url=/profile/wishlist");
     }
+  };
+  const handleCurrencySelect = (currencyCode: string) => {
+    setSelectedCurrency(currencyCode);
+    setSheetOpen(false);
+    resetMobileMenu();
+    // You can also save to localStorage or a global state here
+    // localStorage.setItem('selectedCurrency', currencyCode);
   };
 
   const { data: categories = [] } = useGetCategoriesTree();
@@ -77,7 +92,8 @@ const NavBar = () => {
     });
 
   // Merge dynamic categories with other hardcoded nav items
-  const navItems: NavItem[] = [
+  // DESKTOP: Exclude currency from nav items
+  const desktopNavItems: NavItem[] = [
     {
       title: "CATEGORIES",
       href: "/categories",
@@ -86,7 +102,19 @@ const NavBar = () => {
     ...hardcodedNavItems.filter((item) => item.title !== "CATEGORIES"),
   ];
 
-  const currentItem = navItems.find((item) => item.title === mobileActiveItem);
+  // MOBILE: Include currency in nav items (but without sections since we handle it separately)
+  const mobileNavItems: NavItem[] = [
+    {
+      title: "CATEGORIES",
+      href: "/categories",
+      sections: categorySections,
+    },
+    ...hardcodedNavItems.filter((item) => item.title !== "CATEGORIES"),
+  ];
+
+  const currentItem = mobileNavItems.find(
+    (item) => item.title === mobileActiveItem,
+  );
   const currentSection = currentItem?.sections.find(
     (sec) => sec.heading === mobileActiveSection,
   );
@@ -162,7 +190,7 @@ const NavBar = () => {
             </SheetTrigger>
             <SheetContent
               side="left"
-              className="px-6 py-6 w-full max-w-xs top-10"
+              className="px-6 py-6 w-full max-w-xs top-12"
             >
               <SubHeading
                 className=" font-medium text-sm text-[#3B3B3B]"
@@ -180,7 +208,7 @@ const NavBar = () => {
                 >
                   <div className="flex flex-col">
                     <ul className="space-y-3 my-6">
-                      {navItems.map((item) => (
+                      {mobileNavItems.map((item) => (
                         <li
                           key={item.title}
                           className="text-sm font-normal text-[#6F6E6C] transition-colors duration-200 hover:text-[#3B3B3B]"
@@ -207,9 +235,30 @@ const NavBar = () => {
                       ))}
                     </ul>
                     <div className="border border-[#F0F0F0] w-full shrink-0 my-6" />
-                    <ul className="flex flex-col text-sm font-normal text-[#6F6E6C]">
+                    <ul className="flex flex-col text-sm font-normal text-[#6F6E6C] space-y-3">
                       <li className="flex justify-between w-full items-center transition-colors duration-200 hover:text-[#3B3B3B] cursor-pointer">
-                        CONTACT US <ChevronRight color="#3B3B3B" size={18} />
+                        <Link
+                          href="/contact-us"
+                          onClick={(e) => handleLinkClick(e, "/contact-us")}
+                          className="flex justify-between items-center w-full"
+                        >
+                          CONTACT US
+                          <ChevronRight color="#3B3B3B" size={18} />
+                        </Link>
+                      </li>
+                      <li className="flex justify-between w-full items-center transition-colors duration-200 hover:text-[#3B3B3B] cursor-pointer">
+                        <button
+                          onClick={() => setMobileActiveItem("CURRENCY")}
+                          className="text-left w-full flex justify-between items-center"
+                        >
+                          <span className="flex items-center gap-2">
+                            CURRENCY
+                            <span className="text-xs text-[#3B3B3B]">
+                              ({selectedCurrency})
+                            </span>
+                          </span>
+                          <ChevronRight color="#3B3B3B" size={18} />
+                        </button>
                       </li>
                     </ul>
                   </div>
@@ -235,24 +284,61 @@ const NavBar = () => {
                         </h2>
                       </button>
 
-                      <ul className="space-y-3">
-                        {currentItem?.sections.map((section) => (
-                          <li
-                            key={section.heading}
-                            className="text-sm font-normal text-[#6F6E6C] transition-colors duration-200 hover:text-[#3B3B3B]"
-                          >
-                            <button
-                              onClick={() =>
-                                setMobileActiveSection(section.heading)
-                              }
-                              className="text-left w-full flex justify-between items-center"
+                      {/* Currency Selection (no sections, direct list) */}
+                      {mobileActiveItem === "CURRENCY" ? (
+                        <ul className="space-y-3 my-6">
+                          {currencyNavItem.sections[0]?.items.map(
+                            (currency) => (
+                              <li
+                                key={currency.name}
+                                className="text-sm font-normal text-[#6F6E6C] transition-colors duration-200 hover:text-[#3B3B3B]"
+                              >
+                                <button
+                                  onClick={() =>
+                                    handleCurrencySelect(currency.name)
+                                  }
+                                  className="flex items-center gap-3 w-full"
+                                >
+                                  {currency.icon && (
+                                    <ProductImage
+                                      src={currency.icon}
+                                      width={24}
+                                      height={16}
+                                      alt={currency.name}
+                                      className="rounded"
+                                    />
+                                  )}
+                                  <span className="flex-1 text-left">
+                                    {currency.name}
+                                  </span>
+                                  {selectedCurrency === currency.name && (
+                                    <span className="text-green-600">✓</span>
+                                  )}
+                                </button>
+                              </li>
+                            ),
+                          )}
+                        </ul>
+                      ) : (
+                        <ul className="space-y-3">
+                          {currentItem?.sections.map((section) => (
+                            <li
+                              key={section.heading}
+                              className="text-sm font-normal text-[#6F6E6C] transition-colors duration-200 hover:text-[#3B3B3B]"
                             >
-                              {section.heading}
-                              <ChevronRight color="#3B3B3B" size={18} />
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
+                              <button
+                                onClick={() =>
+                                  setMobileActiveSection(section.heading)
+                                }
+                                className="text-left w-full flex justify-between items-center"
+                              >
+                                {section.heading}
+                                <ChevronRight color="#3B3B3B" size={18} />
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </>
                   )}
                 </div>
@@ -301,7 +387,92 @@ const NavBar = () => {
             </SheetContent>
           </Sheet>
 
-          <Search className="text-white size-6" />
+          {/* ✅ SEARCH SHEET */}
+          <Sheet open={searchSheetOpen} onOpenChange={setSearchSheetOpen}>
+            <SheetTrigger asChild>
+              <button className="text-white">
+                <Search className="size-6" />
+              </button>
+            </SheetTrigger>
+
+            <SheetContent
+              side="left"
+              className=" py-6 w-full max-w-xs top-12"
+              showClose={false}
+            >
+              {/* Search input */}
+              <div className="flex items-center gap-2 mb-6 bg-[#F5F5F5] py-4.5 px-6">
+                <ChevronLeft
+                  className="cursor-pointer"
+                  onClick={() => setSearchSheetOpen(false)}
+                />
+                <Input
+                  placeholder="What are you looking for"
+                  className="w-full border rounded-full px-4 py-4 text-sm outline-none"
+                />
+              </div>
+
+              {/* Recently searched */}
+              <div className="mb-6 px-6">
+                <SubHeading
+                  className="text-base text-[#6F6E6C] font-normal mb-6"
+                  title="RECENTLY SEARCHED"
+                />
+                <ul className="flex flex-col gap-4">
+                  {dummySearchItems.map((item, idx) => (
+                    <li
+                      key={idx}
+                      className="flex gap-3 items-center text-[#363438] text-sm font-normal"
+                    >
+                      <ProductImage
+                        src={item.image}
+                        width={41}
+                        height={41}
+                        alt={item.name}
+                        className="rounded"
+                      />
+                      <div className="flex flex-col gap-0.75">
+                        {item.name}
+                        <span className="text-[#6F6E6C] text-xs">
+                          {item.price}
+                        </span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Trending */}
+              <div className="px-6">
+                <SubHeading
+                  className=" text-[#6F6E6C] text-base font-normal mb-6"
+                  title="TRENDING NOW"
+                />
+                <ul className="space-y-4">
+                  {dummySearchItems.map((item, idx) => (
+                    <li
+                      key={idx}
+                      className="flex gap-3 items-center text-[#363438] text-sm font-normal"
+                    >
+                      <ProductImage
+                        src={item.image}
+                        width={48}
+                        height={48}
+                        alt={item.name}
+                        className="rounded"
+                      />
+                      <div className="flex flex-col gap-0.75">
+                        {item.name}
+                        <span className="text-[#6F6E6C] text-xs">
+                          {item.price}
+                        </span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
 
         <Link href="/">
@@ -320,31 +491,77 @@ const NavBar = () => {
             )}
           </div>
 
-          <DropdownMenu onOpenChange={setOpen}>
-            <DropdownMenuTrigger asChild>
-              <button className="relative w-6 h-6 p-0 m-0 border-0 bg-transparent shrink-0 flex items-center justify-center overflow-visible">
-                {open && (
-                  <ProductImage
-                    width={26}
-                    height={18}
-                    alt="pentagon-icon"
-                    src="/pentagon-icon.svg"
-                    className="absolute top-12 left-1/2 -translate-x-1/2 z-200 pointer-events-none"
-                  />
-                )}
-
-                <Avatar className="size-6 bg-[#F5F5F5] text-black font-normal text-base cursor-pointer shrink-0">
-                  <AvatarImage
-                    src="https://github.com/shadcn.png"
-                    alt="@shadcn"
-                  />
+          {/* ✅ MOBILE AVATAR SHEET (REPLACES DROPDOWN ONLY ON MOBILE) */}
+          <Sheet open={avatarSheetOpen} onOpenChange={setAvatarSheetOpen}>
+            <SheetTrigger asChild>
+              <button className="relative w-6 h-6 p-0 m-0 bg-transparent">
+                <Avatar className="size-6 bg-[#F5F5F5]">
+                  <AvatarImage src="https://github.com/shadcn.png" />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
               </button>
-            </DropdownMenuTrigger>
+            </SheetTrigger>
 
-            <ProfileDropdown />
-          </DropdownMenu>
+            <SheetContent
+              side="left"
+              className="px-6 py-6 w-full max-w-xs top-12"
+            >
+              <ul className="space-y-4 my-6 text-sm text-[#3B3B3B] font-normal">
+                <li>
+                  <Link
+                    href="/profile"
+                    onClick={(e) => handleLinkClick(e, "/profile")}
+                  >
+                    My Account
+                  </Link>
+                </li>
+                <div className="border border-[#F0F0F0] w-full shrink-0 my-2.5" />
+                <li>
+                  <Link
+                    href="/profile/orders"
+                    onClick={(e) => handleLinkClick(e, "/profile/orders")}
+                  >
+                    My Orders
+                  </Link>
+                </li>
+                <div className="border border-[#F0F0F0] w-full shrink-0 my-2.5" />
+                <li>
+                  <Link
+                    href="/profile/wishlist"
+                    onClick={(e) => handleLinkClick(e, "/profile/wishlist")}
+                  >
+                    Wishlist
+                  </Link>
+                </li>
+                <div className="border border-[#F0F0F0] w-full shrink-0 my-2.5" />
+                <li>Ratings & Reviews</li>
+              </ul>
+
+              <div className="bg-[#F5F5F5] p-3 rounded-lg text-sm mb-6">
+                <p className="font-medium text-[#3B3B3B]">Loyalty Point</p>
+                <p className="text-xs text-[#6F6E6C]">
+                  You have 0 points = $0.00
+                </p>
+              </div>
+
+              {!user && (
+                <div className="space-y-3">
+                  <button
+                    onClick={() => router.push("/auth/login")}
+                    className="w-full bg-[#3B3B3B] text-white py-2 rounded-full"
+                  >
+                    Login
+                  </button>
+                  <button
+                    onClick={() => router.push("/auth/register")}
+                    className="w-full border border-[#3B3B3B] py-2 rounded-full"
+                  >
+                    Join Us
+                  </button>
+                </div>
+              )}
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
 
@@ -359,7 +576,7 @@ const NavBar = () => {
         <div className="bg-black/30 backdrop-blur-lg rounded-full h-17.5 my-4 mx-16 px-6 flex items-center justify-between">
           {/* Left - Nav Items */}
           <div className="flex gap-6 items-center xl:w-136 ">
-            {navItems.map((item) => (
+            {desktopNavItems.map((item) => (
               <div key={item.title} className="relative">
                 <button
                   onClick={() => setActiveMenu(item.title)}
@@ -440,7 +657,7 @@ const NavBar = () => {
         {/* Dropdown Panel */}
         {activeMenu && (
           <div className="w-full px-16 pt-8 flex gap-52 h-100 bg-white transition-all duration-300">
-            {navItems
+            {desktopNavItems
               .find((item) => item.title === activeMenu)
               ?.sections.map((section) => (
                 <div key={section.heading} className="min-w-37.5">

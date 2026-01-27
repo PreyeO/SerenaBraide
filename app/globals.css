@@ -121,20 +121,21 @@
   body {
     @apply bg-background text-foreground font-GeneralSans;
   }
-  .hero_background {
-    @apply bg-[url("/hero-background.png")] bg-center  min-h-screen text-white bg-no-repeat;
-  }
+  /* .hero_background {
+    @apply bg-[url("/hero-background.png")]   min-h-screen text-white bg-no-repeat bg-center;
+  } */
+
   .footer_background {
     @apply bg-[url("/footer-bg.png")] bg-center text-white bg-no-repeat;
   }
 }
 
-/* .hero_background {
+.hero_background {
   background-image: url("/hero-background.png");
   background-size: cover;
-  background-position: center;
   background-repeat: no-repeat;
-} */
+  background-position: center;
+}
 button {
   cursor: pointer;
 }

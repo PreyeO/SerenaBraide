@@ -13,7 +13,7 @@ export type FooterSection = {
 export type NavSection = {
   heading: string;
   image?: string; // optional
-  items: { name: string; href: string }[];
+  items: { name: string; href: string; icon?: string }[];
 };
 
 export type NavItem = {
@@ -22,3 +22,16 @@ export type NavItem = {
   sections: NavSection[];
 };
 export type ContactFormValues = z.infer<typeof contactSchema>;
+
+export interface NavigationState {
+  activeMenu: string | null;
+  setActiveMenu: (menu: string | null) => void;
+  sheetOpen: boolean;
+  setSheetOpen: (open: boolean) => void;
+  // ... other navigation state
+}
+
+export interface CurrencyState {
+  selectedCurrency: string;
+  handleCurrencySelect: (currency: string, onComplete?: () => void) => void;
+}

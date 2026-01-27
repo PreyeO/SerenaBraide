@@ -2,58 +2,68 @@ import { Dot } from "lucide-react";
 import TitleSpan from "../ui/typography/title-span";
 import Paragraph from "../ui/typography/paragraph";
 import UnderlineLink from "../ui/btns/underline-cta";
-import ProductImage from "../ui/images/product-image";
+import Image from "next/image";
 
 const OurStory = () => {
   return (
-    <section className="px-16 pt-25 pb-18.75">
+    <section className="lg:px-16 px-6 lg:pt-25 pt-8.5 pb-18.75">
       <div>
         <div className="flex justify-between">
           <TitleSpan
             title="ULTIMATE SOPHISTICATION AND TIMELESS"
-            className="text-[22px] leading-7 w-76"
+            className="lg:text-[22px] text-base lg:leading-7 leading-6 max-w-76"
             span="LUXURY"
           />
-          <div className="border text-[#3B3B3B] border-[#3B3B3B] text-sm rounded-full w-28.5 h-10.5 items-center justify-center flex">
+          <div className="hidden lg:flex border text-[#3B3B3B] border-[#3B3B3B] text-sm rounded-full w-28.5 h-10.5 items-center justify-center ">
             <Dot size={18} />
             <h4>Our Story</h4>
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-12.5 items-end ">
+        <div className="flex flex-wrap lg:flex-nowrap xl:gap-12.5 gap-6 items-end justify-center pt-6">
+          {/* First box (A) - always first */}
           <div
-            className="bg-[#F5F5F5] rounded-[30px] px-6.25
-          py-6.25 flex flex-col gap-6.25 max-w-87.5 "
+            className="order-1 bg-[#F5F5F5] rounded-[30px] lg:px-6.25 px-3.5 py-3.5
+          lg:py-6.25 flex flex-col gap-6.25 w-full md:max-w-[48%] lg:max-w-87.5"
           >
-            <div className="flex items-end flex-col  ">
+            <div className="flex items-end flex-col">
               <TitleSpan
                 title="Exploring a life written in perfume from the key qualities that colors the world of"
-                className="text-sm leading-5.5  text-[#6F6E6C] w-55.75 "
+                className="text-sm leading-5.5  text-[#6F6E6C] max-w-55.75"
                 span="SERENA BRAIDE "
               >
                 perfumes
               </TitleSpan>
             </div>
 
-            <ProductImage
+            <Image
               src="/story-img1.png"
               alt="image of model spraying perfume"
               width={300}
               height={257}
-              className="rounded-[15px]"
+              className="rounded-[15px] w-full xl:w-75 xl:h-64.25 h-64.25 object-cover"
             />
           </div>
 
-          <ProductImage
-            src="/story-img2.png"
-            alt="image of model spraying perfume"
-            width={450}
-            height={546}
-            className="rounded-[30px]"
-          />
-          <div className="flex flex-col gap-4 max-w-105.25">
+          {/* Middle image (B) - last on mobile, middle on desktop */}
+          <div className="order-3 lg:order-2 w-full md:max-w-[48%] lg:max-w-none">
+            <Image
+              src="/story-img2.png"
+              alt="image of model spraying perfume"
+              width={450}
+              height={546}
+              className="rounded-[30px] w-full xl:w-112.5 xl:h-136.5 h-99.25 object-cover"
+            />
+          </div>
+
+          {/* Text content (C) - middle on mobile, last on desktop */}
+          <div className="order-2 lg:order-3 flex flex-col gap-4 w-full md:max-w-[48%] lg:max-w-105.25">
+            <div className="lg:hidden flex border text-[#3B3B3B] border-[#3B3B3B] text-sm rounded-full w-28.5 h-10.5 items-center justify-center ">
+              <Dot size={18} />
+              <h4>Our Story</h4>
+            </div>
             <TitleSpan
               title="Conscious"
-              className="text-[40px] leading-12  "
+              className="lg:text-[40px] text-[26px] lg:leading-12 leading-8"
               span="Fragrance"
             >
               Creation
@@ -64,7 +74,7 @@ const OurStory = () => {
             brands including Hugo Boss, Paco Rabanne, Gucci, Ariana Grande, Mugler and Marc Jacobs 
             both online and across our network of over 215 nationwide stores. We also stock the luxury 
             perfume brands Dior, Tom Ford, Viktor & Rolf, Hermès and Maison Margiela."
-              className="text-[#6F6E6C] font-normal text-base leading-6"
+              className="text-[#6F6E6C] font-normal lg:text-base text-sm lg:leading-6 leading-5.5"
             />
 
             <UnderlineLink
