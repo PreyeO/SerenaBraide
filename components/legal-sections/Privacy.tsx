@@ -17,20 +17,17 @@ const Privacy = () => {
   return (
     <section className="lg:px-12.5  md:px-6 px-0 flex flex-col lg:gap-8.5 gap-6 pb-12.5">
       <LegalHeader title="Privacy Policy" effectiveDate={effectiveDate}>
-        <LegalParagraph>
-          Welcome to Serena Braide. Your privacy matters to us. This Privacy
-          Policy explains how we collect, use, and protect your personal
-          information when you visit or interact with our website at{" "}
-          <a
-            href="https://www.serenabraide.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-400 underline transition-colors"
-          >
-            www.serenabraide.com
-          </a>
-          .
-        </LegalParagraph>
+        Welcome to Serena Braide. Your privacy matters to us. This Privacy
+        Policy explains how we collect, use, and protect your personal
+        information when you visit or interact with our website at{" "}
+        <a
+          href="https://www.serenabraide.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-400 underline transition-colors"
+        >
+          www.serenabraide.com
+        </a>
       </LegalHeader>
       <LegalTypography title="Information We Collect">
         <LegalParagraph>

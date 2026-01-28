@@ -15,9 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import SubmitButton from "@/components/ui/btns/submit-cta";
 import { contactSchema } from "../../lib/schemas/schema";
-import SubHeading from "@/components/ui/typography/subHeading";
 import { useContact } from "@/hooks/useContact";
-import Paragraph from "../ui/typography/paragraph";
 import { ContactFormValues } from "@/types/general";
 
 export default function ContactForm() {
@@ -41,18 +39,8 @@ export default function ContactForm() {
   }
 
   return (
-    <div className="pt-12.5 w-full gap-8.5 mb-27.75 flex flex-col items-center">
+    <div className="lg:pt-12.5 pt-8.5 w-full lg:gap-8.5 gap-6  flex flex-col items-center">
       {/* Heading Section */}
-      <div className="w-full max-w-175 flex flex-col gap-1.5 font-normal items-start">
-        <SubHeading
-          className="text-[#3B3B3B] text-[26px]"
-          title="We'd Love to Hear from You"
-        />
-        <Paragraph
-          className="text-black text-sm"
-          content="Feel free to reach out with questions, feedback, or special requests."
-        />
-      </div>
 
       <Form {...form}>
         <form

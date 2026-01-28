@@ -61,7 +61,9 @@ const Header = () => {
             transition={{ duration: 0.6 }}
             className="flex items-center justify-center text-center px-4 lg:px-0"
           >
-            <span className="truncate max-w-full block pointer-events-auto">{renderText()}</span>
+            <span className="truncate max-w-full block pointer-events-auto">
+              {renderText()}
+            </span>
           </motion.div>
         </AnimatePresence>
       </div>
@@ -109,11 +111,12 @@ const Header = () => {
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
-
-        <SubHeading
-          className="font-GeneralSans leading-5.5 font-normal text-sm"
-          title="Contact Us"
-        />
+        <Link href="/contact-us">
+          <SubHeading
+            className="font-GeneralSans leading-5.5 font-normal text-sm cursor-pointer"
+            title="Contact Us"
+          />
+        </Link>
       </div>
     </div>
   );

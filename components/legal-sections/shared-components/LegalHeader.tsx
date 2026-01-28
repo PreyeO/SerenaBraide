@@ -1,19 +1,27 @@
 import React from "react";
-import LegalParagraph from "./LegalParagraph";
+import clsx from "clsx";
 
 interface LegalHeaderProps {
   title: string;
   effectiveDate?: string;
   children: React.ReactNode;
+  className?: string;
 }
 
-const LegalHeader = ({ title, effectiveDate, children }: LegalHeaderProps) => {
+const LegalHeader = ({
+  title,
+  effectiveDate,
+  children,
+  className,
+}: LegalHeaderProps) => {
   return (
-    <div className="gap-1.25 flex flex-col md:max-w-208 max-w-81.75 text-[#3B3B3B] font-normal">
+    <div className="gap-1.25 flex flex-col md:max-w-208 max-w-81.75  font-normal">
       <h2 className="lg:text-[26px] text-[22px] font-normal">{title}</h2>
 
       {effectiveDate && (
-        <LegalParagraph>Effective Date: {effectiveDate}</LegalParagraph>
+        <p className={clsx("text-sm leading-5.5 text-[#3B3B3B]", className)}>
+          Effective Date: {effectiveDate}
+        </p>
       )}
 
       {children}

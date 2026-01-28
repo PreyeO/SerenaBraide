@@ -12,21 +12,19 @@ const Cookies = () => {
   return (
     <section className="lg:px-12.5 md:px-6 px-0 flex flex-col lg:gap-8.5 gap-6 pb-12.5">
       <LegalHeader title="Cookies Policy">
-        <LegalParagraph>
-          This Cookies Policy explains how Serena Braide{" "}
-          {`("we," "our," or "us")`} uses cookies and similar technologies when
-          you visit or interact with our website at{" "}
-          <a
-            href="https://www.serenabraide.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-400 underline transition-colors"
-          >
-            www.serenabraide.com
-          </a>
-          . By continuing to browse our site, you consent to the use of cookies
-          as described below.
-        </LegalParagraph>
+        This Cookies Policy explains how Serena Braide{" "}
+        {`("we," "our," or "us")`} uses cookies and similar technologies when
+        you visit or interact with our website at{" "}
+        <a
+          href="https://www.serenabraide.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-400 underline transition-colors"
+        >
+          www.serenabraide.com
+        </a>
+        . By continuing to browse our site, you consent to the use of cookies as
+        described below.
       </LegalHeader>
 
       <LegalTypography title="What Are Cookies?">
