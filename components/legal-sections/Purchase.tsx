@@ -1,7 +1,8 @@
 import React from "react";
 import LegalIntro from "./shared-components/LegalIntro";
 import LegalTypography from "./shared-components/LegalTypography";
-import Paragraph from "../ui/typography/paragraph";
+import LegalParagraph from "./shared-components/LegalParagraph";
+import LegalList from "./shared-components/LegalList";
 import {
   giftCardList,
   purchaseOrdersList,
@@ -13,7 +14,7 @@ import Link from "next/link";
 
 const Purchase = () => {
   return (
-    <section className="px-12.5 flex flex-col gap-8.5 pb-12.5">
+    <section className="lg:px-12.5 md:px-6 px-0 flex flex-col lg:gap-8.5 gap-6 pb-12.5">
       <LegalIntro
         title="Purchase Policy — Serena Braide"
         content="Thank you for choosing Serena Braide. We’re committed to 
@@ -22,76 +23,41 @@ const Purchase = () => {
         payments, shipping, returns, and more."
       />
 
-      <LegalTypography className="" title="Order Processing">
-        <div className="text-sm leading-5.5  w-208">
-          <ul className="list-disc ml-8 ">
-            {purchaseOrdersList.map((item, index) => (
-              <li key={index} className="">
-                {item.list}
-              </li>
-            ))}
-          </ul>
-        </div>
+      <LegalTypography title="Order Processing">
+        <LegalList items={purchaseOrdersList} />
       </LegalTypography>
 
-      <LegalTypography className="" title="Orders & Payments">
-        <div className="text-sm leading-5.5  w-208">
-          <Paragraph
-            className=" "
-            content="We accept the following payment options:"
-          />
-          <ul className="list-disc ml-8  ">
-            {purchasePaymentList.map((item, index) => (
-              <li key={index} className="">
-                {item.list}
-              </li>
-            ))}
-          </ul>
-          <Paragraph
-            className=" "
-            content="All payments are processed securely. We do not store your credit card information."
-          />
-        </div>
-      </LegalTypography>
-      <LegalTypography className="" title="Shipping & Delivery">
-        <div className="text-sm leading-5.5  w-208">
-          <ul className="list-disc ml-8 ">
-            {shippingList.map((item, index) => (
-              <li key={index} className="">
-                {item.list}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </LegalTypography>
-      <LegalTypography className="" title="Returns & Exchanges">
-        <div className="text-sm leading-5.5  w-208">
-          <ul className="list-disc ml-8 ">
-            {returnList.map((item, index) => (
-              <li key={index} className="">
-                {item.list}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </LegalTypography>
-      <LegalTypography className="" title="Gift Card Terms">
-        <div className="text-sm leading-5.5  w-208">
-          <ul className="list-disc ml-8 ">
-            {giftCardList.map((item, index) => (
-              <li key={index} className="">
-                {item.list}
-              </li>
-            ))}
-          </ul>
+      <LegalTypography title="Orders & Payments">
+        <LegalParagraph>
+          We accept the following payment options:
+        </LegalParagraph>
 
-          <p className=" ">
-            You can check your balance at any time on our
-            <span className="underline text-blue-400">
-              <Link href="/gift-card-balance"> Gift Card Balance page.</Link>
-            </span>
-          </p>
-        </div>
+        <LegalList items={purchasePaymentList} />
+
+        <LegalParagraph>
+          All payments are processed securely. We do not store your credit card
+          information.
+        </LegalParagraph>
+      </LegalTypography>
+
+      <LegalTypography title="Shipping & Delivery">
+        <LegalList items={shippingList} />
+      </LegalTypography>
+
+      <LegalTypography title="Returns & Exchanges">
+        <LegalList items={returnList} />
+      </LegalTypography>
+
+      <LegalTypography title="Gift Card Terms">
+        <LegalList items={giftCardList} />
+
+        <LegalParagraph>
+          You can check your balance at any time on our{" "}
+          <Link href="/gift-card-balance" className="underline text-blue-400">
+            Gift Card Balance page
+          </Link>
+          .
+        </LegalParagraph>
       </LegalTypography>
     </section>
   );

@@ -14,10 +14,9 @@ export default function LegalLayout({
   const pathname = usePathname();
 
   return (
-    <section className="min-h-screen px-16 flex flex-row  pt-[152px]">
-      {/* Sidebar */}
-      <aside className="w-[223px] h-[572px] border-r border-[#F0F0F0] py-[25px]">
-        <nav className="flex  flex-col pl-[25px] gap-[10px]">
+    <div className="min-h-screen lg:px-16 px-6 flex md:flex-row flex-col  pt-38">
+      <aside className="w-55.75 h-143 border-r border-[#F0F0F0] py-6.25 md:flex flex-col hidden">
+        <nav className="flex  flex-col lg:pl-6.25 gap-2.5">
           {legalLinks.map((link) => (
             <Link
               key={link.href}
@@ -26,7 +25,7 @@ export default function LegalLayout({
                 "text-base font-medium text-[#6F6E6C] hover:text-[#3B3B3B]  transition-colors",
                 pathname === link.href
                   ? "text-[#3B3B3B] underline"
-                  : "text-[#6F6E6C]"
+                  : "text-[#6F6E6C]",
               )}
             >
               {link.name}
@@ -36,9 +35,9 @@ export default function LegalLayout({
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 md:pl-[60px] max-w-[750px] mx-auto md:mx-0">
+      <main className="lg:flex-1 lg:pl-15 lg:w-187.5 lg:mx-auto ">
         {children}
       </main>
-    </section>
+    </div>
   );
 }

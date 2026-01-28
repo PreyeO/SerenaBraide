@@ -86,44 +86,7 @@ export const navItems: NavItem[] = [
   {
     title: "CATEGORIES",
     href: "/categories",
-    sections: [
-      {
-        heading: "Fragrances",
-        items: [
-          { name: "Men Fragrances", href: "/categories/fragrances" },
-          { name: "Women Fragrances", href: "/categories/fragrances" },
-          { name: "Kids Fragrances", href: "/categories/fragrances" },
-          { name: "Body Spray", href: "/categories/fragrances" },
-          { name: "Body Mist", href: "/categories/fragrances" },
-        ],
-      },
-      {
-        heading: "Lips",
-        items: [
-          { name: "Lip Gloss", href: "/categories/lips" },
-          { name: "Lip Balm", href: "/categories/lips" },
-          { name: "Lip Tints", href: "/categories/lips" },
-          { name: "Liquid Lipsticks", href: "/categories/lips" },
-        ],
-      },
-      {
-        heading: "Skincare",
-        items: [
-          { name: "Face Wash", href: "/categories/skincare/face-wash" },
-          { name: "Moisturizer", href: "/categories/skincare/moisturizer" },
-          { name: "SPF", href: "/categories/skincare/spf" },
-          { name: "Serums", href: "/categories/skincare/serums" },
-        ],
-      },
-      {
-        heading: "Diffusers",
-        items: [
-          { name: "Reed Diffuser", href: "/categories/diffusers/reed" },
-          { name: "Electric Diffuser", href: "/categories/diffusers/electric" },
-          { name: "Essential Oils", href: "/categories/diffusers/oils" },
-        ],
-      },
-    ],
+    sections: [],
   },
   {
     title: "BEST SELLERS",

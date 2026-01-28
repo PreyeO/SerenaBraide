@@ -1,5 +1,6 @@
 // components/navbar/desktop/DesktopNavItems.tsx
 import { NavItem } from "@/types/general";
+import Link from "next/link";
 
 interface DesktopNavItemsProps {
   items: NavItem[];
@@ -14,18 +15,32 @@ export const DesktopNavItems = ({
 }: DesktopNavItemsProps) => {
   return (
     <>
-      {items.map((item) => (
-        <div key={item.title} className="relative">
-          <button
-            onClick={() => onMenuOpen(item.title)}
-            className={`text-sm font-medium text-white rounded-full transition-colors duration-300 ${
-              activeMenu === item.title ? "bg-black px-3 py-1 text-white" : ""
-            }`}
-          >
-            {item.title}
-          </button>
-        </div>
-      ))}
+      {items.map((item) => {
+        const hasDropdown = item.sections.length > 0;
+        if (!hasDropdown) {
+          return (
+            <Link
+              key={item.title}
+              href={item.href}
+              className="text-sm font-medium text-white rounded-full px-3 py-1 transition-colors duration-300 hover:bg-black"
+            >
+              {item.title}
+            </Link>
+          );
+        }
+        return (
+          <div key={item.title} className="relative">
+            <button
+              onClick={() => onMenuOpen(item.title)}
+              className={`text-sm font-medium text-white rounded-full transition-colors duration-300 ${
+                activeMenu === item.title ? "bg-black px-3 py-1 text-white" : ""
+              }`}
+            >
+              {item.title}
+            </button>
+          </div>
+        );
+      })}
     </>
   );
 };
