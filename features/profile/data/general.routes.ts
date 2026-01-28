@@ -10,6 +10,9 @@ import {
   House,
   Users,
   ShoppingBag,
+  BriefcaseBusiness,
+  Package,
+  UserCheck,
 } from "lucide-react";
 
 export const customerRoutes: SidebarItem[] = [
@@ -39,7 +42,7 @@ export const adminRoutes: SidebarItem[] = [
   {
     title: "Products",
     href: "/admin/products",
-    icon: BookUser,
+    icon: Package,
   },
 
   {
@@ -49,12 +52,12 @@ export const adminRoutes: SidebarItem[] = [
   },
   {
     title: "Customers",
-    href: "/admin/assessments",
-    icon: User,
+    href: "/admin/customers",
+    icon: UserCheck,
   },
   {
-    title: "Users",
-    href: "/admin/assessments",
+    title: "Staff",
+    href: "/admin/staff",
     icon: Users,
   },
 
