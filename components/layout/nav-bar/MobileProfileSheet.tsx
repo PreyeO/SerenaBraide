@@ -1,0 +1,87 @@
+// components/navbar/mobile/MobileProfileSheet.tsx
+import Link from "next/link";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+interface MobileProfileSheetProps {
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+  user: unknown;
+  onLinkClick: (e: React.MouseEvent<HTMLAnchorElement>, href: string) => void;
+  onLogin: () => void;
+  onRegister: () => void;
+}
+
+export const MobileProfileSheet = ({
+  isOpen,
+  onOpenChange,
+  user,
+  onLinkClick,
+  onLogin,
+  onRegister,
+}: MobileProfileSheetProps) => {
+  return (
+    <Sheet open={isOpen} onOpenChange={onOpenChange}>
+      <SheetTrigger asChild>
+        <button className="relative w-6 h-6 p-0 m-0 bg-transparent">
+          <Avatar className="size-6 bg-[#F5F5F5]">
+            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+        </button>
+      </SheetTrigger>
+
+      <SheetContent side="left" className="px-6 py-6 w-full max-w-xs top-12">
+        <ul className="space-y-4 my-6 text-sm text-[#3B3B3B] font-normal">
+          <li>
+            <Link href="/profile" onClick={(e) => onLinkClick(e, "/profile")}>
+              My Account
+            </Link>
+          </li>
+          <div className="border border-[#F0F0F0] w-full shrink-0 my-2.5" />
+          <li>
+            <Link
+              href="/profile/orders"
+              onClick={(e) => onLinkClick(e, "/profile/orders")}
+            >
+              My Orders
+            </Link>
+          </li>
+          <div className="border border-[#F0F0F0] w-full shrink-0 my-2.5" />
+          <li>
+            <Link
+              href="/profile/wishlist"
+              onClick={(e) => onLinkClick(e, "/profile/wishlist")}
+            >
+              Wishlist
+            </Link>
+          </li>
+          <div className="border border-[#F0F0F0] w-full shrink-0 my-2.5" />
+          <li>Ratings & Reviews</li>
+        </ul>
+
+        <div className="bg-[#F5F5F5] p-3 rounded-lg text-sm mb-6">
+          <p className="font-medium text-[#3B3B3B]">Loyalty Point</p>
+          <p className="text-xs text-[#6F6E6C]">You have 0 points = $0.00</p>
+        </div>
+
+        {!user && (
+          <div className="space-y-3">
+            <button
+              onClick={onLogin}
+              className="w-full bg-[#3B3B3B] text-white py-2 rounded-full"
+            >
+              Login
+            </button>
+            <button
+              onClick={onRegister}
+              className="w-full border border-[#3B3B3B] py-2 rounded-full"
+            >
+              Join Us
+            </button>
+          </div>
+        )}
+      </SheetContent>
+    </Sheet>
+  );
+};

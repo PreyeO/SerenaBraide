@@ -2,15 +2,17 @@ import React from "react";
 import Paragraph from "../ui/typography/paragraph";
 import LinkCta from "../ui/btns/link-cta";
 import Image from "next/image";
+import { ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 const TEXT_WRAPPER = "max-w-[600px] mx-auto px-6";
 
 const Wholesale = () => {
   return (
-    <section className="bg-white">
-      <div className="flex flex-col w-full">
+    <section className="">
+      <div className="flex flex-col w-full ">
         {/* First Row */}
-        <div className="flex flex-col lg:flex-row w-full lg:min-h-178.5">
+        <div className="flex flex-col lg:flex-row w-full lg:min-h-178.5 ">
           {/* Image 1 */}
           <div className="w-full lg:flex-1 order-1 lg:order-1">
             <Image
@@ -27,11 +29,11 @@ const Wholesale = () => {
             <div className={`${TEXT_WRAPPER} text-center space-y-3`}>
               <Paragraph
                 content="Every Purchase Earns You Points"
-                className="text-[#3B3B3B] font-medium text-[22px] lg:text-[32px] lg:leading-9.5 leading-[28px]"
+                className="text-[#3B3B3B] font-medium text-[22px] lg:text-[32px] lg:leading-9.5 leading-7"
               />
               <Paragraph
                 content="Shop your favorite scents and collect points automatically—rewarding you with savings on future orders."
-                className="text-[#6F6E6C] font-normal text-sm lg:text-lg leading-[22px] lg:leading-7"
+                className="text-[#6F6E6C] font-normal text-sm lg:text-lg leading-5.5 lg:leading-7"
               />
             </div>
           </div>
@@ -55,16 +57,25 @@ const Wholesale = () => {
             <div className={`${TEXT_WRAPPER} text-center space-y-3`}>
               <Paragraph
                 content="Interested in Reselling?"
-                className="text-[#3B3B3B] font-medium text-[22px] lg:text-[32px] lg:leading-9.5 leading-[28px]"
+                className="text-[#3B3B3B] font-medium text-[22px] lg:text-[32px] lg:leading-9.5 leading-7"
               />
               <Paragraph
                 content="Join our wholesale program and offer timeless perfumes your customers will love."
-                className="text-[#6F6E6C] font-normal text-sm lg:text-lg leading-[22px] lg:leading-7"
+                className="text-[#6F6E6C] font-normal text-sm lg:text-lg leading-5.5 lg:leading-7"
               />
-              <LinkCta
-                label="Contact Us"
-                className="w-40 mt-6 bg-[#3B3B3B] text-white"
-              />
+              <div className=" lg:flex hidden">
+                <LinkCta
+                  label="Contact Us"
+                  className="w-40 mt-6 bg-[#3B3B3B] text-white"
+                />
+              </div>
+              <Link
+                href="/contact-us"
+                className="flex gap-1.5 lg:hidden items-center text-sm font-normal text-[#3B3B3B]"
+              >
+                <span className="">Contact us</span>
+                <ChevronRight size={18} className="" />
+              </Link>
             </div>
           </div>
         </div>

@@ -35,3 +35,12 @@ export interface CurrencyState {
   selectedCurrency: string;
   handleCurrencySelect: (currency: string, onComplete?: () => void) => void;
 }
+// types/user.ts
+
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  avatar?: string;
+  // ... whatever your auth store returns
+}

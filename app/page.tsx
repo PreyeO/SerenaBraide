@@ -1,5 +1,6 @@
 import BestSeller from "@/components/landing-sections/BestSeller";
 import ConnectWithUs from "@/components/landing-sections/ConnectWithUs";
+import Delivery from "@/components/landing-sections/Delivery";
 import GiftCard from "@/components/landing-sections/GiftCard";
 import GiftSet from "@/components/landing-sections/GiftSet";
 import Hero from "@/components/landing-sections/Hero";
@@ -13,11 +14,14 @@ export default function Home() {
       <Hero />
       <OurStory />
       <ProductCategory />
-      <BestSeller />
-      <GiftSet />
+      {/* <BestSeller />
+      <GiftSet /> */}
       <GiftCard />
       <Wholesale />
       <ConnectWithUs />
+      <div className="lg:hidden block">
+        <Delivery />
+      </div>
     </>
   );
 }
