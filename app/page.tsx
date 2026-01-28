@@ -19,9 +19,9 @@ export default function Home() {
       <GiftCard />
       <Wholesale />
       <ConnectWithUs />
-      <div className="lg:hidden block">
+      {/* <div className="lg:hidden block">
         <Delivery />
-      </div>
+      </div> */}
     </>
   );
 }

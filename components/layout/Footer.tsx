@@ -13,7 +13,7 @@ import Caption from "../ui/typography/caption";
 
 const Footer = () => {
   return (
-    <footer className="lg:mt-30">
+    <footer className="lg:mt-30 ">
       {/* Top newsletter section */}
       <div className="footer_background pb-17.25 lg:px-12 px-6">
         <div className="lg:max-w-180.75 flex flex-col justify-center items-center mx-auto pt-17.5">
