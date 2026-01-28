@@ -3,7 +3,7 @@ import SubHeading from "../ui/typography/subHeading";
 import TitleSpan from "../ui/typography/title-span";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, MessageSquareMore } from "lucide-react";
 import { footerLinks } from "@/constant/data";
 import Link from "next/link";
 import ProductImage from "../ui/images/product-image";
@@ -13,38 +13,38 @@ import Caption from "../ui/typography/caption";
 
 const Footer = () => {
   return (
-    <footer className="">
+    <footer className="lg:mt-30">
       {/* Top newsletter section */}
-      <div className="footer_background pb-[69px]">
-        <div className="max-w-[723px] flex flex-col justify-center items-center mx-auto pt-[70px]">
+      <div className="footer_background pb-17.25 lg:px-12 px-6">
+        <div className="lg:max-w-180.75 flex flex-col justify-center items-center mx-auto pt-17.5">
           <SubHeading
             title="Be the first to know!"
-            className=" text-white font-PPEditorialNew font-normal text-[32px] leading-[38px] text-center "
+            className=" text-white font-PPEditorialNew font-normal text-[26px] lg:text-[32px] leading-9.5 text-center "
           />
 
           <TitleSpan
             title="Receive our exclusive offers, new product launches, beauty advice. By signing up, you consent to our "
-            className="text-[#F5F5F5] font-normal text-sm leading-[22px] pt-[6px] "
+            className="text-[#F5F5F5] font-normal lg:text-sm text-xs leading-4.5 lg:leading-5.5 pt-1.5 "
             span="privacy policy."
           />
-          <div className="flex items-center w-[488px] mt-[34px] border border-white rounded-full">
+          <div className="flex items-center px-6 lg:px-12 max-w-122 mt-8.5 border border-white rounded-full">
             <Input
-              className="flex-1 py-[22px] rounded-full border-0 text-sm text-[#F5F5F5] font-normal bg-transparent px-4"
+              className="flex-1 py-5.5 rounded-full border-0 text-sm text-[#F5F5F5] font-normal bg-transparent px-4"
               placeholder="enter your email address"
             />
-            <Button className="bg-white rounded-full size-[40px] shadow-[0px_16px_40px_-12px_#12121226] flex items-center justify-center">
+            <Button className="bg-white rounded-full size-10 shadow-[0px_16px_40px_-12px_#12121226] flex items-center justify-center">
               <ArrowUpRight className="size-[22.22px] text-[#3B3B3B]/50" />
             </Button>
           </div>
         </div>
       </div>
-      <div className="bg-black px-16 py-[29px]">
-        <div className=" text-white  grid grid-cols-2 md:grid-cols-6 items-start gap-y-[70px]">
-          <div className="col-span-2 md:col-span-1 flex flex-col  max-w-[189px]">
+      <div className="bg-black lg:px-16 px-6 py-7.25">
+        <div className=" text-white flex lg:justify-evenly flex-wrap lg:flex-nowrap justify-start lg:gap-0 gap-8.5">
+          <div className="col-span-2 md:col-span-1 flex flex-col  max-w-47.25">
             <Logo width={134.48} height={50} />
             <Paragraph
               content="Clean, conscious fragrances that truly leave an impression."
-              className="text-[#6F6E6C] font-normal text-[10px] leading-[14px] mt-4"
+              className="text-[#6F6E6C] font-normal text-[10px] leading-3.5 mt-4"
             />
           </div>
 
@@ -58,7 +58,7 @@ const Footer = () => {
               <ul
                 className={`mt-4 ${
                   section.heading === "WE ACCEPT"
-                    ? "flex items-center gap-4"
+                    ? "flex items-center flex-wrap  gap-4 max-w-37.75 "
                     : "space-y-4"
                 }`}
               >
@@ -66,15 +66,13 @@ const Footer = () => {
                   <li
                     key={i}
                     className={`flex items-center ${
-                      "href" in item
-                        ? "text-base text-[#6F6E6C] font-normal"
-                        : ""
+                      "href" in item ? "text-base font-normal" : ""
                     }`}
                   >
                     {"href" in item ? (
                       <Link
                         href={item.href}
-                        className="text-[#F5F5F5] text-sm hover:underline"
+                        className=" text-sm hover:underline text-[#6F6E6C] "
                       >
                         {item.name}
                       </Link>
@@ -93,12 +91,22 @@ const Footer = () => {
             </div>
           ))}
         </div>
-        <div className="border border-[#3B3B3B] w-full   mt-[50px]" />
+        <div className="border border-[#3B3B3B] w-full   mt-12.5" />
 
         <p className="text-[10px] text-[#6F6E6C] font-normal pt-6">
           © {new Date().getFullYear()} Serena Braide, All Rights Reserved
         </p>
       </div>
+      {/* Floating message icon */}
+      <span className="fixed bottom-6 right-4 z-50">
+        <Link
+          href="/contact-us"
+          aria-label="Contact us"
+          className="flex items-center justify-center lg:w-14 lg:h-14 w-12.5 h-12.5 rounded-full bg-[#3A3A3A] shadow-[0px_12px_32px_-8px_rgba(0,0,0,0.6)] hover:scale-105 transition-transform duration-200"
+        >
+          <MessageSquareMore className="text-white size-7.75" />
+        </Link>
+      </span>
     </footer>
   );
 };

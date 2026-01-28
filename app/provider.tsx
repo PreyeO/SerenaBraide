@@ -27,7 +27,7 @@ export default function ReactQueryProvider({
       {!isExcludedRoute && <Header />}
       {!isExcludedRoute && <NavBar />}
       {children}
-      {/* {!isExcludedRoute && <Footer />} */}
+      {!isExcludedRoute && <Footer />}
       <Toaster />
     </QueryClientProvider>
   );

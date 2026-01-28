@@ -57,7 +57,7 @@ export const MobileNav = ({
   }, [onSheetChange, router]);
 
   return (
-    <div className="lg:hidden mx-6 mt-15 px-3.25 py-2 flex items-center justify-between bg-black/30 backdrop-blur-lg rounded-full">
+    <div className="lg:hidden mx-6 mt-17 px-3.25 py-2 flex items-center justify-between bg-black/30 backdrop-blur-lg rounded-full">
       <div className="flex gap-2.5 items-center">
         <MobileMenuSheet
           isOpen={sheets.menu}

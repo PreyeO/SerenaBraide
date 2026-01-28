@@ -81,7 +81,7 @@ const ConnectWithUs = () => {
         {/* Right Image */}
         <div className="hidden lg:flex items-end relative">
           <ProductImage
-            className="object-contain relative top-45 max-w-45 lg:max-w-55 xl:max-w-61.75"
+            className="object-contain relative xl:top-45 top-45 lg:top-25 max-w-45 lg:max-w-55 xl:max-w-61.75"
             alt="product image"
             src="/insta-product-2.png"
             width={247}

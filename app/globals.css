@@ -125,9 +125,9 @@
     @apply bg-[url("/hero-background.png")]   min-h-screen text-white bg-no-repeat bg-center;
   } */
 
-  .footer_background {
+  /* .footer_background {
     @apply bg-[url("/footer-bg.png")] bg-center text-white bg-no-repeat;
-  }
+  } */
 }
 
 .hero_background {
@@ -135,7 +135,17 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  min-height: 100vh;
 }
+
+.footer_background {
+  background-color: red;
+  background-image: url("/footer-bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
 button {
   cursor: pointer;
 }

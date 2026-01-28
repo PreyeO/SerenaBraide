@@ -240,10 +240,11 @@ export const footerLinks: FooterSection[] = [
   {
     heading: "HELP",
     items: [
-      { name: "Contact Us", href: "/contact-us" },
       { name: "FAQ", href: "/faq" },
+      { name: "Contact Us", href: "/contact-us" },
     ],
   },
+
   {
     heading: "LEGAL",
     items: [
@@ -253,13 +254,7 @@ export const footerLinks: FooterSection[] = [
       { name: "Cookie Policy", href: "/legal/cookie_policy" },
     ],
   },
-  {
-    heading: "CONTACT",
-    items: [
-      { name: "support@example.com", href: "mailto:support@example.com" },
-      { name: "+1 (234) 567-890", href: "tel:+1234567890" },
-    ],
-  },
+
   {
     heading: "WE ACCEPT",
     items: [
