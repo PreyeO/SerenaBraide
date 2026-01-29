@@ -5,7 +5,7 @@ export default function CategoriesLayout({
 }) {
   return (
     <div>
-      <main className="px-16">{children}</main>
+      <main className="lg:px-16 px-6">{children}</main>
     </div>
   );
 }

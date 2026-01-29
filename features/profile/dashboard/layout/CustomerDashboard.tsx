@@ -35,7 +35,7 @@ const CustomerDashboard = ({ children }: { children: React.ReactNode }) => {
 
         <SidebarInset className="">
           {/* <Header /> */}
-          <main className="px-4 lg:px-0 lg:mr-16 lg:pl-8.5">{children}</main>
+          <main className="px-4 md:px-0 lg:mr-16 lg:pl-8.5">{children}</main>
         </SidebarInset>
       </div>
     </SidebarProvider>

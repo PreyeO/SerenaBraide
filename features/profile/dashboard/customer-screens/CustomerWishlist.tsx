@@ -17,6 +17,7 @@ import { WishlistItem } from "../../type/customers/profile.type";
 import { VariantImage } from "@/features/products/product.type";
 import { format } from "date-fns";
 import DashboardLoader from "@/components/ui/loaders/dasboard-loader";
+import BackNavigation from "@/components/ui/btns/back-navigation";
 
 const CustomerWishlist = () => {
   const user = useAuthStore((state) => state.user);
@@ -80,6 +81,11 @@ const CustomerWishlist = () => {
 
   return (
     <section className="flex flex-col gap-4 lg:gap-6">
+      <BackNavigation
+        href="/profile"
+        text="Back"
+        className="lg:hidden mb-4 hover:text-[#3B3B3B] transition-colors"
+      />
       <OverviewCard
         subHeading={`My Wishlist (${wishlistData.count} ${wishlistData.count === 1 ? "item" : "items"})`}
       >
@@ -92,10 +98,10 @@ const CustomerWishlist = () => {
             return (
               <div
                 key={item.id}
-                className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-start pb-4 sm:pb-6 border-b border-[#F5F5F5] last:border-0 last:pb-0"
+                className="flex flex-col md:flex-row gap-3 md:gap-4 items-start pb-4 md:pb-6 border-b border-[#F5F5F5] last:border-0 last:pb-0"
               >
                 {/* Product Image */}
-                <div className="relative shrink-0 w-full sm:w-auto sm:max-h-51 sm:max-w-66.75">
+                <div className="relative shrink-0 w-full md:w-auto md:max-h-51 md:max-w-66.75">
                   <ProductImage
                     src={imageUrl}
                     alt={

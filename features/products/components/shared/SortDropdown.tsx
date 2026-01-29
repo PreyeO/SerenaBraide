@@ -37,15 +37,15 @@ export default function SortDropdown({
 
   return (
     <div className="flex items-center text-[#3B3B3B]">
-      <span className="font-semibold text-sm mr-2">SORTED BY:</span>
+      <span className="font-font text-sm mr-2">SORTED BY:</span>
       <DropdownMenu>
-        <DropdownMenuTrigger className="flex items-center justify-center text-sm font-normal">
+        <DropdownMenuTrigger className=" flex items-center justify-center text-sm font-normal">
           {/* Show current selection, default to "All" */}
           {options.find((o) => o.value === current)?.label || "All"}
-          <ChevronDown className="w-4 h-4 text-black ml-1" />
+          <ChevronDown className="w-4 h-4 text-[#3B3B3B]  ml-1" />
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent className="w-28">
+        <DropdownMenuContent className="">
           {options.map((option) => (
             <DropdownMenuItem
               key={option.value}

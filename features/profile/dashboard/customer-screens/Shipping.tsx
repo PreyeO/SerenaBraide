@@ -17,6 +17,7 @@ import OverviewCard from "./shared/OverviewCard";
 import { Plus } from "lucide-react";
 import Paragraph from "@/components/ui/typography/paragraph";
 import DashboardLoader from "@/components/ui/loaders/dasboard-loader";
+import BackNavigation from "@/components/ui/btns/back-navigation";
 
 const Shipping = () => {
   const user = useAuthStore((state) => state.user);
@@ -73,6 +74,11 @@ const Shipping = () => {
 
   return (
     <section className="flex flex-col gap-6">
+      <BackNavigation
+        href="/profile"
+        text="Back"
+        className="lg:hidden mb-4 hover:text-[#3B3B3B] transition-colors"
+      />
       <OverviewCard subHeading="Default Address">
         <div
           onClick={() => setIsAddModalOpen(true)}

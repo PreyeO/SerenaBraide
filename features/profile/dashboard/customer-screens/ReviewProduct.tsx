@@ -4,6 +4,7 @@ import React, { useState, useMemo } from "react";
 import OrdersList from "./shared/OrdersList";
 import { useOrders } from "../../hooks/customer/useOrders";
 import { transformOrdersToOrderInfo } from "../../utils/order.utils";
+import BackNavigation from "@/components/ui/btns/back-navigation";
 
 const ReviewProduct = () => {
   const [activeTab, setActiveTab] = useState("ready-for-review");
@@ -34,19 +35,26 @@ const ReviewProduct = () => {
   }, [deliveredOrders.length]);
 
   return (
-    <OrdersList
-      orders={deliveredOrders}
-      activeTab={activeTab}
-      searchQuery={searchQuery}
-      filterValue={filterValue}
-      onTabChange={setActiveTab}
-      onSearchChange={setSearchQuery}
-      onFilterChange={setFilterValue}
-      showTabs={true}
-      tabs={reviewTabs}
-      orderDetail="View Details"
-      isLoading={isLoading}
-    />
+    <>
+      <BackNavigation
+        href="/profile"
+        text="Back"
+        className="lg:hidden mb-4 hover:text-[#3B3B3B] transition-colors"
+      />
+      <OrdersList
+        orders={deliveredOrders}
+        activeTab={activeTab}
+        searchQuery={searchQuery}
+        filterValue={filterValue}
+        onTabChange={setActiveTab}
+        onSearchChange={setSearchQuery}
+        onFilterChange={setFilterValue}
+        showTabs={true}
+        tabs={reviewTabs}
+        orderDetail="View Details"
+        isLoading={isLoading}
+      />
+    </>
   );
 };
 

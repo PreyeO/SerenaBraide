@@ -1,5 +1,5 @@
 import React from "react";
-import ProductImage from "./images/product-image";
+import Image from "next/image";
 
 interface LogoProps {
   height: number;
@@ -9,7 +9,7 @@ interface LogoProps {
 
 const Logo: React.FC<LogoProps> = ({ width, className, height }) => {
   return (
-    <ProductImage
+    <Image
       alt="logo image"
       src="/logo.svg"
       width={width}

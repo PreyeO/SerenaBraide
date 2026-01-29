@@ -20,7 +20,7 @@ const EmptyCustomerSummary: React.FC<EmptyCustomerProps> = ({
   contentTwo,
 }) => {
   return (
-    <div className="w-full bg-[#F6F7F8] border border-[#F5F5F5] py-3 sm:py-4.75 px-4 sm:px-8.5 rounded-[10px]">
+    <div className="w-full bg-[#F6F7F8] border border-[#F5F5F5] py-3 lg:py-4.75 px-4 lg:px-8.5 rounded-[10px]">
       <SubHeading
         title={subHeadingOne}
         className="text-base sm:text-lg font-medium text-[#3B3B3B] py-3 sm:py-4.75"

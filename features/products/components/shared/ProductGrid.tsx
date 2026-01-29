@@ -37,8 +37,8 @@ export default function ProductGrid({
 
   return (
     <div>
-      <div className="flex justify-between items-center pt-[50px] text-[#3B3B3B]">
-        <p className="font-semibold">
+      <div className="flex justify-between items-center lg:pt-12.5 pt-6 font-normal text-sm text-[#3B3B3B]">
+        <p className="">
           {products.length} {products.length === 1 ? "PRODUCT" : "PRODUCTS"}
         </p>
         <SortDropdown onSortChange={onSortChange} selected={sortType} />
@@ -55,7 +55,7 @@ export default function ProductGrid({
         <SubmitButton
           label="Load more"
           loadingLabel="Loading more..."
-          className="max-w-[400px] mx-auto flex justify-center mb-[50px] mt-[60px]"
+          className="max-w-100 mx-auto flex justify-center mb-12.5 mt-15"
         />
       )}
     </div>

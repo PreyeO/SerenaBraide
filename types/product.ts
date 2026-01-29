@@ -1,17 +1,21 @@
 export interface Product {
   id?: string | number;
   slug?: string;
-  type: string;
-  price: string;
   name: string;
+  price: string;
   src: string;
-  rating?: number; // 4.5
-  sold?: string;
-  sizes?: string[]; // for fragrance
-  colors?: string[];
-  reviews?: number;
-  variantId?: number; // For wishlist functionality
-  productId?: number; // For review count
+
   inStock?: boolean;
+  reviews?: number;
+
   categorySlug?: string;
+  productId?: number;
+
+  // unused (explicitly optional)
+  type?: string;
+  rating?: number;
+  sold?: string;
+  sizes?: string[];
+  colors?: string[];
+  variantId?: number;
 }

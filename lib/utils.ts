@@ -9,3 +9,8 @@ export const effectiveDate = new Date().toLocaleDateString("en-US", {
   month: "long",
   day: "numeric",
 });
+
+export const formatPrice = (price: string): string => {
+  const numPrice = parseFloat(price);
+  return `₦${numPrice.toLocaleString()}`;
+};

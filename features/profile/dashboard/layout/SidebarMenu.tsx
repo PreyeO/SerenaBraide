@@ -22,6 +22,7 @@ import {
 import { cn } from "@/lib/utils";
 import { SidebarItem } from "@/features/profile/type/profile.general";
 import ProductImage from "@/components/ui/images/product-image";
+import Image from "next/image";
 
 type SidebarMenuProps = {
   role: "customer" | "admin";
@@ -90,7 +91,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
   return (
     <SidebarContent className="overflow-hidden">
       <SidebarHeader className="flex px-5 py-2.5 items-center">
-        <ProductImage
+        <Image
           alt="logo image"
           src="/logo-2.svg"
           height={40}
@@ -103,7 +104,9 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
 
       <SidebarGroup className="pt-6 px-5">
         <SidebarGroupContent className="">
-          <Menu className="">{flatRoutes.map((item) => renderMenuItem(item))}</Menu>
+          <Menu className="">
+            {flatRoutes.map((item) => renderMenuItem(item))}
+          </Menu>
         </SidebarGroupContent>
       </SidebarGroup>
     </SidebarContent>

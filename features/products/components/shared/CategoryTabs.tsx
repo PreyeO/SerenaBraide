@@ -10,7 +10,6 @@ interface CategoryTabsProps {
 }
 
 const CategoryTabs = ({ category, onTabChange }: CategoryTabsProps) => {
-  // ✅ Define different tab options for each category
   const tabOptions: Record<string, string[]> = {
     fragrances: ["All Fragrance", "Men", "Women", "Teens"],
     lips: ["Lip Gloss", "Lip Sticks", "Lip Liners", "Lip Care"],
@@ -26,13 +25,13 @@ const CategoryTabs = ({ category, onTabChange }: CategoryTabsProps) => {
   return (
     <Tabs
       defaultValue={tabs[0]}
-      className="w-full flex justify-center"
+      className="w-full justify-center hidden lg:flex"
       onValueChange={(value) => {
         setActiveTab(value);
         onTabChange(value);
       }}
     >
-      <TabsList className=" text-sm font-normal flex gap-[5px] w-[386px] h-[50px] rounded-full !bg-[#12121226] !text-[#6F6E6C]">
+      <TabsList className=" text-sm font-normal flex gap-1.25 w-96.5 h-12.5 rounded-full bg-[#12121226]! text-[#6F6E6C]!">
         {tabs.map((tab) => (
           <TabsTrigger
             key={tab}

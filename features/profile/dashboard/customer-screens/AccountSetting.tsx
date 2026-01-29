@@ -8,6 +8,7 @@ import UnderlineLink from "@/components/ui/btns/underline-cta";
 import { CheckCircle } from "lucide-react";
 import { useGetAddresses } from "@/features/cart-checkout/hooks/useGetAddresses";
 import DashboardLoader from "@/components/ui/loaders/dasboard-loader";
+import BackNavigation from "@/components/ui/btns/back-navigation";
 
 const AccountSetting = () => {
   const user = useAuthStore((state) => state.user);
@@ -67,6 +68,11 @@ const AccountSetting = () => {
 
   return (
     <section className="flex flex-col gap-4 lg:gap-6">
+      <BackNavigation
+        href="/profile"
+        text="Back"
+        className="lg:hidden mb-4 hover:text-[#3B3B3B] transition-colors"
+      />
       <EmptyCustomerSummary
         subHeadingOne="Profile Summary"
         subHeadingTwo={`Hello, ${user.first_name} ${user.last_name}`}
@@ -78,12 +84,12 @@ const AccountSetting = () => {
       />
       <OverviewCard subHeading="Profile Information">
         <div className="flex flex-col gap-2 sm:gap-0">
-          <AuthSpan className="text-sm sm:text-base font-medium pb-2 sm:pb-2.5 break-words">
+          <AuthSpan className="text-sm sm:text-base font-medium pb-2 sm:pb-2.5 wrap-break-word">
             <span className="text-[#6F6E6C] font-normal">First Name: </span>
             {displayValue(user.first_name)}
           </AuthSpan>
 
-          <AuthSpan className="text-sm sm:text-base font-medium pb-2 sm:pb-2.5 break-words">
+          <AuthSpan className="text-sm sm:text-base font-medium pb-2 sm:pb-2.5 wrap-break-word">
             <span className="text-[#6F6E6C] font-normal">Last Name: </span>
             {displayValue(user.last_name)}
           </AuthSpan>
@@ -91,15 +97,20 @@ const AccountSetting = () => {
           <AuthSpan className="text-sm sm:text-base font-medium pb-2 sm:pb-2.5 items-center gap-1 sm:gap-1.5 flex flex-wrap">
             <span className="text-[#6F6E6C] font-normal">Email Address: </span>
             <span className="break-all">{displayValue(user.email)}</span>
-            <CheckCircle fill="#01AD73" size={14} className="sm:size-[15px] shrink-0" color="white" />
+            <CheckCircle
+              fill="#01AD73"
+              size={14}
+              className="sm:size-3.75 shrink-0"
+              color="white"
+            />
           </AuthSpan>
 
-          <AuthSpan className="text-sm sm:text-base font-medium pb-2 sm:pb-2.5 break-words">
+          <AuthSpan className="text-sm sm:text-base font-medium pb-2 sm:pb-2.5 wrap-break-word">
             <span className="text-[#6F6E6C] font-normal">Phone Number: </span>
             {displayValue(getPrimaryPhoneNumber())}
           </AuthSpan>
 
-          <AuthSpan className="text-sm sm:text-base font-medium pb-2 sm:pb-2.5 break-words">
+          <AuthSpan className="text-sm sm:text-base font-medium pb-2 sm:pb-2.5 wrap-break-word">
             <span className="text-[#6F6E6C] font-normal">Date of Birth: </span>
             {formatDateOfBirth(user.date_of_birth)}
           </AuthSpan>

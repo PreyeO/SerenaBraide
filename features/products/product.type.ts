@@ -90,6 +90,7 @@ export interface ProductListItem {
   primary_image: string | null;
   created_at: string;
   updated_at: string;
+  total_ratings: number;
 }
 
 export interface ProductListResponse {

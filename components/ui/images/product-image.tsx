@@ -1,7 +1,7 @@
 "use client";
+
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProductImagePropsBase {
   className?: string;
@@ -21,42 +21,42 @@ interface ProductImagePropsWithFill extends ProductImagePropsBase {
   width?: never;
 }
 
-type ProductImageProps = ProductImagePropsWithDimensions | ProductImagePropsWithFill;
+type ProductImageProps =
+  | ProductImagePropsWithDimensions
+  | ProductImagePropsWithFill;
 
 const ProductImage: React.FC<ProductImageProps> = (props) => {
   const { className = "", src, alt } = props;
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
-  const isFillMode = 'fill' in props && props.fill === true;
+  const isFillMode = "fill" in props && props.fill === true;
 
-  // Reset loading state when src changes
   useEffect(() => {
     setIsLoading(true);
     setHasError(false);
   }, [src]);
 
   return (
-    <div 
-      className={`relative ${isFillMode ? 'w-full h-full' : ''} ${className}`} 
-      style={!isFillMode ? { width: props.width, height: props.height } : undefined}
+    <div
+      className={`relative bg-[#F2F2F2] overflow-hidden ${
+        isFillMode ? "w-full h-full" : ""
+      } ${className}`}
+      style={
+        !isFillMode ? { width: props.width, height: props.height } : undefined
+      }
     >
-      {isLoading && (
-        <Skeleton className="absolute inset-0 w-full h-full rounded-[5px]" />
-      )}
       {!hasError ? (
         <Image
           src={src}
+          alt={alt}
           className={`transition-opacity duration-300 ${
             isLoading ? "opacity-0" : "opacity-100"
-          } ${className}`}
-          alt={alt}
-          {...(isFillMode 
-            ? { fill: true } 
-            : { width: props.width, height: props.height }
-          )}
-          unoptimized={src.includes('assistfactory.s3.amazonaws.com')}
-          priority={false}
+          }`}
+          {...(isFillMode
+            ? { fill: true }
+            : { width: props.width, height: props.height })}
+          unoptimized={src.includes("assistfactory.s3.amazonaws.com")}
           onLoad={() => setIsLoading(false)}
           onError={() => {
             setIsLoading(false);
@@ -64,8 +64,8 @@ const ProductImage: React.FC<ProductImageProps> = (props) => {
           }}
         />
       ) : (
-        <div className="w-full h-full bg-gray-200 flex items-center justify-center rounded-[5px]">
-          <span className="text-gray-400 text-xs">No Image</span>
+        <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs">
+          No Image
         </div>
       )}
     </div>
