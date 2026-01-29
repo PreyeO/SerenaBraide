@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 
 export const customerRoutes: SidebarItem[] = [
-  { title: "Account Overview", href: "/profile", icon: User },
+  { title: "My Account", href: "/profile", icon: User },
   { title: "My Orders", href: "/profile/order", icon: Gift },
   { title: "Wishlist", href: "/profile/wishlist", icon: Heart },
   {

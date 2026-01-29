@@ -46,7 +46,7 @@ const EmptyCustomerSummary: React.FC<EmptyCustomerProps> = ({
             <div>
               <SubHeading
                 title={subHeadingTwo}
-                className="text-lg font-semibold text-[#3B3B3B]"
+                className="text-lg font-semibold font-PPEditorialNew text-[#3B3B3B]"
               />
               <Paragraph
                 className="font-normal leading-6 text-base"

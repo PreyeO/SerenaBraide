@@ -1,8 +1,8 @@
 "use client";
 
-import { useGetCustomerDetail } from "@/hooks/useCustomers";
+import { useGetCustomerDetail } from "@/features/profile/hooks/admin/useCustomers";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Mail, MapPin, Phone } from "lucide-react";
+import { ArrowLeft, Gift, Mail, MapPin, Phone } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { use } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -18,6 +18,15 @@ export default function CustomerDetailPage({
     const customerId = parseInt(id);
 
     const { data: customer, isLoading, error } = useGetCustomerDetail(customerId);
+
+    const isBirthdayToday = (dobString: string | null) => {
+        if (!dobString) return false;
+        const dob = new Date(dobString);
+        const today = new Date();
+        return (
+            dob.getDate() === today.getDate() && dob.getMonth() === today.getMonth()
+        );
+    };
 
     if (isLoading) {
         return (
@@ -37,6 +46,8 @@ export default function CustomerDetailPage({
         );
     }
 
+    const isBirthday = isBirthdayToday(customer.date_of_birth);
+
     return (
         <div className="flex flex-col gap-8 p-6 max-w-5xl mx-auto">
             {/* Header */}
@@ -50,9 +61,21 @@ export default function CustomerDetailPage({
                     </h1>
                     <p className="text-gray-500 text-sm">Customer ID: #{customer.id}</p>
                 </div>
-                <div className="ml-auto flex gap-3">
+                <div className="ml-auto flex items-center gap-3">
+                    {isBirthday && (
+                        <Button className="gap-2 bg-pink-100 text-pink-600 hover:bg-pink-200 border-none shadow-none">
+                            <Gift className="h-4 w-4" />
+                            Send Birthday Wish
+                        </Button>
+                    )}
+                    <Button variant="outline" className="gap-2">
+                        <Mail className="h-4 w-4" />
+                        Send Email
+                    </Button>
                     {customer.is_active ? (
-                        <Badge className="bg-green-100 text-green-700 hover:bg-green-100 border-none">Active</Badge>
+                        <Badge className="bg-green-100 text-green-700 hover:bg-green-100 border-none">
+                            Active
+                        </Badge>
                     ) : (
                         <Badge variant="secondary">Inactive</Badge>
                     )}
@@ -71,7 +94,9 @@ export default function CustomerDetailPage({
                                     <Mail className="h-5 w-5 text-blue-600" />
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-gray-900">Email Address</p>
+                                    <p className="text-sm font-medium text-gray-900">
+                                        Email Address
+                                    </p>
                                     <p className="text-sm text-gray-500">{customer.email}</p>
                                     {customer.email_validated && (
                                         <span className="text-xs text-green-600 flex items-center gap-1 mt-1">
@@ -86,7 +111,9 @@ export default function CustomerDetailPage({
                                     <Phone className="h-5 w-5 text-purple-600" />
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-gray-900">Phone Number</p>
+                                    <p className="text-sm font-medium text-gray-900">
+                                        Phone Number
+                                    </p>
                                     <p className="text-sm text-gray-500">
                                         {customer.phone_number || "Not provided"}
                                     </p>
@@ -99,7 +126,9 @@ export default function CustomerDetailPage({
                         <h2 className="text-lg font-semibold mb-4">Default Address</h2>
                         {customer.customer_profile?.addresses?.find((a) => a.is_default) ? (
                             (() => {
-                                const addr = customer.customer_profile.addresses.find((a) => a.is_default)!;
+                                const addr = customer.customer_profile.addresses.find(
+                                    (a) => a.is_default,
+                                )!;
                                 return (
                                     <div className="flex items-start gap-3">
                                         <div className="bg-orange-50 p-2 rounded-lg">
@@ -113,10 +142,12 @@ export default function CustomerDetailPage({
                                             <p className="text-sm text-gray-500">{addr.country}</p>
                                         </div>
                                     </div>
-                                )
+                                );
                             })()
                         ) : (
-                            <div className="text-gray-500 text-sm">No default address found</div>
+                            <div className="text-gray-500 text-sm">
+                                No default address found
+                            </div>
                         )}
                     </div>
                 </div>
@@ -124,7 +155,9 @@ export default function CustomerDetailPage({
                 {/* Sidebar */}
                 <div className="space-y-6">
                     <div className="bg-white rounded-xl border p-6 shadow-sm">
-                        <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Overview</h2>
+                        <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
+                            Overview
+                        </h2>
                         <div className="space-y-4">
                             <div className="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
                                 <span className="text-sm text-gray-600">Joined</span>

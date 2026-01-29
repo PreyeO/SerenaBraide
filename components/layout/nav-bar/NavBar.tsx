@@ -16,8 +16,8 @@ const NavBar = () => {
   const navRef = useRef<HTMLDivElement>(null);
   const [selectedCurrency, setSelectedCurrency] = useState("USD");
 
-  // Custom hooks
-  const sheetManager = useSheetManager();
+  // Custom hooks - destructure to get stable function references
+  const { sheets, openSheet, closeSheet, closeAllSheets } = useSheetManager();
   const navigation = useNavigationData();
   const counts = useNavbarCounts();
   const desktopMenu = useDesktopMenu(navRef);
@@ -35,34 +35,34 @@ const NavBar = () => {
   const handleCurrencySelect = useCallback(
     (currencyCode: string) => {
       setSelectedCurrency(currencyCode);
-      sheetManager.closeAllSheets();
+      closeAllSheets();
     },
-    [sheetManager],
+    [closeAllSheets],
   );
 
   const handleSheetChange = useCallback(
     (sheet: "menu" | "search" | "profile", open: boolean) => {
       if (open) {
-        sheetManager.openSheet(sheet);
+        openSheet(sheet);
       } else {
-        sheetManager.closeSheet(sheet);
+        closeSheet(sheet);
       }
     },
-    [sheetManager],
+    [openSheet, closeSheet],
   );
 
   // Close sheets when resizing to desktop
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
-        sheetManager.closeAllSheets();
+        closeAllSheets();
       }
     };
 
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [sheetManager]);
+  }, [closeAllSheets]);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-40 font-GeneralSans">
@@ -71,7 +71,7 @@ const NavBar = () => {
         navItems={navigation.mobile}
         cartCount={counts.cart}
         user={user}
-        sheets={sheetManager.sheets}
+        sheets={sheets}
         onSheetChange={handleSheetChange}
         selectedCurrency={selectedCurrency}
         onCurrencySelect={handleCurrencySelect}
