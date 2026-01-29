@@ -23,7 +23,9 @@ const GiftCardCheckout = () => {
   const searchParams = useSearchParams();
   const { giftCardData } = useGiftCardStore();
   const { user } = useAuthStore();
-  const [selectedPayment, setSelectedPayment] = useState(paymentType[0].id);
+  const [selectedPayment, setSelectedPayment] = useState<string>(
+    paymentType[0].id,
+  );
   const initiatePaymentMutation = useInitiatePayment();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
