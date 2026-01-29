@@ -16,7 +16,7 @@ const CustomerDashboard = ({ children }: { children: React.ReactNode }) => {
   const role = getRole() ?? "customer"; // fallback
 
   return (
-    <SidebarProvider className="my-32.5 lg:my-47.5">
+    <SidebarProvider className="mt-32.5 mb-12.5 lg:mb-0 lg:mt-0 lg:my-47.5">
       <div className="flex min-h-screen w-full">
         {/* Sidebar - hidden on mobile, shown on lg and above */}
         <Sidebar

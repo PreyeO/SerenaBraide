@@ -69,6 +69,7 @@ const Overview = () => {
             contentOne="No saved address. Add address to make checkout faster and smoother."
             contentTwo="Add shipping address"
             useCircle
+            href="/"
           />
         )}
 

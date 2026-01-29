@@ -4,6 +4,7 @@ import { Plus } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import { LucideIcon } from "lucide-react";
+import Link from "next/link";
 
 interface EmptyCustomerProps {
   className: string;
@@ -17,6 +18,7 @@ interface EmptyCustomerProps {
   Icon?: LucideIcon;
   useCircle: boolean;
   quantity?: string;
+  href: string;
 }
 
 const EmptyCustomerDefault: React.FC<EmptyCustomerProps> = ({
@@ -31,9 +33,10 @@ const EmptyCustomerDefault: React.FC<EmptyCustomerProps> = ({
   Icon = Plus,
   useCircle = true,
   quantity,
+  href,
 }) => {
   return (
-    <div className="w-full bg-[#F6F7F8] border border-[#F5F5F5] h-73.25 px-8.5  rounded-[10px] ">
+    <div className="w-full bg-[#F6F7F8] border border-[#F5F5F5] lg:h-73.25 lg:px-8.5 px-6  rounded-[10px] ">
       <div className="flex justify-between  text-[#3B3B3B] py-4.75">
         <SubHeading title={subHeading} className="text-lg font-medium" />
         <h4 className="text-base font-normal">{quantity} </h4>
@@ -50,20 +53,22 @@ const EmptyCustomerDefault: React.FC<EmptyCustomerProps> = ({
             height={height}
           />
           <Paragraph
-            className="font-normal text-center leading-6 text-base"
+            className="font-normal text-center leading-6 text-sm lg:text-base"
             content={contentOne}
           />
           <div className="flex items-center gap-2 pb-6 justify-center pt-1.75">
             {useCircle ? (
-              <span className="rounded-full w-6 h-6 bg-[#3B3B3B] flex justify-center items-center">
-                <Icon className="text-white size-5" />
-              </span>
+              <Link href={href}>
+                <span className="rounded-full w-6 h-6 bg-[#3B3B3B] flex justify-center items-center">
+                  <Icon className="text-white size-5" />
+                </span>
+              </Link>
             ) : (
               <Icon className="text-[#3B3B3B] size-5" />
             )}
 
             <Paragraph
-              className=" text-[#3B3B3B]  font-medium text-center text-lg leading-6.5"
+              className=" text-[#3B3B3B]  font-medium text-center text-sm lg:text-lg leading-6.5"
               content={contentTwo}
             />
           </div>

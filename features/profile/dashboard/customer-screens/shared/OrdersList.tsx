@@ -119,7 +119,7 @@ const OrdersList: React.FC<OrdersListProps> = ({
   const displayLoading = isLoading || isFiltering;
 
   return (
-    <section className="flex flex-col gap-4 sm:gap-6 px-4 sm:px-0">
+    <section className="flex flex-col gap-4 lg:gap-6">
       {showTabs ? (
         <OrdersTabCard
           activeTab={activeTab}
@@ -139,7 +139,7 @@ const OrdersList: React.FC<OrdersListProps> = ({
         />
       ) : null}
 
-      <div className="flex flex-col gap-4 sm:gap-6">
+      <div className="flex flex-col gap-4 lg:gap-6">
         {displayLoading ? (
           <>
             <OrderSkeleton />
@@ -149,7 +149,7 @@ const OrdersList: React.FC<OrdersListProps> = ({
           // Show EmptyOrders when there are no orders at all
           <EmptyOrders />
         ) : filteredOrders.length > 0 ? (
-          <div className="space-y-4 sm:space-y-6">
+          <div className="space-y-4 lg:space-y-6">
             {filteredOrders.map((order, index) => (
               <div
                 key={`${order.orderNumber}-${index}`}
@@ -163,7 +163,7 @@ const OrdersList: React.FC<OrdersListProps> = ({
         ) : (
           // Show this message when orders exist but filters result in no matches
           <div className="text-center py-12 text-[#6F6E6C]">
-            <p className="text-sm sm:text-base">
+            <p className="text-sm lg:text-base">
               No orders found matching your criteria.
             </p>
           </div>

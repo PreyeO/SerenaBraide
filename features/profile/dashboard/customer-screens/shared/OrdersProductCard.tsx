@@ -6,7 +6,7 @@ import ProductImage from "@/components/ui/images/product-image";
 import Paragraph from "@/components/ui/typography/paragraph";
 import SubHeading from "@/components/ui/typography/subHeading";
 import { OrderInfo } from "@/features/profile/type/customers/profile.type";
-import { BadgeCheckIcon, ChevronRight } from "lucide-react";
+import { BadgeCheckIcon, ChevronRight, Copy } from "lucide-react";
 
 import React, { useState } from "react";
 import OrderFulfilmentModal from "../fulfilments/OrderFulfilmentModal";
@@ -35,32 +35,53 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
     }
   };
 
+  const handleCopyOrderNumber = () => {
+    navigator.clipboard.writeText(order.orderNumber.replace("Order #", ""));
+  };
+
   return (
-    <div className="w-full bg-[#F6F7F8] border border-[#F5F5F5] min-h-50 sm:h-auto px-4 sm:px-8.5 py-4 sm:py-6 rounded-[10px] transition-all duration-300 hover:shadow-sm">
-      <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-3 sm:gap-0 text-[#3B3B3B] py-3 sm:py-4.75 text-xs font-normal">
-        <Badge
-          variant="secondary"
-          className="px-2 py-2 text-xs sm:text-sm"
-          style={{
-            backgroundColor: order.color ? `${order.color}10` : undefined,
-            color: order.color,
-          }}
-        >
-          <Icon className="size-3 sm:size-4" color={order.iconBg} />
-          <span className="whitespace-nowrap">{order.title}</span>
-        </Badge>
-        <div className="flex flex-wrap gap-2 sm:gap-2.5 items-center">
+    <div className="w-full bg-white lg:bg-[#F6F7F8] border border-[#F5F5F5] px-4 lg:px-8.5 py-4 lg:py-6 rounded-[10px] transition-all duration-300 hover:shadow-sm">
+      {/* Header: Status + Order Number */}
+      <div className="flex flex-col lg:flex-row lg:justify-between items-start lg:items-center gap-2 lg:gap-0 text-[#3B3B3B] pb-3 lg:py-4.75 text-xs font-normal">
+        {/* Mobile: Status on left, Order # on right */}
+        <div className="flex justify-between items-center w-full lg:w-auto">
+          <Badge
+            variant="secondary"
+            className="px-2 py-1.5 lg:py-2 text-xs lg:text-sm"
+            style={{
+              backgroundColor: order.color ? `${order.color}10` : undefined,
+              color: order.color,
+            }}
+          >
+            <Icon className="size-3 lg:size-4" color={order.iconBg} />
+            <span className="whitespace-nowrap">{order.title}</span>
+          </Badge>
+
+          {/* Mobile: Order number with copy button */}
+          <div className="flex lg:hidden items-center gap-1.5 text-[#6F6E6C]">
+            <span className="text-xs">{order.orderNumber}</span>
+            <button
+              onClick={handleCopyOrderNumber}
+              className="p-1 hover:bg-gray-100 rounded transition-colors"
+            >
+              <Copy className="size-3.5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Desktop: Order number and view details */}
+        <div className="hidden lg:flex flex-wrap gap-2 lg:gap-2.5 items-center">
           <SubHeading
             title={order.orderNumber}
-            className="text-xs sm:text-sm truncate max-w-37.5 sm:max-w-none"
+            className="text-xs lg:text-sm truncate max-w-37.5 lg:max-w-none"
           />
-          <div className="border h-4 hidden sm:block" />
+          <div className="border h-4 hidden lg:block" />
           <>
             <button
               onClick={() => setOpen(true)}
-              className="flex items-center font-medium text-xs sm:text-sm hover:opacity-80 transition-opacity"
+              className="flex items-center font-medium text-xs lg:text-sm hover:opacity-80 transition-opacity"
             >
-              {orderDetail} <ChevronRight className="size-3.5 sm:size-4.5" />
+              {orderDetail} <ChevronRight className="size-3.5 lg:size-4.5" />
             </button>
             <OrderFulfilmentModal
               open={open}
@@ -78,88 +99,119 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
         order={order}
       />
 
-      <div className="flex flex-col">
-        <div className="border border-[#D1D5DB] w-full" />
-        <div className="pt-4 sm:pt-6 w-full text-[#6F6E6C] flex flex-col sm:flex-row sm:justify-between gap-4 sm:gap-0">
-          <div className="flex gap-2.5 sm:gap-3 items-start sm:items-center flex-1">
+      {/* Separator */}
+      <div className="border border-[#F0F0F0] lg:border-[#D1D5DB] w-full" />
+
+      {/* Content: Product Info */}
+      <div className="pt-4 lg:pt-6 w-full text-[#6F6E6C]">
+        <div className="flex flex-col lg:flex-row lg:justify-between gap-4">
+          {/* Product details with image */}
+          <div className="flex gap-3 lg:gap-3 items-start flex-1">
             <ProductImage
               src={order.src}
               alt={order.alt}
               width={102}
               height={102}
-              className="w-20 h-20 sm:w-25.5 sm:h-25.5 object-cover rounded-[5px] flex shrink-0"
+              className="w-16 h-16 lg:w-25.5 lg:h-25.5 object-cover rounded-[5px] flex shrink-0"
             />
-            <div className="flex flex-col gap-1 sm:gap-1.5 min-w-0 flex-1">
-              <div>
-                <SubHeading
-                  title={order.productName}
-                  className="text-sm sm:text-base font-medium text-[#3B3B3B] line-clamp-2"
-                />
-              </div>
-              <div className="flex flex-col gap-0.5 sm:gap-0.75">
-                <div className="flex flex-wrap gap-2 sm:gap-4 text-xs sm:text-sm text-[#6F6E6C]">
-                  <Paragraph
-                    content={order.price}
-                    className="text-xs sm:text-sm font-medium text-[#3B3B3B]"
-                  />
-                  <Paragraph
-                    content={order.quantity}
-                    className="text-xs sm:text-sm"
-                  />
-                </div>
-
+            <div className="flex flex-col gap-0.5 lg:gap-1.5 min-w-0 flex-1">
+              <SubHeading
+                title={order.productName}
+                className="text-sm lg:text-base font-medium text-[#3B3B3B] line-clamp-2"
+              />
+              <div className="flex flex-wrap gap-2 lg:gap-4 text-xs lg:text-sm text-[#6F6E6C]">
                 <Paragraph
-                  content={`Size: ${order.size}`}
-                  className="text-xs sm:text-sm"
+                  content={order.price}
+                  className="text-xs lg:text-sm font-medium text-[#3B3B3B]"
                 />
                 <Paragraph
-                  content={`Order date: ${order.date}`}
-                  className="text-xs sm:text-sm"
+                  content={order.quantity}
+                  className="text-xs lg:text-sm"
                 />
               </div>
+              <Paragraph content={order.size} className="text-xs lg:text-sm" />
+              <Paragraph
+                content={`Order date: ${order.date}`}
+                className="text-xs lg:text-sm"
+              />
             </div>
           </div>
-          <div className="flex flex-col gap-1.5 text-center ">
-            <div className="">
+
+          {/* Desktop only: Total and actions on right */}
+          <div className="hidden lg:flex flex-col gap-1.5 text-center">
+            <div>
               <Paragraph
                 content={order.total}
-                className="text-xs sm:text-sm font-medium text-[#3B3B3B] pb-0.75"
+                className="text-xs lg:text-sm font-medium text-[#3B3B3B] pb-0.75"
               />
               {order.extraInfo && (
-              <Paragraph
-                content={order.extraInfo}
-                className="text-xs text-[#6F6E6C]"
-              />
+                <Paragraph
+                  content={order.extraInfo}
+                  className="text-xs text-[#6F6E6C]"
+                />
               )}
             </div>
-            <div className="flex flex-col sm:flex-col gap-2 w-full sm:w-50">
+            <div className="flex flex-col gap-2 w-full lg:w-50">
               <SubmitButton
                 label={order.OrderAction1}
-                className="text-xs sm:text-sm py-2 sm:py-3"
+                className="text-xs lg:text-sm py-2 lg:py-3"
               />
-
               {order.orderAction2 === "Leave a review" ? (
                 <LinkCta
-                  className="w-full text-xs sm:text-sm text-[#3B3B3B] border border-[#6F6E6C] hover:bg-gray-50 bg-white py-2 sm:py-3 transition-colors"
+                  className="w-full text-xs lg:text-sm text-[#3B3B3B] border border-[#6F6E6C] hover:bg-gray-50 bg-white py-2 lg:py-3 transition-colors"
                   label={order.orderAction2}
                   onClick={handleReviewClick}
                 />
               ) : order.orderAction2 === "View Order" ? (
                 <LinkCta
-                  className="w-full text-xs sm:text-sm text-[#3B3B3B] border border-[#6F6E6C] hover:bg-gray-50 bg-white py-2 sm:py-3 transition-colors"
+                  className="w-full text-xs lg:text-sm text-[#3B3B3B] border border-[#6F6E6C] hover:bg-gray-50 bg-white py-2 lg:py-3 transition-colors"
                   label={order.orderAction2}
                   onClick={() => setOpen(true)}
                 />
               ) : (
                 <LinkCta
-                  className="w-full text-xs sm:text-sm text-[#3B3B3B] border border-[#6F6E6C] hover:bg-gray-50 bg-white py-2 sm:py-3 transition-colors"
+                  className="w-full text-xs lg:text-sm text-[#3B3B3B] border border-[#6F6E6C] hover:bg-gray-50 bg-white py-2 lg:py-3 transition-colors"
                   label={order.orderAction2}
                 />
               )}
             </div>
           </div>
         </div>
+
+        {/* Mobile only: Action buttons at bottom in a row */}
+        <div className="flex lg:hidden gap-3 mt-4">
+          <SubmitButton
+            label={order.OrderAction1}
+            className="flex-1 text-xs "
+          />
+          {order.orderAction2 === "Leave a review" ? (
+            <LinkCta
+              className="flex-1 text-xs text-[#3B3B3B] border border-[#6F6E6C] hover:bg-gray-50 bg-white py-2.5 transition-colors"
+              label={order.orderAction2}
+              onClick={handleReviewClick}
+            />
+          ) : order.orderAction2 === "View Order" ? (
+            <LinkCta
+              className="flex-1 text-xs text-[#3B3B3B] border border-[#6F6E6C] hover:bg-gray-50 bg-white py-2.5 transition-colors"
+              label={order.orderAction2}
+              onClick={() => setOpen(true)}
+            />
+          ) : (
+            <LinkCta
+              className="flex-1 text-xs text-[#3B3B3B] border border-[#6F6E6C] hover:bg-gray-50 bg-white py-2.5 transition-colors"
+              label={order.orderAction2}
+            />
+          )}
+        </div>
       </div>
+
+      {/* Mobile fulfilment modal - separate from desktop */}
+      <OrderFulfilmentModal
+        open={open}
+        onClose={() => setOpen(false)}
+        statusType={order.statusType}
+        orderNumber={order.orderNumberId || null}
+      />
     </div>
   );
 };

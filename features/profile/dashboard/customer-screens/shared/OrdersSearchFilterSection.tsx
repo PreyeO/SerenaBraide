@@ -25,21 +25,24 @@ const OrdersSearchFilterSection: React.FC<OrdersSearchFilterSectionProps> = ({
   onFilterChange,
 }) => {
   return (
-    <div className="flex justify-between items-center">
-      <div className="relative flex-1 max-w-md">
+    <div className="flex justify-between items-center gap-3 px-4 lg:px-0">
+      {/* Search input - full width on mobile */}
+      <div className="relative flex-1 lg:max-w-md">
         <Input
           type="text"
-          placeholder="Order Id Product, Store"
+          placeholder="Order ID, Product or Store"
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
-          className="pr-10 rounded-full"
+          className="pr-12 rounded-full text-sm"
         />
-        <span className="bg-[#3B3B3B] rounded-full p-1.5 absolute right-3 top-1/2 transform -translate-y-1/2">
+        <button className="bg-[#3B3B3B] rounded-full p-1.5 lg:p-1.5 absolute right-1.5 lg:right-3 top-1/2 transform -translate-y-1/2 hover:bg-[#2B2B2B] transition-colors">
           <Search className="text-white size-4" />
-        </span>
+        </button>
       </div>
+
+      {/* Date filter - hidden on mobile */}
       <Select value={filterValue} onValueChange={onFilterChange}>
-        <SelectTrigger className="w-39.75 rounded-full">
+        <SelectTrigger className="hidden lg:flex w-39.75 rounded-full">
           <SelectValue placeholder="Filter by date" />
         </SelectTrigger>
         <SelectContent>
@@ -54,6 +57,3 @@ const OrdersSearchFilterSection: React.FC<OrdersSearchFilterSectionProps> = ({
 };
 
 export default OrdersSearchFilterSection;
-
-
-

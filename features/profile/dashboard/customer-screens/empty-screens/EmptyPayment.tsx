@@ -15,6 +15,7 @@ const EmptyPayment = () => {
         contentOne="No cards saved. Add card to speed up future orders."
         contentTwo="Add payment method"
         useCircle
+        href="/products"
       />
       <SecurePaymentInfo />
     </section>

@@ -39,6 +39,7 @@ const EmptyReview = () => {
         contentTwo="Write a review"
         Icon={Stars}
         useCircle={false}
+        href="/products"
       />
     </section>
   );

@@ -17,7 +17,7 @@ const OrdersSearchFilter: React.FC<OrdersSearchFilterProps> = ({
   onFilterChange,
 }) => {
   return (
-    <div className="bg-[#F6F7F8] border border-[#F5F5F5] px-8.5 py-6 rounded-[10px]">
+    <div className="bg-[#F6F7F8] border border-[#F5F5F5] lg:px-8.5 px-6 py-6 rounded-[10px]">
       <OrdersSearchFilterSection
         searchQuery={searchQuery}
         onSearchChange={onSearchChange}

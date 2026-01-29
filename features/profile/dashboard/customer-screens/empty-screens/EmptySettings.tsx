@@ -16,6 +16,7 @@ const EmptySettings = () => {
         contentTwo="Update settings"
         Icon={UserCog}
         useCircle={false}
+        href="/products"
       />
     </section>
   );

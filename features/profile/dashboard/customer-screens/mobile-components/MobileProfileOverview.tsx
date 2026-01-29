@@ -1,12 +1,12 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import Image from "next/image";
-import { CornerUpLeft, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import Paragraph from "@/components/ui/typography/paragraph";
 import SubHeading from "@/components/ui/typography/subHeading";
 import MobileProfileMenu from "./MobileProfileMenu";
+import BackNavigation from "@/components/ui/btns/back-navigation";
 
 interface MobileProfileOverviewProps {
   userName: string;
@@ -21,14 +21,11 @@ const MobileProfileOverview: React.FC<MobileProfileOverviewProps> = ({
 }) => {
   return (
     <section className="flex flex-col md:hidden">
-      {/* Back Link */}
-      <Link
+      <BackNavigation
         href="/"
-        className="flex items-center gap-2 text-sm text-[#6F6E6C] mb-6 hover:text-[#3B3B3B] transition-colors"
-      >
-        <CornerUpLeft className="size-4" />
-        <span>Home page</span>
-      </Link>
+        text="Home Page"
+        className="lg:hidden mb-4 hover:text-[#3B3B3B] transition-colors"
+      />
 
       {/* Welcome Header */}
       <div className="mb-6">

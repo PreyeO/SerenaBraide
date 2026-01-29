@@ -4,6 +4,7 @@ import React, { useMemo, useState } from "react";
 import OrdersList from "./shared/OrdersList";
 import { useOrders } from "../../hooks/customer/useOrders";
 import { transformOrdersToOrderInfo } from "../../utils/order.utils";
+import BackNavigation from "@/components/ui/btns/back-navigation";
 
 const CustomerOrders = () => {
   const [activeTab, setActiveTab] = useState("all");
@@ -15,10 +16,10 @@ const CustomerOrders = () => {
     activeTab === "processing"
       ? "paid"
       : activeTab === "in-transit"
-      ? "shipped"
-      : activeTab === "delivered"
-      ? "delivered"
-      : undefined;
+        ? "shipped"
+        : activeTab === "delivered"
+          ? "delivered"
+          : undefined;
 
   const { data: ordersData, isLoading } = useOrders({
     status: statusFilter,
@@ -33,16 +34,23 @@ const CustomerOrders = () => {
   }, [ordersData]);
 
   return (
-    <OrdersList
-      orders={orders}
-      activeTab={activeTab}
-      searchQuery={searchQuery}
-      filterValue={filterValue}
-      onTabChange={setActiveTab}
-      onSearchChange={setSearchQuery}
-      onFilterChange={setFilterValue}
-      isLoading={isLoading}
-    />
+    <>
+      <BackNavigation
+        href="/profile"
+        text="Back"
+        className="lg:hidden mb-4 hover:text-[#3B3B3B] transition-colors"
+      />
+      <OrdersList
+        orders={orders}
+        activeTab={activeTab}
+        searchQuery={searchQuery}
+        filterValue={filterValue}
+        onTabChange={setActiveTab}
+        onSearchChange={setSearchQuery}
+        onFilterChange={setFilterValue}
+        isLoading={isLoading}
+      />
+    </>
   );
 };
 

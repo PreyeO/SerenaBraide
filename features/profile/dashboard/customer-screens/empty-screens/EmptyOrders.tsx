@@ -14,6 +14,7 @@ const EmptyOrders = () => {
         contentOne="You haven’t placed any orders yet. Once you place an order, it will appear here."
         contentTwo="Explore Products"
         useCircle
+        href="/categories/fragrance"
       />
     </section>
   );

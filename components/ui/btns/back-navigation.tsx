@@ -18,11 +18,11 @@ const BackNavigation = ({
 }: BackNavigationProps) => {
   return (
     <div className={`flex items-center gap-2 ${className}`}>
-      <CornerUpLeft className="size-[18px]" color={iconColor} />
+      <CornerUpLeft className="size-4.5" color={iconColor} />
       <UnderlineLink
         href={href}
         text={text}
-        className="text-[12px] font-normal text-[#6F6E6C]"
+        className="text-xs font-normal text-[#6F6E6C]"
       />
     </div>
   );

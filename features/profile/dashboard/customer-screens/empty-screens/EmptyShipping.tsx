@@ -38,6 +38,7 @@ const EmptyShipping = () => {
           contentTwo="Add shipping address"
           useCircle
           Icon={Plus}
+          href="/products"
         />
       </div>
 

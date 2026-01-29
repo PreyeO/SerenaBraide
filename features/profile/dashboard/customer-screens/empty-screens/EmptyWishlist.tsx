@@ -17,6 +17,7 @@ const EmptyWishlist = () => {
         Icon={ShoppingCart}
         useCircle={false}
         quantity="0 items"
+        href="/products"
       />
     </section>
   );
