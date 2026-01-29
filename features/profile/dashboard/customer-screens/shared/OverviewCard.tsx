@@ -13,14 +13,14 @@ const OverviewCard: React.FC<OverviewCardProps> = ({
   subHeading,
 }) => {
   return (
-    <div className="w-full bg-[#F6F7F8] border border-[#F5F5F5] min-h-73.25 px-8.5 rounded-[10px]">
-      <div className="flex justify-between text-[#3B3B3B] py-4.75">
-        <SubHeading title={subHeading} className="text-lg font-medium" />
+    <div className="w-full bg-[#F6F7F8] border border-[#F5F5F5] min-h-73.25 px-4 lg:px-8.5 rounded-[10px]">
+      <div className="flex justify-between text-[#3B3B3B] py-3 lg:py-4.75">
+        <SubHeading title={subHeading} className="text-base lg:text-lg font-medium" />
       </div>
 
       <div className="flex flex-col">
         <div className="border border-[#D1D5DB] w-full" />
-        <div className="pt-6 pb-6 text-[#6F6E6C]">{children}</div>
+        <div className="pt-4 lg:pt-6 pb-4 lg:pb-6 text-[#6F6E6C]">{children}</div>
       </div>
     </div>
   );

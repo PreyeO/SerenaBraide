@@ -79,11 +79,11 @@ const CustomerWishlist = () => {
   }
 
   return (
-    <section className="flex flex-col gap-6">
+    <section className="flex flex-col gap-4 lg:gap-6">
       <OverviewCard
         subHeading={`My Wishlist (${wishlistData.count} ${wishlistData.count === 1 ? "item" : "items"})`}
       >
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-4 lg:gap-6">
           {wishlistData.results.map((item) => {
             const primaryImage = getPrimaryImage(item);
             const imageUrl = primaryImage?.image_url || "/placeholder.png";
@@ -92,10 +92,10 @@ const CustomerWishlist = () => {
             return (
               <div
                 key={item.id}
-                className="flex gap-4 items-start pb-6 border-b border-[#F5F5F5] last:border-0 last:pb-0"
+                className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-start pb-4 sm:pb-6 border-b border-[#F5F5F5] last:border-0 last:pb-0"
               >
                 {/* Product Image */}
-                <div className="relative shrink-0 max-h-51 max-w-66.75 ">
+                <div className="relative shrink-0 w-full sm:w-auto sm:max-h-51 sm:max-w-66.75">
                   <ProductImage
                     src={imageUrl}
                     alt={
@@ -108,10 +108,10 @@ const CustomerWishlist = () => {
                   />
                   {/* IN STOCK Badge */}
                   {isInStock && (
-                    <div className="absolute top-2 left-2 bg-white text-[#01AD73] text-[10px] font-medium px-2 py-1 rounded-[40px] flex items-center gap-1">
+                    <div className="absolute top-2 left-2 bg-white text-[#01AD73] text-[9px] sm:text-[10px] font-medium px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-[40px] flex items-center gap-0.5 sm:gap-1">
                       <CheckCircle
                         fill="#01AD73"
-                        className=" size-3.5"
+                        className="size-3 sm:size-3.5"
                         color="white"
                       />
                       IN STOCK
@@ -120,16 +120,16 @@ const CustomerWishlist = () => {
                 </div>
 
                 {/* Product Details */}
-                <div className="flex-1 flex flex-col  justify-between ">
-                  <div className="flex justify-between items-start">
-                    <div className="flex-1 max-w-100">
+                <div className="flex-1 flex flex-col justify-between w-full sm:w-auto">
+                  <div className="flex justify-between items-start gap-2 sm:gap-0 w-full">
+                    <div className="flex-1 min-w-0 sm:max-w-100">
                       <Paragraph
                         content="Serena Braide"
-                        className="text-sm text-[#6F6E6C] font-normal pb-2.5"
+                        className="text-xs sm:text-sm text-[#6F6E6C] font-normal pb-1.5 sm:pb-2.5"
                       />
                       <SubHeading
                         title={item.product_variant.product_name}
-                        className="text-lg font-medium text-[#3B3B3B] mb-1.5"
+                        className="text-base sm:text-lg font-medium text-[#3B3B3B] mb-1 sm:mb-1.5 line-clamp-2"
                       />
 
                       <div className="flex flex-col">
@@ -140,15 +140,15 @@ const CustomerWishlist = () => {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
                           })}`}
-                          className="text-sm font-normal text-[#6F6E6C] pb-1"
+                          className="text-xs sm:text-sm font-normal text-[#6F6E6C] pb-0.5 sm:pb-1"
                         />
                         <Paragraph
                           content={item.product_variant.size}
-                          className="text-sm text-[#6F6E6C] font-normal pb-2.5"
+                          className="text-xs sm:text-sm text-[#6F6E6C] font-normal pb-1.5 sm:pb-2.5"
                         />
                         <Paragraph
                           content={`Added ${formatDate(item.created_on)}`}
-                          className="text-xs text-[#6F6E6C] font-normal"
+                          className="text-[10px] sm:text-xs text-[#6F6E6C] font-normal"
                         />
                       </div>
 
@@ -157,7 +157,7 @@ const CustomerWishlist = () => {
                         icon={ShoppingBasket}
                         isPending={addToCartMutation.isPending}
                         onClick={() => handleAddToCart(item.product_variant.id)}
-                        className="w-full rounded-full mt-4"
+                        className="max-w-100 my-4"
                         disabled={!isInStock}
                       />
                     </div>
@@ -165,10 +165,10 @@ const CustomerWishlist = () => {
                     {/* Delete Button */}
                     <button
                       onClick={() => handleDelete(item.id)}
-                      className="text-[#DC2626]  transition-colors p-2 shrink-0"
+                      className="text-[#DC2626] transition-colors p-1.5 sm:p-2 shrink-0 self-start sm:self-auto"
                       aria-label="Delete item"
                     >
-                      <Trash2 className="size-5" />
+                      <Trash2 className="size-4 sm:size-5" />
                     </button>
                   </div>
                 </div>

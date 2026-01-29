@@ -66,7 +66,7 @@ const AccountSetting = () => {
   };
 
   return (
-    <section className="flex flex-col gap-6">
+    <section className="flex flex-col gap-4 lg:gap-6">
       <EmptyCustomerSummary
         subHeadingOne="Profile Summary"
         subHeadingTwo={`Hello, ${user.first_name} ${user.last_name}`}
@@ -77,42 +77,46 @@ const AccountSetting = () => {
         contentTwo={displayValue(user.country)}
       />
       <OverviewCard subHeading="Profile Information">
-        <AuthSpan className="text-base font-medium pb-2.5">
-          <span className="text-[#6F6E6C] font-normal">First Name: </span>
-          {displayValue(user.first_name)}
-        </AuthSpan>
+        <div className="flex flex-col gap-2 sm:gap-0">
+          <AuthSpan className="text-sm sm:text-base font-medium pb-2 sm:pb-2.5 break-words">
+            <span className="text-[#6F6E6C] font-normal">First Name: </span>
+            {displayValue(user.first_name)}
+          </AuthSpan>
 
-        <AuthSpan className="text-base font-medium pb-2.5">
-          <span className="text-[#6F6E6C] font-normal">Last Name: </span>
-          {displayValue(user.last_name)}
-        </AuthSpan>
+          <AuthSpan className="text-sm sm:text-base font-medium pb-2 sm:pb-2.5 break-words">
+            <span className="text-[#6F6E6C] font-normal">Last Name: </span>
+            {displayValue(user.last_name)}
+          </AuthSpan>
 
-        <AuthSpan className="text-base font-medium pb-2.5 items-center gap-1.5 flex">
-          <span className="text-[#6F6E6C] font-normal">Email Address: </span>
-          {displayValue(user.email)}{" "}
-          <CheckCircle fill="#01AD73" size={15} color="white" />
-        </AuthSpan>
+          <AuthSpan className="text-sm sm:text-base font-medium pb-2 sm:pb-2.5 items-center gap-1 sm:gap-1.5 flex flex-wrap">
+            <span className="text-[#6F6E6C] font-normal">Email Address: </span>
+            <span className="break-all">{displayValue(user.email)}</span>
+            <CheckCircle fill="#01AD73" size={14} className="sm:size-[15px] shrink-0" color="white" />
+          </AuthSpan>
 
-        <AuthSpan className="text-base font-medium pb-2.5">
-          <span className="text-[#6F6E6C] font-normal">Phone Number: </span>
-          {displayValue(getPrimaryPhoneNumber())}
-        </AuthSpan>
+          <AuthSpan className="text-sm sm:text-base font-medium pb-2 sm:pb-2.5 break-words">
+            <span className="text-[#6F6E6C] font-normal">Phone Number: </span>
+            {displayValue(getPrimaryPhoneNumber())}
+          </AuthSpan>
 
-        <AuthSpan className="text-base font-medium pb-2.5">
-          <span className="text-[#6F6E6C] font-normal">Date of Birth: </span>
-          {formatDateOfBirth(user.date_of_birth)}
-        </AuthSpan>
+          <AuthSpan className="text-sm sm:text-base font-medium pb-2 sm:pb-2.5 break-words">
+            <span className="text-[#6F6E6C] font-normal">Date of Birth: </span>
+            {formatDateOfBirth(user.date_of_birth)}
+          </AuthSpan>
+        </div>
       </OverviewCard>
       <OverviewCard subHeading="Password & Security">
-        <AuthSpan className="text-base font-medium pb-2.5 flex items-center">
-          <span className="text-[#6F6E6C] font-normal ">Password : </span>
-          **********
-        </AuthSpan>
-        <UnderlineLink
-          href="/auth/forgot-password"
-          text="change password"
-          className="text-sm text-[#2F88FF] font-normal"
-        />
+        <div className="flex flex-col gap-2 sm:gap-0">
+          <AuthSpan className="text-sm sm:text-base font-medium pb-2 sm:pb-2.5 flex items-center flex-wrap gap-1">
+            <span className="text-[#6F6E6C] font-normal">Password : </span>
+            <span>**********</span>
+          </AuthSpan>
+          <UnderlineLink
+            href="/auth/forgot-password"
+            text="change password"
+            className="text-xs sm:text-sm text-[#2F88FF] font-normal"
+          />
+        </div>
       </OverviewCard>
     </section>
   );
