@@ -17,9 +17,8 @@ import { useAuthStore } from "@/features/auth/auth.store";
 import { useCreateOrder } from "../../hooks/useCreateOrder";
 import { useOrderDetail } from "../../hooks/useOrderDetail";
 import { useInitiatePayment } from "@/features/payment/hooks/useInitiatePayment";
-import { useOrderPayments } from "@/features/payment/hooks/useOrderPayments";
 import { notify } from "@/lib/notify";
-import { paymentType } from "../../data/checkout.data";
+import { paymentType, PAYMENT_TYPES } from "../../data/checkout.data";
 import SuccessModal from "@/components/ui/modals/sucess";
 import GiftCardForm from "@/features/gift-card/components/forms/GiftCardForm";
 import FormModal from "@/components/ui/modals/form-modals";
@@ -27,22 +26,22 @@ import { useApplyGiftCard } from "@/features/gift-card/hooks/useApplyGiftCard";
 import { BalanceFormValues } from "@/features/gift-card/giftcard.type";
 import RemainingBalanceModal from "../modals/RemainingBalanceModal";
 import SubHeading from "@/components/ui/typography/subHeading";
+import { usePaymentStatusCheck } from "../../hooks/usePaymentStatusCheck";
+import { useOrderCalculations } from "../../hooks/useOrderCalculations";
+import { getOrderItemImage, getOrderItemMetaLabel } from "../../utils/checkout.utils";
+import { GiftCardResponse } from "../../type/checkout.type";
 
 const CheckoutSection = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user, isHydrated } = useAuthStore();
-  const [selectedPayment, setSelectedPayment] = useState(paymentType[0].id);
+  const [selectedPayment, setSelectedPayment] = useState<string>(paymentType[0].id);
   const [orderCreated, setOrderCreated] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showGiftCardModal, setShowGiftCardModal] = useState(false);
   const [showRemainingBalanceModal, setShowRemainingBalanceModal] =
     useState(false);
-  const [giftCardResponse, setGiftCardResponse] = useState<{
-    remaining_amount: string;
-    gift_card_amount: string;
-    gift_card_balance: string;
-  } | null>(null);
+  const [giftCardResponse, setGiftCardResponse] =
+    useState<GiftCardResponse | null>(null);
   const createOrderMutation = useCreateOrder({ redirectToCheckout: false });
   const initiatePaymentMutation = useInitiatePayment();
   const applyGiftCardMutation = useApplyGiftCard({
@@ -79,60 +78,24 @@ const CheckoutSection = () => {
   const { data: orderData, isLoading: isLoadingOrder } =
     useOrderDetail(orderNumber);
 
-  // Fetch payment details to check payment status
-  const { data: payments } = useOrderPayments(orderNumber);
+  // Check payment status and show success modal
+  const { showSuccessModal, setShowSuccessModal } = usePaymentStatusCheck({
+    orderNumber,
+    orderData,
+    paymentStatusParam,
+  });
 
-  // Show success modal when payment is successful
-  useEffect(() => {
-    // Check URL params first (from Flutterwave redirect)
-    if (
-      paymentStatusParam === "successful" ||
-      paymentStatusParam === "success"
-    ) {
-      setShowSuccessModal(true);
-      return;
-    }
-
-    // Check payment status from API
-    if (payments && payments.length > 0) {
-      const latestPayment = payments[payments.length - 1];
-      const paymentStatus = latestPayment.status.toLowerCase();
-      if (
-        paymentStatus === "successful" ||
-        paymentStatus === "completed" ||
-        (latestPayment.redirect_verified === true &&
-          latestPayment.amount_paid !== null)
-      ) {
-        setShowSuccessModal(true);
-        return;
-      }
-    }
-
-    // Fallback: Check order status
-    if (orderData?.status) {
-      const status = orderData.status.toLowerCase();
-      if (status === "paid" || status === "completed") {
-        setShowSuccessModal(true);
-      }
-    }
-  }, [orderData, payments, paymentStatusParam]);
-
-  // Use order data if available, otherwise calculate from cart (fallback)
-  const orderItems = orderData?.items ?? [];
-  const totalQuantity =
-    orderData?.items_count ??
-    orderItems.reduce((sum, item) => sum + item.quantity, 0);
-  const totalPrice = orderData?.total_amount
-    ? parseFloat(orderData.total_amount)
-    : 0;
-  const orderTotal = orderData?.total_amount
-    ? parseFloat(orderData.total_amount)
-    : 0;
-  const subtotal = orderData?.subtotal ? parseFloat(orderData.subtotal) : 0;
-  const shippingCost = orderData?.shipping_cost
-    ? parseFloat(orderData.shipping_cost)
-    : 0;
-  const tax = orderData?.tax ? parseFloat(orderData.tax) : 0;
+  // Calculate order totals
+  const {
+    orderItems,
+    totalQuantity,
+    totalPrice,
+    subtotal,
+    shippingCost,
+    tax,
+  } = useOrderCalculations(orderData);
+  
+  const orderTotal = totalPrice;
 
   // Create order when user arrives from auth flow
   useEffect(() => {
@@ -184,13 +147,13 @@ const CheckoutSection = () => {
     }
 
     // If Gift Card is selected, show gift card modal
-    if (selectedPayment === "1") {
+    if (selectedPayment === PAYMENT_TYPES.GIFT_CARD) {
       setShowGiftCardModal(true);
       return;
     }
 
     // If Flutterwave is selected, initiate payment
-    if (selectedPayment === "2") {
+    if (selectedPayment === PAYMENT_TYPES.FLUTTERWAVE) {
       initiatePaymentMutation.mutate({ orderNumber });
       return;
     }
@@ -217,7 +180,7 @@ const CheckoutSection = () => {
   const handlePayRemainingBalance = () => {
     // Switch to Flutterwave payment for remaining balance
     setShowRemainingBalanceModal(false);
-    setSelectedPayment("2");
+    setSelectedPayment(PAYMENT_TYPES.FLUTTERWAVE);
     if (orderNumber) {
       initiatePaymentMutation.mutate({ orderNumber });
     }
@@ -338,11 +301,11 @@ const CheckoutSection = () => {
                   </div>
                 ) : orderItems.length > 0 ? (
                   orderItems.map((item) => {
-                    const image =
-                      item.variant.images.find((img) => img.is_primary)
-                        ?.image_url ??
-                      item.variant.images[0]?.image_url ??
-                      "/cart-placeholder.png";
+                    const image = getOrderItemImage(item.variant.images);
+                    const metaLabel = getOrderItemMetaLabel(
+                      item.variant.size,
+                      item.variant.color
+                    );
 
                     return (
                       <CartItem
@@ -350,13 +313,7 @@ const CheckoutSection = () => {
                         image={image}
                         name={item.variant.product_name}
                         price={`$${item.price}`}
-                        metaLabel={
-                          item.variant.size
-                            ? `Size: ${item.variant.size}`
-                            : item.variant.color
-                              ? `Color: ${item.variant.color}`
-                              : ""
-                        }
+                        metaLabel={metaLabel}
                         className="bg-white"
                         quantity={item.quantity}
                         showQuantity={true}

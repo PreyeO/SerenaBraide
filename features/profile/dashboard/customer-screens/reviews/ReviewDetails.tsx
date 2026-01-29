@@ -85,64 +85,21 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({ order, onSuccess }) => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 lg:space-y-6">
       {/* Header */}
       <SubHeading
         title="Order Review"
-        className="text-lg font-medium text-[#3B3B3B]"
+        className="text-base lg:text-lg font-medium text-[#3B3B3B]"
       />
 
       {/* Product Card */}
-      <div className="border border-[#D1D5DB] py-3.75 px-3.75 flex justify-between rounded-md">
-        <div className="flex gap-2.5">
-          <ProductImage
-            src={order.src}
-            alt={order.alt}
-            width={102}
-            height={102}
-            className="object-cover rounded-[5px] shrink-0"
-          />
-
-          <div className="flex flex-col gap-1">
-            <Paragraph
-              content={order.productName}
-              className="text-sm font-medium text-[#3B3B3B]"
-            />
-
-            <div className="flex gap-4">
-              <Paragraph
-                content={order.price}
-                className="text-sm text-[#3B3B3B]"
-              />
-              <Paragraph
-                content={order.quantity}
-                className="text-sm text-[#3B3B3B]"
-              />
-            </div>
-
-            <Paragraph
-              content={order.size}
-              className="text-sm text-[#6F6E6C]"
-            />
-
-            <Paragraph
-              content={
-                order.date.includes("Order date:")
-                  ? order.date
-                  : `Order date: ${order.date}`
-              }
-              className="text-sm text-[#9A9A98]"
-            />
-          </div>
-        </div>
-        <div>
+      <div className="border border-[#D1D5DB] py-3 lg:py-3.75 px-3 lg:px-3.75 rounded-md">
+        {/* Mobile: Status badge at top */}
+        <div className="flex lg:hidden mb-3">
           <Badge
             variant="secondary"
-            className="flex items-center gap-1 px-2 py-1 text-xs"
-            style={{
-              backgroundColor: `${order.color}10`,
-              color: order.color,
-            }}
+            className="flex items-center gap-1.5 px-0 py-0 text-xs bg-transparent"
+            style={{ color: order.color }}
           >
             {order.icon && (
               <order.icon className="size-4" color={order.iconBg} />
@@ -150,15 +107,76 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({ order, onSuccess }) => {
             <span className="whitespace-nowrap">{order.title}</span>
           </Badge>
         </div>
+
+        <div className="flex justify-between">
+          <div className="flex gap-2.5">
+            <ProductImage
+              src={order.src}
+              alt={order.alt}
+              width={102}
+              height={102}
+              className="w-16 h-16 lg:w-25.5 lg:h-25.5 object-cover rounded-[5px] shrink-0"
+            />
+
+            <div className="flex flex-col gap-0.5 lg:gap-1">
+              <Paragraph
+                content={order.productName}
+                className="text-sm font-medium text-[#3B3B3B] line-clamp-2"
+              />
+
+              <div className="flex gap-2 lg:gap-4">
+                <Paragraph
+                  content={order.price}
+                  className="text-sm text-[#3B3B3B]"
+                />
+                <Paragraph
+                  content={order.quantity}
+                  className="text-sm text-[#3B3B3B]"
+                />
+              </div>
+
+              <Paragraph
+                content={order.size}
+                className="text-sm text-[#6F6E6C]"
+              />
+
+              <Paragraph
+                content={
+                  order.date.includes("Order date:")
+                    ? order.date
+                    : `Order date: ${order.date}`
+                }
+                className="text-sm text-[#9A9A98]"
+              />
+            </div>
+          </div>
+
+          {/* Desktop only: Badge on right */}
+          <div className="hidden lg:block">
+            <Badge
+              variant="secondary"
+              className="flex items-center gap-1 px-2 py-1 text-xs"
+              style={{
+                backgroundColor: `${order.color}10`,
+                color: order.color,
+              }}
+            >
+              {order.icon && (
+                <order.icon className="size-4" color={order.iconBg} />
+              )}
+              <span className="whitespace-nowrap">{order.title}</span>
+            </Badge>
+          </div>
+        </div>
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 lg:space-y-6">
           {/* Content Section */}
-          <div className="space-y-4">
+          <div className="space-y-3 lg:space-y-4">
             <SubHeading
               title="Content"
-              className="text-lg font-medium text-[#3B3B3B]"
+              className="text-base lg:text-lg font-medium text-[#3B3B3B]"
             />
 
             {/* Review Textarea */}
@@ -172,10 +190,10 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({ order, onSuccess }) => {
                       <Textarea
                         {...field}
                         placeholder="Share your thoughts about this product"
-                        className="min-h-30 rounded-lg border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] resize-none"
+                        className="min-h-24 lg:min-h-30 rounded-lg border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] resize-none text-sm lg:text-base"
                         maxLength={3000}
                       />
-                      <div className="absolute bottom-3 right-3 text-xs text-[#6F6E6C]">
+                      <div className="absolute bottom-2 lg:bottom-3 right-2 lg:right-3 text-xs text-[#6F6E6C]">
                         {field.value?.length || 0}/3000
                       </div>
                     </div>
@@ -194,10 +212,10 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({ order, onSuccess }) => {
               <FormItem>
                 <SubHeading
                   title="Rating*"
-                  className="text-lg font-medium text-[#3B3B3B]"
+                  className="text-base lg:text-lg font-medium text-[#3B3B3B]"
                 />
                 <FormControl>
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-3">
                     <div className="flex gap-1">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <button
@@ -207,7 +225,7 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({ order, onSuccess }) => {
                           className="focus:outline-none"
                         >
                           <Star
-                            className="size-6 cursor-pointer transition-colors"
+                            className="size-5 lg:size-6 cursor-pointer transition-colors"
                             fill={
                               star <= (field.value || 0) ? "#D97705" : "none"
                             }
@@ -232,7 +250,7 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({ order, onSuccess }) => {
           />
 
           {/* Submit Button */}
-          <div className="pt-4">
+          <div className="pt-2 lg:pt-4">
             <SubmitButton
               label="Submit"
               isPending={createRatingMutation.isPending}

@@ -10,6 +10,7 @@ import { useCart } from "../../hooks/useCart";
 import { useUpdateCartItem } from "../../hooks/useUpdateCartItem";
 import { useRemoveCartItem } from "../../hooks/useRemoveCartItem";
 import LoadingState from "@/components/ui/loaders/loading-state";
+import { getOrderItemImage } from "../../utils/checkout.utils";
 
 const CartSection = () => {
   const { data, isLoading } = useCart();
@@ -36,10 +37,7 @@ const CartSection = () => {
       <div className="flex gap-10 mt-10">
         <div className="flex flex-col gap-6 w-175">
           {cartItems.map((item) => {
-            const image =
-              item.variant.images.find((img) => img.is_primary)?.image_url ??
-              item.variant.images[0]?.image_url ??
-              "/cart-placeholder.png";
+            const image = getOrderItemImage(item.variant.images);
 
             return (
               <CartItem

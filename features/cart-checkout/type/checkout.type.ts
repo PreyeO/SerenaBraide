@@ -1,5 +1,9 @@
 import z from "zod";
-import { AddressSchema, CreateAddressSchema, UpdateAddressSchema } from "../schema/checkout.schema";
+import {
+  AddressSchema,
+  CreateAddressSchema,
+  UpdateAddressSchema,
+} from "../schema/checkout.schema";
 
 // Form values (what the form uses - all strings)
 export type AddressFormValues = z.infer<typeof AddressSchema>;
@@ -102,7 +106,20 @@ export interface Order {
   updated_at: string;
 }
 
-export interface CreateOrderPayload {
-  // The order is created from the current cart, so no payload needed
-  // But keeping this for potential future use
+// export interface CreateOrderPayload {
+
+// }
+
+// Gift Card Response Types
+export interface GiftCardResponse {
+  remaining_amount: string;
+  gift_card_amount: string;
+  gift_card_balance: string;
+}
+
+// Gift Card Response Types
+export interface GiftCardResponse {
+  remaining_amount: string;
+  gift_card_amount: string;
+  gift_card_balance: string;
 }

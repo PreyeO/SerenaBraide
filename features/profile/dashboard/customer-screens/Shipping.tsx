@@ -74,16 +74,18 @@ const Shipping = () => {
   return (
     <section className="flex flex-col gap-6">
       <OverviewCard subHeading="Default Address">
-        <div className="flex flex-col pt-4 cursor-pointer items-center justify-center mx-auto">
+        <div
+          onClick={() => setIsAddModalOpen(true)}
+          className="flex flex-col pt-4 cursor-pointer items-center justify-center mx-auto"
+        >
           <span className="rounded-full w-5.5 h-5.5 bg-[#3B3B3B] flex justify-center  items-center">
             <Plus className="text-white size-5" strokeWidth={2} />
           </span>
-          <span onClick={() => setIsAddModalOpen(true)}>
-            <Paragraph
-              className="text-[#3B3B3B]  cursor-pointer font-medium text-center text-lg"
-              content="Add a new shipping address"
-            />
-          </span>
+
+          <Paragraph
+            className="text-[#3B3B3B]  cursor-pointer font-medium text-center text-lg"
+            content="Add a new shipping address"
+          />
         </div>
       </OverviewCard>
       <div className="bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5] w-full flex flex-col gap-8.5 px-15 py-7.5">

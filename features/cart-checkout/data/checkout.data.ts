@@ -1,3 +1,11 @@
+// Payment Type Constants
+export const PAYMENT_TYPES = {
+  GIFT_CARD: "1",
+  FLUTTERWAVE: "2",
+} as const;
+
+export type PaymentTypeId = typeof PAYMENT_TYPES[keyof typeof PAYMENT_TYPES];
+
 export const paymentType = [
   {
     src: "/gift-payment.png",
@@ -5,7 +13,7 @@ export const paymentType = [
     width: 24.2,
     height: 22,
     alt: "gift card logo",
-    id: "1",
+    id: PAYMENT_TYPES.GIFT_CARD,
     href: "/payment/giftcard-payment",
   },
   {
@@ -14,7 +22,7 @@ export const paymentType = [
     width: 54,
     height: 22,
     alt: "flutterwave payment logo",
-    id: "2",
+    id: PAYMENT_TYPES.FLUTTERWAVE,
     href: "/payment/flutterwave",
   },
 ];

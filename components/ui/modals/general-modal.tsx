@@ -16,7 +16,7 @@ interface ModalProps {
 const GeneralModal = ({ open, onClose, title, children }: ModalProps) => {
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-xl max-h-[90vh] overflow-hidden">
+      <DialogContent className="w-full h-full lg:h-auto lg:max-h-[90vh] max-w-none lg:max-w-xl rounded-none lg:rounded-lg overflow-hidden p-4 lg:p-6">
         {title && (
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
@@ -24,7 +24,7 @@ const GeneralModal = ({ open, onClose, title, children }: ModalProps) => {
         )}
 
         {/* Scrollable content */}
-        <div className="overflow-y-auto max-h-[calc(90vh-4rem)] pr-1">
+        <div className="overflow-y-auto h-[calc(100vh-4rem)] lg:max-h-[calc(90vh-4rem)] pr-1">
           {children}
         </div>
       </DialogContent>
@@ -33,3 +33,4 @@ const GeneralModal = ({ open, onClose, title, children }: ModalProps) => {
 };
 
 export default GeneralModal;
+
