@@ -37,8 +37,8 @@ const CategoryTabs = ({ category, onTabChange }: CategoryTabsProps) => {
             key={tab}
             value={tab}
             className="px-4 py-2 rounded-full transition
-             data-[state=active]:!bg-black
-             data-[state=active]:!text-white"
+             data-[state=active]:bg-black!
+             data-[state=active]:text-white!"
           >
             {tab}
           </TabsTrigger>

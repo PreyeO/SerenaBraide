@@ -45,3 +45,70 @@ export interface CustomerListResponse {
   previous: string | null;
   results: Customer[];
 }
+
+// Review Types
+export interface VariantImage {
+  id: number;
+  image_url: string;
+  is_primary: boolean;
+  alt_text: string;
+  order: number;
+  variant: number;
+  created_at: string;
+}
+
+export interface ReviewVariant {
+  id: number;
+  product: number;
+  product_name: string;
+  sku: string;
+  size: string;
+  color: string | null;
+  price: string;
+  effective_price: number;
+  stock_quantity: number;
+  is_in_stock: boolean;
+  is_active: boolean;
+  images: VariantImage[];
+  ingredients: string | null;
+  inspiration: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ReviewOrderItem {
+  id: number;
+  variant: ReviewVariant;
+  variant_id: number;
+  quantity: number;
+  price: string;
+  subtotal: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ReviewCustomerProfile {
+  id: number;
+  first_name: string;
+  last_name: string;
+  name: string;
+}
+
+export interface Review {
+  id: number;
+  customer_profile: ReviewCustomerProfile;
+  reviewer_name: string;
+  order_item: ReviewOrderItem;
+  rating: number;
+  review: string;
+  is_approved: boolean | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ReviewListResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Review[];
+}

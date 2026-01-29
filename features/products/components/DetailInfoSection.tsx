@@ -98,7 +98,7 @@ const DetailInfoSection: React.FC<DetailInfoSectionProps> = ({
                 src={img.image_url}
                 width={338}
                 height={289}
-                className="max-w-[338px] h-[289px] object-cover"
+                imageClassName="max-w-[338px] h-[289px]  object-cover"
               />
             ))
           ) : (
@@ -109,7 +109,7 @@ const DetailInfoSection: React.FC<DetailInfoSectionProps> = ({
                 src="/product-2.png"
                 width={338}
                 height={289}
-                className="max-w-[338px] h-[289px]"
+                imageClassName="max-w-[338px] h-[289px]  object-cover"
               />
               <ProductImage
                 key="fallback-2"
@@ -117,7 +117,8 @@ const DetailInfoSection: React.FC<DetailInfoSectionProps> = ({
                 src="/product-3.png"
                 width={338}
                 height={289}
-                className="max-w-[338px] h-[289px]"
+                className=""
+                imageClassName="max-w-[338px] h-[289px]  object-cover"
               />
             </>
           )}

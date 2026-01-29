@@ -65,10 +65,10 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
     // If a variant is selected, prioritize its images
     if (selectedVariantId && selectedVariant && selectedVariant.images) {
       const variantPrimaryImage = selectedVariant.images.find(
-        (img) => img.is_primary
+        (img) => img.is_primary,
       );
       if (variantPrimaryImage) return variantPrimaryImage.image_url;
-      
+
       // Fallback to first variant image
       if (selectedVariant.images.length > 0) {
         return selectedVariant.images[0].image_url;
@@ -178,7 +178,7 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
             src={primaryImage}
             width={700}
             height={500}
-            className="max-w-[700px] h-[500px] object-cover"
+            imageClassName="max-w-175 h-125 object-cover"
           />
 
           {/* Wishlist Heart - Top right of image */}
@@ -209,7 +209,7 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
 
         {/* Product Info */}
         <div className="w-full">
-          <div className="max-w-[450px]">
+          <div className="max-w-112.5">
             {/* Available in X shades badge - only for color variants */}
             {hasColorVariants && colorVariants.length > 0 && (
               <span className="inline-block text-xs text-[#6F6E6C] border border-[#D1D5DB] rounded-full px-3 py-1 mb-3">
@@ -245,7 +245,7 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
           {product.variants && product.variants.length > 0 ? (
             hasColorVariants ? (
               /* Color Variants UI */
-              <div className="mt-6 max-w-[450px]">
+              <div className="mt-6 max-w-112.5">
                 {/* Size & Price */}
                 {selectedVariant && (
                   <>
@@ -302,7 +302,7 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
               </div>
             ) : (
               /* Size-only Variants UI (boxes) */
-              <div className="grid grid-cols-2 gap-4 mt-8 max-w-[382px]">
+              <div className="grid grid-cols-2 gap-4 mt-8 max-w-95.5">
                 {product.variants.map((variant) => {
                   const isSelected = selectedVariantId === variant.id;
                   const isOutOfStock = !variant.is_in_stock;
@@ -311,7 +311,7 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
                     <div
                       key={variant.id}
                       onClick={() => handleVariantClick(variant)}
-                      className={`font-normal text-sm text-[#3B3B3B] w-[163px] min-h-[83px] border rounded-[5px] flex flex-col justify-center px-4 py-3 transition-all duration-200 ${
+                      className={`font-normal text-sm text-[#3B3B3B] w-40.75 min-h-20.75 border rounded-[5px] flex flex-col justify-center px-4 py-3 transition-all duration-200 ${
                         isOutOfStock
                           ? "border-[#C40606] opacity-70 cursor-not-allowed"
                           : isSelected
@@ -337,7 +337,7 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
               </div>
             )
           ) : (
-            <div className="mt-8 max-w-[382px]">
+            <div className="mt-8 max-w-95.5">
               <Paragraph
                 content={`Price: ${formatPrice(product.base_price)}`}
                 className="font-medium text-lg"
@@ -376,7 +376,7 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
               src="/shop-bag.svg"
               width={85}
               height={90.43}
-              className="max-w-21.25"
+              imageClassName="max-w-21.25 object-cover"
             />
 
             <span className="text-sm leading-5.5 font-normal pr-3.75">

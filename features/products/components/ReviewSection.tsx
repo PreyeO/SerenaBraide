@@ -29,7 +29,7 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
     const average = totalRating / reviews.length;
     const recommendedCount = reviews.filter((r) => r.rating >= 4).length;
     const recommendationRate = Math.round(
-      (recommendedCount / reviews.length) * 100
+      (recommendedCount / reviews.length) * 100,
     );
 
     return {
@@ -50,16 +50,23 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
   };
 
   // Get initials from customer profile (fallback to "U" for unknown)
-  const getInitials = (_customerProfile: number) => {
-    // Since we don't have customer name in the response, use a fallback
-    return "U";
+  const getInitials = (customer?: {
+    first_name?: string;
+    last_name?: string;
+  }) => {
+    if (!customer) return "U";
+
+    const firstInitial = customer.first_name?.charAt(0) || "";
+    const lastInitial = customer.last_name?.charAt(0) || "";
+
+    return `${firstInitial}${lastInitial}`.toUpperCase() || "U";
   };
 
   // Get primary image from variant
   const getPrimaryImage = (review: ProductReview): VariantImage | null => {
     if (!review?.order_item?.variant?.images) return null;
     const primaryImage = review.order_item.variant.images.find(
-      (img) => img.is_primary
+      (img) => img.is_primary,
     );
     return primaryImage || review.order_item.variant.images[0] || null;
   };
@@ -100,14 +107,18 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
   }
 
   // Check if error indicates no reviews (404 or "No Rating matches" message)
-  const isNoReviewsError = error && (
-    error.response?.status === 404 || 
-    error.response?.data?.detail?.includes("No Rating matches") ||
-    error.response?.data?.detail === "No Rating matches the given query."
-  );
+  const isNoReviewsError =
+    error &&
+    (error.response?.status === 404 ||
+      error.response?.data?.detail?.includes("No Rating matches") ||
+      error.response?.data?.detail === "No Rating matches the given query.");
 
   // Show "No reviews" message if error (no reviews) or no reviews data
-  if (isNoReviewsError || !reviewsData?.results || reviewsData.results.length === 0) {
+  if (
+    isNoReviewsError ||
+    !reviewsData?.results ||
+    reviewsData.results.length === 0
+  ) {
     return (
       <section className="px-16 text-[#3B3B3B]">
         <BorderLine className="" />
@@ -173,13 +184,15 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
               <div className="flex justify-between pt-8 items-center">
                 <div className="flex gap-2.5">
                   <span className="rounded-full bg-[#F5F5F5] text-black font-normal text-base py-4 px-4">
-                    {initials}
+                    {getInitials(review.customer_profile)}
                   </span>
+
                   <div className="flex flex-col gap-0.75">
                     <Paragraph
                       className="font-medium text-base"
-                      content="Customer"
+                      content={review.customer_profile?.name || "Anonymous"}
                     />
+
                     <div className="flex gap-1.5">
                       <Paragraph
                         className="font-normal text-base"
@@ -212,6 +225,7 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
                   alt={primaryImage.alt_text || "Product image"}
                   width={200}
                   height={150}
+                  imageClassName="max-w-[200px] h-[150px]  object-cover"
                 />
               )}
               <BorderLine className="" />
@@ -226,7 +240,7 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
           <Caption
             title={`Displaying Reviews 1-${Math.min(
               reviewsData.results.length,
-              reviewsData.count
+              reviewsData.count,
             )}`}
             className="text-sm text-[#6F6E6C] font-normal"
           />

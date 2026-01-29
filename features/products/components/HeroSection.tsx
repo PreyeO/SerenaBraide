@@ -60,7 +60,7 @@ const HeroSection = ({ categorySlug }: HeroSectionProps) => {
               alt={imageAlt}
               width={380}
               height={381}
-              className="w-full h-full object-cover"
+              imageClassName="object-cover w-full h-full"
             />
           </div>
         )}

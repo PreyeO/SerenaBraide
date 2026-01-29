@@ -4,9 +4,10 @@ import Image from "next/image";
 import React, { useState, useEffect } from "react";
 
 interface ProductImagePropsBase {
-  className?: string;
   alt: string;
   src: string;
+  className?: string; // wrapper
+  imageClassName?: string;
 }
 
 interface ProductImagePropsWithDimensions extends ProductImagePropsBase {
@@ -26,7 +27,8 @@ type ProductImageProps =
   | ProductImagePropsWithFill;
 
 const ProductImage: React.FC<ProductImageProps> = (props) => {
-  const { className = "", src, alt } = props;
+  const { className = "", imageClassName = "", src, alt } = props;
+
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
@@ -50,12 +52,12 @@ const ProductImage: React.FC<ProductImageProps> = (props) => {
         <Image
           src={src}
           alt={alt}
-          className={`transition-opacity duration-300 ${
-            isLoading ? "opacity-0" : "opacity-100"
-          }`}
           {...(isFillMode
             ? { fill: true }
             : { width: props.width, height: props.height })}
+          className={`transition-opacity duration-300 ${
+            isLoading ? "opacity-0" : "opacity-100"
+          } ${imageClassName}`}
           unoptimized={src.includes("assistfactory.s3.amazonaws.com")}
           onLoad={() => setIsLoading(false)}
           onError={() => {

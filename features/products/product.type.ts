@@ -38,12 +38,21 @@ export interface OrderItem {
   updated_at: string;
 }
 
+export interface ReviewCustomerProfile {
+  id: number;
+  first_name: string;
+  last_name: string;
+  name: string;
+}
+
 export interface ProductReview {
   id: number;
-  customer_profile: number;
+  customer_profile: ReviewCustomerProfile;
+  reviewer_name: string;
   order_item: OrderItem;
   rating: number;
   review: string | null;
+  is_approved: boolean | null;
   created_at: string;
   updated_at: string;
 }

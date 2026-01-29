@@ -84,7 +84,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             src={product.src}
             alt={product.name}
             fill
-            className="object-cover"
+            imageClassName="object-cover"
           />
 
           {/* Stock Badge */}
