@@ -1,6 +1,6 @@
-import CustomersScreen from "@/features/profile/dashboard/admin-screens/CustomersScreen";
+import StaffScreen from "@/features/profile/dashboard/admin-screens/StaffScreen";
 
 const StaffManagementPage = () => {
-  return <CustomersScreen />;
+  return <StaffScreen />;
 };
 export default StaffManagementPage;

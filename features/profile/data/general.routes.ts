@@ -10,7 +10,6 @@ import {
   House,
   Users,
   ShoppingBag,
-  BriefcaseBusiness,
   Package,
   UserCheck,
 } from "lucide-react";
@@ -63,7 +62,7 @@ export const adminRoutes: SidebarItem[] = [
 
   {
     title: "User Reviews",
-    href: "/admin/setting",
+    href: "/admin/review",
     icon: MessageSquareMore,
   },
 ];

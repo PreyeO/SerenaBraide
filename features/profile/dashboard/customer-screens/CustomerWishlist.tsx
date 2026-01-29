@@ -12,7 +12,6 @@ import ProductImage from "@/components/ui/images/product-image";
 import Paragraph from "@/components/ui/typography/paragraph";
 import SubHeading from "@/components/ui/typography/subHeading";
 import SubmitButton from "@/components/ui/btns/submit-cta";
-import LoadingState from "@/components/ui/loaders/loading-state";
 import { useAuthStore } from "@/features/auth/auth.store";
 import { WishlistItem } from "../../type/customers/profile.type";
 import { VariantImage } from "@/features/products/product.type";
