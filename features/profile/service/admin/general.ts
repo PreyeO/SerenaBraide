@@ -5,6 +5,9 @@ import {
   CustomerListResponse,
   Review,
   ReviewListResponse,
+  StaffListResponse,
+  CreateStaffInvitePayload,
+  CreateStaffInviteResponse,
 } from "../../type/admin/general.type";
 
 export async function getCustomers(): Promise<CustomerListResponse> {
@@ -22,9 +25,8 @@ export async function getCustomerDetail(id: number): Promise<Customer> {
 }
 
 export async function getReviews(): Promise<ReviewListResponse> {
-  const response: AxiosResponse<ReviewListResponse> = await api.get(
-    "/api/ratings/",
-  );
+  const response: AxiosResponse<ReviewListResponse> =
+    await api.get("/api/ratings/");
   return response.data;
 }
 
@@ -45,3 +47,21 @@ export async function updateReviewApproval(
   );
   return response.data;
 }
+
+export async function getUsers(): Promise<StaffListResponse> {
+  const response: AxiosResponse<StaffListResponse> =
+    await api.get("/api/users/");
+  return response.data;
+}
+
+export async function createAdminInvite(
+  data: CreateStaffInvitePayload,
+): Promise<CreateStaffInviteResponse> {
+  const response: AxiosResponse<CreateStaffInviteResponse> = await api.post(
+    "/api/users/admin-invite/",
+    data,
+  );
+  return response.data;
+}
+
+// Note: acceptAdminInvite is now in auth.service.ts since it returns LoginResponse

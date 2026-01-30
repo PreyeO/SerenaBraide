@@ -73,3 +73,12 @@ export async function resetResendOtp(email: string): Promise<OtpResponse> {
   );
   return response.data;
 }
+
+export async function acceptAdminInvite(
+  token: string
+): Promise<LoginResponse> {
+  const response: AxiosResponse<LoginResponse> = await api.get(
+    `/api/users/accept-invite/?token=${token}`
+  );
+  return response.data;
+}

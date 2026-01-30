@@ -73,3 +73,10 @@ export const ResetPasswordSchema = z
     path: ["new_password_repeated"],
     message: "Passwords do not match",
   });
+
+export const CreateStaffInviteSchema = z.object({
+  email: z.string().email("Enter a valid email address"),
+  first_name: z.string().min(1, "First name is required"),
+  last_name: z.string().min(1, "Last name is required"),
+  phone_number: z.string().min(1, "Phone number is required"),
+});

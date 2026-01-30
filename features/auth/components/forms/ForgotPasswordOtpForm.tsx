@@ -20,6 +20,7 @@ const ForgotPasswordOtpForm = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const email = searchParams.get("email")!;
+  const returnUrl = searchParams.get("return_url");
 
   const form = useForm<OtpFormValues>({
     resolver: zodResolver(VerifyOtpSchema),
@@ -28,7 +29,11 @@ const ForgotPasswordOtpForm = () => {
 
   const onSubmit = (values: OtpFormValues) => {
     console.log(values);
-    router.push(`/auth/reset-password?email=${email}`);
+    // Preserve return_url if it exists
+    const resetPasswordUrl = returnUrl
+      ? `/auth/reset-password?email=${email}&return_url=${encodeURIComponent(returnUrl)}`
+      : `/auth/reset-password?email=${email}`;
+    router.push(resetPasswordUrl);
   };
 
   return (

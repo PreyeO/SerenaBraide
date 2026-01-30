@@ -27,7 +27,14 @@ export const useResetPassword = () => {
 
     onSuccess: () => {
       notify.success("Password reset successful!");
-      router.push("/auth/login");
+      
+      // Preserve return_url if it exists
+      const returnUrl = searchParams.get("return_url");
+      const loginUrl = returnUrl
+        ? `/auth/login?return_url=${encodeURIComponent(returnUrl)}`
+        : `/auth/login`;
+      
+      router.push(loginUrl);
     },
 
     onError: (error) => {
