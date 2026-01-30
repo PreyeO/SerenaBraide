@@ -26,20 +26,19 @@ export const useAcceptAdminInvite = ({
       const { tokens, ...user } = data;
       setAuth({ user, tokens });
       notify.success("Invitation accepted! You are now logged in.");
-      
+
       // Redirect to admin dashboard
       router.push("/admin");
-      
+
       onSuccess?.(data);
     },
-    onError: (error) => {
-      notify.error(
-        error.response?.data?.message ||
-          error.response?.data?.detail ||
-          "Failed to accept invitation"
-      );
-      onError?.(error);
-    },
+    // onError: (error) => {
+    //   notify.error(
+    //     error.response?.data?.message ||
+    //       error.response?.data?.detail ||
+    //       "Failed to accept invitation"
+    //   );
+    //   onError?.(error);
+    // },
   });
 };
-
