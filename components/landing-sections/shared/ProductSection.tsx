@@ -2,7 +2,7 @@ import React from "react";
 import SubHeading from "../../ui/typography/subHeading";
 import { ChevronRight } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
-import LandingProductCard from "../../ui/cards/landing-product-card";
+
 import { Product } from "@/types/product";
 import UnderlineLink from "@/components/ui/btns/underline-cta";
 
@@ -56,7 +56,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({
           ))}
         </TabsList>
 
-        {categories.map((cat) => (
+        {/* {categories.map((cat) => (
           <TabsContent key={cat} value={cat}>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 justify-items-center">
               {productDisplay[cat]?.map((product, idx) => (
@@ -64,7 +64,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({
               ))}
             </div>
           </TabsContent>
-        ))}
+        ))} */}
       </Tabs>
     </section>
   );
