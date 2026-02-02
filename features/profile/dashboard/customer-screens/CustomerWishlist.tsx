@@ -110,7 +110,8 @@ const CustomerWishlist = () => {
                     }
                     width={267}
                     height={204}
-                    className="object-cover rounded-md h-full w-full"
+                    className=""
+                    imageClassName="object-cover rounded-md h-full w-full"
                   />
                   {/* IN STOCK Badge */}
                   {isInStock && (

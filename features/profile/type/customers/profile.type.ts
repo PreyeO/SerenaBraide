@@ -52,6 +52,7 @@ export interface OrderInfo {
   iconBg: string;
   OrderAction1: string;
   orderAction2: string;
+  productId?: number; // Product ID for navigation
 }
 
 export interface Props {
@@ -157,7 +158,13 @@ export interface GiftCard {
 export interface Order {
   order_number: number;
   customer_profile: CustomerProfile | number;
-  status: "delivered" | "pending" | "paid" | "processing" | "in_transit" | "shipped";
+  status:
+    | "delivered"
+    | "pending"
+    | "paid"
+    | "processing"
+    | "in_transit"
+    | "shipped";
   subtotal: string;
   shipping_cost: string;
   tax: string;

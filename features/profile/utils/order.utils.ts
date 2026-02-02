@@ -140,6 +140,7 @@ function transformOrderItemToOrderInfo(
     iconBg: statusConfig.iconBg,
     OrderAction1: statusConfig.OrderAction1,
     orderAction2: statusConfig.orderAction2,
+    productId: item.variant.product,
   };
 }
 

@@ -105,7 +105,7 @@ const FulfilmentStatus: React.FC<FulfilmentStatusProps> = ({
               alt={alt}
               width={102}
               height={102}
-              className="w-16 h-16 lg:w-25.5 lg:h-25.5 object-cover rounded-[5px] shrink-0"
+              imageClassName="w-16 lg:w-25.5 h-full object-cover rounded-[5px]"
             />
 
             <div className="flex flex-col gap-0.5 lg:gap-1">

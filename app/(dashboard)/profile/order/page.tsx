@@ -2,6 +2,5 @@ import CustomerOrders from "@/features/profile/dashboard/customer-screens/Custom
 
 const CustomerOrdersPage = () => {
   return <CustomerOrders />;
-  // <EmptyOrders />;
 };
 export default CustomerOrdersPage;

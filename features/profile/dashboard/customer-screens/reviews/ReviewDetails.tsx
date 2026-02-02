@@ -115,7 +115,7 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({ order, onSuccess }) => {
               alt={order.alt}
               width={102}
               height={102}
-              className="w-16 h-16 lg:w-25.5 lg:h-25.5 object-cover rounded-[5px] shrink-0"
+              imageClassName="w-16 lg:w-25.5 h-full object-cover rounded-[5px]"
             />
 
             <div className="flex flex-col gap-0.5 lg:gap-1">
@@ -171,7 +171,10 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({ order, onSuccess }) => {
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 lg:space-y-6">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-4 lg:space-y-6"
+        >
           {/* Content Section */}
           <div className="space-y-3 lg:space-y-4">
             <SubHeading

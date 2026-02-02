@@ -11,6 +11,9 @@ import { BadgeCheckIcon, ChevronRight, Copy } from "lucide-react";
 import React, { useState } from "react";
 import OrderFulfilmentModal from "../fulfilments/OrderFulfilmentModal";
 import ReviewModal from "../reviews/ReviewModal";
+import { useRouter } from "next/navigation";
+import { getProductById } from "@/features/products/product.service";
+import { notify } from "@/lib/notify";
 
 interface OrdersProductCardProps {
   order: OrderInfo;
@@ -26,6 +29,8 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
   const Icon = order.icon || BadgeCheckIcon;
   const [open, setOpen] = useState(false);
   const [reviewOpen, setReviewOpen] = useState(false);
+  const [isBuyingAgain, setIsBuyingAgain] = useState(false);
+  const router = useRouter();
 
   const handleReviewClick = () => {
     if (onReviewClick) {
@@ -37,6 +42,22 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
 
   const handleCopyOrderNumber = () => {
     navigator.clipboard.writeText(order.orderNumber.replace("Order #", ""));
+  };
+
+  const handleBuyAgain = async () => {
+    if (!order.productId) {
+      notify.error("Product information not available");
+      return;
+    }
+
+    setIsBuyingAgain(true);
+    try {
+      const product = await getProductById(order.productId);
+      router.push(`/categories/${product.category_slug}/${product.slug}`);
+    } catch (error) {
+      notify.error("Failed to load product details");
+      setIsBuyingAgain(false);
+    }
   };
 
   return (
@@ -131,7 +152,7 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
               </div>
               <Paragraph content={order.size} className="text-xs lg:text-sm" />
               <Paragraph
-                content={`Order date: ${order.date}`}
+                content={`${order.date}`}
                 className="text-xs lg:text-sm"
               />
             </div>
@@ -155,6 +176,12 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
               <SubmitButton
                 label={order.OrderAction1}
                 className="text-xs lg:text-sm py-2 lg:py-3"
+                isPending={isBuyingAgain}
+                onClick={
+                  order.OrderAction1 === "Buy this again"
+                    ? handleBuyAgain
+                    : undefined
+                }
               />
               {order.orderAction2 === "Leave a review" ? (
                 <LinkCta
@@ -168,12 +195,7 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
                   label={order.orderAction2}
                   onClick={() => setOpen(true)}
                 />
-              ) : (
-                <LinkCta
-                  className="w-full text-xs lg:text-sm text-[#3B3B3B] border border-[#6F6E6C] hover:bg-gray-50 bg-white py-2 lg:py-3 transition-colors"
-                  label={order.orderAction2}
-                />
-              )}
+              ) : null}
             </div>
           </div>
         </div>
@@ -183,6 +205,12 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
           <SubmitButton
             label={order.OrderAction1}
             className="flex-1 text-xs "
+            isPending={isBuyingAgain}
+            onClick={
+              order.OrderAction1 === "Buy this again"
+                ? handleBuyAgain
+                : undefined
+            }
           />
           {order.orderAction2 === "Leave a review" ? (
             <LinkCta
@@ -196,12 +224,7 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
               label={order.orderAction2}
               onClick={() => setOpen(true)}
             />
-          ) : (
-            <LinkCta
-              className="flex-1 text-xs text-[#3B3B3B] border border-[#6F6E6C] hover:bg-gray-50 bg-white py-2.5 transition-colors"
-              label={order.orderAction2}
-            />
-          )}
+          ) : null}
         </div>
       </div>
 

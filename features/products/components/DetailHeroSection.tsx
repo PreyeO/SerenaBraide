@@ -311,7 +311,7 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
                     <div
                       key={variant.id}
                       onClick={() => handleVariantClick(variant)}
-                      className={`font-normal text-sm text-[#3B3B3B] w-40.75 min-h-20.75 border rounded-[5px] flex flex-col justify-center px-4 py-3 transition-all duration-200 ${
+                      className={`font-normal text-sm text-[#3B3B3B] max-w-40.75 min-h-20.75 gap-6.25 border rounded-[5px] flex flex-col justify-center px-4 py-3 transition-all duration-200 ${
                         isOutOfStock
                           ? "border-[#C40606] opacity-70 cursor-not-allowed"
                           : isSelected
