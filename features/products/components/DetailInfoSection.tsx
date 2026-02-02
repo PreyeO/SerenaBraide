@@ -55,73 +55,113 @@ const DetailInfoSection: React.FC<DetailInfoSectionProps> = ({
     return null;
   }, [product, selectedVariant]);
 
-  // Get additional product images (not primary)
-  const additionalImages = useMemo(() => {
-    const images: any[] = [];
+  // Get primary image - same logic as DetailHeroSection
+  const primaryImage = useMemo(() => {
+    // If a variant is selected, prioritize its images
+    if (selectedVariantId && selectedVariant && selectedVariant.images) {
+      const variantPrimaryImage = selectedVariant.images.find(
+        (img) => img.is_primary,
+      );
+      if (variantPrimaryImage) return variantPrimaryImage.image_url;
 
-    // First, get product-level images (not primary, variant === null)
-    const productImages = product.images.filter(
-      (img) => !img.is_primary && img.variant === null,
+      // Fallback to first variant image
+      if (selectedVariant.images.length > 0) {
+        return selectedVariant.images[0].image_url;
+      }
+    }
+
+    // First try to get primary image from product images (variant === null)
+    const productPrimaryImage = product.images.find(
+      (img) => img.is_primary && img.variant === null,
     );
-    images.push(...productImages.slice(0, 2));
+    if (productPrimaryImage) return productPrimaryImage.image_url;
 
-    // If we don't have enough images, use variant images (non-primary)
-    if (images.length < 2 && product.variants && product.variants.length > 0) {
-      for (const variant of product.variants) {
-        if (images.length >= 2) break;
-        if (variant.images && variant.images.length > 0) {
-          for (const img of variant.images) {
-            if (!img.is_primary && images.length < 2) {
-              images.push({
-                ...img,
-                variant: variant.id,
-              });
-            }
-          }
-        }
+    // Then try any product image (variant === null)
+    const anyProductImage = product.images.find((img) => img.variant === null);
+    if (anyProductImage) return anyProductImage.image_url;
+
+    // Then try first variant images if no variant selected
+    if (
+      product.variants &&
+      product.variants.length > 0 &&
+      product.variants[0].images?.length > 0
+    ) {
+      const variantPrimaryImage = product.variants[0].images.find(
+        (img) => img.is_primary,
+      );
+      return (
+        variantPrimaryImage?.image_url ||
+        product.variants[0].images[0].image_url
+      );
+    }
+
+    // Fallback
+    return "/product-1.png";
+  }, [product, selectedVariantId, selectedVariant]);
+
+  // Get non-primary variant images from selected variant (images with is_primary: false)
+  const nonPrimaryVariantImages = useMemo(() => {
+    if (!selectedVariant || !selectedVariant.images) {
+      return [];
+    }
+    // Filter out primary images, only get non-primary variant images
+    return selectedVariant.images.filter((img) => !img.is_primary);
+  }, [selectedVariant]);
+
+  // Build display images:
+  // - Box 1: Primary image (same as DetailHero)
+  // - Box 2: First non-primary variant image (if available)
+  // - If admin uploaded 2 non-primary variant images, show both non-primary images
+  const displayImages = useMemo(() => {
+    const images: Array<{ image_url: string; alt_text: string }> = [];
+
+    // Always show primary image as first image (same as DetailHero)
+    images.push({
+      image_url: primaryImage,
+      alt_text: `${product.name} - Primary`,
+    });
+
+    // Add non-primary variant images
+    if (nonPrimaryVariantImages.length > 0) {
+      // If there are 2+ non-primary variant images, show both (replacing primary in second box)
+      // Otherwise, show first non-primary variant image
+      if (nonPrimaryVariantImages.length >= 2) {
+        // Show both non-primary variant images
+        images[0] = {
+          image_url: nonPrimaryVariantImages[0].image_url,
+          alt_text: nonPrimaryVariantImages[0].alt_text || `${product.name} - Variant 1`,
+        };
+        images.push({
+          image_url: nonPrimaryVariantImages[1].image_url,
+          alt_text: nonPrimaryVariantImages[1].alt_text || `${product.name} - Variant 2`,
+        });
+      } else {
+        // Show primary + first non-primary variant image
+        images.push({
+          image_url: nonPrimaryVariantImages[0].image_url,
+          alt_text: nonPrimaryVariantImages[0].alt_text || `${product.name} - Variant`,
+        });
       }
     }
 
     return images;
-  }, [product]);
+  }, [primaryImage, nonPrimaryVariantImages, product.name]);
 
   return (
     <section className="pt-6 px-16 text-[#3B3B3B] pb-12.5">
       <div className="flex justify-center gap-15 mt-8.5">
         {/* Product Images */}
         <div className="w-full flex justify-between gap-4">
-          {additionalImages.length > 0 ? (
-            additionalImages.map((img, index) => (
-              <ProductImage
-                key={`${product.id}-additional-${img.id || index}-${img.image_url}`}
-                alt={img.alt_text || `${product.name} image ${index + 1}`}
-                src={img.image_url}
-                width={338}
-                height={289}
-                imageClassName="max-w-[338px] h-[289px]  object-cover"
-              />
-            ))
-          ) : (
-            <>
-              <ProductImage
-                key="fallback-1"
-                alt="Product image"
-                src="/product-2.png"
-                width={338}
-                height={289}
-                imageClassName="max-w-[338px] h-[289px]  object-cover"
-              />
-              <ProductImage
-                key="fallback-2"
-                alt="Product image"
-                src="/product-3.png"
-                width={338}
-                height={289}
-                className=""
-                imageClassName="max-w-[338px] h-[289px]  object-cover"
-              />
-            </>
-          )}
+          {displayImages.map((img, index) => (
+            <ProductImage
+              key={`${product.id}-display-${selectedVariantId || 'default'}-${index}-${img.image_url}`}
+              alt={img.alt_text || `${product.name} image ${index + 1}`}
+              src={img.image_url}
+              width={338}
+              height={289}
+              imageClassName="max-w-[338px] h-[289px]  object-cover"
+            />
+          ))}
         </div>
         <div className="">
           <BorderLine className="mt-[37px]" />
@@ -136,7 +176,7 @@ const DetailInfoSection: React.FC<DetailInfoSectionProps> = ({
 
           {ingredients && (
             <button
-              className="flex gap-[10px] pt-[25px] items-center text-[#3B3B3B] text-lg font-medium"
+              className="flex gap-2.5 pt-6.25 items-center text-[#3B3B3B] text-lg font-medium"
               onClick={() => setIsModalOpen(true)}
             >
               See Ingredients

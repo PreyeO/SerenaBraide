@@ -81,12 +81,6 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
           {/* Mobile: Order number with copy button */}
           <div className="flex lg:hidden items-center gap-1.5 text-[#6F6E6C]">
             <span className="text-xs">{order.orderNumber}</span>
-            <button
-              onClick={handleCopyOrderNumber}
-              className="p-1 hover:bg-gray-100 rounded transition-colors"
-            >
-              <Copy className="size-3.5" />
-            </button>
           </div>
         </div>
 

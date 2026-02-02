@@ -93,6 +93,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {/* IMAGE CARD */}
           <div className="relative aspect-3/4 w-full overflow-hidden rounded-[15px] bg-[#F2F2F2]">
             <ProductImage
+              key={product.src}
               src={product.src}
               alt={product.name}
               fill

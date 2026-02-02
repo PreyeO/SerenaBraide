@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 interface ProductImagePropsBase {
   alt: string;
@@ -31,12 +31,17 @@ const ProductImage: React.FC<ProductImageProps> = (props) => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+  const prevSrcRef = useRef<string>(src);
 
   const isFillMode = "fill" in props && props.fill === true;
 
   useEffect(() => {
-    setIsLoading(true);
-    setHasError(false);
+    // Only reset loading state if src actually changed
+    if (prevSrcRef.current !== src) {
+      setIsLoading(true);
+      setHasError(false);
+      prevSrcRef.current = src;
+    }
   }, [src]);
 
   return (
@@ -59,6 +64,7 @@ const ProductImage: React.FC<ProductImageProps> = (props) => {
             isLoading ? "opacity-0" : "opacity-100"
           } ${imageClassName}`}
           unoptimized={src.includes("assistfactory.s3.amazonaws.com")}
+          priority={false}
           onLoad={() => setIsLoading(false)}
           onError={() => {
             setIsLoading(false);
