@@ -178,7 +178,7 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
             src={primaryImage}
             width={700}
             height={500}
-            imageClassName="max-w-175 h-125 object-cover"
+            imageClassName="max-w-175 h-full object-cover"
           />
 
           {/* Wishlist Heart - Top right of image */}

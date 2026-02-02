@@ -1,8 +1,7 @@
-import UnderlineLink from "@/components/ui/btns/underline-cta";
 import ProductImage from "@/components/ui/images/product-image";
 import Paragraph from "@/components/ui/typography/paragraph";
 import SubHeading from "@/components/ui/typography/subHeading";
-import { Minus, Plus, X } from "lucide-react";
+import { Minus, Plus, Trash2 } from "lucide-react";
 import React from "react";
 import { CartItemProps } from "@/features/cart-checkout/type/cart.type";
 import AuthSpan from "@/components/ui/typography/auth-span";
@@ -21,9 +20,8 @@ const CartItem = ({
   showQuantityBox = true,
   width,
   height,
-  editLink = "/",
-  showRemoveEdit = true,
   className,
+  imageClassName,
 }: CartItemProps) => {
   return (
     <div
@@ -36,7 +34,7 @@ const CartItem = ({
             onClick={onRemove}
             className="bg-white rounded-full w-7.5 h-7.5 flex justify-center items-center cursor-pointer"
           >
-            <X className="size-[22.5px]" />
+            <Trash2 className="size-[22.5px]" color="red" />
           </span>
         </div>
       )}
@@ -48,7 +46,8 @@ const CartItem = ({
           src={image}
           width={width}
           height={height}
-          className="max-w-37.5"
+          imageClassName={imageClassName}
+          className="rounded-md"
         />
 
         <div>
@@ -71,21 +70,20 @@ const CartItem = ({
             (showQuantityBox ? (
               <div className="flex text-[#3B3B3B] font-medium text-base mt-4">
                 <span
-                  onClick={onIncrease}
+                  onClick={onDecrease}
                   className="w-7.5 h-7.5 bg-white border border-[#F0F0F0] flex justify-center items-center cursor-pointer"
                 >
-                  <Plus />
+                  <Minus />
                 </span>
-
                 <span className="w-7.5 h-7.5 bg-white border border-[#F0F0F0] flex justify-center items-center">
                   {quantity}
                 </span>
 
                 <span
-                  onClick={onDecrease}
+                  onClick={onIncrease}
                   className="w-7.5 h-7.5 bg-white border border-[#F0F0F0] flex justify-center items-center cursor-pointer"
                 >
-                  <Minus />
+                  <Plus />
                 </span>
               </div>
             ) : (
@@ -95,16 +93,6 @@ const CartItem = ({
             ))}
         </div>
       </div>
-      {/* Edit Link */}
-      {showRemoveEdit && (
-        <div className="flex justify-end">
-          <UnderlineLink
-            href={editLink}
-            className="text-base text-[#3B3B3B] font-medium"
-            text="Edit"
-          />
-        </div>
-      )}
     </div>
   );
 };

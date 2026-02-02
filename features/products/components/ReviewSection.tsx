@@ -244,6 +244,10 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
             )}`}
             className="text-sm text-[#6F6E6C] font-normal"
           />
+          <Caption
+            title="Leave a review and earn 5 loyalty points!*"
+            className="text-sm text-[#6F6E6C] font-normal"
+          />
           <div className="flex gap-4">
             {reviewsData.previous && (
               <button className="text-sm text-[#3B3B3B] hover:underline">

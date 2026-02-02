@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import DetailHeroSection from "./DetailHeroSection";
 import DetailInfoSection from "./DetailInfoSection";
 import RecommendationSection from "./RecommendationSection";

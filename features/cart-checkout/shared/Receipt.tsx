@@ -60,7 +60,7 @@ const Receipt = ({
       <div className="flex justify-between">
         <h5 className="font-medium">Subtotal</h5>
         <h5>
-          #{(subtotal !== undefined ? subtotal : (totalPrice ?? 0)).toFixed(2)}
+          ₦{(subtotal !== undefined ? subtotal : (totalPrice ?? 0)).toFixed(2)}
         </h5>
       </div>
 
@@ -68,7 +68,7 @@ const Receipt = ({
       {shippingCost !== undefined && (
         <div className="flex justify-between">
           <h5 className="font-medium">Shipping</h5>
-          <h5>#{shippingCost.toFixed(2)}</h5>
+          <h5>₦{shippingCost.toFixed(2)}</h5>
         </div>
       )}
 
@@ -76,7 +76,7 @@ const Receipt = ({
       {tax !== undefined && (
         <div className="flex justify-between">
           <h5 className="font-medium">Tax</h5>
-          <h5>#{tax.toFixed(2)}</h5>
+          <h5>₦{tax.toFixed(2)}</h5>
         </div>
       )}
 
@@ -96,7 +96,7 @@ const Receipt = ({
       {/* Total */}
       <div className="flex font-medium justify-between pb-10">
         <h5>Total</h5>
-        <h5>#{(totalPrice ?? 0).toFixed(2)}</h5>
+        <h5>₦{(totalPrice ?? 0).toFixed(2)}</h5>
       </div>
 
       {showButton && (

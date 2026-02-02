@@ -19,9 +19,13 @@ export const useAddToCart = () => {
   >({
     mutationFn: addToCart,
 
-    onSuccess: () => {
+    onSuccess: async () => {
       notify.success("Added to cart");
-      queryClient.invalidateQueries({ queryKey: ["cart"] });
+      
+      // Refetch the cart and wait for it to complete before navigating
+      await queryClient.refetchQueries({ queryKey: ["cart"] });
+      
+      // Now navigate - cart data will be ready
       router.push("/cart");
     },
 

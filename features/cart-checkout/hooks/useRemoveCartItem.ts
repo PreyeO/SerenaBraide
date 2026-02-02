@@ -19,6 +19,7 @@ export const useRemoveCartItem = () => {
     },
 
     onSuccess: () => {
+      notify.success("Item Successfully Removed!");
       queryClient.invalidateQueries({ queryKey: ["cart"] });
     },
 
@@ -26,7 +27,7 @@ export const useRemoveCartItem = () => {
       notify.error(
         error.response?.data?.message ||
           error.message ||
-          "Failed to remove item"
+          "Failed to remove item",
       );
     },
   });

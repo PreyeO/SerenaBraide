@@ -15,6 +15,7 @@ export interface CartItemProps {
   showQuantityBox?: boolean;
   showRemoveEdit?: boolean;
   className: string;
+  imageClassName?: string;
 }
 
 export interface CartVariantImage {
