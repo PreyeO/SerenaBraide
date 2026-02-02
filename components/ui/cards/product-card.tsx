@@ -3,7 +3,7 @@
 import { Product } from "@/types/product";
 import ProductImage from "../images/product-image";
 import Caption from "../typography/caption";
-import { Heart, Star } from "lucide-react";
+import { Heart, ShoppingBasket, Star } from "lucide-react";
 import { useWishlist } from "@/features/profile/hooks/customer/useWishlist";
 import { useAddToWishlist } from "@/features/profile/hooks/customer/useAddToWishlist";
 import { useRemoveFromWishlist } from "@/features/profile/hooks/customer/useRemoveFromWishlist";
@@ -11,6 +11,7 @@ import { useAuthStore } from "@/features/auth/auth.store";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { useAddToCartFromProduct } from "@/features/cart-checkout/hooks/useAddToCartFromProduct";
 
 interface ProductCardProps {
   product: Product;
@@ -24,6 +25,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const removeFromWishlistMutation = useRemoveFromWishlist();
   const [isAnimating, setIsAnimating] = useState(false);
   const [isLocallyLiked, setIsLocallyLiked] = useState(false);
+
+  // Add to cart from product hook
+  const { addToCartFromProduct, isPending: isAddingToCart } =
+    useAddToCartFromProduct();
 
   const isInWishlist = useMemo(() => {
     if (!product.variantId || !wishlistData?.results) return false;
@@ -70,83 +75,133 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     }
   };
 
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToCartFromProduct(product);
+  };
+
   const productLink =
     product.slug && product.categorySlug
       ? `/categories/${product.categorySlug}/${product.slug}`
       : "#";
 
   return (
-    <Link href={productLink} className="block">
-      <div className="rounded-[15px] py-3  flex flex-col h-full gap-3">
-        {/* IMAGE CARD */}
-        <div className="relative aspect-3/4 w-full overflow-hidden rounded-[15px] bg-[#F2F2F2]">
-          <ProductImage
-            src={product.src}
-            alt={product.name}
-            fill
-            imageClassName="object-cover"
-          />
+    <>
+      <Link href={productLink} className="block">
+        <div className="rounded-[15px] py-3  flex flex-col h-full gap-3">
+          {/* IMAGE CARD */}
+          <div className="relative aspect-3/4 w-full overflow-hidden rounded-[15px] bg-[#F2F2F2]">
+            <ProductImage
+              src={product.src}
+              alt={product.name}
+              fill
+              imageClassName="object-cover"
+            />
 
-          {/* Stock Badge */}
-          <div className="absolute top-2 left-2 z-10">
-            <span
-              className={`rounded-[40px] text-[10px] h-6 px-2 flex items-center justify-center
+            {/* Stock Badge */}
+            <div className="absolute top-2 left-2 z-10">
+              <span
+                className={`rounded-[40px] text-[10px] h-6 px-2 flex items-center justify-center
                 ${
                   product.inStock
                     ? "bg-white text-[#3B3B3B]"
                     : "bg-white text-[#C40606]"
                 }
               `}
-            >
-              <Caption
-                title={product.inStock ? "In stock" : "Out of stock"}
-                className="font-normal text-[10px] text-[#3B3B3B]"
-              />
+              >
+                <Caption
+                  title={product.inStock ? "In stock" : "Out of stock"}
+                  className="font-normal text-[10px] text-[#3B3B3B]"
+                />
+              </span>
+            </div>
+
+            {/* Price */}
+            <span className="absolute top-2 right-2 lg:text-sm text-[10px] text-white z-10">
+              <Caption title={product.price} className="font-medium" />
             </span>
+
+            {/* Wishlist and Cart Icons - Flexed together */}
+            <div className="absolute bottom-3 right-3 z-20 flex gap-2">
+              {/* Cart Icon */}
+              <button
+                onClick={handleAddToCart}
+                disabled={isAddingToCart || !product.inStock}
+                className={`
+                rounded-full w-6 h-6 flex items-center justify-center 
+                transition-all duration-200
+                bg-white/30 backdrop-blur-2xl hover:bg-white/50
+                ${isAddingToCart || !product.inStock ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+                hover:scale-110 active:scale-95
+              `}
+                aria-label="Add to cart"
+              >
+                <ShoppingBasket
+                  className="w-3.5 h-3.5 text-black hover:text-white"
+                  strokeWidth={2}
+                />
+              </button>
+
+              {/* Wishlist Icon */}
+              <button
+                onClick={handleWishlistToggle}
+                disabled={isLoading}
+                className={`
+                rounded-full w-6 h-6 flex items-center justify-center 
+                transition-all duration-200
+                ${
+                  isLiked
+                    ? "bg-black"
+                    : "bg-white/30 backdrop-blur-2xl hover:bg-white/50"
+                }
+                ${isLoading ? "opacity-50 cursor-wait" : "cursor-pointer"}
+                ${isAnimating ? "animate-bounce" : ""}
+                hover:scale-110 active:scale-95
+              `}
+                aria-label={
+                  isLiked ? "Remove from wishlist" : "Add to wishlist"
+                }
+              >
+                <Heart
+                  className="w-3.5 h-3.5"
+                  fill={isLiked ? "#FFFFFF" : "transparent"}
+                  color={isLiked ? "#FFFFFF" : "#000000"}
+                  strokeWidth={isLiked ? 0 : 2}
+                />
+              </button>
+            </div>
+
+            {/* LG OVERLAY ONLY */}
+            <div className="hidden lg:block absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/80 via-black/40 to-transparent p-3 pt-8">
+              <Caption
+                title={product.name}
+                className="font-medium text-white text-xl line-clamp-1"
+              />
+
+              {product.reviews !== undefined && product.reviews > 0 && (
+                <div className="flex items-center gap-1 mt-1.5 text-[#D1D5DB]">
+                  <Star size={11} fill="#D1D5DB" stroke="#D1D5DB" />
+                  <span className="text-[10px]">
+                    {product.reviews}{" "}
+                    {product.reviews === 1 ? "rating" : "ratings"}
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
 
-          {/* Price */}
-          <span className="absolute top-2 right-2 lg:text-sm text-[10px] text-white z-10">
-            <Caption title={product.price} className="font-medium" />
-          </span>
-
-          {/* Wishlist */}
-          <button
-            onClick={handleWishlistToggle}
-            disabled={isLoading}
-            className={`
-              absolute bottom-3 right-3 z-20
-              rounded-full w-6 h-6 flex items-center justify-center 
-              transition-all duration-200
-              ${
-                isLiked
-                  ? "bg-black"
-                  : "bg-white/30 backdrop-blur-2xl hover:bg-white/50"
-              }
-              ${isLoading ? "opacity-50 cursor-wait" : "cursor-pointer"}
-              ${isAnimating ? "animate-bounce" : ""}
-              hover:scale-110 active:scale-95
-            `}
-          >
-            <Heart
-              className="w-3.5 h-3.5"
-              fill={isLiked ? "#FFFFFF" : "transparent"}
-              color={isLiked ? "#FFFFFF" : "#000000"}
-              strokeWidth={isLiked ? 0 : 2}
-            />
-          </button>
-
-          {/* LG OVERLAY ONLY */}
-          <div className="hidden lg:block absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/80 via-black/40 to-transparent p-3 pt-8">
+          {/* MOBILE CONTENT (OUTSIDE IMAGE) */}
+          <div className="lg:hidden flex flex-col gap-1">
             <Caption
               title={product.name}
-              className="font-medium text-white text-xl line-clamp-1"
+              className="font-medium text-[#3B3B3B] text-sm line-clamp-1"
             />
 
             {product.reviews !== undefined && product.reviews > 0 && (
-              <div className="flex items-center gap-1 mt-1.5 text-[#D1D5DB]">
-                <Star size={11} fill="#D1D5DB" stroke="#D1D5DB" />
-                <span className="text-[10px]">
+              <div className="flex items-center gap-1 text-gray-500">
+                <Star size={12} fill="#D1D5DB" stroke="#D1D5DB" />
+                <span className="text-xs">
                   {product.reviews}{" "}
                   {product.reviews === 1 ? "rating" : "ratings"}
                 </span>
@@ -154,25 +209,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             )}
           </div>
         </div>
-
-        {/* MOBILE CONTENT (OUTSIDE IMAGE) */}
-        <div className="lg:hidden flex flex-col gap-1">
-          <Caption
-            title={product.name}
-            className="font-medium text-[#3B3B3B] text-sm line-clamp-1"
-          />
-
-          {product.reviews !== undefined && product.reviews > 0 && (
-            <div className="flex items-center gap-1 text-gray-500">
-              <Star size={12} fill="#D1D5DB" stroke="#D1D5DB" />
-              <span className="text-xs">
-                {product.reviews} {product.reviews === 1 ? "rating" : "ratings"}
-              </span>
-            </div>
-          )}
-        </div>
-      </div>
-    </Link>
+      </Link>
+    </>
   );
 };
 

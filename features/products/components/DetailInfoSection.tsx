@@ -86,8 +86,8 @@ const DetailInfoSection: React.FC<DetailInfoSectionProps> = ({
   }, [product]);
 
   return (
-    <section className="pt-6 px-16 text-[#3B3B3B] pb-[50px]">
-      <div className="flex justify-center gap-[60px] mt-[34px]">
+    <section className="pt-6 px-16 text-[#3B3B3B] pb-12.5">
+      <div className="flex justify-center gap-15 mt-8.5">
         {/* Product Images */}
         <div className="w-full flex justify-between gap-4">
           {additionalImages.length > 0 ? (
