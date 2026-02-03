@@ -49,7 +49,7 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
     <AlertDialog open={open} onOpenChange={onClose}>
       <AlertDialogContent className="w-full h-full lg:h-auto lg:max-h-[90vh] max-w-md rounded-none lg:rounded-lg px-6 lg:px-8 py-8 lg:py-8 m-0 lg:m-4 top-0 left-0 lg:top-[50%] lg:left-[50%] translate-x-0 lg:translate-x-[-50%] translate-y-0 lg:translate-y-[-50%] flex flex-col justify-center lg:justify-start overflow-y-auto">
         <AlertDialogHeader className="flex flex-col items-center text-center px-0">
-          <AlertDialogTitle className="text-lg sm:text-xl lg:text-2xl font-bold text-[#121212] mb-4 lg:mb-6 px-2">
+          <AlertDialogTitle className="lg:text-lg text-base  font-medium text-[#3B3B3B] mb-4 lg:mb-6 px-2">
             {title}
           </AlertDialogTitle>
 

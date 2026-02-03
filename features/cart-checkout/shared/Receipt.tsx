@@ -6,6 +6,8 @@ import LinkCta from "@/components/ui/btns/link-cta";
 import Link from "next/link";
 import { useAuthStore } from "@/features/auth/auth.store";
 import { useCreateOrder } from "../hooks/useCreateOrder";
+import Caption from "@/components/ui/typography/caption";
+import AuthSpan from "@/components/ui/typography/auth-span";
 
 interface ReceiptProps {
   totalItems?: number;
@@ -33,15 +35,15 @@ const Receipt = ({
 
     // Check if user is authenticated
     if (!user) {
-      // Redirect to register with return URL
-      router.push("/auth/register?return_url=/checkout");
+      // Redirect to register with return URL to cart (preserve cart data)
+      router.push("/auth/register?return_url=/cart");
       return;
     }
 
     // Check if email is verified
     if (!user.email_validated) {
-      // Redirect to verify OTP with return URL
-      router.push(`/auth/verify-otp?email=${user.email}&return_url=/checkout`);
+      // Redirect to verify OTP with return URL to cart
+      router.push(`/auth/verify-otp?email=${user.email}&return_url=/cart`);
       return;
     }
 
@@ -50,33 +52,45 @@ const Receipt = ({
   };
 
   return (
-    <div className="bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5] w-full text-sm font-normal flex flex-col px-21.5 py-12.5 gap-6">
+    <div className="bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5] w-full text-sm font-normal flex flex-col xl:px-21.5 lg:px-10 px-4 lg:py-12.5 py-4 lg:gap-6 gap-3">
       {/* Cart Summary */}
       <div className="flex justify-between">
-        <h5 className="font-medium">Items</h5>
-        <h5>{totalItems}</h5>
-      </div>
+        <Caption
+          title="Subtotal"
+          className="font-medium text-[#3B3B3B] lg:text-base text-sm "
+        />
 
-      <div className="flex justify-between">
-        <h5 className="font-medium">Subtotal</h5>
-        <h5>
-          ₦{(subtotal !== undefined ? subtotal : (totalPrice ?? 0)).toFixed(2)}
-        </h5>
+        <Caption
+          className="font-normal text-[#3B3B3B] lg:text-base text-sm"
+          title={` ₦${(subtotal !== undefined ? subtotal : (totalPrice ?? 0)).toFixed(2)}`}
+        ></Caption>
       </div>
-
-      {/* Shipping Cost */}
-      {shippingCost !== undefined && (
-        <div className="flex justify-between">
-          <h5 className="font-medium">Shipping</h5>
-          <h5>₦{shippingCost.toFixed(2)}</h5>
-        </div>
-      )}
 
       {/* Tax */}
       {tax !== undefined && (
         <div className="flex justify-between">
-          <h5 className="font-medium">Tax</h5>
-          <h5>₦{tax.toFixed(2)}</h5>
+          <Caption
+            title="Tax"
+            className="font-medium text-[#3B3B3B] lg:text-base text-sm"
+          />
+          <Caption
+            className="font-normal text-[#3B3B3B] lg:text-base text-sm"
+            title={`₦${tax.toFixed(2)}`}
+          />
+        </div>
+      )}
+
+      {/* Shipping Cost */}
+      {shippingCost !== undefined && (
+        <div className="flex justify-between">
+          <Caption
+            title="Shipping"
+            className="font-medium text-[#3B3B3B] lg:text-base text-sm"
+          />
+          <Caption
+            className="font-normal text-[#3B3B3B] lg:text-base text-sm"
+            title={`₦${shippingCost.toFixed(2)}`}
+          />
         </div>
       )}
 
@@ -88,15 +102,21 @@ const Receipt = ({
           placeholder="Promotional code"
         />
 
-        <p className="text-[#3B3B3B] font-normal pt-4">
+        <AuthSpan className="text-[#3B3B3B] font-normal pt-4  text-sm lg:text-base">
           You have <span className="font-medium">0 Loyalty points = #0.00</span>
-        </p>
+        </AuthSpan>
       </div>
 
       {/* Total */}
-      <div className="flex font-medium justify-between pb-10">
-        <h5>Total</h5>
-        <h5>₦{(totalPrice ?? 0).toFixed(2)}</h5>
+      <div className="flex font-medium justify-between lg:pb-10 pb-6">
+        <Caption
+          title="Total"
+          className="font-medium text-[#3B3B3B] lg:text-base text-sm"
+        />
+        <Caption
+          className="font-normal text-[#3B3B3B] lg:text-base text-sm"
+          title={`₦${(totalPrice ?? 0).toFixed(2)}`}
+        />
       </div>
 
       {showButton && (
@@ -113,7 +133,7 @@ const Receipt = ({
             />
           </Link>
 
-          <p className="text-sm font-normal text-center text-[#6F6E6C] italic pt-.5">
+          <p className="pt-2.5 lg:text-sm text-xs font-normal text-center text-[#6F6E6C] italic ">
             You will earn {totalItems * 2} points from this purchase
           </p>
         </>

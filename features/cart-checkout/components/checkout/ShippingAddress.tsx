@@ -51,15 +51,23 @@ const ShippingAddress = () => {
     : null;
 
   return (
-    <div className="bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5] w-full flex flex-col gap-8.5 px-15 py-7.5">
+    <div className="bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5] w-full flex flex-col gap-8.5 lg:px-15 px-4 lg:py-7.5 py-4">
       <SubHeading
         title="Shipping Address"
-        className="text-[#3B3B3B] text-base font-medium"
+        className="text-[#3B3B3B] text-sm lg:text-base font-medium"
       />
       <div className="flex flex-col gap-4">
-        <RadioGroup defaultValue={addresses.find((addr) => addr.is_default)?.id.toString() || addresses[0].id.toString()}>
+        <RadioGroup
+          defaultValue={
+            addresses.find((addr) => addr.is_default)?.id.toString() ||
+            addresses[0].id.toString()
+          }
+        >
           {addresses.map((address) => (
-            <div key={address.id} className="flex justify-between items-start pb-4 border-b border-[#F5F5F5] last:border-0">
+            <div
+              key={address.id}
+              className="flex justify-between items-start pb-4 border-b border-[#F5F5F5] last:border-0"
+            >
               <div className="flex space-x-2 max-w-57.25">
                 <RadioGroupItem
                   value={address.id.toString()}
@@ -99,8 +107,14 @@ const ShippingAddress = () => {
       </FormModal>
 
       {addressToEdit && (
-        <FormModal open={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
-          <UpdateAddressForm address={addressToEdit} onSuccess={handleEditSuccess} />
+        <FormModal
+          open={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+        >
+          <UpdateAddressForm
+            address={addressToEdit}
+            onSuccess={handleEditSuccess}
+          />
         </FormModal>
       )}
 

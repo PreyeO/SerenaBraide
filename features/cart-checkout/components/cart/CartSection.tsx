@@ -56,12 +56,12 @@ const CartSection = () => {
   };
 
   return (
-    <section className="pt-38 px-16 mb-25">
+    <section className="lg:pt-38 pt-33 lg:px-16 px-6 lg:pb-25 pb-12.5 ">
       <BackNavigation href="/" text="Back to Home page" />
       <CartHeader totalItems={totalQuantity} />
 
-      <div className="flex gap-10 mt-10">
-        <div className="flex flex-col gap-6 w-175">
+      <div className="md:flex flex-wrap md:flex-nowrap lg:gap-10 md:gap-5 gap-0 lg:mt-10 mt-4 ">
+        <div className="flex flex-col gap-6 lg:w-175 w-full">
           {cartItems.map((item) => {
             const image = getItemImage(item);
 
@@ -92,14 +92,14 @@ const CartSection = () => {
                 onRemove={() => handleDeleteClick(item)}
                 height={150}
                 width={150}
-                imageClassName="max-w-37.5 h-full object-cover"
+                imageClassName="lg:w-37.5 w-full h-full object-cover"
                 className="bg-[#F6F7F8]"
               />
             );
           })}
         </div>
 
-        <div className="w-143">
+        <div className="lg:w-143 w-full lg:mt-0 mt-8.5 ">
           <Receipt
             totalItems={totalQuantity}
             totalPrice={totalPrice}

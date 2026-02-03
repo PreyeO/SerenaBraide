@@ -7,7 +7,7 @@ import RecommendationSection from "./RecommendationSection";
 import ReviewSection from "./ReviewSection";
 import { recommendedProducts } from "../data/product.data";
 import { useGetProductBySlug } from "../hooks/useGetProductDetail";
-import DashboardLoader from "@/components/ui/loaders/dasboard-loader";
+
 import LoadingState from "@/components/ui/loaders/loading-state";
 
 interface ProductDetailContentProps {
@@ -42,7 +42,7 @@ const ProductDetailContent: React.FC<ProductDetailContentProps> = ({
 
   if (error || !product) {
     console.error("Product detail error:", error);
-    console.log("Slug:", slug, "Category:", category);
+
     return (
       <div className="pt-38 px-16 text-center">
         <h2 className="text-2xl font-medium text-[#3B3B3B]">
@@ -73,9 +73,9 @@ const ProductDetailContent: React.FC<ProductDetailContentProps> = ({
       />
       <ReviewSection productId={product.id} />
 
-      {/* <RecommendationSection
+      <RecommendationSection
         products={Object.values(recommendedProducts).flat()}
-      /> */}
+      />
     </>
   );
 };

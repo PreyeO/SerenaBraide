@@ -28,14 +28,19 @@ import RemainingBalanceModal from "../modals/RemainingBalanceModal";
 import SubHeading from "@/components/ui/typography/subHeading";
 import { usePaymentStatusCheck } from "../../hooks/usePaymentStatusCheck";
 import { useOrderCalculations } from "../../hooks/useOrderCalculations";
-import { getOrderItemImage, getOrderItemMetaLabel } from "../../utils/checkout.utils";
+import {
+  getOrderItemImage,
+  getOrderItemMetaLabel,
+} from "../../utils/checkout.utils";
 import { GiftCardResponse } from "../../type/checkout.type";
 
 const CheckoutSection = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user, isHydrated } = useAuthStore();
-  const [selectedPayment, setSelectedPayment] = useState<string>(paymentType[0].id);
+  const [selectedPayment, setSelectedPayment] = useState<string>(
+    paymentType[0].id,
+  );
   const [orderCreated, setOrderCreated] = useState(false);
   const [showGiftCardModal, setShowGiftCardModal] = useState(false);
   const [showRemainingBalanceModal, setShowRemainingBalanceModal] =
@@ -86,15 +91,9 @@ const CheckoutSection = () => {
   });
 
   // Calculate order totals
-  const {
-    orderItems,
-    totalQuantity,
-    totalPrice,
-    subtotal,
-    shippingCost,
-    tax,
-  } = useOrderCalculations(orderData);
-  
+  const { orderItems, totalQuantity, totalPrice, subtotal, shippingCost, tax } =
+    useOrderCalculations(orderData);
+
   const orderTotal = totalPrice;
 
   // Create order when user arrives from auth flow
@@ -227,12 +226,12 @@ const CheckoutSection = () => {
           onPayRemaining={handlePayRemainingBalance}
         />
       )}
-      <section className="pt-38 px-16 mt-10 pb-12.5 ">
+      <section className="lg:pt-38 pt-33 lg:px-16 px-6 lg:pb-25 pb-12.5 ">
         <BackNavigation href="/cart" text="Cart" />
         <CartHeader totalItems={totalQuantity} />
-        <div className="flex gap-10 mt-10">
+        <div className="md:flex flex-wrap md:flex-nowrap lg:gap-10 md:gap-5 gap-0 lg:mt-10 mt-4 ">
           <div className=" flex flex-col gap-6">
-            <div className="w-175">
+            <div className="max-w-175">
               <ShippingAddress />
             </div>
             <div className="bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5] w-175  flex flex-col gap-8.5 px-15 py-7.5">
@@ -284,7 +283,7 @@ const CheckoutSection = () => {
                 <div>
                   <Paragraph
                     className="text-white font-medium text-sm"
-                    content={`My order - $${totalPrice.toFixed(2)}`}
+                    content={`My order - ₦${totalPrice.toFixed(2)}`}
                   />
                   <Paragraph
                     className="text-[#9A9A98] italic font-normal text-sm"
@@ -304,7 +303,7 @@ const CheckoutSection = () => {
                     const image = getOrderItemImage(item.variant.images);
                     const metaLabel = getOrderItemMetaLabel(
                       item.variant.size,
-                      item.variant.color
+                      item.variant.color,
                     );
 
                     return (
@@ -312,13 +311,14 @@ const CheckoutSection = () => {
                         key={item.id}
                         image={image}
                         name={item.variant.product_name}
-                        price={`$${item.price}`}
+                        price={`₦${item.price}`}
                         metaLabel={metaLabel}
                         className="bg-white"
                         quantity={item.quantity}
                         showQuantity={true}
                         height={150}
                         width={130}
+                        imageClassName="w-full h-full"
                         showRemoveButton={false}
                         showQuantityBox={false}
                         showRemoveEdit={false}
