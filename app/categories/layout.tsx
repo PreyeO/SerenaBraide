@@ -3,9 +3,5 @@ export default function CategoriesLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div>
-      <main className="lg:px-16 px-6">{children}</main>
-    </div>
-  );
+  return <div className="lg:px-16 px-6">{children}</div>;
 }

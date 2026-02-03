@@ -21,8 +21,8 @@ const FormModal: React.FC<ModalProps> = ({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4 lg:p-0">
-      <div className="bg-white w-full h-full lg:h-auto lg:max-h-[90vh] px-4 lg:px-6 pb-6 lg:pb-8.5 max-w-none lg:max-w-lg rounded-none lg:rounded-lg shadow-lg relative overflow-y-auto">
+    <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4 lg:p-0 ">
+      <div className=" bg-white w-full h-full lg:h-auto lg:max-h-[90vh] px-4 lg:px-6 pb-6 lg:pb-8.5 max-w-none lg:max-w-lg rounded-lg shadow-lg relative overflow-y-auto">
         {/* Close button */}
         <div className="flex justify-end mt-2 lg:mt-2 sticky top-0 bg-white pt-2 pb-2 z-10">
           <button

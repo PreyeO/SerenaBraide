@@ -6,7 +6,7 @@ interface AuthSpanProps {
 }
 
 const AuthSpan = ({ children, className }: AuthSpanProps) => {
-  return <p className={`{${className} text-[#3B3B3B]`}>{children}</p>;
+  return <p className={`{${className} `}>{children}</p>;
 };
 
 export default AuthSpan;

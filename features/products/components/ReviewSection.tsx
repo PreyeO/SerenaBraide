@@ -7,7 +7,7 @@ import Paragraph from "@/components/ui/typography/paragraph";
 import SubHeading from "@/components/ui/typography/subHeading";
 import { Star, Verified } from "lucide-react";
 import { useGetReviews } from "../hooks/useGetReviews";
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { ProductReview, VariantImage } from "../product.type";
 
@@ -17,6 +17,26 @@ interface ReviewSectionProps {
 
 const ReviewSection = ({ productId }: ReviewSectionProps) => {
   const { data: reviewsData, isLoading, error } = useGetReviews(productId);
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile screen size
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // md breakpoint
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Reset page when switching between mobile/desktop
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [isMobile]);
 
   // Calculate average rating and total count
   const { averageRating, totalReviews, recommendationRate } = useMemo(() => {
@@ -38,6 +58,37 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
       recommendationRate,
     };
   }, [reviewsData]);
+
+  // Get paginated reviews
+  const paginatedReviews = useMemo(() => {
+    if (!reviewsData?.results) return [];
+
+    const pageSize = isMobile ? 1 : 5;
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+
+    return reviewsData.results.slice(startIndex, endIndex);
+  }, [reviewsData, currentPage, isMobile]);
+
+  // Calculate total pages
+  const totalPages = useMemo(() => {
+    if (!reviewsData?.results) return 0;
+    const pageSize = isMobile ? 1 : 5;
+    return Math.ceil(reviewsData.results.length / pageSize);
+  }, [reviewsData, isMobile]);
+
+  // Pagination handlers
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prev) => prev + 1);
+    }
+  };
+
+  const goToPrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
 
   // Format date to "X weeks ago" format
   const formatReviewDate = (dateString: string) => {
@@ -120,12 +171,12 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
     reviewsData.results.length === 0
   ) {
     return (
-      <section className="px-16 text-[#3B3B3B]">
+      <section className="text-[#3B3B3B]">
         <BorderLine className="" />
         <div className="pt-12.5 flex flex-col gap-1.5 max-w-125.75 justify-center mx-auto items-center font-normal text-base">
           <SubHeading
             title="What customers are saying"
-            className="text-[40px] font-medium"
+            className="lg:text-[40px] text-[22px] font-medium"
           />
           <Paragraph
             className="leading-6 text-[#6F6E6C]"
@@ -137,37 +188,46 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
   }
 
   return (
-    <section className="px-16 text-[#3B3B3B]">
+    <section className="text-[#3B3B3B]">
       <BorderLine className="" />
-      <div className="pt-12.5 flex flex-col gap-1.5 max-w-125.75 justify-center mx-auto items-center font-normal text-base">
+      <div className="lg:pt-12.5 pt-6 flex flex-col gap-1.5 max-w-125.75 justify-center mx-auto items-center font-normal text-base">
         <SubHeading
           title="What customers are saying"
-          className="text-[40px] font-medium"
+          className="lg:text-[40px] text-[22px] font-medium text-center"
         />
         {recommendationRate > 0 && (
           <Paragraph
-            className="leading-6"
+            className="leading-5.5 text-sm text-[#3B3B3B] text-center"
             content={`${recommendationRate}% of respondents would recommend this to a friend`}
           />
         )}
       </div>
 
-      <div className="flex pt-12.5 items-center mb-6.5">
+      <div className="flex lg:pt-12.5 pt-6 items-center lg:mb-6.5 mb-4">
         <Paragraph
-          className="font-medium text-lg"
-          content={`Reviewed by ${totalReviews} ${
+          className="font-medium lg;text-lg text-xs"
+          content={`${totalReviews} Reviews ${
             totalReviews === 1 ? "customer" : "customers"
           }`}
         />
         <div className="border border-[#3B3B3B] flex justify-center h-4 ml-2.5" />
         <div className="flex items-center gap-1.5">
-          <h3 className="text-lg font-medium pl-2.5">{averageRating}</h3>
-          {renderStars(Math.round(averageRating))}
+          <h3 className="lg:text-lg text-xs font-medium pl-2.5">
+            {averageRating}
+          </h3>
+          {/* Mobile: Show only 1 star */}
+          <div className="md:hidden flex items-center gap-1">
+            <Star className="size-4 text-[#D97705] fill-[#D97705]" />
+          </div>
+          {/* Desktop: Show all 5 stars */}
+          <div className="hidden md:block">
+            {renderStars(Math.round(averageRating))}
+          </div>
           <Caption
             title={`${totalReviews} ${
               totalReviews === 1 ? "rating" : "ratings"
             }`}
-            className="font-normal text-sm"
+            className="font-normal lg:text-sm text-xs"
           />
         </div>
       </div>
@@ -175,9 +235,8 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
 
       {/* Reviews List */}
       <div className="space-y-8">
-        {reviewsData.results.map((review) => {
+        {paginatedReviews.map((review) => {
           const primaryImage = getPrimaryImage(review);
-          const initials = getInitials(review.customer_profile);
 
           return (
             <div key={review.id}>
@@ -189,13 +248,13 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
 
                   <div className="flex flex-col gap-0.75">
                     <Paragraph
-                      className="font-medium text-base"
+                      className="font-medium lg:text-base text-sm"
                       content={review.customer_profile?.name || "Anonymous"}
                     />
 
-                    <div className="flex gap-1.5">
+                    <div className="flex gap-1.5 items-center">
                       <Paragraph
-                        className="font-normal text-base"
+                        className="font-normal lg:text-base text-xs"
                         content="Verified Buyer "
                       />
                       <Verified className="size-6 text-white" fill="#1DAE42" />
@@ -204,7 +263,7 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
                 </div>
                 <Caption
                   title={formatReviewDate(review.created_at)}
-                  className="text-sm text-[#6F6E6C] font-normal"
+                  className="lg:text-sm text-xs text-[#6F6E6C] font-normal"
                 />
               </div>
               <div className="pt-4">
@@ -215,7 +274,7 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
               {review.review && (
                 <Paragraph
                   content={review.review}
-                  className="font-normal text-base leading-6 pt-2.5"
+                  className="font-normal text-sm lg:text-base lg:leading-6 leading-5.5 pt-2.5"
                 />
               )}
               {primaryImage && (
@@ -236,32 +295,46 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
 
       {/* Pagination - Display range */}
       {reviewsData.count > 0 && (
-        <div className="flex justify-between pt-8 items-center">
+        <div className="flex justify-between pt-8 items-center flex-wrap gap-4">
           <Caption
-            title={`Displaying Reviews 1-${Math.min(
-              reviewsData.results.length,
-              reviewsData.count,
-            )}`}
+            title={`Displaying Review${isMobile ? "" : "s"} ${
+              isMobile
+                ? currentPage
+                : `${(currentPage - 1) * 5 + 1}-${Math.min(
+                    currentPage * 5,
+                    reviewsData.results.length,
+                  )}`
+            } of ${reviewsData.results.length}`}
             className="text-sm text-[#6F6E6C] font-normal"
           />
           <Caption
             title="Leave a review and earn 5 loyalty points!*"
-            className="text-sm text-[#6F6E6C] font-normal"
+            className="text-sm text-[#6F6E6C] font-normal hidden md:block"
           />
           <div className="flex gap-4">
-            {reviewsData.previous && (
-              <button className="text-sm text-[#3B3B3B] hover:underline">
+            {currentPage > 1 && (
+              <button
+                onClick={goToPrevPage}
+                className="text-sm text-[#3B3B3B] hover:underline"
+              >
                 Previous
               </button>
             )}
-            {reviewsData.next && (
-              <button className="text-sm text-[#3B3B3B] hover:underline">
+            {currentPage < totalPages && (
+              <button
+                onClick={goToNextPage}
+                className="text-sm text-[#3B3B3B] hover:underline"
+              >
                 Next
               </button>
             )}
           </div>
         </div>
       )}
+      <Caption
+        title="Leave a review and earn 5 loyalty points!*"
+        className="lg:text-sm text-xs text-[#6F6E6C] font-normal md:block mt-2.5 text-center"
+      />
     </section>
   );
 };

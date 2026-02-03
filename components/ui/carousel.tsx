@@ -28,6 +28,9 @@ type CarouselContextProps = {
   scrollNext: () => void
   canScrollPrev: boolean
   canScrollNext: boolean
+  selectedIndex: number
+  scrollSnaps: number[]
+  scrollTo: (index: number) => void
 } & CarouselProps
 
 const CarouselContext = React.createContext<CarouselContextProps | null>(null)
@@ -60,9 +63,12 @@ function Carousel({
   )
   const [canScrollPrev, setCanScrollPrev] = React.useState(false)
   const [canScrollNext, setCanScrollNext] = React.useState(false)
+  const [selectedIndex, setSelectedIndex] = React.useState(0)
+  const [scrollSnaps, setScrollSnaps] = React.useState<number[]>([])
 
   const onSelect = React.useCallback((api: CarouselApi) => {
     if (!api) return
+    setSelectedIndex(api.selectedScrollSnap())
     setCanScrollPrev(api.canScrollPrev())
     setCanScrollNext(api.canScrollNext())
   }, [])
@@ -96,7 +102,11 @@ function Carousel({
   React.useEffect(() => {
     if (!api) return
     onSelect(api)
-    api.on("reInit", onSelect)
+    setScrollSnaps(api.scrollSnapList())
+    api.on("reInit", (api) => {
+      onSelect(api)
+      setScrollSnaps(api.scrollSnapList())
+    })
     api.on("select", onSelect)
 
     return () => {
@@ -116,6 +126,9 @@ function Carousel({
         scrollNext,
         canScrollPrev,
         canScrollNext,
+        selectedIndex,
+        scrollSnaps,
+        scrollTo: (index: number) => api?.scrollTo(index),
       }}
     >
       <div
@@ -231,6 +244,31 @@ function CarouselNext({
   )
 }
 
+function CarouselDots({ className, ...props }: React.ComponentProps<"div">) {
+  const { scrollSnaps, selectedIndex, scrollTo } = useCarousel()
+
+  if (scrollSnaps.length <= 1) return null
+
+  return (
+    <div
+      className={cn("flex justify-center gap-2 mt-4", className)}
+      {...props}
+    >
+      {scrollSnaps.map((_, index: number) => (
+        <button
+          key={index}
+          className={cn(
+            "size-2.5 rounded-full transition-all duration-200",
+            index === selectedIndex ? "bg-[#3B3B3B] w-2.5" : "bg-[#D1D5DB]"
+          )}
+          onClick={() => scrollTo(index)}
+          aria-label={`Go to slide ${index + 1}`}
+        />
+      ))}
+    </div>
+  )
+}
+
 export {
   type CarouselApi,
   Carousel,
@@ -238,4 +276,5 @@ export {
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
+  CarouselDots,
 }

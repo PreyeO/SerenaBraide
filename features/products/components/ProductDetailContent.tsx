@@ -8,6 +8,7 @@ import ReviewSection from "./ReviewSection";
 import { recommendedProducts } from "../data/product.data";
 import { useGetProductBySlug } from "../hooks/useGetProductDetail";
 import DashboardLoader from "@/components/ui/loaders/dasboard-loader";
+import LoadingState from "@/components/ui/loaders/loading-state";
 
 interface ProductDetailContentProps {
   category: string;
@@ -36,7 +37,7 @@ const ProductDetailContent: React.FC<ProductDetailContentProps> = ({
   }, [product, selectedVariantId]);
 
   if (isLoading) {
-    return <DashboardLoader />;
+    return <LoadingState />;
   }
 
   if (error || !product) {
@@ -72,9 +73,9 @@ const ProductDetailContent: React.FC<ProductDetailContentProps> = ({
       />
       <ReviewSection productId={product.id} />
 
-      <RecommendationSection
+      {/* <RecommendationSection
         products={Object.values(recommendedProducts).flat()}
-      />
+      /> */}
     </>
   );
 };
