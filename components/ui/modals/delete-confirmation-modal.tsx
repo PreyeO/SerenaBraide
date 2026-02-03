@@ -103,7 +103,7 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
           <AlertDialogCancel
             onClick={onClose}
             disabled={isLoading}
-            className="w-full bg-white border border-black text-black hover:bg-[#F9FAFB] rounded-full py-3.5 py-4 lg:py-6 text-xs text-sm lg:text-base font-medium order-1"
+            className="w-full bg-white border border-black text-black hover:bg-[#F9FAFB] rounded-full  py-4 lg:py-6  text-sm lg:text-base font-medium order-1"
           >
             {cancelText}
           </AlertDialogCancel>
