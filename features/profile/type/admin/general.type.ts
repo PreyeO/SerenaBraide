@@ -127,6 +127,7 @@ export interface Staff {
   is_admin: boolean;
   customer_profile: null;
   admin_profile: {
+    id: number;
     user: number;
   } | null;
   email_validated: boolean;

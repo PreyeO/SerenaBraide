@@ -7,9 +7,12 @@ import FormModal from "@/components/ui/modals/form-modals";
 import StaffForm from "./components/forms/StaffForm";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { useGetStaff } from "../../hooks/admin/useGetStaff";
+import LoadingState from "@/components/ui/loaders/loading-state";
 
 const StaffScreen = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { data, isLoading, isError } = useGetStaff();
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -19,8 +22,23 @@ const StaffScreen = () => {
     handleCloseModal();
   };
 
-  // No API to fetch staff yet, so show empty state
-  const staff: never[] = [];
+  const staff = data?.results || [];
+
+  if (isLoading) {
+    return <LoadingState />;
+  }
+
+  if (isError) {
+    return (
+      <section className="py-7.5">
+        <div className="flex justify-center items-center h-48">
+          <p className="text-red-500">
+            Failed to load staff. Please try again.
+          </p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-7.5">

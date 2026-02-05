@@ -48,9 +48,10 @@ export async function updateReviewApproval(
   return response.data;
 }
 
-export async function getUsers(): Promise<StaffListResponse> {
-  const response: AxiosResponse<StaffListResponse> =
-    await api.get("/api/users/");
+export async function getAdminProfiles(): Promise<StaffListResponse> {
+  const response: AxiosResponse<StaffListResponse> = await api.get(
+    "/api/admin-profiles/",
+  );
   return response.data;
 }
 
