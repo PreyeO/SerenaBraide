@@ -32,11 +32,7 @@ export const useInitiatePayment = ({
       onSuccess?.(payment);
     },
     onError: (error) => {
-      const errorMessage =
-        error.response?.data?.message ||
-        error.message ||
-        "Failed to initiate payment";
-      notify.error(errorMessage);
+      // Axios interceptor handles error toast
       onError?.(error);
     },
   });

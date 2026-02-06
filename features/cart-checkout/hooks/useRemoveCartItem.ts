@@ -23,12 +23,8 @@ export const useRemoveCartItem = () => {
       queryClient.invalidateQueries({ queryKey: ["cart"] });
     },
 
-    onError: (error) => {
-      notify.error(
-        error.response?.data?.message ||
-          error.message ||
-          "Failed to remove item",
-      );
+    onError: () => {
+      // Axios interceptor handles error toast
     },
   });
 };

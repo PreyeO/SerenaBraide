@@ -15,6 +15,7 @@ import { OtpFormValues } from "@/features/auth/auth.type";
 import { VerifyOtpSchema } from "@/features/auth/auth.schema";
 import { useVerifyOtp } from "@/features/auth/hooks/useVerifyOtp";
 import ResendOtp from "@/features/auth/components/shared/ResendOtp";
+import OtpInput from "@/features/auth/components/shared/OtpInput";
 
 const VerifyOtpForm = ({ email }: { email: string }) => {
   const form = useForm<OtpFormValues>({
@@ -32,11 +33,11 @@ const VerifyOtpForm = ({ email }: { email: string }) => {
   };
 
   return (
-    <div className="flex flex-col items-center pt-[70px] justify-center w-full gap-[34px] mb-[111px]">
+    <div className="flex flex-col w-full gap-8.5 mb-27.75">
       <AuthTitle
         title="Verify OTP"
         subtitle={`We’ve sent a 6-digit verification code to your email ${email}. Please enter the code below to confirm your account.`}
-        className="text-center max-w-[468px] mx-auto"
+        className="max-w-121"
       />
 
       <Form {...form}>
@@ -50,45 +51,10 @@ const VerifyOtpForm = ({ email }: { email: string }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex gap-2 justify-center">
-                    {field.value.map((char, index) => (
-                      <input
-                        key={index}
-                        type="text"
-                        maxLength={1}
-                        id={`otp-${index}`}
-                        className="w-[50px] h-[50px] text-center border focus:border-[#3B3B3B] border-[#E0E0E0] rounded-full outline-none focus:bg-[#F5F5F5]"
-                        value={char}
-                        onChange={(e) => {
-                          const newOtp = [...field.value];
-                          newOtp[index] = e.target.value.slice(-1);
-                          field.onChange(newOtp);
-
-                          if (
-                            e.target.value &&
-                            index < field.value.length - 1
-                          ) {
-                            const nextInput = document.getElementById(
-                              `otp-${index + 1}`
-                            ) as HTMLInputElement;
-                            nextInput?.focus();
-                          }
-                        }}
-                        onKeyDown={(e) => {
-                          if (
-                            e.key === "Backspace" &&
-                            !field.value[index] &&
-                            index > 0
-                          ) {
-                            const prevInput = document.getElementById(
-                              `otp-${index - 1}`
-                            ) as HTMLInputElement;
-                            prevInput?.focus();
-                          }
-                        }}
-                      />
-                    ))}
-                  </div>
+                  <OtpInput
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -28,12 +28,7 @@ export const useAddToWishlist = () => {
     },
     onError: (error) => {
       console.error("Failed to add to wishlist:", error.response?.data);
-      const errorMessage =
-        error.response?.data?.message ||
-        error.response?.data?.detail ||
-        error.message ||
-        "Failed to add to wishlist";
-      notify.error(errorMessage);
+      // Axios interceptor handles error toast
     },
   });
 };

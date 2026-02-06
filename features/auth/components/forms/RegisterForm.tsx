@@ -1,9 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 
 import {
@@ -19,14 +17,13 @@ import SubmitButton from "@/components/ui/btns/submit-cta";
 import AuthTitle from "@/components/ui/typography/auth-title";
 import AuthSpan from "@/components/ui/typography/auth-span";
 import AuthSwitchPrompt from "@/features/auth/components/shared/AuthSwitchPrompt";
+import PasswordInput from "@/features/auth/components/shared/PasswordInput";
 import { RegisterSchema } from "@/features/auth/auth.schema";
 import { RegisterFormValues } from "@/features/auth/auth.type";
 import { useRegister } from "@/features/auth/hooks/useRegister";
 import Paragraph from "@/components/ui/typography/paragraph";
 
 const RegisterForm = () => {
-  const [showPassword, setShowPassword] = useState(false);
-
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -154,21 +151,7 @@ const RegisterForm = () => {
                   PASSWORD<span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
-                  <div className="relative">
-                    <Input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="******"
-                      {...field}
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5]   h-12.5"
-                    />
-                    <button
-                      type="button"
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                    </button>
-                  </div>
+                  <PasswordInput {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -185,21 +168,7 @@ const RegisterForm = () => {
                   CONFIRM PASSWORD<span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
-                  <div className="relative">
-                    <Input
-                      type="password"
-                      placeholder="******"
-                      {...field}
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-12.5"
-                    />
-                    <button
-                      type="button"
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                    </button>
-                  </div>
+                  <PasswordInput {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -251,7 +220,7 @@ const RegisterForm = () => {
               label="Create Account"
               loadingLabel="Creating account..."
               isPending={isPending}
-              onClick={() => {}}
+              onClick={() => { }}
             />
           </div>
           <div className="md:col-span-2">

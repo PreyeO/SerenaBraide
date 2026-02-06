@@ -14,12 +14,8 @@ export const useRemoveFromWishlist = () => {
       notify.success("Removed from wishlist");
       queryClient.invalidateQueries({ queryKey: ["wishlist"] });
     },
-    onError: (error) => {
-      const errorMessage =
-        error.response?.data?.message ||
-        error.message ||
-        "Failed to remove from wishlist";
-      notify.error(errorMessage);
+    onError: () => {
+      // Axios interceptor handles error toast
     },
   });
 };

@@ -15,15 +15,8 @@ export const useCreateCategory = () => {
       // Explicitly refetch to ensure the dropdown updates
       await queryClient.refetchQueries({ queryKey: ["categories"] });
     },
-    onError: (error: AxiosError<any>) => {
-      const errorMessage =
-        error.response?.data?.message ||
-        error.response?.data?.error ||
-        error.response?.data?.detail ||
-        (typeof error.response?.data === "string"
-          ? error.response.data
-          : "Failed to create category");
-      notify.error(errorMessage);
+    onError: () => {
+      // Axios interceptor handles error toast
     },
   });
 };

@@ -29,11 +29,7 @@ export const useCheckBalance = ({
       onSuccess?.(balance);
     },
     onError: (error) => {
-      const errorMessage =
-        error.response?.data?.message ||
-        error.message ||
-        "Failed to check balance. Please verify your card number and PIN.";
-      notify.error(errorMessage);
+      // Axios interceptor handles error toast
       onError?.(error);
     },
   });

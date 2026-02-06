@@ -21,20 +21,16 @@ export const useAddToCart = () => {
 
     onSuccess: async () => {
       notify.success("Added to cart");
-      
+
       // Refetch the cart and wait for it to complete before navigating
       await queryClient.refetchQueries({ queryKey: ["cart"] });
-      
+
       // Now navigate - cart data will be ready
       router.push("/cart");
     },
 
-    onError: (error) => {
-      notify.error(
-        error.response?.data?.message ??
-          error.message ??
-          "Failed to add item to cart"
-      );
+    onError: () => {
+      // Axios interceptor handles error toast
     },
   });
 };

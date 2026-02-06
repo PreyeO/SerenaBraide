@@ -53,7 +53,7 @@ const ForgotPasswordForm = () => {
                     type="email"
                     placeholder="john@example.com"
                     {...field}
-                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-[50px]"
+                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-12.5"
                   />
                 </FormControl>
                 <FormMessage />

@@ -23,12 +23,8 @@ export const useCreateAdminInvite = (
       queryClient.invalidateQueries({ queryKey: ["staff"] });
       options?.onSuccess?.();
     },
-    onError: (error: AxiosError<any>) => {
-      const errorMessage =
-        error.response?.data?.message ||
-        error.response?.data?.detail ||
-        "Failed to send invitation";
-      notify.error(errorMessage);
+    onError: () => {
+      // Axios interceptor handles error toast
     },
   });
 };

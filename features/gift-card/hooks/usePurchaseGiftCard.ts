@@ -29,11 +29,7 @@ export const usePurchaseGiftCard = ({
       onSuccess?.(giftCard);
     },
     onError: (error) => {
-      const errorMessage =
-        error.response?.data?.message ||
-        error.message ||
-        "Failed to purchase gift card";
-      notify.error(errorMessage);
+      // Axios interceptor handles error toast
       onError?.(error);
     },
   });

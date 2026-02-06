@@ -24,9 +24,7 @@ export const useDeleteAddress = ({
       onSuccess?.();
     },
     onError: (error) => {
-      const errorMessage =
-        error.response?.data?.message || error.message || "Failed to delete address";
-      notify.error(errorMessage);
+      // Axios interceptor handles error toast
       onError?.(error);
     },
   });

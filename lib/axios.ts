@@ -44,15 +44,46 @@ api.interceptors.response.use(
     if (error?.response?.status === 401) {
       return Promise.reject(error);
     }
-    
+
     // Don't show generic error for network errors or cancelled requests
     if (error.code === "ERR_CANCELED" || error.message === "canceled") {
       return Promise.reject(error);
     }
 
-    const errorMessage = error?.response?.data?.message || 
-                         error?.response?.data?.detail ||
-                         "Something went wrong";
+    // Extract error message from various backend response formats
+    const data = error?.response?.data;
+    let errorMessage = "Something went wrong";
+
+    if (data) {
+      if (typeof data === "string") {
+        // Backend returned a plain string
+        errorMessage = data;
+      } else if (data.detail) {
+        // Django REST Framework format - can be string or array
+        errorMessage = Array.isArray(data.detail) ? data.detail[0] : data.detail;
+      } else if (data.message) {
+        errorMessage = data.message;
+      } else if (data.error) {
+        // Common format: { error: "message" }
+        errorMessage = typeof data.error === "string" ? data.error : data.error.message || errorMessage;
+      } else if (data.errors) {
+        // Format: { errors: ["message1", "message2"] } or { errors: { field: ["error"] } }
+        if (Array.isArray(data.errors)) {
+          errorMessage = data.errors[0];
+        } else if (typeof data.errors === "object") {
+          // Field-specific errors: { errors: { email: ["Invalid email"] } }
+          const firstField = Object.keys(data.errors)[0];
+          const fieldErrors = data.errors[firstField];
+          errorMessage = Array.isArray(fieldErrors) ? fieldErrors[0] : fieldErrors;
+        }
+      } else if (data.non_field_errors) {
+        // Django REST Framework non-field errors
+        errorMessage = Array.isArray(data.non_field_errors)
+          ? data.non_field_errors[0]
+          : data.non_field_errors;
+      }
+    }
+
     toast.error(errorMessage);
     return Promise.reject(error);
   }

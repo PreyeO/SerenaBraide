@@ -13,10 +13,10 @@ interface UseCreateOrderOptions {
   redirectToCheckout?: boolean;
 }
 
-export const useCreateOrder = ({ 
-  onSuccess, 
+export const useCreateOrder = ({
+  onSuccess,
   onError,
-  redirectToCheckout = true 
+  redirectToCheckout = true
 }: UseCreateOrderOptions = {}) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -26,7 +26,7 @@ export const useCreateOrder = ({
     mutationFn: () => createOrder(),
     onSuccess: (order) => {
       notify.success("Order created successfully!");
-      
+
       // Only redirect if not already on checkout page and redirectToCheckout is true
       if (redirectToCheckout && !isOnCheckoutPage) {
         router.push(`/checkout?order_number=${order.order_number}`);
@@ -34,13 +34,11 @@ export const useCreateOrder = ({
         // If already on checkout page, add order_number to URL
         router.push(`/checkout?order_number=${order.order_number}`);
       }
-      
+
       onSuccess?.(order);
     },
     onError: (error) => {
-      const errorMessage =
-        error.response?.data?.message || error.message || "Failed to create order";
-      notify.error(errorMessage);
+      // Axios interceptor handles error toast
       onError?.(error);
     },
   });

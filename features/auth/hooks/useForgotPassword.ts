@@ -21,20 +21,18 @@ export const useForgotPassword = () => {
 
     onSuccess: (_, values) => {
       notify.success("If this email exists, an OTP has been sent.");
-      
+
       // Preserve return_url if it exists
       const returnUrl = searchParams.get("return_url");
       const resetPasswordUrl = returnUrl
         ? `/auth/reset-password?email=${values.email}&return_url=${encodeURIComponent(returnUrl)}`
         : `/auth/reset-password?email=${values.email}`;
-      
+
       router.push(resetPasswordUrl);
     },
 
-    onError: (error) => {
-      notify.error(
-        error.response?.data?.message || error.message || "Failed to resend OTP"
-      );
+    onError: () => {
+      // Axios interceptor handles error toast
     },
   });
 };

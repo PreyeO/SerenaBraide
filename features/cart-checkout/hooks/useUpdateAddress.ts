@@ -29,9 +29,7 @@ export const useUpdateAddress = ({
       onSuccess?.(address);
     },
     onError: (error) => {
-      const errorMessage =
-        error.response?.data?.message || error.message || "Failed to update address";
-      notify.error(errorMessage);
+      // Axios interceptor handles error toast
       onError?.(error);
     },
   });

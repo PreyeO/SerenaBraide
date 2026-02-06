@@ -50,9 +50,7 @@ export const useLogin = ({ onSuccess, onError }: UseLoginOptions = {}) => {
       onSuccess?.(data);
     },
     onError: (error) => {
-      notify.error(
-        error.response?.data?.message || error.message || "Login failed"
-      );
+      // Axios interceptor handles error toast
       onError?.(error);
     },
   });

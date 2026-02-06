@@ -25,9 +25,7 @@ export const useCreateAddress = ({
       onSuccess?.(address);
     },
     onError: (error) => {
-      const errorMessage =
-        error.response?.data?.message || error.message || "Failed to create address";
-      notify.error(errorMessage);
+      // Axios interceptor handles error toast
       onError?.(error);
     },
   });

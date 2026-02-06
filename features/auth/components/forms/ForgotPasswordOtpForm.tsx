@@ -7,6 +7,7 @@ import { OtpFormValues } from "@/features/auth/auth.type";
 import AuthTitle from "@/components/ui/typography/auth-title";
 import SubmitButton from "@/components/ui/btns/submit-cta";
 import ResendOtp from "@/features/auth/components/shared/ResendOtp";
+import OtpInput from "@/features/auth/components/shared/OtpInput";
 import { useSearchParams, useRouter } from "next/navigation";
 import {
   Form,
@@ -51,29 +52,10 @@ const ForgotPasswordOtpForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex gap-2 justify-center">
-                    {field.value.map((char, index) => (
-                      <input
-                        key={index}
-                        type="text"
-                        maxLength={1}
-                        value={char}
-                        id={`otp-${index}`}
-                        className="w-[50px] h-[50px] text-center border rounded-full"
-                        onChange={(e) => {
-                          const newOtp = [...field.value];
-                          newOtp[index] = e.target.value.slice(-1);
-                          field.onChange(newOtp);
-
-                          if (e.target.value && index < 5) {
-                            document
-                              .getElementById(`otp-${index + 1}`)
-                              ?.focus();
-                          }
-                        }}
-                      />
-                    ))}
-                  </div>
+                  <OtpInput
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

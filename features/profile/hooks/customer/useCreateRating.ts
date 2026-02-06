@@ -30,11 +30,7 @@ export const useCreateRating = ({
       onSuccess?.(rating);
     },
     onError: (error) => {
-      const errorMessage =
-        error.response?.data?.message ||
-        error.message ||
-        "Failed to submit review";
-      notify.error(errorMessage);
+      // Axios interceptor handles error toast
       onError?.(error);
     },
   });

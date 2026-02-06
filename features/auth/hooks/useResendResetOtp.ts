@@ -11,10 +11,8 @@ export const useResendOtp = () => {
     onSuccess: (data) => {
       notify.success(data.detail || "OTP resent successfully!");
     },
-    onError: (error) => {
-      notify.error(
-        error.response?.data?.message || error.message || "Failed to resend OTP"
-      );
+    onError: () => {
+      // Axios interceptor handles error toast
     },
   });
 };

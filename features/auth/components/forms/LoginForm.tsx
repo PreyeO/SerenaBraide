@@ -1,10 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
-import { Eye, EyeOff } from "lucide-react";
 
 import {
   Form,
@@ -22,9 +20,9 @@ import { LoginFormValues } from "@/features/auth/auth.type";
 import { LoginSchema } from "@/features/auth/auth.schema";
 import { useLogin } from "@/features/auth/hooks/useLogin";
 import AuthSwitchPrompt from "../shared/AuthSwitchPrompt";
+import PasswordInput from "../shared/PasswordInput";
 
 const LoginForm = () => {
-  const [showPassword, setShowPassword] = useState(false);
   const searchParams = useSearchParams();
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(LoginSchema),
@@ -88,21 +86,7 @@ const LoginForm = () => {
                   PASSWORD<span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
-                  <div className="relative">
-                    <Input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="******"
-                      {...field}
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-12.5"
-                    />
-                    <button
-                      type="button"
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 "
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                    </button>
-                  </div>
+                  <PasswordInput {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -124,7 +108,7 @@ const LoginForm = () => {
               label="Login"
               loadingLabel="Logging in..."
               isPending={isPending}
-              onClick={() => {}}
+              onClick={() => { }}
             />
           </div>
 

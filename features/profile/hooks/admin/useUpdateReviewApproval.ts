@@ -31,12 +31,8 @@ export const useUpdateReviewApproval = (
       });
       options?.onSuccess?.();
     },
-    onError: (error: AxiosError<any>) => {
-      const errorMessage =
-        error.response?.data?.message ||
-        error.response?.data?.detail ||
-        "Failed to update review approval status";
-      notify.error(errorMessage);
+    onError: () => {
+      // Axios interceptor handles error toast
     },
   });
 };

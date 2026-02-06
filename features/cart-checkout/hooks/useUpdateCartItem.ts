@@ -41,10 +41,10 @@ export const useUpdateCartItem = () => {
           items: previousCart.items.map((item) =>
             item.id === id
               ? {
-                  ...item,
-                  quantity,
-                  subtotal: item.variant.effective_price * quantity,
-                }
+                ...item,
+                quantity,
+                subtotal: item.variant.effective_price * quantity,
+              }
               : item
           ),
           total_items: previousCart.items.reduce(
@@ -76,11 +76,7 @@ export const useUpdateCartItem = () => {
       if (context?.previousCart) {
         queryClient.setQueryData(["cart"], context.previousCart);
       }
-      notify.error(
-        error.response?.data?.message ??
-          error.message ??
-          "Failed to update cart"
-      );
+      // Axios interceptor handles error toast
     },
   });
 };

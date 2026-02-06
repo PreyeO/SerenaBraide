@@ -26,18 +26,14 @@ export const useApplyGiftCard = ({
       applyGiftCard(orderNumber, payload),
     onSuccess: (response, variables) => {
       notify.success(response.message || "Gift card applied successfully!");
-      
+
       // Invalidate order query to refetch updated order data
       queryClient.invalidateQueries({ queryKey: ["order", variables.orderNumber] });
-      
+
       onSuccess?.(response);
     },
     onError: (error) => {
-      const errorMessage =
-        error.response?.data?.message ||
-        error.message ||
-        "Failed to apply gift card. Please verify your card number and PIN.";
-      notify.error(errorMessage);
+      // Axios interceptor handles error toast
       onError?.(error);
     },
   });

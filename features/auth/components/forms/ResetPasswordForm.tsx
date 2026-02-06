@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import {
   Form,
   FormField,
@@ -20,13 +19,11 @@ import { ResetPasswordSchema } from "@/features/auth/auth.schema";
 import { useResetPassword } from "@/features/auth/hooks/useResetPassword";
 import AuthLinkPrompt from "../shared/AuthLinkPrompt";
 import AuthSwitchPrompt from "../shared/AuthSwitchPrompt";
-import { useSearchParams } from "next/navigation";
+import PasswordInput from "../shared/PasswordInput";
 
 const ResetPasswordForm = () => {
   const searchParams = useSearchParams();
   const email = searchParams.get("email") ?? "";
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const form = useForm<ResetPasswordFormValues>({
     resolver: zodResolver(ResetPasswordSchema),
@@ -79,21 +76,7 @@ const ResetPasswordForm = () => {
                   New Password<span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
-                  <div className="relative">
-                    <Input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="******"
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5]  h-12.5"
-                      {...field}
-                    />
-                    <button
-                      type="button"
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 "
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                    </button>
-                  </div>
+                  <PasswordInput {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -108,27 +91,7 @@ const ResetPasswordForm = () => {
                   Confirm Password<span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
-                  <div className="relative">
-                    <Input
-                      type={showConfirmPassword ? "text" : "password"}
-                      placeholder="******"
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-12.5"
-                      {...field}
-                    />
-                    <button
-                      type="button"
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 "
-                      onClick={() =>
-                        setShowConfirmPassword(!showConfirmPassword)
-                      }
-                    >
-                      {showConfirmPassword ? (
-                        <EyeOff size={18} />
-                      ) : (
-                        <Eye size={18} />
-                      )}
-                    </button>
-                  </div>
+                  <PasswordInput {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -139,7 +102,7 @@ const ResetPasswordForm = () => {
               label="Reset Password"
               loadingLabel="Resetting..."
               isPending={isPending}
-              onClick={() => {}}
+              onClick={() => { }}
             />
           </div>
           <div className=" lg:mt-4 flex items-center justify-center">

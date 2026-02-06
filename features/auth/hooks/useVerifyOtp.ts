@@ -17,7 +17,7 @@ export const useVerifyOtp = () => {
       // Update user in store after successful verification
       const currentUser = useAuthStore.getState().user;
       const currentTokens = useAuthStore.getState().tokens;
-      
+
       if (currentUser && currentTokens) {
         setAuth({
           user: { ...currentUser, email_validated: true },
@@ -28,23 +28,19 @@ export const useVerifyOtp = () => {
     },
     onSuccess: (data) => {
       notify.success(data.detail || "OTP verified successfully!");
-      
+
       // Check for return URL
       const returnUrl = searchParams.get("return_url");
-      
+
       // After OTP verification, user needs to log in
       const loginUrl = returnUrl
         ? `/auth/login?return_url=${encodeURIComponent(returnUrl)}`
         : "/auth/login";
-      
+
       router.push(loginUrl);
     },
-    onError: (error) => {
-      notify.error(
-        error.response?.data?.message ||
-          error.message ||
-          "OTP verification failed"
-      );
+    onError: () => {
+      // Axios interceptor handles error toast
     },
   });
 };
