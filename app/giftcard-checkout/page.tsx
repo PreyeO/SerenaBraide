@@ -1,10 +1,11 @@
 import { Suspense } from "react";
-import GiftCardCheckout from "@/features/gift-card/components/checkout/GiftCardCheckout";
+import GiftCardCheckout from "@/features/gift-card/components/GiftCardCheckout";
+import LoadingState from "@/components/ui/loaders/loading-state";
 
 const GiftCardCheckoutPage = () => {
   return (
     <>
-      <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+      <Suspense fallback={<LoadingState />}>
         <GiftCardCheckout />
       </Suspense>
     </>

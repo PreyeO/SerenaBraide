@@ -102,19 +102,18 @@ const CheckoutSection = () => {
         />
       )}
 
-      <section className="lg:pt-38 pt-33 lg:px-16 px-6 lg:pb-25 pb-12.5">
+      <section className="lg:pt-38 pt-33 xl:px-16 px-6 lg:pb-25 pb-12.5">
         <BackNavigation href="/cart" text="Cart" />
         <CartHeader totalItems={totalQuantity} />
 
-        <div className="flex flex-col lg:flex-row flex-wrap lg:flex-nowrap lg:gap-10 md:gap-5 gap-0 lg:mt-10 mt-4">
+        <div className="flex flex-col lg:flex-row flex-wrap lg:flex-nowrap xl:gap-10 md:gap-5 gap-0 lg:mt-10 mt-4">
           {/* Left Column - Shipping & Payment */}
-          <div className="flex flex-col gap-6 order-2 lg:order-1">
-            <div className="max-w-175 mt-4 lg:mt-0">
+          <div className="flex flex-col gap-6 order-2 lg:order-1 mt-6 lg:mt-0">
+            <div className="xl:w-175  lg:w-120  w-full">
               <ShippingAddress />
             </div>
 
-            {/* Desktop Payment Section */}
-            <div className="hidden lg:block bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5] w-175 flex-col gap-8.5 px-15 py-7.5">
+            <div className="hidden lg:flex bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5]  flex-col gap-8.5 px-15 py-7.5">
               <PaymentMethodSection
                 selectedPayment={selectedPayment}
                 onPaymentChange={setSelectedPayment}
@@ -124,8 +123,7 @@ const CheckoutSection = () => {
             </div>
           </div>
 
-          {/* Right Column - Order Summary */}
-          <div className="flex flex-col gap-6 mt-4 lg:mt-0 order-1 lg:order-2">
+          <div className="order-1 lg:order-2 ">
             <OrderSummaryCard
               totalPrice={totalPrice}
               totalQuantity={totalQuantity}
@@ -134,25 +132,9 @@ const CheckoutSection = () => {
               isExpanded={isMobileOrderExpanded}
               onToggleExpanded={toggleMobileOrderExpanded}
             />
-          </div>
 
-          {/* Mobile Receipt */}
-          <div className="order-3 lg:order-2 lg:hidden mt-4">
-            <Receipt
-              totalItems={totalQuantity}
-              totalPrice={orderTotal}
-              subtotal={subtotal}
-              shippingCost={shippingCost}
-              tax={tax}
-              showButton={false}
-              showMobilePayButton
-              onMobilePayClick={handleMobileContinue}
-            />
-          </div>
-
-          {/* Desktop Receipt */}
-          <div className="hidden lg:block lg:order-2">
-            <div className="lg:pt-6">
+            {/* Desktop Receipt */}
+            <div className="hidden lg:block pt-6">
               <Receipt
                 totalItems={totalQuantity}
                 totalPrice={orderTotal}
@@ -164,6 +146,19 @@ const CheckoutSection = () => {
                 onMobilePayClick={handleMobileContinue}
               />
             </div>
+          </div>
+          {/* Mobile Receipt */}
+          <div className="order-3 lg:hidden mt-6">
+            <Receipt
+              totalItems={totalQuantity}
+              totalPrice={orderTotal}
+              subtotal={subtotal}
+              shippingCost={shippingCost}
+              tax={tax}
+              showButton={false}
+              showMobilePayButton
+              onMobilePayClick={handleMobileContinue}
+            />
           </div>
         </div>
       </section>

@@ -20,6 +20,9 @@ const FulfilmentStatus: React.FC<FulfilmentStatusProps> = ({
   size,
   orderDetail,
   shippingAddress,
+  isGiftCard,
+  giftCardNumber,
+  giftCardStatus,
 }) => {
   // Format date
   const formatDate = (dateString: string): string => {
@@ -92,13 +95,19 @@ const FulfilmentStatus: React.FC<FulfilmentStatusProps> = ({
 
         <div className="flex justify-between">
           <div className="flex gap-2.5 lg:gap-2.5">
-            <ProductImage
-              src={src}
-              alt={alt}
-              width={102}
-              height={102}
-              imageClassName="w-16 lg:w-25.5 h-full object-cover rounded-[5px]"
-            />
+            {src ? (
+              <ProductImage
+                src={src}
+                alt={alt}
+                width={102}
+                height={102}
+                imageClassName="w-16 lg:w-25.5 h-full object-cover rounded-[5px]"
+              />
+            ) : (
+              <div className="w-16 lg:w-25.5 h-16 lg:h-25.5 rounded-[5px] bg-linear-to-br from-[#3B3B3B] to-[#1a1a1a] flex items-center justify-center">
+                <span className="text-white text-xs lg:text-sm font-medium">Gift Card</span>
+              </div>
+            )}
 
             <div className="flex flex-col gap-0.5 lg:gap-1">
               <Paragraph
@@ -115,6 +124,20 @@ const FulfilmentStatus: React.FC<FulfilmentStatusProps> = ({
               </div>
 
               <Paragraph content={size} className="text-sm text-[#6F6E6C]" />
+
+              {isGiftCard && giftCardNumber && (
+                <Paragraph
+                  content={`Card: •••• ${giftCardNumber.slice(-4)}`}
+                  className="text-sm text-[#6F6E6C]"
+                />
+              )}
+
+              {isGiftCard && giftCardStatus && (
+                <Paragraph
+                  content={`Status: ${giftCardStatus.charAt(0).toUpperCase() + giftCardStatus.slice(1)}`}
+                  className="text-sm text-[#01AD73] font-medium"
+                />
+              )}
 
               <Paragraph
                 content={
@@ -163,8 +186,8 @@ const FulfilmentStatus: React.FC<FulfilmentStatusProps> = ({
                   <Paragraph
                     content={item.value}
                     className={`text-sm ${(item as { isDiscount?: boolean }).isDiscount
-                        ? "text-[#01AD73]"
-                        : "text-[#3B3B3B]"
+                      ? "text-[#01AD73]"
+                      : "text-[#3B3B3B]"
                       }`}
                   />
                 </div>
@@ -194,43 +217,67 @@ const FulfilmentStatus: React.FC<FulfilmentStatusProps> = ({
         </>
       )}
 
-      {/* Shipping */}
-      <SubHeading
-        title="Shipping to"
-        className="text-base lg:text-lg font-medium text-[#3B3B3B] pt-2 lg:pt-0"
-      />
+      {/* Shipping - hidden for gift cards */}
+      {!isGiftCard && (
+        <>
+          <SubHeading
+            title="Shipping to"
+            className="text-base lg:text-lg font-medium text-[#3B3B3B] pt-2 lg:pt-0"
+          />
 
-      <div className="border border-[#D1D5DB] py-3 lg:py-3.75 px-3 lg:px-3.75 rounded-md">
-        {shippingAddress ? (
-          <div className="flex flex-col space-y-1">
-            {/* Phone */}
-            {shippingAddress.phone_number && (
-              <Paragraph
-                content={shippingAddress.phone_number}
-                className="text-sm font-medium text-[#3B3B3B]"
-              />
+          <div className="border border-[#D1D5DB] py-3 lg:py-3.75 px-3 lg:px-3.75 rounded-md">
+            {shippingAddress ? (
+              <div className="flex flex-col space-y-1">
+                {/* Phone */}
+                {shippingAddress.phone_number && (
+                  <Paragraph
+                    content={shippingAddress.phone_number}
+                    className="text-sm font-medium text-[#3B3B3B]"
+                  />
+                )}
+
+                <div className="pt-1">
+                  <Paragraph
+                    content={shippingAddress.address}
+                    className="text-sm text-[#3B3B3B]"
+                  />
+                  <Paragraph
+                    content={`${shippingAddress.city}, ${shippingAddress.state} ${shippingAddress.zip_code}, ${shippingAddress.country}`}
+                    className="text-sm text-[#3B3B3B]"
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-col space-y-1">
+                <Paragraph
+                  content="No shipping address available"
+                  className="text-sm text-[#6F6E6C]"
+                />
+              </div>
             )}
-
-            <div className="pt-1">
-              <Paragraph
-                content={shippingAddress.address}
-                className="text-sm text-[#3B3B3B]"
-              />
-              <Paragraph
-                content={`${shippingAddress.city}, ${shippingAddress.state} ${shippingAddress.zip_code}, ${shippingAddress.country}`}
-                className="text-sm text-[#3B3B3B]"
-              />
-            </div>
           </div>
-        ) : (
-          <div className="flex flex-col space-y-1">
+        </>
+      )}
+
+      {/* Gift Card Delivery Info */}
+      {isGiftCard && (
+        <>
+          <SubHeading
+            title="Delivery"
+            className="text-base lg:text-lg font-medium text-[#3B3B3B] pt-2 lg:pt-0"
+          />
+          <div className="border border-[#D1D5DB] py-3 lg:py-3.75 px-3 lg:px-3.75 rounded-md">
             <Paragraph
-              content="No shipping address available"
-              className="text-sm text-[#6F6E6C]"
+              content="Digital delivery via email"
+              className="text-sm text-[#3B3B3B]"
+            />
+            <Paragraph
+              content="Gift card details have been sent to the recipient's email"
+              className="text-sm text-[#6F6E6C] pt-1"
             />
           </div>
-        )}
-      </div>
+        </>
+      )}
     </div>
   );
 };

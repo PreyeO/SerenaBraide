@@ -70,7 +70,7 @@ function getStatusConfig(
         iconBg: "#01AD73",
         color: "#01AD73",
         title: `Delivered on ${deliveredDate}`,
-        OrderAction1: "Buy this again",
+        OrderAction1: "Buy Again",
         orderAction2: "Leave a review",
       };
     case "PROCESSING":
@@ -79,7 +79,7 @@ function getStatusConfig(
         iconBg: "#D97705",
         color: "#D97705",
         title: "Processing",
-        OrderAction1: "Buy this again",
+        OrderAction1: "Buy Again",
         orderAction2: "View Order",
       };
     case "IN_TRANSIT":
@@ -88,7 +88,7 @@ function getStatusConfig(
         iconBg: "#2F88FF",
         color: "#2F88FF",
         title: "In Transit",
-        OrderAction1: "Buy this again",
+        OrderAction1: "Buy Again",
         orderAction2: "View Order",
       };
   }
@@ -145,18 +145,64 @@ function transformOrderItemToOrderInfo(
 }
 
 /**
+ * Transforms a gift card order to OrderInfo format
+ */
+function transformGiftCardOrderToOrderInfo(order: Order): OrderInfo {
+  const statusType = mapStatusToFulfilmentType(order.status);
+  const deliveryDate =
+    statusType === "DELIVERED" ? order.updated_at : undefined;
+  const statusConfig = getStatusConfig(statusType, deliveryDate);
+  const orderDate = formatDate(order.created_at);
+
+  // Gift card specific info
+  const giftCard = order.purchased_gift_card!;
+  const giftCardAmount = giftCard.initial_amount || order.subtotal;
+
+  return {
+    id: order.order_number, // Use order_number as unique id
+    orderNumberId: order.order_number,
+    statusType,
+    title: statusConfig.title,
+    color: statusConfig.color,
+    orderNumber: `Order #${order.order_number}`,
+    productName: "Gift Card",
+    src: "", // Placeholder - backend doesn't return colour yet
+    alt: "Gift Card",
+    price: formatCurrency(giftCardAmount),
+    size: "Digital",
+    quantity: "X1",
+    date: `Order date: ${orderDate}`,
+    total: `Total: ${formatCurrency(order.total_amount)}`,
+    extraInfo: "Digital delivery via email",
+    icon: statusConfig.icon,
+    iconBg: statusConfig.iconBg,
+    OrderAction1: "Buy Again",
+    orderAction2: "View Order",
+    productId: undefined, // Gift cards don't have a product ID
+    isGiftCard: true, // Flag to identify gift card orders
+    giftCardNumber: giftCard.card_number,
+  };
+}
+
+/**
  * Transforms orders API response to OrderInfo array
  * Flattens orders so each item becomes a separate OrderInfo entry
+ * Also handles gift card orders that have no items but have purchased_gift_card
  */
 export function transformOrdersToOrderInfo(orders: Order[]): OrderInfo[] {
   const orderInfoList: OrderInfo[] = [];
 
   for (const order of orders) {
+    // Handle regular product orders
     for (const item of order.items) {
       orderInfoList.push(transformOrderItemToOrderInfo(order, item));
+    }
+
+    // Handle gift card orders (orders with no items but have purchased_gift_card)
+    if (order.items.length === 0 && order.purchased_gift_card) {
+      orderInfoList.push(transformGiftCardOrderToOrderInfo(order));
     }
   }
 
   return orderInfoList;
 }
-

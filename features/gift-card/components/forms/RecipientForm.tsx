@@ -17,17 +17,20 @@ import SubmitButton from "@/components/ui/btns/submit-cta";
 import { RecipientSchema } from "../../giftcard.schema";
 import { RecipientFormValues } from "../../giftcard.type";
 import { Textarea } from "@/components/ui/textarea";
-import Paragraph from "@/components/ui/typography/paragraph";
 import { usePurchaseGiftCard } from "../../hooks/usePurchaseGiftCard";
 import { useGiftCardStore } from "../../giftcard.store";
 import { useRouter } from "next/navigation";
 
 interface RecipientFormProps {
   closeModal: () => void;
+  buttonLabel?: string;
 }
-const RecipientForm = ({ closeModal }: RecipientFormProps) => {
+const RecipientForm = ({
+  closeModal,
+  buttonLabel = "Proceed to checkout",
+}: RecipientFormProps) => {
   const router = useRouter();
-  const { selectedAmount } = useGiftCardStore();
+  const { selectedAmount, selectedDesign } = useGiftCardStore();
   const purchaseMutation = usePurchaseGiftCard();
 
   const form = useForm<RecipientFormValues>({
@@ -49,6 +52,7 @@ const RecipientForm = ({ closeModal }: RecipientFormProps) => {
       recipient_last_name: data.last_name,
       recipient_email: data.email,
       message: data.message || undefined,
+      colour: selectedDesign || undefined,
     };
 
     purchaseMutation.mutate(payload, {
@@ -67,22 +71,21 @@ const RecipientForm = ({ closeModal }: RecipientFormProps) => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-6 text-[#3B3B3B] font-medium text-sm w-full "
+          className="flex flex-col lg:gap-6 gap-4 text-[#3B3B3B] font-medium text-sm w-full "
         >
-          {/* FIRST NAME */}
           <FormField
             control={form.control}
             name="first_name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-[12px] font-medium">
+                <FormLabel className="text-sm font-medium">
                   Add recipient delivery details
                 </FormLabel>
                 <FormControl>
                   <Input
                     {...field}
-                    placeholder="Enter your first name"
-                    className="rounded-[50px] border h-12.5"
+                    placeholder="First name*"
+                    className="rounded-[50px] border py-6"
                   />
                 </FormControl>
                 <FormMessage />
@@ -90,7 +93,6 @@ const RecipientForm = ({ closeModal }: RecipientFormProps) => {
             )}
           />
 
-          {/* LAST NAME */}
           <FormField
             control={form.control}
             name="last_name"
@@ -99,8 +101,8 @@ const RecipientForm = ({ closeModal }: RecipientFormProps) => {
                 <FormControl>
                   <Input
                     {...field}
-                    placeholder="Enter your last name"
-                    className="rounded-[50px] border h-12.5"
+                    placeholder="Last name*"
+                    className="rounded-[50px] border py-6"
                   />
                 </FormControl>
                 <FormMessage />
@@ -108,7 +110,6 @@ const RecipientForm = ({ closeModal }: RecipientFormProps) => {
             )}
           />
 
-          {/* EMAIL */}
           <FormField
             control={form.control}
             name="email"
@@ -117,8 +118,8 @@ const RecipientForm = ({ closeModal }: RecipientFormProps) => {
                 <FormControl>
                   <Input
                     {...field}
-                    placeholder="john@example.com"
-                    className="rounded-[50px] border h-12.5"
+                    placeholder="Email*"
+                    className="rounded-[50px] border py-6"
                   />
                 </FormControl>
                 <FormMessage />
@@ -126,43 +127,36 @@ const RecipientForm = ({ closeModal }: RecipientFormProps) => {
             )}
           />
 
-          {/* MESSAGE */}
           <FormField
             control={form.control}
             name="message"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-[12px] font-medium">
-                  Add optional message
+                <FormLabel className="text-sm font-medium">
+                  Add an optional message
                 </FormLabel>
                 <FormControl>
                   <Textarea
                     {...field}
                     value={field.value ?? ""}
-                    placeholder="Leave a short message..."
+                    placeholder="Enter a personalized message for the recipient."
                     className="border rounded-xl min-h-30 p-4 focus:border-[#3B3B3B] focus:bg-[#F5F5F5]"
                   />
                 </FormControl>
-                <FormMessage className="flex justify-between">
-                  <Paragraph
-                    className=" text-[12px] font-normal text-[#6F6E6C]"
-                    content="Enter a personalized message for the recipient."
-                  />
-                  <Paragraph
-                    className="text-[12px] font-normal text-[#6F6E6C]"
-                    content="0/250"
-                  />{" "}
-                </FormMessage>
+                <div className="flex justify-between text-[12px] font-normal text-[#6F6E6C]">
+                  <span>Enter a personalized message for the recipient.</span>
+                  <span>0/250</span>
+                </div>
+                <FormMessage />
               </FormItem>
             )}
           />
 
-          {/* SUBMIT */}
           <div className="mt-2">
             <SubmitButton
-              label="Proceed to checkout"
+              label={buttonLabel}
               isPending={purchaseMutation.isPending}
-              loadingLabel="Proceeding to checkout"
+              loadingLabel="Processing..."
             />
           </div>
         </form>

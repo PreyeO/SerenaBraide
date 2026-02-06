@@ -10,6 +10,7 @@ export interface GiftCardPurchasePayload {
   recipient_last_name: string;
   recipient_email: string;
   message?: string;
+  colour?: string;
 }
 
 export interface GiftCardPurchaseResponse {

@@ -100,7 +100,7 @@ const CartSection = () => {
           })}
         </div>
 
-        <div className="lg:w-143 w-full lg:mt-0 mt-8.5 ">
+        <div className="lg:w-143 w-full md:mt-0 mt-8.5 ">
           <Receipt
             totalItems={totalQuantity}
             totalPrice={totalPrice}

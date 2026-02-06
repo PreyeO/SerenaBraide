@@ -6,7 +6,7 @@ import ProductImage from "@/components/ui/images/product-image";
 import Paragraph from "@/components/ui/typography/paragraph";
 import SubHeading from "@/components/ui/typography/subHeading";
 import { OrderInfo } from "@/features/profile/type/customers/profile.type";
-import { BadgeCheckIcon, ChevronRight, Copy } from "lucide-react";
+import { BadgeCheckIcon, ChevronRight } from "lucide-react";
 
 import React, { useState } from "react";
 import OrderFulfilmentModal from "../fulfilments/OrderFulfilmentModal";
@@ -40,11 +40,13 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
     }
   };
 
-  const handleCopyOrderNumber = () => {
-    navigator.clipboard.writeText(order.orderNumber.replace("Order #", ""));
-  };
-
   const handleBuyAgain = async () => {
+    // For gift card orders, redirect to gift card page
+    if (order.isGiftCard) {
+      router.push("/giftcard");
+      return;
+    }
+
     if (!order.productId) {
       notify.error("Product information not available");
       return;
@@ -122,13 +124,21 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
         <div className="flex flex-col lg:flex-row lg:justify-between gap-4">
           {/* Product details with image */}
           <div className="flex gap-3 lg:gap-3 items-start flex-1">
-            <ProductImage
-              src={order.src}
-              alt={order.alt}
-              width={102}
-              height={102}
-              className="w-16 h-16 lg:w-25.5 lg:h-25.5 object-cover rounded-[5px] flex shrink-0"
-            />
+            {order.src ? (
+              <ProductImage
+                src={order.src}
+                alt={order.alt}
+                width={102}
+                height={102}
+                className="w-16 h-16 lg:w-25.5 lg:h-25.5 object-cover rounded-[5px] flex shrink-0"
+              />
+            ) : (
+              <div className="w-16 h-16 lg:w-25.5 lg:h-25.5 rounded-[5px]  shrink-0 bg-linear-to-br from-[#3B3B3B] to-[#1a1a1a] flex items-center justify-center">
+                <span className="text-white text-xs lg:text-sm font-medium">
+                  Gift Card
+                </span>
+              </div>
+            )}
             <div className="flex flex-col gap-0.5 lg:gap-1.5 min-w-0 flex-1">
               <SubHeading
                 title={order.productName}
@@ -172,7 +182,7 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
                 className="text-xs lg:text-sm py-2 lg:py-3"
                 isPending={isBuyingAgain}
                 onClick={
-                  order.OrderAction1 === "Buy this again"
+                  order.OrderAction1 === "Buy Again"
                     ? handleBuyAgain
                     : undefined
                 }
@@ -201,7 +211,7 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
             className="flex-1 text-xs "
             isPending={isBuyingAgain}
             onClick={
-              order.OrderAction1 === "Buy this again"
+              order.OrderAction1 === "Buy Again"
                 ? handleBuyAgain
                 : undefined
             }

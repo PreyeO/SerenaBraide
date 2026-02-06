@@ -31,6 +31,9 @@ export interface FulfilmentStatusProps {
     created_on: string;
     updated_on: string;
   };
+  isGiftCard?: boolean;
+  giftCardNumber?: string;
+  giftCardStatus?: string;
 }
 export interface OrderInfo {
   id?: number; // Order item ID for API calls
@@ -53,6 +56,8 @@ export interface OrderInfo {
   OrderAction1: string;
   orderAction2: string;
   productId?: number; // Product ID for navigation
+  isGiftCard?: boolean; // Flag to identify gift card orders
+  giftCardNumber?: string; // Gift card number for display
 }
 
 export interface Props {
@@ -159,12 +164,12 @@ export interface Order {
   order_number: number;
   customer_profile: CustomerProfile | number;
   status:
-    | "delivered"
-    | "pending"
-    | "paid"
-    | "processing"
-    | "in_transit"
-    | "shipped";
+  | "delivered"
+  | "pending"
+  | "paid"
+  | "processing"
+  | "in_transit"
+  | "shipped";
   subtotal: string;
   shipping_cost: string;
   tax: string;

@@ -92,6 +92,15 @@ export interface OrderItem {
   updated_at: string;
 }
 
+export interface PurchasedGiftCard {
+  card_number: string;
+  initial_amount: string;
+  current_balance: string;
+  currency: string;
+  status: string;
+  created_at: string;
+}
+
 export interface Order {
   order_number: number;
   customer_profile: number;
@@ -102,6 +111,10 @@ export interface Order {
   total_amount: string;
   items: OrderItem[];
   items_count: number;
+  gift_card_amount: string;
+  remaining_amount: string;
+  purchased_gift_card: PurchasedGiftCard | null;
+  address: string | null;
   created_at: string;
   updated_at: string;
 }
