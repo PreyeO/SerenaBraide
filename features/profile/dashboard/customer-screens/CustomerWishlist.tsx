@@ -14,10 +14,10 @@ import SubHeading from "@/components/ui/typography/subHeading";
 import SubmitButton from "@/components/ui/btns/submit-cta";
 import { useAuthStore } from "@/features/auth/auth.store";
 import { WishlistItem } from "../../type/customers/profile.type";
-import { VariantImage } from "@/features/products/product.type";
-import { format } from "date-fns";
 import DashboardLoader from "@/components/ui/loaders/dasboard-loader";
 import BackNavigation from "@/components/ui/btns/back-navigation";
+import { formatCurrency } from "@/lib/utils";
+import { formatDateShort, getPrimaryVariantImage } from "../../utils/profile.utils";
 
 const CustomerWishlist = () => {
   const user = useAuthStore((state) => state.user);
@@ -50,21 +50,9 @@ const CustomerWishlist = () => {
     });
   };
 
-  const formatDate = (dateString: string) => {
-    try {
-      const date = new Date(dateString);
-      return format(date, "MMM dd, yyyy");
-    } catch {
-      return dateString;
-    }
-  };
-
-  const getPrimaryImage = (item: WishlistItem): VariantImage | null => {
-    if (!item?.product_variant?.images) return null;
-    const primaryImage = item.product_variant.images.find(
-      (img) => img.is_primary,
-    );
-    return primaryImage || item.product_variant.images[0] || null;
+  // Get primary image from wishlist item
+  const getPrimaryImage = (item: WishlistItem) => {
+    return getPrimaryVariantImage(item?.product_variant?.images);
   };
 
   if (!user) {
@@ -141,12 +129,7 @@ const CustomerWishlist = () => {
 
                       <div className="flex flex-col">
                         <Paragraph
-                          content={`NGN${parseFloat(
-                            item.product_variant.price,
-                          ).toLocaleString("en-US", {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                          })}`}
+                          content={formatCurrency(item.product_variant.price)}
                           className="text-xs sm:text-sm font-normal text-[#6F6E6C] pb-0.5 sm:pb-1"
                         />
                         <Paragraph
@@ -154,7 +137,7 @@ const CustomerWishlist = () => {
                           className="text-xs sm:text-sm text-[#6F6E6C] font-normal pb-1.5 sm:pb-2.5"
                         />
                         <Paragraph
-                          content={`Added ${formatDate(item.created_on)}`}
+                          content={`Added ${formatDateShort(item.created_on)}`}
                           className="text-[10px] sm:text-xs text-[#6F6E6C] font-normal"
                         />
                       </div>

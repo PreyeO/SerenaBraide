@@ -1,6 +1,4 @@
-import UnderlineLink from "@/components/ui/btns/underline-cta";
-import ProductImage from "@/components/ui/images/product-image";
-import { CornerUpLeft } from "lucide-react";
+import BackNavigation from "@/components/ui/btns/back-navigation";
 import Image from "next/image";
 
 interface AuthLayoutProps {
@@ -19,29 +17,24 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
           className="object-cover"
           priority
         />
-        {/* <img
-          src="/auth-image.png"
-          alt="Silhouette spraying perfume"
-          className="w-full h-full object-cover"
-        /> */}
       </div>
 
       {/* Right Side Form/Content */}
       <div className="flex flex-col w-full pt-16 bg-white flex-1">
-        <div className="items-center justify-between flex px-15.5">
-          <ProductImage
+        <div className="items-center justify-between flex lg:px-15.5 px-6 ">
+          <Image
             alt="logo image"
             src="/auth-logo.svg"
             height={40}
             width={107.59}
-            className=""
+            className="lg:max-w-[107.59px] max-w-[75.31px]"
           />
-          <div className="flex text-[#6F6E6C] items-center gap-0.75">
-            <CornerUpLeft className="size-4.5 text-[#6F6E6C]" />
-            <UnderlineLink href="/" text="Home Page" className="text-sm" />
-          </div>
+
+          <BackNavigation href="/" text="Home Page" className="" />
         </div>
-        <div className="max-w-138 flex mx-auto flex-1 pb-16">{children}</div>
+        <div className="lg:max-w-138 flex mx-auto flex-1 pt-12.5 px-6 ">
+          {children}
+        </div>
       </div>
     </main>
   );

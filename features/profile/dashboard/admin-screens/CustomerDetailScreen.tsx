@@ -3,10 +3,13 @@
 import { useGetCustomerDetail } from "@/features/profile/hooks/admin/useCustomers";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import DashboardLoader from "@/components/ui/loaders/dasboard-loader";
 import { ArrowLeft, Mail, MapPin, Phone } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
+import LoadingState from "@/components/ui/loaders/loading-state";
+import Heading from "@/components/ui/typography/heading";
+import Paragraph from "@/components/ui/typography/paragraph";
+import SubHeading from "@/components/ui/typography/subHeading";
 
 const CustomerDetailScreen = ({ id }: { id: string }) => {
   const router = useRouter();
@@ -14,7 +17,7 @@ const CustomerDetailScreen = ({ id }: { id: string }) => {
 
   const { data: customer, isLoading, error } = useGetCustomerDetail(customerId);
 
-  if (isLoading) return <DashboardLoader />;
+  if (isLoading) return <LoadingState />;
 
   if (error || !customer) {
     return (
@@ -34,10 +37,15 @@ const CustomerDetailScreen = ({ id }: { id: string }) => {
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">
-              {customer.first_name} {customer.last_name}
-            </h1>
-            <p className="text-gray-500 text-sm">Customer ID: #{customer.id}</p>
+            <Heading
+              className="text-2xl font-semibold font-PPEditorialNew text-[#3B3B3B] "
+              title={`${customer.first_name} $${customer.last_name}`}
+            />
+
+            <Paragraph
+              className="text-[#6F6E6C] font-normal text-sm"
+              content={`Customer ID: #${customer.id}`}
+            />
           </div>
           <div className="ml-auto flex gap-3">
             {customer.is_active ? (
@@ -55,19 +63,26 @@ const CustomerDetailScreen = ({ id }: { id: string }) => {
           {/* Main Info Card */}
           <div className="md:col-span-2 space-y-6">
             <div className="bg-white rounded-xl border p-6 shadow-sm">
-              <h2 className="text-lg font-semibold mb-4">
-                Contact Information
-              </h2>
+              <SubHeading
+                className="text-lg font-semibold mb-4"
+                title="   Contact Information"
+              />
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex items-start gap-3">
                   <div className="bg-blue-50 p-2 rounded-lg">
                     <Mail className="h-5 w-5 text-blue-600" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-gray-900">
-                      Email Address
-                    </p>
-                    <p className="text-sm text-gray-500">{customer.email}</p>
+                    <Paragraph
+                      className="text-[#3B3B3B] font-medium text-sm"
+                      content={`Email Address`}
+                    />
+
+                    <Paragraph
+                      className="text-[#6F6E6C] font-normal text-sm"
+                      content={`${customer.email}`}
+                    />
                     {customer.email_validated && (
                       <span className="text-xs text-green-600 flex items-center gap-1 mt-1">
                         ✓ Verified
@@ -81,12 +96,15 @@ const CustomerDetailScreen = ({ id }: { id: string }) => {
                     <Phone className="h-5 w-5 text-purple-600" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-gray-900">
-                      Phone Number
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      {customer.phone_number || "Not provided"}
-                    </p>
+                    <Paragraph
+                      className="text-[#3B3B3B] font-medium text-sm"
+                      content={`     Phone Number`}
+                    />
+
+                    <Paragraph
+                      className="text-[#6F6E6C] font-normal text-sm"
+                      content={`${customer.phone_number || "Not provided"}`}
+                    />
                   </div>
                 </div>
               </div>

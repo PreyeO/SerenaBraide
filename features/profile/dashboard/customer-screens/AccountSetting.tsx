@@ -7,15 +7,15 @@ import AuthSpan from "@/components/ui/typography/auth-span";
 import UnderlineLink from "@/components/ui/btns/underline-cta";
 import { CheckCircle } from "lucide-react";
 import { useGetAddresses } from "@/features/cart-checkout/hooks/useGetAddresses";
-import DashboardLoader from "@/components/ui/loaders/dasboard-loader";
 import BackNavigation from "@/components/ui/btns/back-navigation";
+import LoadingState from "@/components/ui/loaders/loading-state";
 
 const AccountSetting = () => {
   const user = useAuthStore((state) => state.user);
   const { data: addresses } = useGetAddresses();
 
   if (!user) {
-    return <DashboardLoader />;
+    return <LoadingState />;
   }
 
   // Helper function to display value or "null"
@@ -26,8 +26,6 @@ const AccountSetting = () => {
     return value;
   };
 
-  // Prefer a phone number from the customer's addresses (default first),
-  // then fall back to the top-level user.phone_number.
   const getPrimaryPhoneNumber = (): string | null => {
     if (!addresses || addresses.length === 0) {
       return user?.phone_number ?? null;

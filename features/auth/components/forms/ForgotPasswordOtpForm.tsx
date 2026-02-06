@@ -37,7 +37,7 @@ const ForgotPasswordOtpForm = () => {
   };
 
   return (
-    <div className="flex flex-col items-center pt-[70px] justify-center w-full gap-[34px]">
+    <div className="flex flex-col items-center justify-center w-full gap-8.5 mb-27.75">
       <AuthTitle
         title="Verify Code"
         subtitle={`A 6-digit code has been sent to ${email}. Enter the code to continue.`}

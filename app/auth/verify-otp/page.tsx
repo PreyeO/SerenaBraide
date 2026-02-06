@@ -3,6 +3,7 @@
 import { Suspense } from "react";
 import VerifyOtpForm from "@/features/auth/components/forms/VerifyOtpForm";
 import { useSearchParams } from "next/navigation";
+import LoadingState from "@/components/ui/loaders/loading-state";
 
 const VerifyOtpContent = () => {
   const searchParams = useSearchParams();
@@ -21,7 +22,13 @@ const VerifyOtpContent = () => {
 
 const VerifyOtpPage = () => {
   return (
-    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+    <Suspense
+      fallback={
+        <>
+          <LoadingState />
+        </>
+      }
+    >
       <VerifyOtpContent />
     </Suspense>
   );

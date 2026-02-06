@@ -31,11 +31,11 @@ const ForgotPasswordForm = () => {
   };
 
   return (
-    <div className="flex flex-col items-center pt-[70px] justify-center w-full gap-[34px] ">
+    <div className="flex flex-col w-full gap-8.5 mb-27.75">
       <AuthTitle
         title="Forgot Password?"
         subtitle="Enter the email address you use in creating your account to reset password"
-        className="max-w-[398px] leading-[22px] text-sm"
+        className="max-w-121"
       />
       <Form {...form}>
         <form
@@ -60,7 +60,7 @@ const ForgotPasswordForm = () => {
               </FormItem>
             )}
           />
-          <div className="mt-[34px]">
+          <div className="mt-8.5">
             <SubmitButton
               label="Continue"
               loadingLabel="Sending..."

@@ -3,6 +3,7 @@ import ProductImage from "@/components/ui/images/product-image";
 import Paragraph from "@/components/ui/typography/paragraph";
 import SubHeading from "@/components/ui/typography/subHeading";
 import { FulfilmentStatusProps } from "@/features/profile/type/customers/profile.type";
+import { formatCurrency } from "@/lib/utils";
 import React from "react";
 
 const FulfilmentStatus: React.FC<FulfilmentStatusProps> = ({
@@ -20,15 +21,6 @@ const FulfilmentStatus: React.FC<FulfilmentStatusProps> = ({
   orderDetail,
   shippingAddress,
 }) => {
-  // Format currency
-  const formatCurrency = (amount: string | number): string => {
-    const num = typeof amount === "string" ? parseFloat(amount) : amount;
-    return `₦${num.toLocaleString("en-US", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    })}`;
-  };
-
   // Format date
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
@@ -48,32 +40,32 @@ const FulfilmentStatus: React.FC<FulfilmentStatusProps> = ({
   // Build order summary from orderDetail
   const orderSummary = orderDetail
     ? [
-        {
-          label: "Sub total:",
-          value: formatCurrency(orderDetail.subtotal),
-        },
-        {
-          label: "Shipping fee:",
-          value: formatCurrency(orderDetail.shipping_cost),
-        },
-        ...(parseFloat(orderDetail.discount || "0") > 0
-          ? [
-              {
-                label: "Discount:",
-                value: `-${formatCurrency(orderDetail.discount)}`,
-                isDiscount: true,
-              },
-            ]
-          : []),
-        ...(parseFloat(orderDetail.tax) > 0
-          ? [
-              {
-                label: "Tax:",
-                value: formatCurrency(orderDetail.tax),
-              },
-            ]
-          : []),
-      ]
+      {
+        label: "Sub total:",
+        value: formatCurrency(orderDetail.subtotal),
+      },
+      {
+        label: "Shipping fee:",
+        value: formatCurrency(orderDetail.shipping_cost),
+      },
+      ...(parseFloat(orderDetail.discount || "0") > 0
+        ? [
+          {
+            label: "Discount:",
+            value: `-${formatCurrency(orderDetail.discount)}`,
+            isDiscount: true,
+          },
+        ]
+        : []),
+      ...(parseFloat(orderDetail.tax) > 0
+        ? [
+          {
+            label: "Tax:",
+            value: formatCurrency(orderDetail.tax),
+          },
+        ]
+        : []),
+    ]
     : [];
 
   return (
@@ -170,11 +162,10 @@ const FulfilmentStatus: React.FC<FulfilmentStatusProps> = ({
                   />
                   <Paragraph
                     content={item.value}
-                    className={`text-sm ${
-                      (item as { isDiscount?: boolean }).isDiscount
+                    className={`text-sm ${(item as { isDiscount?: boolean }).isDiscount
                         ? "text-[#01AD73]"
                         : "text-[#3B3B3B]"
-                    }`}
+                      }`}
                   />
                 </div>
               ))}

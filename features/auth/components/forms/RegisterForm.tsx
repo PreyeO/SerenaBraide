@@ -48,11 +48,11 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="flex flex-col items-center pt-[70px] justify-center w-full gap-[34px] mb-[111px]">
+    <div className="flex flex-col items-center justify-center w-full gap-8.5 mb-27.75">
       <AuthTitle
         title="Sign Up"
         subtitle="Create an account to shop faster, track your orders, and stay updated on your purchases. Plus, enjoy 200 points as a welcome bonus when you sign up."
-        className="max-w-[484px]"
+        className="max-w-121"
       />
 
       <Form {...form}>
@@ -67,13 +67,13 @@ const RegisterForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-[12px] font-medium">
-                  FIRST NAME
+                  FIRST NAME<span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Enter your first name"
                     {...field}
-                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5]  font-normal h-[50px]"
+                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5]  font-normal  h-12.5"
                   />
                 </FormControl>
                 <FormMessage />
@@ -88,13 +88,13 @@ const RegisterForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-[12px] font-medium">
-                  LAST NAME
+                  LAST NAME<span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Enter your last name"
                     {...field}
-                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-[50px]"
+                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5]  h-12.5"
                   />
                 </FormControl>
                 <FormMessage />
@@ -108,13 +108,15 @@ const RegisterForm = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-[12px] font-medium">EMAIL</FormLabel>
+                <FormLabel className="text-[12px] font-medium">
+                  EMAIL<span className="text-red-500">*</span>
+                </FormLabel>
                 <FormControl>
                   <Input
                     type="email"
                     placeholder="john@example.com"
                     {...field}
-                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5]  h-[50px]"
+                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5]   h-12.5"
                   />
                 </FormControl>
                 <FormMessage />
@@ -129,13 +131,13 @@ const RegisterForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-[12px] font-medium">
-                  PHONE NUMBER
+                  PHONE NUMBER<span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
                   <Input
                     placeholder="+234 801 234 5678"
                     {...field}
-                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-[50px]"
+                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5]  h-12.5"
                   />
                 </FormControl>
                 <FormMessage />
@@ -149,7 +151,7 @@ const RegisterForm = () => {
             render={({ field }) => (
               <FormItem className="">
                 <FormLabel className="text-[12px] font-medium">
-                  PASSWORD
+                  PASSWORD<span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
                   <div className="relative">
@@ -157,7 +159,7 @@ const RegisterForm = () => {
                       type={showPassword ? "text" : "password"}
                       placeholder="******"
                       {...field}
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5]  h-[50px]"
+                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5]   h-12.5"
                     />
                     <button
                       type="button"
@@ -180,7 +182,7 @@ const RegisterForm = () => {
             render={({ field }) => (
               <FormItem className="">
                 <FormLabel className="text-[12px] font-medium">
-                  CONFIRM PASSWORD
+                  CONFIRM PASSWORD<span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
                   <div className="relative">
@@ -188,7 +190,7 @@ const RegisterForm = () => {
                       type="password"
                       placeholder="******"
                       {...field}
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-[50px]"
+                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-12.5"
                     />
                     <button
                       type="button"
@@ -211,27 +213,27 @@ const RegisterForm = () => {
             render={({ field }) => (
               <FormItem className="md:col-span-2">
                 <FormLabel className="text-[12px] font-medium">
-                  DATE OF BIRTH
+                  DATE OF BIRTH<span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
                   <Input
                     type="date"
                     {...field}
-                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-[50px]"
+                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-12.5"
                   />
                 </FormControl>
                 <FormMessage />
                 <Paragraph
-                  className="text-[#9A9A98] text-sm leading-[18px] font-normal pt-1"
-                  content="     Get Membership Reward on Your Birthday!"
+                  className="text-[#9A9A98] lg:text-sm text-xs leading-4.5 font-normal pt-1"
+                  content="Get Membership Reward on Your Birthday!"
                 />
               </FormItem>
             )}
           />
 
           {/* Terms */}
-          <div className="md:col-span-2 mt-4 text-[#3B3B3B] flex gap-6 items-center">
-            <AuthSpan className="font-normal text-sm leading-[22px]">
+          <div className="md:col-span-2 lg:mt-4 text-[#3B3B3B] flex gap-6 items-center">
+            <AuthSpan className="font-normal lg:text-sm text-xs lg:leading-5.5 leading-4.5">
               By creating an account, you agree to Serena Braide’s
               <Link href="/legal/terms_of_service">
                 <span className="font-medium underline"> Terms of Use </span>
@@ -244,14 +246,15 @@ const RegisterForm = () => {
           </div>
 
           {/* Submit */}
-          <div className="md:col-span-2 mt-4">
+          <div className="md:col-span-2 lg:mt-4">
             <SubmitButton
               label="Create Account"
               loadingLabel="Creating account..."
               isPending={isPending}
               onClick={() => {}}
             />
-
+          </div>
+          <div className="md:col-span-2">
             <AuthSwitchPrompt
               message="Already have an account?"
               linkText="Log In"

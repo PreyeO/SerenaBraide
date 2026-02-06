@@ -15,7 +15,7 @@ const UnderlineLink: React.FC<UnderlineLinkProps> = ({
   children,
 }) => {
   return (
-    <Link href={href} className={`flex items-center gap-2 ${className}`}>
+    <Link href={href} className={`flex items-center gap-2  ${className}`}>
       <span className="underline">{text}</span>
       {children}
     </Link>

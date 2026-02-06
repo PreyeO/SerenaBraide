@@ -6,6 +6,7 @@ import LoadingState from "@/components/ui/loaders/loading-state";
 import { FulfilmentType } from "@/features/profile/type/customers/profile.type";
 import { BadgeCheckIcon, BookDown, CalendarClock } from "lucide-react";
 import { useOrderDetail } from "@/features/cart-checkout/hooks/useOrderDetail";
+import { formatCurrency } from "@/lib/utils";
 
 interface FulfilmentDetailsProps {
   statusType: FulfilmentType;
@@ -85,10 +86,7 @@ const FulfilmentDetails = ({
             color={statusConfig.color}
             icon={statusConfig.icon}
             iconBg={statusConfig.iconBg}
-            price={`NGN${parseFloat(item.price).toLocaleString("en-US", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}`}
+            price={formatCurrency(item.price)}
             quantity={`X${item.quantity}`}
             size={item.variant.size || "N/A"}
             orderDetail={orderDetail}

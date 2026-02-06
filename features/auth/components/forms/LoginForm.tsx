@@ -43,7 +43,7 @@ const LoginForm = () => {
   const isPending = isLoginPending;
 
   return (
-    <div className="flex flex-col items-center pt-17.5 justify-center w-full gap-8.5 mb-27.75">
+    <div className="flex flex-col w-full gap-8.5 mb-27.75">
       <AuthTitle
         title="Login"
         subtitle="By accessing your Serena Braide Account you can track and manage your orders and also save multiple items in your cart and wishlist."
@@ -62,7 +62,9 @@ const LoginForm = () => {
             name="email"
             render={({ field }) => (
               <FormItem className="">
-                <FormLabel className="text-[12px] font-medium">EMAIL</FormLabel>
+                <FormLabel className="text-[12px] font-medium">
+                  EMAIL<span className="text-red-500">*</span>
+                </FormLabel>
                 <FormControl>
                   <Input
                     type="email"
@@ -83,7 +85,7 @@ const LoginForm = () => {
             render={({ field }) => (
               <FormItem className="col-span-2">
                 <FormLabel className="text-[12px] font-medium">
-                  PASSWORD
+                  PASSWORD<span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
                   <div className="relative">
@@ -112,17 +114,17 @@ const LoginForm = () => {
                 ? `/auth/forgot-password?return_url=${encodeURIComponent(searchParams.get("return_url")!)}`
                 : "/auth/forgot-password"
             }
-            className="mx-auto"
+            className="text-[#3B3B3B] lg:text-sm text-xs mx-auto"
             text="Forgot Password?"
           />
 
           {/* Submit */}
-          <div className="md:col-span-2 mt-4">
+          <div className="md:col-span-2 lg:mt-4 ">
             <SubmitButton
               label="Login"
               loadingLabel="Logging in..."
               isPending={isPending}
-              onClick={() => { }}
+              onClick={() => {}}
             />
           </div>
 

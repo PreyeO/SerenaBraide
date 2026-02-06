@@ -22,7 +22,7 @@ const EmptyCart = () => {
           />
 
           <Paragraph
-            className="text-[#3B3B3B] font-medium text-lg mt-6 mb-8"
+            className="text-[#3B3B3B] font-medium lg:text-lg text-base lg:mt-6 mt-4 lg:mb-8 mb-4"
             content="Your cart is empty"
           />
 

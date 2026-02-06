@@ -24,14 +24,17 @@ const AuthSwitchPrompt = ({
     : href;
 
   return (
-    <div className="flex flex-col gap-[3px] items-center pt-[50px] font-normal">
+    <div className="flex flex-col gap-0.75 items-center lg:pt-12.5  font-normal">
       <Paragraph
-        className="text-[#9A9A98] text-sm leading-[18px] font-normal pt-1"
+        className="text-[#9A9A98] lg:text-sm text-xs leading-4.5 font-normal pt-1"
         content={message}
       />
-      <UnderlineLink href={finalHref} text={linkText} className="text-[#3B3B3B]" />
+      <UnderlineLink
+        href={finalHref}
+        text={linkText}
+        className="text-[#3B3B3B] lg:text-sm text-xs"
+      />
     </div>
   );
 };
 export default AuthSwitchPrompt;
-

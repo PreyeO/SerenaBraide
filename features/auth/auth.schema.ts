@@ -17,9 +17,9 @@ export const RegisterSchema = z
       .string()
       .regex(
         /^\d{4}-\d{2}-\d{2}$/,
-        "Date of birth must be in YYYY-MM-DD format"
+        "Date of birth must be in YYYY-MM-DD format",
       ),
-    phone_number: z.string().optional(),
+    phone_number: z.string(),
   })
   .refine((data) => data.password === data.confirm_password, {
     path: ["confirm_password"],

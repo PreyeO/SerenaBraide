@@ -7,6 +7,7 @@ export { default as LoyaltyBadge } from "./LoyaltyBadge";
 export { default as VariantSelector } from "./VariantSelector";
 export { default as ProductImageCarousel } from "./ProductImageCarousel";
 export { default as ShadesBadge } from "./ShadesBadge";
+export { default as StarRating } from "./StarRating";
 
 // Shared Products Components - Existing
 export { default as CategoryTabs } from "./CategoryTabs";
