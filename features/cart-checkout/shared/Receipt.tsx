@@ -8,6 +8,8 @@ import { useAuthStore } from "@/features/auth/auth.store";
 import { useCreateOrder } from "../hooks/useCreateOrder";
 import Caption from "@/components/ui/typography/caption";
 import AuthSpan from "@/components/ui/typography/auth-span";
+import SubmitButton from "@/components/ui/btns/submit-cta";
+import { formatCurrency } from "@/lib/utils";
 
 interface ReceiptProps {
   totalItems?: number;
@@ -16,6 +18,8 @@ interface ReceiptProps {
   shippingCost?: number;
   tax?: number;
   showButton?: boolean;
+  showMobilePayButton?: boolean;
+  onMobilePayClick?: () => void;
 }
 
 const Receipt = ({
@@ -25,6 +29,8 @@ const Receipt = ({
   shippingCost,
   tax,
   showButton = true,
+  showMobilePayButton = false,
+  onMobilePayClick,
 }: ReceiptProps) => {
   const router = useRouter();
   const { user } = useAuthStore();
@@ -35,15 +41,15 @@ const Receipt = ({
 
     // Check if user is authenticated
     if (!user) {
-      // Redirect to register with return URL to cart (preserve cart data)
-      router.push("/auth/register?return_url=/cart");
+      // Redirect to register with return URL to checkout (order will be created there)
+      router.push("/auth/register?return_url=/checkout");
       return;
     }
 
     // Check if email is verified
     if (!user.email_validated) {
-      // Redirect to verify OTP with return URL to cart
-      router.push(`/auth/verify-otp?email=${user.email}&return_url=/cart`);
+      // Redirect to verify OTP with return URL to checkout
+      router.push(`/auth/verify-otp?email=${user.email}&return_url=/checkout`);
       return;
     }
 
@@ -62,7 +68,7 @@ const Receipt = ({
 
         <Caption
           className="font-normal text-[#3B3B3B] lg:text-base text-sm"
-          title={` ₦${(subtotal !== undefined ? subtotal : (totalPrice ?? 0)).toFixed(2)}`}
+          title={formatCurrency(subtotal !== undefined ? subtotal : (totalPrice ?? 0))}
         ></Caption>
       </div>
 
@@ -75,7 +81,7 @@ const Receipt = ({
           />
           <Caption
             className="font-normal text-[#3B3B3B] lg:text-base text-sm"
-            title={`₦${tax.toFixed(2)}`}
+            title={formatCurrency(tax)}
           />
         </div>
       )}
@@ -89,7 +95,7 @@ const Receipt = ({
           />
           <Caption
             className="font-normal text-[#3B3B3B] lg:text-base text-sm"
-            title={`₦${shippingCost.toFixed(2)}`}
+            title={shippingCost === 0 ? "Free" : formatCurrency(shippingCost)}
           />
         </div>
       )}
@@ -103,7 +109,7 @@ const Receipt = ({
         />
 
         <AuthSpan className="text-[#3B3B3B] font-normal pt-4  text-sm lg:text-base">
-          You have <span className="font-medium">0 Loyalty points = #0.00</span>
+          You have <span className="font-medium">0 Loyalty points = ₦0.00</span>
         </AuthSpan>
       </div>
 
@@ -115,10 +121,11 @@ const Receipt = ({
         />
         <Caption
           className="font-normal text-[#3B3B3B] lg:text-base text-sm"
-          title={`₦${(totalPrice ?? 0).toFixed(2)}`}
+          title={formatCurrency(totalPrice ?? 0)}
         />
       </div>
 
+      {/* Cart Proceed to Checkout Button */}
       {showButton && (
         <>
           <Link href="/checkout" onClick={handleProceedToCheckout}>
@@ -137,6 +144,21 @@ const Receipt = ({
             You will earn {totalItems * 2} points from this purchase
           </p>
         </>
+      )}
+
+      {/* Mobile Pay Button - Only shown on checkout page on mobile */}
+      {showMobilePayButton && (
+        <div className="lg:hidden">
+          <SubmitButton
+            label={`Pay ${formatCurrency(totalPrice ?? 0)}`}
+            loadingLabel="Processing..."
+            isPending={false}
+            onClick={onMobilePayClick}
+          />
+          <p className="pt-2.5 text-xs font-normal text-center text-[#6F6E6C] italic">
+            You will earn {totalItems * 2} points from this purchase
+          </p>
+        </div>
       )}
     </div>
   );

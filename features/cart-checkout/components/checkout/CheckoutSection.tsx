@@ -9,7 +9,7 @@ import AuthSpan from "@/components/ui/typography/auth-span";
 import Link from "next/link";
 import Receipt from "../../shared/Receipt";
 import CartItem from "../../shared/CartItem";
-import { ShoppingBag } from "lucide-react";
+import { ShoppingBag, ChevronDown } from "lucide-react";
 import Paragraph from "@/components/ui/typography/paragraph";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -18,6 +18,7 @@ import { useCreateOrder } from "../../hooks/useCreateOrder";
 import { useOrderDetail } from "../../hooks/useOrderDetail";
 import { useInitiatePayment } from "@/features/payment/hooks/useInitiatePayment";
 import { notify } from "@/lib/notify";
+import { formatCurrency } from "@/lib/utils";
 import { paymentType, PAYMENT_TYPES } from "../../data/checkout.data";
 import SuccessModal from "@/components/ui/modals/sucess";
 import GiftCardForm from "@/features/gift-card/components/forms/GiftCardForm";
@@ -25,6 +26,7 @@ import FormModal from "@/components/ui/modals/form-modals";
 import { useApplyGiftCard } from "@/features/gift-card/hooks/useApplyGiftCard";
 import { BalanceFormValues } from "@/features/gift-card/giftcard.type";
 import RemainingBalanceModal from "../modals/RemainingBalanceModal";
+import PaymentMethodModal from "../modals/PaymentMethodModal";
 import SubHeading from "@/components/ui/typography/subHeading";
 import { usePaymentStatusCheck } from "../../hooks/usePaymentStatusCheck";
 import { useOrderCalculations } from "../../hooks/useOrderCalculations";
@@ -45,6 +47,8 @@ const CheckoutSection = () => {
   const [showGiftCardModal, setShowGiftCardModal] = useState(false);
   const [showRemainingBalanceModal, setShowRemainingBalanceModal] =
     useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [isMobileOrderExpanded, setIsMobileOrderExpanded] = useState(false);
   const [giftCardResponse, setGiftCardResponse] =
     useState<GiftCardResponse | null>(null);
   const createOrderMutation = useCreateOrder({ redirectToCheckout: false });
@@ -59,10 +63,12 @@ const CheckoutSection = () => {
           gift_card_balance: response.gift_card_balance,
         });
         setShowGiftCardModal(false);
+        setShowPaymentModal(false);
         setShowRemainingBalanceModal(true);
       } else {
         // Full payment - show success modal
         setShowGiftCardModal(false);
+        setShowPaymentModal(false);
         setShowSuccessModal(true);
       }
       // Refresh order data to get updated status
@@ -96,8 +102,9 @@ const CheckoutSection = () => {
 
   const orderTotal = totalPrice;
 
-  // Create order when user arrives from auth flow
+  // Create order when authenticated user arrives at checkout without an order
   useEffect(() => {
+    // Skip if not hydrated yet, already creating, or already have an order
     if (
       !isHydrated ||
       orderCreated ||
@@ -107,25 +114,26 @@ const CheckoutSection = () => {
     )
       return;
 
-    const returnUrl = searchParams.get("return_url");
+    // Skip if returning from payment (payment status in URL means cart was already converted to order)
+    if (paymentStatusParam) return;
 
-    // If user is authenticated, verified, and coming from auth flow, create order
-    if (user?.email_validated && returnUrl === "/checkout") {
+    // If user is authenticated and verified, create order automatically
+    if (user?.email_validated) {
       createOrderMutation.mutate(undefined, {
         onSuccess: (order) => {
           setOrderCreated(true);
-          // Update URL with order_number
-          router.push(`/checkout?order_number=${order.order_number}`);
+          // Update URL with order_number (remove any return_url param)
+          router.replace(`/checkout?order_number=${order.order_number}`);
         },
       });
     }
   }, [
     isHydrated,
     user,
-    searchParams,
     orderCreated,
     createOrderMutation,
     orderNumber,
+    paymentStatusParam,
     router,
   ]);
 
@@ -147,6 +155,7 @@ const CheckoutSection = () => {
 
     // If Gift Card is selected, show gift card modal
     if (selectedPayment === PAYMENT_TYPES.GIFT_CARD) {
+      setShowPaymentModal(false);
       setShowGiftCardModal(true);
       return;
     }
@@ -185,11 +194,23 @@ const CheckoutSection = () => {
     }
   };
 
+  const handleMobileContinue = () => {
+    setShowPaymentModal(true);
+  };
+
   return (
     <>
-      <SuccessModal
-        isOpen={showSuccessModal}
-        orderNumber={orderData?.order_number}
+      <SuccessModal isOpen={showSuccessModal} />
+
+      {/* Mobile Payment Method Modal */}
+      <PaymentMethodModal
+        open={showPaymentModal}
+        onClose={() => setShowPaymentModal(false)}
+        selectedPayment={selectedPayment}
+        onPaymentChange={setSelectedPayment}
+        onSubmit={handleSubmit}
+        isPending={initiatePaymentMutation.isPending}
+        totalPrice={orderTotal}
       />
 
       {/* Gift Card Payment Modal */}
@@ -197,11 +218,12 @@ const CheckoutSection = () => {
         open={showGiftCardModal}
         onClose={() => setShowGiftCardModal(false)}
         title="Pay with Gift Card"
+        className="font-PPEditorialNew text-lg lg:text-[40px] font-normal text-[#3B3B3B]"
       >
         <div className="w-full">
           <SubHeading
             className="text-base font-medium text-[#3B3B3B] mb-4 text-center"
-            title={`Order Total: $${orderTotal.toFixed(2)}`}
+            title={`Order Total: ₦${orderTotal.toFixed(2)}`}
           />
           <GiftCardForm
             onSubmit={handleGiftCardSubmit}
@@ -229,12 +251,13 @@ const CheckoutSection = () => {
       <section className="lg:pt-38 pt-33 lg:px-16 px-6 lg:pb-25 pb-12.5 ">
         <BackNavigation href="/cart" text="Cart" />
         <CartHeader totalItems={totalQuantity} />
-        <div className="md:flex flex-wrap md:flex-nowrap lg:gap-10 md:gap-5 gap-0 lg:mt-10 mt-4 ">
-          <div className=" flex flex-col gap-6">
-            <div className="max-w-175">
+        <div className="flex flex-col lg:flex-row flex-wrap lg:flex-nowrap lg:gap-10 md:gap-5 gap-0 lg:mt-10 mt-4">
+          <div className="flex flex-col gap-6 order-2 lg:order-1">
+            <div className="max-w-175 mt-4 lg:mt-0">
               <ShippingAddress />
             </div>
-            <div className="bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5] w-175  flex flex-col gap-8.5 px-15 py-7.5">
+            {/* Desktop Payment Section - Hidden on mobile */}
+            <div className="hidden lg:block bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5] w-175 flex-col gap-8.5 px-15 py-7.5">
               <SubHeading
                 title="Payment Method"
                 className="text-[#3B3B3B] text-base font-medium"
@@ -260,30 +283,59 @@ const CheckoutSection = () => {
 
               <div>
                 <SubmitButton
-                  label="Continue"
+                  label="Pay"
                   loadingLabel="Processing..."
                   isPending={initiatePaymentMutation.isPending}
                   onClick={handleSubmit}
                 />
-                <AuthSpan className="text-sm w-83.75 mx-auto leading-5.5 pt-2.5 text-[#3B3B3B] font-normal">
-                  By submitting my order, I confirm I have read and
-                  acknowledged all
+                <AuthSpan className="lg:text-sm max-w-83.75 text-xs mx-auto leading-5.5 pt-2.5 text-[#3B3B3B] font-normal">
+                  By submitting my order, I confirm I have read and acknowledged
+                  all
                   <span className="underline font-medium ">
-                    <Link href="/terms_of_service"> terms </Link> and{" "}
-                    <Link href="/purchase_service"> policies.</Link>
+                    <Link href="/terms_of_service"> terms </Link>and{" "}
+                    <Link href="/purchase_service">policies.</Link>
                   </span>
                 </AuthSpan>
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-6">
-            <div className="w-143 py-4 px-4 bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5]">
-              <div className="bg-[#3B3B3B] py-7.5 px-[32.5px] flex gap-7.5">
-                <ShoppingBag />
+
+          {/* Right Column - Order & Receipt (order-1 on mobile, order-2 on lg) */}
+          <div className="flex flex-col gap-6 mt-4 lg:mt-0 order-1 lg:order-2">
+            <div className="lg:w-143 w-full lg:py-4 lg:px-4 bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5]">
+              {/* Mobile Collapsible Header */}
+              <button
+                className="lg:hidden w-full bg-[#3B3B3B] rounded-md py-4 px-4 flex items-center justify-between"
+                onClick={() => setIsMobileOrderExpanded(!isMobileOrderExpanded)}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                    <ShoppingBag className="w-4 h-4 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <Paragraph
+                      className="text-white font-medium text-sm"
+                      content={`My cart - ${formatCurrency(totalPrice)}`}
+                    />
+                    <Paragraph
+                      className="text-[#9A9A98] italic font-normal text-xs"
+                      content={`You will earn ${totalQuantity * 2} points earned from this purchase*`}
+                    />
+                  </div>
+                </div>
+                <ChevronDown
+                  className={`w-5 h-5 text-white transition-transform duration-200 ${
+                    isMobileOrderExpanded ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {/* Desktop Header - Always visible on lg */}
+              <div className="hidden lg:flex bg-[#3B3B3B] rounded-md py-7.5 px-[32.5px] gap-7.5 mb-4.5">
                 <div>
                   <Paragraph
                     className="text-white font-medium text-sm"
-                    content={`My order - ₦${totalPrice.toFixed(2)}`}
+                    content={`My order - ${formatCurrency(totalPrice)}`}
                   />
                   <Paragraph
                     className="text-[#9A9A98] italic font-normal text-sm"
@@ -293,7 +345,15 @@ const CheckoutSection = () => {
                   />
                 </div>
               </div>
-              <div className="flex flex-col gap-4">
+
+              {/* Order Items - Collapsible on mobile, always visible on desktop */}
+              <div
+                className={`flex flex-col gap-4 overflow-hidden transition-all duration-300 ${
+                  isMobileOrderExpanded
+                    ? "max-h-500 opacity-100 py-4 lg:py-0"
+                    : "max-h-0 lg:max-h-none opacity-0 lg:opacity-100"
+                }`}
+              >
                 {isLoadingOrder ? (
                   <div className="py-8 text-center text-[#6F6E6C]">
                     Loading order...
@@ -311,7 +371,7 @@ const CheckoutSection = () => {
                         key={item.id}
                         image={image}
                         name={item.variant.product_name}
-                        price={`₦${item.price}`}
+                        price={formatCurrency(item.price)}
                         metaLabel={metaLabel}
                         className="bg-white"
                         quantity={item.quantity}
@@ -332,7 +392,25 @@ const CheckoutSection = () => {
                 )}
               </div>
             </div>
-            <div className="pt-6">
+          </div>
+
+          {/* Receipt Section (order-3 on mobile, part of right column on lg) */}
+          <div className="order-3 lg:order-2 lg:hidden mt-4">
+            <Receipt
+              totalItems={totalQuantity}
+              totalPrice={orderTotal}
+              subtotal={subtotal}
+              shippingCost={shippingCost}
+              tax={tax}
+              showButton={false}
+              showMobilePayButton
+              onMobilePayClick={handleMobileContinue}
+            />
+          </div>
+
+          {/* Desktop Receipt - shown inside the right column on lg */}
+          <div className="hidden lg:block lg:order-2">
+            <div className="lg:pt-6">
               <Receipt
                 totalItems={totalQuantity}
                 totalPrice={orderTotal}
@@ -340,6 +418,8 @@ const CheckoutSection = () => {
                 shippingCost={shippingCost}
                 tax={tax}
                 showButton={false}
+                showMobilePayButton
+                onMobilePayClick={handleMobileContinue}
               />
             </div>
           </div>

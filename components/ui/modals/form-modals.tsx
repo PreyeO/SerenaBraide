@@ -9,6 +9,7 @@ interface ModalProps {
   title?: string;
   showVideo?: boolean; // instead of icon
   children: ReactNode;
+  className?: string;
 }
 
 const FormModal: React.FC<ModalProps> = ({
@@ -17,12 +18,13 @@ const FormModal: React.FC<ModalProps> = ({
   title,
   showVideo,
   children,
+  className,
 }) => {
   if (!open) return null;
 
   return (
     <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4 lg:p-0 ">
-      <div className=" bg-white w-full h-full lg:h-auto lg:max-h-[90vh] px-4 lg:px-6 pb-6 lg:pb-8.5 max-w-none lg:max-w-lg rounded-lg shadow-lg relative overflow-y-auto">
+      <div className="lg:max-w-2xl max-w-81.75  bg-white w-full h-full lg:h-auto lg:max-h-[90vh] px-4 lg:px-6 pb-6 lg:pb-8.5 rounded-lg shadow-lg relative overflow-y-auto">
         {/* Close button */}
         <div className="flex justify-end mt-2 lg:mt-2 sticky top-0 bg-white pt-2 pb-2 z-10">
           <button
@@ -35,7 +37,9 @@ const FormModal: React.FC<ModalProps> = ({
 
         {/* Title + MP4 animation */}
         {(title || showVideo) && (
-          <div className="flex flex-col items-center justify-center gap-2 mt-2 lg:mt-2">
+          <div
+            className={`${className} flex flex-col items-center justify-center gap-2 mt-2 lg:mt-2`}
+          >
             {showVideo && (
               <div className="flex justify-center">
                 <video

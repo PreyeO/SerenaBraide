@@ -156,3 +156,30 @@ export interface CreateStaffInviteResponse {
   message: string;
   invite_id: string;
 }
+
+// Dashboard Types
+export interface RevenueMonthData {
+  month: number;
+  month_name: string;
+  revenue: string;
+}
+
+export interface RevenueGraphResponse {
+  year: number;
+  monthly_data: RevenueMonthData[];
+  total_revenue: string;
+}
+
+export interface DashboardCardsResponse {
+  total_revenue: string;
+  orders_fulfilled: number;
+  cancelled_orders: number;
+  returning_customers: number;
+}
+
+export interface CustomerLocationData {
+  country: string;
+  country_name: string;
+  customer_count: number;
+  percentage: string;
+}

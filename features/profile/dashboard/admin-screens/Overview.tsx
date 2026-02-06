@@ -1,71 +1,92 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useMemo } from "react";
 import { useRouter } from "next/navigation";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Table, TableHeader, TableRow, TableHead } from "@/components/ui/table";
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  Pie,
-  PieChart,
-  XAxis,
-  YAxis,
-  Cell,
-} from "recharts";
-import { ArrowUp, ArrowDown, Download } from "lucide-react";
-import { MetricType } from "@/types/admin";
-import {
-  metricsConfig,
-  locationData,
-  chartConfig,
-} from "@/features/profile/data/data.admin";
-
-import { generateTimeSeriesData } from "@/features/profile/utils/chart-data";
 import DateRangePicker from "@/features/profile/components/admin/DateRangePicker";
 import { useDateRange } from "../../hooks/admin/useDateRange";
 import SubHeading from "@/components/ui/typography/subHeading";
 import TableEmpty from "./components/shared/empty-screens/TableEmpty";
+import { useGetRevenueGraph } from "../../hooks/admin/useGetRevenueGraph";
+import { useGetDashboardCards } from "../../hooks/admin/useGetDashboardCards";
+import { useGetCustomersByLocation } from "../../hooks/admin/useGetCustomersByLocation";
+import { useGetProducts } from "../../hooks/admin/useGetProducts";
+import LoadingState from "@/components/ui/loaders/loading-state";
+import ProductTable from "./components/tables/ProductTable";
+import MetricCard from "./components/shared/MetricCard";
+import LocationChart from "./components/shared/LocationChart";
+import RevenueChart from "./components/shared/RevenueChart";
+import {
+  transformRevenueData,
+  transformLocationData,
+  formatCurrency,
+} from "../../utils/dashboard.utils";
 
 const Overview = () => {
   const router = useRouter();
-  const { dateRange, period, displayLabel, setDateRange, setPeriod } =
+  const { dateRange, displayLabel, setDateRange, period, setPeriod } =
     useDateRange();
-  const [selectedMetric, setSelectedMetric] = useState<MetricType>("revenue");
+
+  // Get current year for revenue graph
+  const currentYear = new Date().getFullYear();
+
+  // Fetch dashboard data
+  const { data: revenueData, isLoading: isRevenueLoading } =
+    useGetRevenueGraph(currentYear);
+  const { data: cardsData, isLoading: isCardsLoading } = useGetDashboardCards({
+    startDate: dateRange.from?.toISOString().split("T")[0],
+    endDate: dateRange.to?.toISOString().split("T")[0],
+  });
+  const { data: locationData, isLoading: isLocationLoading } =
+    useGetCustomersByLocation();
+  const { data: products, isLoading: isProductsLoading } = useGetProducts();
+
+  // Transform data for charts
+  const chartData = useMemo(
+    () => transformRevenueData(revenueData?.monthly_data),
+    [revenueData]
+  );
+
+  const pieChartData = useMemo(
+    () => transformLocationData(locationData),
+    [locationData]
+  );
+
+  // Get the most recent 3 products
+  const recentProducts = useMemo(() => {
+    if (!products) return [];
+    return products.slice(0, 3);
+  }, [products]);
 
   const handleAddProduct = () => {
     router.push("/admin/products?tab=add-product");
   };
 
-  const chartData = useMemo(() => {
-    if (!dateRange.from || !dateRange.to) return [];
-    return generateTimeSeriesData(dateRange, selectedMetric);
-  }, [dateRange, selectedMetric]);
+  const handleDateRangeChange = (range: typeof dateRange | undefined) => {
+    if (range) {
+      setDateRange(range);
+    }
+  };
 
-  const currentMetric = metricsConfig[selectedMetric];
+  const isLoading = isRevenueLoading || isCardsLoading || isLocationLoading;
+
+  if (isLoading) {
+    return <LoadingState />;
+  }
 
   return (
     <section className="px-6 py-6 space-y-6">
       <div className="space-y-6">
+        {/* Header */}
         <div className="flex items-center justify-between">
           <SubHeading
             title="Overview"
-            className="text-sm text-[#3B3B3B] font-semibold  "
+            className="text-sm text-[#3B3B3B] font-semibold"
           />
           <DateRangePicker
             dateRange={dateRange}
-            onDateRangeChange={(range) => {
-              if (range) {
-                setDateRange(range);
-              }
-            }}
+            onDateRangeChange={handleDateRangeChange}
             displayLabel={displayLabel}
             period={period}
             onPeriodChange={setPeriod}
@@ -74,171 +95,33 @@ const Overview = () => {
 
         {/* Metric Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {Object.entries(metricsConfig).map(([key, metric]) => {
-            const isSelected = selectedMetric === key;
-            return (
-              <Card
-                key={key}
-                className={`cursor-pointer transition-all flex flex-col gap-1  ${
-                  isSelected
-                    ? "ring-2 ring-[#F0F0F0] bg-[#F5F5F5] shadow-md"
-                    : ""
-                }`}
-                onClick={() => setSelectedMetric(key as MetricType)}
-              >
-                <CardHeader className="">
-                  <CardTitle className="text-sm font-normal text-[#6F6E6C]">
-                    {metric.label}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="">
-                    <div className="text-[22px] font-medium text-[#3B3B3B]">
-                      {metric.value}
-                    </div>
-                    <div
-                      className={`flex items-center gap-1 text-sm ${
-                        metric.changeType === "increase"
-                          ? "text-green-600"
-                          : "text-red-600"
-                      }`}
-                    >
-                      {metric.changeType === "increase" ? (
-                        <ArrowUp className="h-4 w-4" />
-                      ) : (
-                        <ArrowDown className="h-4 w-4" />
-                      )}
-                      <span>{metric.change} Today</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
+          <MetricCard
+            label="Total Revenue"
+            value={
+              cardsData ? formatCurrency(cardsData.total_revenue) : "NGN 0.00"
+            }
+          />
+          <MetricCard
+            label="Orders Fulfilled"
+            value={cardsData?.orders_fulfilled ?? 0}
+          />
+          <MetricCard
+            label="Cancelled Orders"
+            value={cardsData?.cancelled_orders ?? 0}
+          />
+          <MetricCard
+            label="Returning Customers"
+            value={cardsData?.returning_customers ?? 0}
+          />
         </div>
 
         {/* Charts Section */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Main Chart */}
-          <Card className="lg:col-span-2 bg-white border border-[#F5F5F5]">
-            <CardHeader className="flex flex-row items-center justify-between pb-4">
-              <CardTitle className="text-lg font-semibold text-[#3B3B3B]">
-                {currentMetric.chartTitle}
-              </CardTitle>
-              <Button
-                variant="outline"
-                size="sm"
-                className="text-xs border-[#D1D5DB]"
-              >
-                <Download className="h-4 w-4 mr-1" />
-                Download Report
-              </Button>
-            </CardHeader>
-            <CardContent>
-              <ChartContainer config={chartConfig} className="h-auto  w-full">
-                <AreaChart data={chartData}>
-                  <defs>
-                    <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="#3B82F6" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#F0F0F0" />
-                  <XAxis
-                    dataKey="date"
-                    tick={{ fill: "#9A9A98", fontSize: 12 }}
-                    axisLine={{ stroke: "#F0F0F0" }}
-                  />
-                  <YAxis
-                    domain={[0, selectedMetric === "revenue" ? 100000 : 100]}
-                    tick={{ fill: "#9A9A98", fontSize: 12 }}
-                    axisLine={{ stroke: "#F0F0F0" }}
-                    tickFormatter={(value) =>
-                      selectedMetric === "revenue"
-                        ? `NGN ${(value / 1000).toFixed(0)}k`
-                        : value.toString()
-                    }
-                  />
-                  <ChartTooltip
-                    content={({ active, payload }) => {
-                      if (active && payload && payload.length) {
-                        const value = payload[0].value as number;
-                        return (
-                          <div className="bg-white border border-[#E5E5E5] rounded-lg p-3 shadow-lg">
-                            <p className="text-sm font-medium text-[#3B3B3B]">
-                              {selectedMetric === "revenue"
-                                ? `NGN ${value.toLocaleString()}`
-                                : value}
-                            </p>
-                            <p className="text-xs text-[#9A9A98]">
-                              {payload[0].payload.date}
-                            </p>
-                          </div>
-                        );
-                      }
-                      return null;
-                    }}
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="value"
-                    stroke="#3B82F6"
-                    strokeWidth={2}
-                    fill="url(#colorValue)"
-                  />
-                </AreaChart>
-              </ChartContainer>
-            </CardContent>
-          </Card>
-
-          {/* Top Customers by Location */}
-          <Card className="bg-white border border-[#F5F5F5]">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-lg font-semibold text-[#3B3B3B]">
-                Top customers by location
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ChartContainer config={chartConfig} className="h-auto w-full">
-                <PieChart>
-                  <Pie
-                    data={locationData}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    outerRadius={80}
-                    fill="#8884d8"
-                    dataKey="value"
-                    label={({ name, value }) => `${value}% ${name}`}
-                  >
-                    {locationData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                </PieChart>
-              </ChartContainer>
-              <div className="mt-6 space-y-3">
-                {locationData.map((location, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between text-sm"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <div
-                        className="w-3 h-3 rounded-full shrink-0"
-                        style={{ backgroundColor: location.color }}
-                      />
-                      <span className="text-[#6F6E6C]">{location.name}</span>
-                    </div>
-                    <span className="font-medium text-[#3B3B3B]">
-                      {location.value}%
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+          <RevenueChart
+            data={chartData}
+            title={`Revenue Graph (${revenueData?.year ?? currentYear})`}
+          />
+          <LocationChart data={pieChartData} />
         </div>
       </div>
 
@@ -246,50 +129,36 @@ const Overview = () => {
       <Card className="bg-white border border-[#F5F5F5]">
         <CardHeader className="flex flex-row items-center justify-between pb-4">
           <CardTitle className="text-lg font-semibold text-[#3B3B3B]">
-            Products
+            Recent Products
           </CardTitle>
           <Button
             variant="outline"
             size="sm"
             className="text-xs border-[#D1D5DB] text-[#6F6E6C] hover:bg-[#F5F5F5]"
+            onClick={() => router.push("/admin/products")}
           >
-            Filter by
+            View All
           </Button>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-[#F9F9F9] hover:bg-[#F9F9F9]">
-                <TableHead className="text-sm font-medium text-[#3B3B3B]">
-                  Product Name
-                </TableHead>
-                <TableHead className="text-sm font-medium text-[#3B3B3B]">
-                  Status
-                </TableHead>
-                <TableHead className="text-sm font-medium text-[#3B3B3B]">
-                  Inventory
-                </TableHead>
-                <TableHead className="text-sm font-medium text-[#3B3B3B]">
-                  Category
-                </TableHead>
-                <TableHead className="text-sm font-medium text-[#3B3B3B]">
-                  Price
-                </TableHead>
-                <TableHead className="text-sm font-medium text-[#3B3B3B]">
-                  Variants
-                </TableHead>
-                <TableHead className="text-sm font-medium text-[#3B3B3B]">
-                  Action
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-          </Table>
-          <TableEmpty
-            title="No product yet"
-            description="Upload your first product to get started!"
-            buttonLabel="Add new product"
-            onAction={handleAddProduct}
-          />
+          {isProductsLoading ? (
+            <div className="flex items-center justify-center h-48">
+              <p className="text-[#6F6E6C]">Loading products...</p>
+            </div>
+          ) : recentProducts.length > 0 ? (
+            <ProductTable
+              products={recentProducts}
+              onAddProduct={handleAddProduct}
+              hideEmptyState
+            />
+          ) : (
+            <TableEmpty
+              title="No product yet"
+              description="Upload your first product to get started!"
+              buttonLabel="Add new product"
+              onAction={handleAddProduct}
+            />
+          )}
         </CardContent>
       </Card>
     </section>

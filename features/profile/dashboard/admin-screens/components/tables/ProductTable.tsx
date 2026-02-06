@@ -12,6 +12,7 @@ import { formatDate } from "../../../utils/array.utils";
 interface ProductTableProps {
   products: AllProduct[];
   onAddProduct?: () => void;
+  hideEmptyState?: boolean;
 }
 
 const PRODUCT_TABLE_HEADERS = [
@@ -25,7 +26,7 @@ const PRODUCT_TABLE_HEADERS = [
   "Actions",
 ];
 
-const ProductTable = ({ products, onAddProduct }: ProductTableProps) => {
+const ProductTable = ({ products, onAddProduct, hideEmptyState }: ProductTableProps) => {
   const { navigateToProduct } = useTableNavigation();
 
   const getProductActions = (product: AllProduct): TableAction[] => [
@@ -61,7 +62,7 @@ const ProductTable = ({ products, onAddProduct }: ProductTableProps) => {
   return (
     <DataTable
       headers={PRODUCT_TABLE_HEADERS}
-      isEmpty={isEmpty}
+      isEmpty={hideEmptyState ? false : isEmpty}
       emptyState={{
         title: "No product yet",
         description: "Upload your first product to get started!",

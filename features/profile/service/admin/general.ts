@@ -8,6 +8,9 @@ import {
   StaffListResponse,
   CreateStaffInvitePayload,
   CreateStaffInviteResponse,
+  RevenueGraphResponse,
+  DashboardCardsResponse,
+  CustomerLocationData,
 } from "../../type/admin/general.type";
 
 export async function getCustomers(): Promise<CustomerListResponse> {
@@ -65,4 +68,32 @@ export async function createAdminInvite(
   return response.data;
 }
 
-// Note: acceptAdminInvite is now in auth.service.ts since it returns LoginResponse
+// Dashboard APIs
+export async function getRevenueGraph(
+  year?: number,
+): Promise<RevenueGraphResponse> {
+  const params = year ? { year } : {};
+  const response: AxiosResponse<RevenueGraphResponse> = await api.get(
+    "/api/dashboard/revenue-graph/",
+    { params },
+  );
+  return response.data;
+}
+
+export async function getDashboardCards(params?: {
+  start_date?: string;
+  end_date?: string;
+}): Promise<DashboardCardsResponse> {
+  const response: AxiosResponse<DashboardCardsResponse> = await api.get(
+    "/api/dashboard/cards/",
+    { params },
+  );
+  return response.data;
+}
+
+export async function getCustomersByLocation(): Promise<CustomerLocationData[]> {
+  const response: AxiosResponse<CustomerLocationData[]> = await api.get(
+    "/api/dashboard/customers-by-location/",
+  );
+  return response.data;
+}
