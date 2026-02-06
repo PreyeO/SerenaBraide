@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { LogOut } from "lucide-react";
 
 interface MobileProfileSheetProps {
   isOpen: boolean;
@@ -10,6 +11,8 @@ interface MobileProfileSheetProps {
   onLinkClick: (e: React.MouseEvent<HTMLAnchorElement>, href: string) => void;
   onLogin: () => void;
   onRegister: () => void;
+  onLogout: () => void;
+  isLoggingOut?: boolean;
 }
 
 export const MobileProfileSheet = ({
@@ -19,6 +22,8 @@ export const MobileProfileSheet = ({
   onLinkClick,
   onLogin,
   onRegister,
+  onLogout,
+  isLoggingOut = false,
 }: MobileProfileSheetProps) => {
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
@@ -65,7 +70,16 @@ export const MobileProfileSheet = ({
           <p className="text-xs text-[#6F6E6C]">You have 0 points = $0.00</p>
         </div>
 
-        {!user && (
+        {user ? (
+          <button
+            onClick={onLogout}
+            disabled={isLoggingOut}
+            className="w-full bg-[#3B3B3B] text-white py-2 rounded-full disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            <LogOut className="size-4" />
+            {isLoggingOut ? "Logging out..." : "Logout"}
+          </button>
+        ) : (
           <div className="space-y-3">
             <button
               onClick={onLogin}

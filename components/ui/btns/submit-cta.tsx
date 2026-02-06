@@ -33,7 +33,7 @@ const SubmitButton = ({
       onClick={onClick}
       disabled={isPending || disabled}
       className={cn(
-        "relative w-full flex items-center justify-center gap-2 bg-[#3B3B3B] !text-white hover:bg-[#2f2f2f] py-6 lg:text-base text-sms font-semibold rounded-[50px] transition-all duration-200 ease-in-out",
+        "relative w-full flex items-center justify-center gap-2 bg-[#3B3B3B] text-white! hover:bg-[#2f2f2f] py-6 lg:text-base text-sms font-semibold rounded-[50px] transition-all duration-200 ease-in-out",
         (isPending || disabled) && "opacity-80 cursor-not-allowed",
         className,
       )}

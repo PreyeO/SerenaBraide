@@ -36,9 +36,8 @@ export const DesktopNav = forwardRef<HTMLDivElement, DesktopNavProps>(
     return (
       <div
         ref={ref}
-        className={`hidden lg:block transition-all duration-300 pt-12.5 ${
-          activeMenu ? "bg-white h-117.5" : "h-25"
-        }`}
+        className={`hidden lg:block transition-all duration-300 pt-12.5 ${activeMenu ? "bg-white h-117.5" : "h-25"
+          }`}
         onMouseLeave={onMenuClose}
       >
         <div className="bg-black/30 backdrop-blur-lg rounded-full h-17.5 my-4 mx-16 px-6 flex items-center justify-between">
@@ -77,7 +76,7 @@ export const DesktopNav = forwardRef<HTMLDivElement, DesktopNavProps>(
 
         {/* Dropdown Panel */}
         {activeMenu && (
-          <DesktopDropdownPanel activeMenu={activeMenu} navItems={navItems} />
+          <DesktopDropdownPanel activeMenu={activeMenu} navItems={navItems} onMenuClose={onMenuClose} />
         )}
       </div>
     );

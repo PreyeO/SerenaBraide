@@ -82,7 +82,7 @@ const RecipientForm = ({ closeModal }: RecipientFormProps) => {
                   <Input
                     {...field}
                     placeholder="Enter your first name"
-                    className="rounded-[50px] border h-[50px]"
+                    className="rounded-[50px] border h-12.5"
                   />
                 </FormControl>
                 <FormMessage />
@@ -100,7 +100,7 @@ const RecipientForm = ({ closeModal }: RecipientFormProps) => {
                   <Input
                     {...field}
                     placeholder="Enter your last name"
-                    className="rounded-[50px] border h-[50px]"
+                    className="rounded-[50px] border h-12.5"
                   />
                 </FormControl>
                 <FormMessage />
@@ -118,7 +118,7 @@ const RecipientForm = ({ closeModal }: RecipientFormProps) => {
                   <Input
                     {...field}
                     placeholder="john@example.com"
-                    className="rounded-[50px] border h-[50px]"
+                    className="rounded-[50px] border h-12.5"
                   />
                 </FormControl>
                 <FormMessage />
@@ -140,7 +140,7 @@ const RecipientForm = ({ closeModal }: RecipientFormProps) => {
                     {...field}
                     value={field.value ?? ""}
                     placeholder="Leave a short message..."
-                    className="border rounded-xl min-h-[120px] p-4 focus:border-[#3B3B3B] focus:bg-[#F5F5F5]"
+                    className="border rounded-xl min-h-30 p-4 focus:border-[#3B3B3B] focus:bg-[#F5F5F5]"
                   />
                 </FormControl>
                 <FormMessage className="flex justify-between">

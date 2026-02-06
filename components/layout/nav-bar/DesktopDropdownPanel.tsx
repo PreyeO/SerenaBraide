@@ -6,11 +6,13 @@ import { NavItem } from "@/types/general";
 interface DesktopDropdownPanelProps {
   activeMenu: string;
   navItems: NavItem[];
+  onMenuClose: () => void;
 }
 
 export const DesktopDropdownPanel = ({
   activeMenu,
   navItems,
+  onMenuClose,
 }: DesktopDropdownPanelProps) => {
   const activeItem = navItems.find((item) => item.title === activeMenu);
 
@@ -35,7 +37,7 @@ export const DesktopDropdownPanel = ({
           <ul className="space-y-1 text-sm font-normal">
             {section.items.map((link) => (
               <li key={link.name} className="mb-2.5">
-                <Link href={link.href} className="block">
+                <Link href={link.href} className="block" onClick={onMenuClose}>
                   {link.name}
                 </Link>
               </li>

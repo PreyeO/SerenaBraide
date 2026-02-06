@@ -13,7 +13,7 @@ const RecommendationSection: React.FC<RecommendationSectionProps> = ({
   products,
 }) => {
   return (
-    <section className="px-16 pt-[100px] pb-[50px]">
+    <section className="px-16 pt-25 pb-25">
       <div className="flex flex-col">
         <SubHeading
           title="Our Recommendations"
@@ -21,7 +21,7 @@ const RecommendationSection: React.FC<RecommendationSectionProps> = ({
         />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 justify-items-center pt-[34px]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 justify-items-center pt-8.5">
         {products.map((product, idx) => (
           <ProductCard key={idx} product={product} />
         ))}

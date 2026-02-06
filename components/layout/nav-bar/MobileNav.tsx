@@ -8,6 +8,7 @@ import { MobileSearchSheet } from "./MobileSearchSheet";
 import { MobileProfileSheet } from "./MobileProfileSheet";
 import { NavItem } from "@/types/general";
 import NavCartButton from "./NavCartButton";
+import { useLogout } from "@/features/auth/hooks/useLogout";
 
 interface MobileNavProps {
   navItems: NavItem[];
@@ -33,6 +34,7 @@ export const MobileNav = ({
   onCurrencySelect,
 }: MobileNavProps) => {
   const router = useRouter();
+  const logoutMutation = useLogout();
 
   const handleLinkClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -55,6 +57,11 @@ export const MobileNav = ({
     onSheetChange("profile", false);
     router.push("/auth/register");
   }, [onSheetChange, router]);
+
+  const handleLogout = useCallback(() => {
+    onSheetChange("profile", false);
+    logoutMutation.mutate();
+  }, [onSheetChange, logoutMutation]);
 
   return (
     <div className="lg:hidden mx-6 mt-17 px-3.25 py-2 flex items-center justify-between bg-black/30 backdrop-blur-lg rounded-full">
@@ -87,6 +94,8 @@ export const MobileNav = ({
           onLinkClick={handleLinkClick}
           onLogin={handleLogin}
           onRegister={handleRegister}
+          onLogout={handleLogout}
+          isLoggingOut={logoutMutation.isPending}
         />
       </div>
     </div>
