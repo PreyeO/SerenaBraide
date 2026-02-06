@@ -30,7 +30,7 @@ const RemainingBalanceModal = ({
       showVideo={true}
     >
       <div className="w-full flex flex-col gap-4">
-        <div className="bg-[#F0F3F7] w-full border rounded-[10px] py-[25px] px-4 flex flex-col items-center gap-3">
+        <div className="bg-[#F0F3F7] w-full border rounded-[10px] py-6.25 px-4 flex flex-col items-center gap-3">
           <SubHeading
             className="text-[32px] font-semibold text-[#01AD73]"
             title={`$${parseFloat(giftCardAmount).toFixed(2)}`}
@@ -80,5 +80,3 @@ const RemainingBalanceModal = ({
 };
 
 export default RemainingBalanceModal;
-
-

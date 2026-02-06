@@ -106,10 +106,7 @@ const GiftCardCheckout = () => {
 
   return (
     <>
-      <SuccessModal
-        isOpen={showSuccessModal}
-        orderNumber={orderData?.order_number}
-      />
+      <SuccessModal isOpen={showSuccessModal} />
       <section className="pt-38 px-16 mt-10 pb-12.5">
         <BackNavigation href="/giftcard" text="Gift Card" />
 

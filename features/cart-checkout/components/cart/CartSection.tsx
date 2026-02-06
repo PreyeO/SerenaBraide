@@ -12,6 +12,7 @@ import { useUpdateCartItem } from "../../hooks/useUpdateCartItem";
 import { useRemoveCartItem } from "../../hooks/useRemoveCartItem";
 import LoadingState from "@/components/ui/loaders/loading-state";
 import { getOrderItemImage } from "../../utils/checkout.utils";
+import { formatCurrency } from "@/lib/utils";
 import DeleteConfirmationModal from "@/components/ui/modals/delete-confirmation-modal";
 import { CartItem as CartItemType } from "../../type/cart.type";
 
@@ -70,7 +71,7 @@ const CartSection = () => {
                 key={item.id}
                 image={image}
                 name={item.variant.product_name}
-                price={`₦${item.variant.price}`}
+                price={formatCurrency(item.variant.price)}
                 metaLabel={
                   item.variant.size ? `Size: ${item.variant.size}` : ""
                 }
@@ -116,7 +117,7 @@ const CartSection = () => {
           onConfirm={handleDeleteConfirm}
           productImage={getItemImage(itemToDelete)}
           productName={itemToDelete.variant.product_name}
-          productPrice={`₦${itemToDelete.variant.price}`}
+          productPrice={formatCurrency(itemToDelete.variant.price)}
           productSize={itemToDelete.variant.size || undefined}
           productQuantity={itemToDelete.quantity}
           isLoading={removeMutation.isPending}

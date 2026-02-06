@@ -48,7 +48,7 @@ export interface PaymentItemProps {
   height: number;
   src: string;
   alt: string;
-  className: string;
+  className?: string;
   detail: string;
   optionID: string;
 }

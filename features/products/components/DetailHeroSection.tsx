@@ -191,14 +191,6 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
         {/* Product Image - Mobile Carousel */}
         <div className="w-full md:hidden block relative ">
           <ProductImageCarousel images={carouselImages} />
-
-          {/* <WishlistButton
-            isInWishlist={isInWishlist}
-            isLoading={isWishlistLoading}
-            isAnimating={isAnimating}
-            onClick={handleWishlistToggle}
-            className="absolute top-2 right-6 z-10"
-          /> */}
         </div>
 
         {/* Product Info */}

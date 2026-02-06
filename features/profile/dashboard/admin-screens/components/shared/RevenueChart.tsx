@@ -34,13 +34,8 @@ const RevenueChart = ({
     onDownload,
     gradientId = "colorValue",
 }: RevenueChartProps) => {
-    const renderTooltip = ({
-        active,
-        payload,
-    }: {
-        active?: boolean;
-        payload?: Array<{ value: number; payload: { date: string } }>;
-    }): ReactNode => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const renderTooltip = ({ active, payload }: any): ReactNode => {
         if (active && payload && payload.length) {
             const value = payload[0].value;
             return (
