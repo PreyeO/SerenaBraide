@@ -15,8 +15,21 @@ import { useGetProducts } from "../../hooks/admin/useGetProducts";
 import LoadingState from "@/components/ui/loaders/loading-state";
 import ProductTable from "./components/tables/ProductTable";
 import MetricCard from "./components/shared/MetricCard";
-import LocationChart from "./components/shared/LocationChart";
-import RevenueChart from "./components/shared/RevenueChart";
+import dynamic from "next/dynamic";
+
+const LocationChart = dynamic(
+  () => import("./components/shared/LocationChart"),
+  {
+    loading: () => (
+      <div className="h-75 w-full bg-gray-100 animate-pulse rounded-lg" />
+    ),
+  },
+);
+const RevenueChart = dynamic(() => import("./components/shared/RevenueChart"), {
+  loading: () => (
+    <div className="h-75 w-full bg-gray-100 animate-pulse rounded-lg" />
+  ),
+});
 import {
   transformRevenueData,
   transformLocationData,
@@ -45,12 +58,12 @@ const Overview = () => {
   // Transform data for charts
   const chartData = useMemo(
     () => transformRevenueData(revenueData?.monthly_data),
-    [revenueData]
+    [revenueData],
   );
 
   const pieChartData = useMemo(
     () => transformLocationData(locationData),
-    [locationData]
+    [locationData],
   );
 
   // Get the most recent 3 products

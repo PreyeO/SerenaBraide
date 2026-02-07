@@ -179,11 +179,10 @@ export const footerLinks: FooterSection[] = [
   {
     heading: "EXPLORE",
     items: [
-      { name: "Men Fragrance", href: "/categories/fragrances/men" },
-      { name: "Women Fragrance", href: "/categories/fragrances/women" },
-      { name: "Lip Gloss", href: "/best-sellers" },
-      { name: "Gift Cards", href: "/gift-cards" },
-      { name: "Gift Card Balance", href: "/gift-cards/balance" },
+      { name: "Perfumes", href: "/all-products" },
+      { name: "Lip Gloss", href: "/all-products" },
+      { name: "Gift Cards", href: "/giftcard" },
+      { name: "Gift Card Balance", href: "/giftcard-balance" },
     ],
   },
   {

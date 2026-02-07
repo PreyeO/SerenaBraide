@@ -3,12 +3,14 @@
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGetProducts } from "@/features/profile/hooks/admin/useGetProducts";
-import ProductForm from "./components/forms/ProductForm";
-import CategoryForm from "./components/forms/CategoryForm";
-import VariantForm from "./components/forms/VariantForm";
-import ProductTable from "./components/tables/ProductTable";
 import SubHeading from "@/components/ui/typography/subHeading";
 import DashboardLoader from "@/components/ui/loaders/dasboard-loader";
+import dynamic from "next/dynamic";
+
+const ProductForm = dynamic(() => import("./components/forms/ProductForm"), { loading: () => <DashboardLoader /> });
+const CategoryForm = dynamic(() => import("./components/forms/CategoryForm"), { loading: () => <DashboardLoader /> });
+const VariantForm = dynamic(() => import("./components/forms/VariantForm"), { loading: () => <DashboardLoader /> });
+const ProductTable = dynamic(() => import("./components/tables/ProductTable"), { loading: () => <DashboardLoader /> });
 
 const ProductScreen = () => {
   const { data: products, isLoading, refetch } = useGetProducts();

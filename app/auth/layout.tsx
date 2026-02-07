@@ -8,7 +8,7 @@ interface AuthLayoutProps {
 export default function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <main className="flex items-stretch">
-      <div className="hidden md:flex max-w-xl shrink-0">
+      <div className="hidden md:flex lg:max-w-130 xl:max-w-xl  h-full shrink-0">
         <Image
           src="/auth-image.png"
           alt="Silhouette spraying perfume"

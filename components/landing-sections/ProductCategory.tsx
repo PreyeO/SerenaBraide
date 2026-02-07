@@ -35,11 +35,12 @@ const ProductCategory = () => {
           {productCategories.map((product, index) => (
             <div key={index}>
               <ProductImage
-                className="w-full lg:w-72.5 xl:w-106 "
+                className=" "
                 src={product.src}
                 alt={product.name}
                 width={424}
                 height={product.height}
+                imageClassName="w-full lg:w-72.5 xl:w-106"
               />
             </div>
           ))}
@@ -58,6 +59,7 @@ const ProductCategory = () => {
                   alt={product.name}
                   width={250}
                   height={327}
+                  imageClassName="w-62.5 h-81.75"
                 />
               </CarouselItem>
             ))}

@@ -1,8 +1,8 @@
 import BestSeller from "@/components/landing-sections/BestSeller";
 import ConnectWithUs from "@/components/landing-sections/ConnectWithUs";
-import Delivery from "@/components/landing-sections/Delivery";
+// import Delivery from "@/components/landing-sections/Delivery";
 import GiftCard from "@/components/landing-sections/GiftCard";
-import GiftSet from "@/components/landing-sections/GiftSet";
+// import GiftSet from "@/components/landing-sections/GiftSet";
 import Hero from "@/components/landing-sections/Hero";
 import OurStory from "@/components/landing-sections/OurStory";
 import ProductCategory from "@/components/landing-sections/ProductCategory";
@@ -14,8 +14,8 @@ export default function Home() {
       <Hero />
       <OurStory />
       <ProductCategory />
-      {/* <BestSeller />
-      <GiftSet /> */}
+      <BestSeller />
+      {/* <GiftSet /> */}
       <GiftCard />
       <Wholesale />
       <ConnectWithUs />

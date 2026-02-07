@@ -81,14 +81,14 @@ export function useReviewPagination({
     const displayRange = useMemo(() => {
         if (!reviews || reviews.length === 0) return "";
 
-        if (isMobile) {
-            return `${currentPage}`;
-        }
-
         const startIndex = (currentPage - 1) * pageSize + 1;
         const endIndex = Math.min(currentPage * pageSize, reviews.length);
+
+        if (startIndex === endIndex) {
+            return `${startIndex}`;
+        }
         return `${startIndex}-${endIndex}`;
-    }, [reviews, currentPage, pageSize, isMobile]);
+    }, [reviews, currentPage, pageSize]);
 
     return {
         paginatedReviews,

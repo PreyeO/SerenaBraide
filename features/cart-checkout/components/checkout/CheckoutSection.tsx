@@ -7,14 +7,16 @@ import ShippingAddress from "./ShippingAddress";
 import Receipt from "../../shared/Receipt";
 import OrderSummaryCard from "../../shared/OrderSummaryCard";
 import PaymentMethodSection from "../../shared/PaymentMethodSection";
-import SuccessModal from "@/components/ui/modals/sucess";
-import FormModal from "@/components/ui/modals/form-modals";
-import PaymentMethodModal from "../modals/PaymentMethodModal";
-import RemainingBalanceModal from "../modals/RemainingBalanceModal";
-import GiftCardForm from "@/features/gift-card/components/forms/GiftCardForm";
 import SubHeading from "@/components/ui/typography/subHeading";
 import { useCheckout } from "../../hooks/useCheckout";
 import { formatCurrency } from "@/lib/utils";
+import dynamic from "next/dynamic";
+
+const SuccessModal = dynamic(() => import("@/components/ui/modals/sucess"), { ssr: false });
+const FormModal = dynamic(() => import("@/components/ui/modals/form-modals"), { ssr: false });
+const PaymentMethodModal = dynamic(() => import("../modals/PaymentMethodModal"), { ssr: false });
+const RemainingBalanceModal = dynamic(() => import("../modals/RemainingBalanceModal"), { ssr: false });
+const GiftCardForm = dynamic(() => import("@/features/gift-card/components/forms/GiftCardForm"), { loading: () => <p>Loading...</p> });
 
 const CheckoutSection = () => {
   const {

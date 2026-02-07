@@ -32,6 +32,7 @@ const AdminDashboard = ({ children }: { children: React.ReactNode }) => {
 
         <SidebarInset>
           <Header />
+
           <main className="p-6 ">{children}</main>
         </SidebarInset>
       </div>

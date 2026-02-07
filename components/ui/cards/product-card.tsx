@@ -15,9 +15,10 @@ import { useAddToCartFromProduct } from "@/features/cart-checkout/hooks/useAddTo
 
 interface ProductCardProps {
   product: Product;
+  className?: string;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
   const { data: wishlistData } = useWishlist();
@@ -196,7 +197,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <div className="lg:hidden flex flex-col gap-1">
             <Caption
               title={product.name}
-              className="font-medium text-[#3B3B3B] text-sm line-clamp-1"
+              className={`${className} font-medium  text-sm line-clamp-1`}
             />
 
             {product.reviews !== undefined && product.reviews > 0 && (

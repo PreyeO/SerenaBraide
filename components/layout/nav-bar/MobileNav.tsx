@@ -3,12 +3,14 @@ import { useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Logo from "@/components/ui/logo";
-import { MobileMenuSheet } from "./MobileMenuSheet";
-import { MobileSearchSheet } from "./MobileSearchSheet";
-import { MobileProfileSheet } from "./MobileProfileSheet";
 import { NavItem } from "@/types/general";
 import NavCartButton from "./NavCartButton";
 import { useLogout } from "@/features/auth/hooks/useLogout";
+import dynamic from "next/dynamic";
+
+const MobileMenuSheet = dynamic(() => import("./MobileMenuSheet").then(mod => mod.MobileMenuSheet), { ssr: false });
+const MobileSearchSheet = dynamic(() => import("./MobileSearchSheet").then(mod => mod.MobileSearchSheet), { ssr: false });
+const MobileProfileSheet = dynamic(() => import("./MobileProfileSheet").then(mod => mod.MobileProfileSheet), { ssr: false });
 
 interface MobileNavProps {
   navItems: NavItem[];

@@ -21,7 +21,6 @@ import {
 } from "@/features/profile/data/general.routes";
 import { cn } from "@/lib/utils";
 import { SidebarItem } from "@/features/profile/type/profile.general";
-import ProductImage from "@/components/ui/images/product-image";
 import Image from "next/image";
 
 type SidebarMenuProps = {

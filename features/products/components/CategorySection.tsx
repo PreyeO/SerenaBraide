@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import CategoryTabs from "@/features/products/components/shared/CategoryTabs";
+// import CategoryTabs from "@/features/products/components/shared/CategoryTabs";
 import ProductGrid from "@/features/products/components/shared/ProductGrid";
 import { useGetProductList } from "../hooks/useGetProductList";
 import { Product } from "@/types/product";
@@ -37,7 +37,7 @@ const convertToProduct = (item: ProductListItem): Product => ({
 });
 
 const CategorySection = ({ category }: ProductCategoryProps) => {
-  const [activeTab, setActiveTab] = useState("");
+  // const [activeTab, setActiveTab] = useState("");
   const [sortType, setSortType] = useState("all");
 
   // Fetch products for this category
@@ -82,7 +82,7 @@ const CategorySection = ({ category }: ProductCategoryProps) => {
 
   return (
     <section>
-      <CategoryTabs category={category} onTabChange={setActiveTab} />
+      {/* <CategoryTabs category={category} onTabChange={setActiveTab} /> */}
       <ProductGrid
         products={sortedProducts}
         sortType={sortType}

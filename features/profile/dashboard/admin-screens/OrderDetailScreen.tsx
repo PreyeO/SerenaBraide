@@ -7,8 +7,13 @@ import { useGetOrderDetails } from "@/features/profile/hooks/admin/useGetOrderDe
 import BackNavigation from "@/components/ui/btns/back-navigation";
 import SubHeading from "@/components/ui/typography/subHeading";
 import { Order } from "@/features/profile/type/customers/profile.type";
-import UpdateShippingStatusModal from "./components/UpdateShippingStatusModal";
 import { Button } from "@/components/ui/button";
+import dynamic from "next/dynamic";
+
+const UpdateShippingStatusModal = dynamic(
+  () => import("./components/UpdateShippingStatusModal"),
+  { ssr: false }
+);
 import { Edit } from "lucide-react";
 import DashboardLoader from "@/components/ui/loaders/dasboard-loader";
 
@@ -309,11 +314,10 @@ const OrderDetailScreen = ({ orderNumber }: OrderDetailScreenProps) => {
               <div>
                 <p className="text-xs text-[#6F6E6C] mb-1">Status</p>
                 <span
-                  className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
-                    order.purchased_gift_card.status === "active"
+                  className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${order.purchased_gift_card.status === "active"
                       ? "bg-green-100 text-green-700"
                       : "bg-gray-100 text-gray-600"
-                  }`}
+                    }`}
                 >
                   {order.purchased_gift_card.status}
                 </span>

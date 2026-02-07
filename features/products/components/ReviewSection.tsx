@@ -39,10 +39,13 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
     currentPage,
     totalPages,
     isMobile,
-    goToNextPage,
     goToPrevPage,
+    goToNextPage,
     displayRange,
-  } = useReviewPagination({ reviews: reviewsData?.results });
+  } = useReviewPagination({
+    reviews: reviewsData?.results,
+    mobilePageSize: 5,
+  });
 
   // Don't render if no productId
   if (!productId) return null;
@@ -109,9 +112,8 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
       <div className="flex lg:pt-12.5 pt-6 items-center lg:mb-6.5 mb-4">
         <Paragraph
           className="font-medium lg;text-lg text-xs"
-          content={`${totalReviews} Reviews ${
-            totalReviews === 1 ? "customer" : "customers"
-          }`}
+          content={`${totalReviews} Reviews ${totalReviews === 1 ? "customer" : "customers"
+            }`}
         />
         <div className="border border-[#3B3B3B] flex justify-center h-4 ml-2.5" />
         <div className="flex items-center gap-1.5">
@@ -127,9 +129,8 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
             <StarRating rating={Math.round(averageRating)} />
           </div>
           <Caption
-            title={`${totalReviews} ${
-              totalReviews === 1 ? "rating" : "ratings"
-            }`}
+            title={`${totalReviews} ${totalReviews === 1 ? "rating" : "ratings"
+              }`}
             className="font-normal lg:text-sm text-xs"
           />
         </div>
@@ -196,40 +197,47 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
 
       {/* Pagination */}
       {reviewsData.count > 0 && (
-        <div className="flex justify-between pt-8 items-center flex-wrap gap-4">
+        <div className="flex flex-col md:flex-row justify-between pt-8 items-center gap-4 w-full">
           <Caption
-            title={`Displaying Review${isMobile ? "" : "s"} ${displayRange} of ${
-              reviewsData.results.length
-            }`}
-            className="text-sm text-[#6F6E6C] font-normal"
+            title={`Displaying Review${isMobile ? "" : "s"} ${displayRange} of ${reviewsData.count
+              }`}
+            className="text-sm text-[#6F6E6C] font-normal order-1"
           />
+
+          <div className="flex items-center gap-2 order-2 md:order-3">
+            <button
+              onClick={goToPrevPage}
+              disabled={currentPage === 1}
+              className={`text-sm ${currentPage === 1
+                ? "text-[#D6D6D6] cursor-not-allowed"
+                : "text-[#3B3B3B] hover:underline"
+                }`}
+            >
+              Previous
+            </button>
+            <span className="text-[#3B3B3B] text-sm">|</span>
+            <button
+              onClick={goToNextPage}
+              disabled={currentPage === totalPages}
+              className={`text-sm ${currentPage === totalPages
+                ? "text-[#D6D6D6] cursor-not-allowed"
+                : "text-[#3B3B3B] hover:underline"
+                }`}
+            >
+              Next
+            </button>
+          </div>
+
           <Caption
             title="Leave a review and earn 5 loyalty points!*"
-            className="text-sm text-[#6F6E6C] font-normal hidden md:block"
+            className="text-sm text-[#6F6E6C] font-normal hidden md:block order-3 md:order-2"
           />
-          <div className="flex gap-4">
-            {currentPage > 1 && (
-              <button
-                onClick={goToPrevPage}
-                className="text-sm text-[#3B3B3B] hover:underline"
-              >
-                Previous
-              </button>
-            )}
-            {currentPage < totalPages && (
-              <button
-                onClick={goToNextPage}
-                className="text-sm text-[#3B3B3B] hover:underline"
-              >
-                Next
-              </button>
-            )}
-          </div>
         </div>
       )}
+
       <Caption
         title="Leave a review and earn 5 loyalty points!*"
-        className="lg:hidden lg:text-sm text-xs text-[#6F6E6C] font-normal md:block mt-2.5 text-center"
+        className="md:hidden text-xs text-[#6F6E6C] font-normal mt-4 text-center block"
       />
     </section>
   );

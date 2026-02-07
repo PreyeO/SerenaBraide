@@ -13,7 +13,12 @@ import { useRemoveCartItem } from "../../hooks/useRemoveCartItem";
 import LoadingState from "@/components/ui/loaders/loading-state";
 import { getOrderItemImage } from "../../utils/checkout.utils";
 import { formatCurrency } from "@/lib/utils";
-import DeleteConfirmationModal from "@/components/ui/modals/delete-confirmation-modal";
+import dynamic from "next/dynamic";
+
+const DeleteConfirmationModal = dynamic(
+  () => import("@/components/ui/modals/delete-confirmation-modal"),
+  { ssr: false }
+);
 import { CartItem as CartItemType } from "../../type/cart.type";
 
 const CartSection = () => {

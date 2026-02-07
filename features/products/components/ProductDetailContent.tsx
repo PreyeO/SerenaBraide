@@ -1,10 +1,18 @@
 "use client";
 
 import React, { useState } from "react";
+import dynamic from "next/dynamic";
 import DetailHeroSection from "./DetailHeroSection";
 import DetailInfoSection from "./DetailInfoSection";
-import RecommendationSection from "./RecommendationSection";
-import ReviewSection from "./ReviewSection";
+
+const RecommendationSection = dynamic(
+  () => import("./RecommendationSection"),
+  { loading: () => <LoadingState /> }
+);
+const ReviewSection = dynamic(
+  () => import("./ReviewSection"),
+  { loading: () => <LoadingState /> }
+);
 import { useGetProductBySlug } from "../hooks/useGetProductDetail";
 
 import LoadingState from "@/components/ui/loaders/loading-state";

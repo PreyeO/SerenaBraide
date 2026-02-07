@@ -7,7 +7,12 @@ import OverviewCard from "./shared/OverviewCard";
 import { useWishlist } from "../../hooks/customer/useWishlist";
 import { useRemoveFromWishlist } from "../../hooks/customer/useRemoveFromWishlist";
 import { useAddToCart } from "@/features/cart-checkout/hooks/useAddToCart";
-import DeleteConfirmationModal from "@/components/ui/modals/delete-confirmation-modal";
+import dynamic from "next/dynamic";
+
+const DeleteConfirmationModal = dynamic(
+  () => import("@/components/ui/modals/delete-confirmation-modal"),
+  { ssr: false }
+);
 import ProductImage from "@/components/ui/images/product-image";
 import Paragraph from "@/components/ui/typography/paragraph";
 import SubHeading from "@/components/ui/typography/subHeading";

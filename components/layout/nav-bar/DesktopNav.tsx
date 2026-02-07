@@ -7,9 +7,17 @@ import { NavItem } from "@/types/general";
 import { DesktopNavItems } from "./DesktopNavItems";
 import NavCartButton from "./NavCartButton";
 import { DesktopProfileMenu } from "./DesktopProfileMenu";
-import { DesktopDropdownPanel } from "./DesktopDropdownPanel";
 import { NavWishlistButton } from "./NavWhislistButton";
-import { DesktopSearchPanel } from "./DesktopSearchPanel";
+import dynamic from "next/dynamic";
+
+const DesktopDropdownPanel = dynamic(
+  () => import("./DesktopDropdownPanel").then(mod => mod.DesktopDropdownPanel),
+  { ssr: false }
+);
+const DesktopSearchPanel = dynamic(
+  () => import("./DesktopSearchPanel").then(mod => mod.DesktopSearchPanel),
+  { ssr: false }
+);
 
 interface DesktopNavProps {
   navItems: NavItem[];
