@@ -84,30 +84,16 @@ export const BADGE_STYLES = {
 
 export const navItems: NavItem[] = [
   {
+    title: "ALL PRODUCTS",
+    href: "/all-products",
+    sections: [],
+  },
+  {
     title: "CATEGORIES",
     href: "/categories",
     sections: [],
   },
-  {
-    title: "BEST SELLERS",
-    href: "/best-sellers",
-    sections: [
-      {
-        heading: "Top Fragrances",
-        items: [
-          { name: "Amber Oud", href: "/categories/best-sellers" },
-          { name: "Royal Musk", href: "/categories/best-sellers" },
-        ],
-      },
-      {
-        heading: "Trending Skincare",
-        items: [
-          { name: "Glow Serum", href: "/best-sellers/glow-serum" },
-          { name: "Hydra Balm", href: "/best-sellers/hydra-balm" },
-        ],
-      },
-    ],
-  },
+
   {
     title: "GIFTS & SETS",
     href: "/giftcards",
@@ -142,7 +128,7 @@ export const navItems: NavItem[] = [
 
 export const pros = [
   {
-    name: "Free Delivery Over $500",
+    name: "Fast Delivery Over",
     src: "/fast-delivery.svg",
   },
   {
@@ -195,7 +181,7 @@ export const footerLinks: FooterSection[] = [
     items: [
       { name: "Men Fragrance", href: "/categories/fragrances/men" },
       { name: "Women Fragrance", href: "/categories/fragrances/women" },
-      { name: "Best Sellers", href: "/best-sellers" },
+      { name: "Lip Gloss", href: "/best-sellers" },
       { name: "Gift Cards", href: "/gift-cards" },
       { name: "Gift Card Balance", href: "/gift-cards/balance" },
     ],

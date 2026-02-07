@@ -26,25 +26,27 @@ export function useNavigationData() {
         };
       });
 
-    // Build desktop nav items (exclude currency)
-    const desktopNavItems: NavItem[] = [
-      {
-        title: "CATEGORIES",
-        href: "/categories",
-        sections: categorySections,
-      },
-      ...hardcodedNavItems.filter((item) => item.title !== "CATEGORIES"),
-    ];
+    // Build desktop nav items
+    const desktopNavItems: NavItem[] = hardcodedNavItems.map((item) => {
+      if (item.title === "CATEGORIES") {
+        return {
+          ...item,
+          sections: categorySections,
+        };
+      }
+      return item;
+    });
 
     // Build mobile nav items
-    const mobileNavItems: NavItem[] = [
-      {
-        title: "CATEGORIES",
-        href: "/categories",
-        sections: categorySections,
-      },
-      ...hardcodedNavItems.filter((item) => item.title !== "CATEGORIES"),
-    ];
+    const mobileNavItems: NavItem[] = hardcodedNavItems.map((item) => {
+      if (item.title === "CATEGORIES") {
+        return {
+          ...item,
+          sections: categorySections,
+        };
+      }
+      return item;
+    });
 
     return {
       desktop: desktopNavItems,

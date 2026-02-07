@@ -72,9 +72,17 @@ export async function getProductBySlug(slug: string): Promise<ProductDetail> {
   return getProductById(product.id);
 }
 
+// ... existing code ...
 export async function getFeaturedProducts(): Promise<ProductListItem[]> {
   const response: AxiosResponse<ProductListItem[]> = await api.get(
     "/api/products/featured/",
+  );
+  return response.data;
+}
+
+export async function getAllProducts(): Promise<ProductListResponse> {
+  const response: AxiosResponse<ProductListResponse> = await api.get(
+    "/api/products/",
   );
   return response.data;
 }

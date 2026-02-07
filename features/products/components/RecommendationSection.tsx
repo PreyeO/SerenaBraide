@@ -55,7 +55,7 @@ const RecommendationSection: React.FC<RecommendationSectionProps> = ({
           {[...Array(4)].map((_, idx) => (
             <div
               key={idx}
-              className="w-full h-[300px] bg-gray-100 animate-pulse rounded-md"
+              className="w-full h-75 bg-gray-100 animate-pulse rounded-md"
             />
           ))}
         </div>

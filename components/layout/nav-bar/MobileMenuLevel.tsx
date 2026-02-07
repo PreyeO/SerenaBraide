@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import { NavItem, NavSection } from "@/types/general";
+import Image from "next/image";
 
 interface MobileMenuLevelProps {
   activeItem: string | null;
@@ -132,7 +133,7 @@ export const MobileMenuLevel = ({
                       className="flex items-center gap-3 w-full"
                     >
                       {currency.icon && (
-                        <img
+                        <Image
                           src={currency.icon}
                           width={24}
                           height={16}

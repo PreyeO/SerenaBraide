@@ -32,9 +32,8 @@ export const DesktopNavItems = ({
           <div key={item.title} className="relative">
             <button
               onClick={() => onMenuOpen(item.title)}
-              className={`text-sm font-medium text-white rounded-full transition-colors duration-300 ${
-                activeMenu === item.title ? "bg-black px-3 py-1 text-white" : ""
-              }`}
+              className={`text-sm font-medium text-white rounded-full transition-colors duration-300 px-3 py-1 hover:bg-black ${activeMenu === item.title ? "bg-black text-white" : ""
+                }`}
             >
               {item.title}
             </button>
