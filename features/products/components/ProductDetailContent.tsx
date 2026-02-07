@@ -5,7 +5,6 @@ import DetailHeroSection from "./DetailHeroSection";
 import DetailInfoSection from "./DetailInfoSection";
 import RecommendationSection from "./RecommendationSection";
 import ReviewSection from "./ReviewSection";
-import { recommendedProducts } from "../data/product.data";
 import { useGetProductBySlug } from "../hooks/useGetProductDetail";
 
 import LoadingState from "@/components/ui/loaders/loading-state";
@@ -73,9 +72,7 @@ const ProductDetailContent: React.FC<ProductDetailContentProps> = ({
       />
       <ReviewSection productId={product.id} />
 
-      <RecommendationSection
-        products={Object.values(recommendedProducts).flat()}
-      />
+      <RecommendationSection />
     </>
   );
 };

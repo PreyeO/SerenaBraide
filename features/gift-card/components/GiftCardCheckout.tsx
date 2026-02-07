@@ -2,7 +2,7 @@
 
 import BackNavigation from "@/components/ui/btns/back-navigation";
 import React, { useState, useEffect } from "react";
-import Paragraph from "@/components/ui/typography/paragraph";
+
 import { useGiftCardStore } from "../giftcard.store";
 import { useRouter } from "next/navigation";
 import PaymentMethodSection from "@/features/cart-checkout/shared/PaymentMethodSection";
@@ -15,6 +15,7 @@ import { useOrderDetail } from "@/features/cart-checkout/hooks/useOrderDetail";
 import { useSearchParams } from "next/navigation";
 import SuccessModal from "@/components/ui/modals/sucess";
 import { formatCurrency } from "@/lib/utils";
+import SimpleOrderSummary from "@/features/cart-checkout/shared/SimpleOrderSummary";
 
 const GiftCardCheckout = () => {
   const router = useRouter();
@@ -133,101 +134,16 @@ const GiftCardCheckout = () => {
 
           {/* Right Column - Order Summary (Receipt-like) */}
           <div className="order-1 lg:order-2">
-            <div className="xl:w-143 lg:w-100 w-full bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5]">
-              {/* Header */}
-              <div className="bg-[#3B3B3B] lg:py-7.5 py-4 lg:px-8 px-4 rounded-t-[10px]">
-                <div className="text-white">
-                  <Paragraph
-                    className="font-medium text-sm"
-                    content="Gift Card Purchase"
-                  />
-                  <Paragraph
-                    className="italic font-normal text-sm"
-                    content="Digital delivery via email"
-                  />
-                </div>
-              </div>
-
-              {/* Receipt Details */}
-              <div className="flex flex-col lg:gap-6 gap-4 lg:px-8 px-4 lg:py-8 py-6">
-                {/* Order Number */}
-                <div className="flex justify-between items-center">
-                  <Paragraph
-                    className="text-[#6F6E6C] lg:text-base text-sm"
-                    content="Order Number"
-                  />
-                  <Paragraph
-                    className="font-medium lg:text-base text-sm"
-                    content={`#${giftCardData.order_number}`}
-                  />
-                </div>
-
-                {/* Subtotal (Gift Card Amount) */}
-                <div className="flex justify-between items-center">
-                  <Paragraph
-                    className="text-[#3B3B3B] font-medium lg:text-base text-sm"
-                    content="Subtotal"
-                  />
-                  <Paragraph
-                    className="font-normal lg:text-base text-sm"
-                    content={formatCurrency(giftCardData.amount, true)}
-                  />
-                </div>
-
-                {/* Tax */}
-                {orderData && parseFloat(orderData.tax || "0") > 0 && (
-                  <div className="flex justify-between items-center">
-                    <Paragraph
-                      className="text-[#3B3B3B] font-medium lg:text-base text-sm"
-                      content="Tax"
-                    />
-                    <Paragraph
-                      className="font-normal lg:text-base text-sm"
-                      content={formatCurrency(orderData.tax, true)}
-                    />
-                  </div>
-                )}
-
-                {/* Shipping */}
-                {orderData && parseFloat(orderData.shipping_cost || "0") > 0 ? (
-                  <div className="flex justify-between items-center">
-                    <Paragraph
-                      className="text-[#3B3B3B] font-medium lg:text-base text-sm"
-                      content="Shipping"
-                    />
-                    <Paragraph
-                      className="font-normal lg:text-base text-sm"
-                      content={formatCurrency(orderData.shipping_cost, true)}
-                    />
-                  </div>
-                ) : (
-                  <div className="flex justify-between items-center">
-                    <Paragraph
-                      className="text-[#3B3B3B] font-medium lg:text-base text-sm"
-                      content="Shipping"
-                    />
-                    <Paragraph
-                      className="font-normal lg:text-base text-sm text-[#6F6E6C]"
-                      content="Free"
-                    />
-                  </div>
-                )}
-
-                {/* Total */}
-                <div className="border-t pt-4 lg:pb-6 pb-4">
-                  <div className="flex justify-between items-center">
-                    <Paragraph
-                      className="text-[#3B3B3B] font-medium lg:text-base text-sm"
-                      content="Total"
-                    />
-                    <Paragraph
-                      className="font-bold lg:text-lg text-base"
-                      content={formatCurrency(totalAmount, true)}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
+            <SimpleOrderSummary
+              title="Gift Card Purchase"
+              subtitle="Digital delivery via email"
+              orderNumber={giftCardData.order_number}
+              subtotal={giftCardData.amount}
+              tax={orderData?.tax}
+              shipping={orderData?.shipping_cost}
+              total={totalAmount}
+              className="xl:w-143 lg:w-100 w-full"
+            />
           </div>
         </div>
       </section>

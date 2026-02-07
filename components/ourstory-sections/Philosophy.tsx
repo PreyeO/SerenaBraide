@@ -10,25 +10,27 @@ const Philosophy = () => {
     <section className=" font-normal  w-full">
       <div className="lg:px-16 px-6 lg:py-22 py-10 flex flex-col ">
         <AuthSpan className=" text-[32px] lg:text-[54px] max-w-132.25  lg:leading-14.75 text-center">
-          Clean Ingredients,
+          Our
           <span className="font-PPEditorialNew italic text-[#3B3B3B]">
             {" "}
-            Radical
+            Philosophy
           </span>{" "}
-          Transparency.
         </AuthSpan>
         <div className="order-2 lg:order-2  lg:leading-6 leading-5.5 max-w-116  lg:pt-12.5 pt-8.5 flex flex-col mx-auto">
           <Paragraph
             className="lg:text-base text-sm font-normal text-[#6F6E6C]"
-            content="We formulate to the highest standards of efficacy and safety – using only proven, 
-              verified ingredientsin bio-compatible bases; and free from over 1800 questionable ingredients."
+            content="Everything at SerenaBraide is created with intention."
           />
 
           <Paragraph
             className="lg:text-base text-sm font-normal text-[#6F6E6C]"
-            content="With no black boxes, and nothing to hide, we strive for radical 
-           
-          formulation transparency, so you will never have to guess what and how much of it is in the products you use."
+            content="Ingredients are chosen with care.
+Formulations are thoughtful, not excessive.
+Packaging is considered, not loud."
+          />
+          <Paragraph
+            className="lg:text-base pt-2.5 text-sm font-normal text-[#6F6E6C]"
+            content="Nothing exists to impress. Everything exists to last."
           />
         </div>
         <div className="pt-6 lg:pt-0 order-1 lg:order-3 rounded-full size-12.5 bg-[#F5F5F5] flex items-center justify-center ">
@@ -68,18 +70,16 @@ const Philosophy = () => {
       <div className="grid lg:grid-cols-2 grid-cols-1 w-full gap-0">
         <div className="flex gap-1.5 flex-col items-center justify-center text-center bg-black  px-5.5 py-10 h-93.75 lg:h-125">
           <AuthSpan className=" text-[32px] max-w-83 text-[#FFFFFF] font-medium  leading-9.5 text-center">
-            Thoughtful Packaging, Carefully
+            From scent to beauty essentials, every detail reflects the same
+            belief:
             <span className="font-PPEditorialNew italic  font-normal">
-              Crafted
+              presence should feel natural.
             </span>{" "}
-            .
           </AuthSpan>
 
           <Paragraph
             className="text-[#F5F5F5] font-normal lg:text-base text-sm leading-5.5 lg:leading-6 max-w-150"
-            content="We formulate to the highest standards of efficacy and safety – 
-            using only proven, verified ingredients in bio-compatible bases; and free 
-            from over 1800 questionable ingredients."
+            content="SerenaBraide is designed to sit quietly on the skin and stay in memory."
           />
         </div>
 

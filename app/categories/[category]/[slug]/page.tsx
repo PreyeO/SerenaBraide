@@ -7,6 +7,7 @@ import CategorySection from "@/features/products/components/CategorySection";
 import HeroSection from "@/features/products/components/HeroSection";
 import { useGetCategoriesTree } from "@/features/products/hooks/useGetCategoriesTree";
 import { useMemo } from "react";
+import LoadingState from "@/components/ui/loaders/loading-state";
 
 const CategoryOrProductContent = () => {
   const params = useParams();
@@ -22,7 +23,7 @@ const CategoryOrProductContent = () => {
 
     // Check if slug matches any child category
     const childCategory = parentCategory.children?.find(
-      (child) => child.slug === slug
+      (child) => child.slug === slug,
     );
     return !!childCategory;
   }, [categories, category, slug]);
@@ -43,7 +44,7 @@ const CategoryOrProductContent = () => {
 
 const CategoryOrProductPage = () => {
   return (
-    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+    <Suspense fallback={<LoadingState />}>
       <CategoryOrProductContent />
     </Suspense>
   );

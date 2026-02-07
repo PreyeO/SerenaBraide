@@ -20,18 +20,18 @@ const Hero = () => {
         {/* Heading + description */}
         <div className="lg:mt-50 mt-27 text-white max-w-131 flex flex-col lg:gap-6 gap-4">
           <Heading
-            title="Leave more than an impression."
+            title="Make your presence felt. "
             className="lg:text-[60px] text-[32px] lg:leading-15 leading-9.5 font-normal"
           />
 
           <Paragraph
             className="lg:text-[22px] text-sm lg:leading-7 leading-5.5 font-light"
-            content="Fragrance and beauty essentials designed to stay on the skin, and in memory."
+            content="Essentials that linger on skin, in memory & mind."
           />
         </div>
 
         <Button className="bg-white text-[#3B3B3B] rounded-full py-6 px-4 font-normal text-sm mt-6 lg:mt-12.5">
-          Shop the Collection
+          See all Products
         </Button>
         <div className="flex justify-end">
           <Image src="/dots.svg" alt="dots" width={78} height={30} />

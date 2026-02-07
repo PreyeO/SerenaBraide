@@ -31,7 +31,7 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
 
   const { averageRating, totalReviews, recommendationRate } = useMemo(
     () => calculateReviewStats(reviewsData?.results, reviewsData?.count),
-    [reviewsData]
+    [reviewsData],
   );
 
   const {
@@ -109,8 +109,9 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
       <div className="flex lg:pt-12.5 pt-6 items-center lg:mb-6.5 mb-4">
         <Paragraph
           className="font-medium lg;text-lg text-xs"
-          content={`${totalReviews} Reviews ${totalReviews === 1 ? "customer" : "customers"
-            }`}
+          content={`${totalReviews} Reviews ${
+            totalReviews === 1 ? "customer" : "customers"
+          }`}
         />
         <div className="border border-[#3B3B3B] flex justify-center h-4 ml-2.5" />
         <div className="flex items-center gap-1.5">
@@ -126,8 +127,9 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
             <StarRating rating={Math.round(averageRating)} />
           </div>
           <Caption
-            title={`${totalReviews} ${totalReviews === 1 ? "rating" : "ratings"
-              }`}
+            title={`${totalReviews} ${
+              totalReviews === 1 ? "rating" : "ratings"
+            }`}
             className="font-normal lg:text-sm text-xs"
           />
         </div>
@@ -196,8 +198,9 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
       {reviewsData.count > 0 && (
         <div className="flex justify-between pt-8 items-center flex-wrap gap-4">
           <Caption
-            title={`Displaying Review${isMobile ? "" : "s"} ${displayRange} of ${reviewsData.results.length
-              }`}
+            title={`Displaying Review${isMobile ? "" : "s"} ${displayRange} of ${
+              reviewsData.results.length
+            }`}
             className="text-sm text-[#6F6E6C] font-normal"
           />
           <Caption
@@ -226,7 +229,7 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
       )}
       <Caption
         title="Leave a review and earn 5 loyalty points!*"
-        className="lg:text-sm text-xs text-[#6F6E6C] font-normal md:block mt-2.5 text-center"
+        className="lg:hidden lg:text-sm text-xs text-[#6F6E6C] font-normal md:block mt-2.5 text-center"
       />
     </section>
   );

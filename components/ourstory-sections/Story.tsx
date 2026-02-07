@@ -13,9 +13,9 @@ const Story = () => {
           <div className="max-[235px] flex flex-col gap-6 items-center px-7.5 ">
             <Sparkle className="size-7.5" fill="#3B3B3B" stroke="none" />
             <AuthSpan className=" text-[32px] max-w-78.75  leading-9.5 text-center">
-              Honest products that truly work
+              Essentials designed with intention,
               <span className="font-PPEditorialNew italic text-[#3B3B3B]">
-                no exceptions!{" "}
+                never excess
               </span>
             </AuthSpan>
           </div>
@@ -29,12 +29,12 @@ const Story = () => {
             />
             <Paragraph
               className="px-6 lg:text-base text-sm leading-5.5 font-normal lg:leading-6 max-w-125 text-[#6F6E6C]"
-              content="For 30 years we have been selling the widest range of women's perfumes 
-            and men's aftershaves at affordable prices. We stock the fragrances of nearly 130 
-            brands including Hugo Boss, Paco Rabanne, Gucci, Ariana Grande, Mugler and Marc 
-            Jacobs both online and across our network of over 215 nationwide stores. W
-            e also stock the luxury perfume brands Dior, Tom Ford, Viktor & Rolf, Hermès 
-            and Maison Margiela."
+              content="SerenaBraide was born from a lifelong sensitivity to scent.
+From childhood, fragrance held meaning, it marked moments, shaped memory, and expressed identity without words."
+            />
+            <Paragraph
+              className="px-6  lg:text-base text-sm leading-5.5 font-normal lg:leading-6 max-w-125 text-[#6F6E6C]"
+              content="As that understanding deepened, beauty followed naturally. Not as transformation, but as completion. Small rituals. Finishing touches. Presence refined."
             />
           </div>
         </div>

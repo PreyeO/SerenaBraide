@@ -193,54 +193,7 @@ export const productDisplay: Record<string, Product[]> = {
     },
   ],
 };
-export const recommendedProducts: Record<string, Product[]> = {
-  Fragrance: [
-    {
-      type: "Women Fragrance",
-      price: "$120",
-      name: "Amber Oud",
-      src: "/gift-1.png",
-      sizes: ["3ML", "10ML", "50ML"],
-      rating: 4.5,
-      reviews: 320,
-      sold: "500+",
-    },
-    {
-      type: "Men Fragrance",
-      price: "$95",
-      name: "Royal Musk",
-      src: "/gift-2.png",
-      sizes: ["5ML", "30ML"],
-      rating: 4.0,
-      reviews: 210,
-      sold: "300+",
-    },
-  ],
-  Lips: [
-    {
-      type: "Lip Gloss",
-      price: "$30",
-      name: "Shiny Glow",
-      src: "/gift-3.png",
-      sizes: ["5ML", "15ML"],
-      rating: 4.8,
-      reviews: 80,
-      sold: "150+",
-    },
-  ],
-  Diffusers: [
-    {
-      type: "Reed Diffuser",
-      price: "$55",
-      name: "Ocean Breeze",
-      src: "/gift-1.png",
-      sizes: ["100ML", "200ML"],
-      rating: 4.2,
-      reviews: 60,
-      sold: "90+",
-    },
-  ],
-};
+
 export const singleProduct = [
   {
     variantId: 2,

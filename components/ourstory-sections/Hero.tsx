@@ -34,10 +34,9 @@ const Hero = () => {
       {/* Description */}
       <div className="leading-5.5 max-w-63.25 text-[#6F6E6C] text-sm mt-4">
         <AuthSpan>
-          Exploring a life written in perfume from the key qualities that color
-          the world of{" "}
-          <span className="font-PPEditorialNew italic">SERENA BRAIDE </span>
-          perfumes.
+          Scent. Beauty. Presence.
+          <span className="font-PPEditorialNew italic"> SERENA BRAIDE </span>
+          is a personal world shaped by memory, identity, and quiet confidence.
         </AuthSpan>
       </div>
     </section>

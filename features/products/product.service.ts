@@ -5,6 +5,7 @@ import {
   ProductDetail,
   ProductListParams,
   ProductListResponse,
+  ProductListItem,
   ReviewsResponse,
 } from "./product.type";
 
@@ -57,26 +58,23 @@ export async function getProductById(
 }
 
 export async function getProductBySlug(slug: string): Promise<ProductDetail> {
-  console.log("Looking for product with slug:", slug);
-
   // Fetch all products (no category filter since API expects category ID, not slug)
   const response = await getProducts();
-  console.log("Products fetched:", response.results.length);
-  console.log(
-    "Available slugs:",
-    response.results.map((p) => p.slug),
-  );
 
   // Find exact match by slug
   const product = response.results.find((p) => p.slug === slug);
 
   if (!product) {
-    console.error("Product not found with slug:", slug);
     throw new Error("Product not found");
   }
 
-  console.log("Found product:", product.id, product.name);
-
   // Get full product details by ID
   return getProductById(product.id);
+}
+
+export async function getFeaturedProducts(): Promise<ProductListItem[]> {
+  const response: AxiosResponse<ProductListItem[]> = await api.get(
+    "/api/products/featured/",
+  );
+  return response.data;
 }

@@ -10,9 +10,9 @@ const OurStory = () => {
       <div>
         <div className="flex justify-between">
           <TitleSpan
-            title="ULTIMATE SOPHISTICATION AND TIMELESS"
+            title="REFINED ESSENTIALS. TIMELESS"
             className="lg:text-[22px] text-base lg:leading-7 leading-6 max-w-76"
-            span="LUXURY"
+            span="PRESENCE"
           />
           <div className="hidden lg:flex border text-[#3B3B3B] border-[#3B3B3B] text-sm rounded-full w-28.5 h-10.5 items-center justify-center ">
             <Dot size={18} />
@@ -27,12 +27,10 @@ const OurStory = () => {
           >
             <div className="flex items-end flex-col">
               <TitleSpan
-                title="Exploring a life written in perfume from the key qualities that colors the world of"
+                title="A life written in scent and beauty. "
                 className="text-sm leading-5.5  text-[#6F6E6C] max-w-55.75"
-                span="SERENA BRAIDE "
-              >
-                perfumes
-              </TitleSpan>
+                span="Fragrance as memory, Beauty as presence."
+              />
             </div>
 
             <Image
@@ -62,18 +60,14 @@ const OurStory = () => {
               <h4>Our Story</h4>
             </div>
             <TitleSpan
-              title="Conscious"
+              title="Conscious "
               className="lg:text-[40px] text-[26px] lg:leading-12 leading-8"
-              span="Fragrance"
-            >
-              Creation
-            </TitleSpan>
+              span="Scent & Beauty"
+            />
+
             <Paragraph
-              content="For 30 years we have been selling the widest range of women's perfumes 
-            and men's aftershaves at affordable prices. We stock the fragrances of nearly 130 
-            brands including Hugo Boss, Paco Rabanne, Gucci, Ariana Grande, Mugler and Marc Jacobs 
-            both online and across our network of over 215 nationwide stores. We also stock the luxury 
-            perfume brands Dior, Tom Ford, Viktor & Rolf, Hermès and Maison Margiela."
+              content="From childhood, Serena Braide understood scent as a language.
+Fragrance shapes memory. Beauty completes presence. Every creation is deliberate, never loud, always remembered."
               className="text-[#6F6E6C] font-normal lg:text-base text-sm lg:leading-6 leading-5.5"
             />
 
