@@ -18,13 +18,19 @@ const ProductScreen = () => {
 
   if (isLoading) return <DashboardLoader />;
 
+  const handleCategoryCreated = () => {
+    refetch();
+    setActiveTab("add-product");
+  };
+
   const handleProductCreated = () => {
     refetch();
-    setActiveTab("all-products");
+    setActiveTab("add-variant");
   };
 
   const handleVariantCreated = () => {
     refetch();
+    setActiveTab("all-products");
   };
 
   const handleAddProduct = () => {
@@ -76,7 +82,7 @@ const ProductScreen = () => {
         </TabsContent>
 
         <TabsContent value="add-category" className="mt-0">
-          <CategoryForm />
+          <CategoryForm onCategoryCreated={handleCategoryCreated} />
         </TabsContent>
 
         <TabsContent value="add-variant" className="mt-0">

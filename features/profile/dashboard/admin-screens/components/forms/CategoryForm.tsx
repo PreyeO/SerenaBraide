@@ -36,7 +36,11 @@ import { Upload, X } from "lucide-react";
 import Image from "next/image";
 import { Spinner } from "@/components/ui/spinner";
 
-const CategoryForm = () => {
+interface CategoryFormProps {
+  onCategoryCreated?: () => void;
+}
+
+const CategoryForm = ({ onCategoryCreated }: CategoryFormProps) => {
   const { mutate: createCategoryMutation, isPending } = useCreateCategory();
   const {
     data: categories = [],
@@ -92,6 +96,9 @@ const CategoryForm = () => {
         form.reset();
         setSelectedFile(null);
         setImagePreview(null);
+        if (onCategoryCreated) {
+          onCategoryCreated();
+        }
       },
     });
   };

@@ -14,8 +14,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuthStore } from "@/features/auth/auth.store";
 import { useLogout } from "@/features/auth/hooks/useLogout";
-import BorderLine from "@/components/ui/border-line";
-import SubHeading from "@/components/ui/typography/subHeading";
 
 const Header = () => {
   const user = useAuthStore((state) => state.user);
