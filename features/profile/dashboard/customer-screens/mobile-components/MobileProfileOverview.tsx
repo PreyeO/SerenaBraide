@@ -46,7 +46,7 @@ const MobileProfileOverview: React.FC<MobileProfileOverviewProps> = ({
           <div className="flex items-center gap-3">
             {/* Avatar with plus icon */}
             <div className="relative w-12 h-12">
-              <div className="rounded-full w-full h-full bg-[#E0E0E0] flex items-center justify-center text-[#6F6E6C] text-lg font-medium">
+              <div className="rounded-full w-full h-full bg-[#1A1A1A] flex items-center justify-center text-white text-base font-medium border border-[#3B3B3B]">
                 {userName
                   .split(" ")
                   .map((n) => n[0])

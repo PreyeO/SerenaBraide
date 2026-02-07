@@ -58,6 +58,7 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
       router.push(`/categories/${product.category_slug}/${product.slug}`);
     } catch (error) {
       notify.error("Failed to load product details");
+      console.log(error);
       setIsBuyingAgain(false);
     }
   };
@@ -211,9 +212,7 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
             className="flex-1 text-xs "
             isPending={isBuyingAgain}
             onClick={
-              order.OrderAction1 === "Buy Again"
-                ? handleBuyAgain
-                : undefined
+              order.OrderAction1 === "Buy Again" ? handleBuyAgain : undefined
             }
           />
           {order.orderAction2 === "Leave a review" ? (

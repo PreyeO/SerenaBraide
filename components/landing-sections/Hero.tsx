@@ -13,25 +13,25 @@ const Hero = () => {
         <div className="flex items-center lg:w-62.5 w-47 gap-[10px">
           <span className="border-[0.8px] border-[#F5F5F5] lg:w-15 w-7.5"></span>
           <h3 className="lg:text-sm text-[10px] font-light lg:leading-6.25 leading-3.5 text-[#F5F5F5] lg:w-45 w-37 pl-2 tracking-[10%]">
-            AN EXPLORATION OF DREAMS AND BLENDS
+            SCENT. BEAUTY. PRESENCE.
           </h3>
         </div>
 
         {/* Heading + description */}
         <div className="lg:mt-50 mt-27 text-white max-w-131 flex flex-col lg:gap-6 gap-4">
           <Heading
-            title="Start your summer adventure!"
+            title="Leave more than an impression."
             className="lg:text-[60px] text-[32px] lg:leading-15 leading-9.5 font-normal"
           />
 
           <Paragraph
             className="lg:text-[22px] text-sm lg:leading-7 leading-5.5 font-light"
-            content="Your favorite scent for less, Fragrances like no other"
+            content="Fragrance and beauty essentials designed to stay on the skin, and in memory."
           />
         </div>
 
         <Button className="bg-white text-[#3B3B3B] rounded-full py-6 px-4 font-normal text-sm mt-6 lg:mt-12.5">
-          Explore all products
+          Shop the Collection
         </Button>
         <div className="flex justify-end">
           <Image src="/dots.svg" alt="dots" width={78} height={30} />

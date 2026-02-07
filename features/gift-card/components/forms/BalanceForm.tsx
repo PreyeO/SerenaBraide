@@ -92,9 +92,9 @@ const BalanceForm = () => {
         showVideo={true}
       >
         {balanceData && (
-          <div className="bg-[#F0F3F7] w-full  my-7.5 border rounded-[10px] py-6.25 flex flex-col items-center">
+          <div className="bg-[#F0F3F7] w-full  lg:my-7.5 border rounded-[10px] px-2.5 lg:py-6.25 flex flex-col items-center">
             <SubHeading
-              className="text-[40px] font-semibold"
+              className="lg:text-[40px] text-[26px] font-semibold"
               title={`${balanceData.currency} ${balanceData.balance.toLocaleString(
                 "en-US",
                 {
@@ -103,7 +103,7 @@ const BalanceForm = () => {
                 },
               )}`}
             />
-            <h3 className="font-medium text-[#6F6E6C] text-[22px] pt-2.5 pb-4">
+            <h3 className="font-medium text-[#6F6E6C] lg:text-[22px] text-base pt-2.5 pb-4">
               Available balance
             </h3>
 
@@ -120,14 +120,14 @@ const BalanceForm = () => {
           </div>
         )}
 
-        <Link href="/">
+        <Link href="/" className="pt-2.5">
           <LinkCta
             className="w-full bg-[#3B3B3B] text-white hover:bg-[#2f2f2f] "
             label="Continue shopping"
           />
         </Link>
         <Paragraph
-          className="text-[#3B3B3B] font-normal text-sm pt-2.5"
+          className="text-[#3B3B3B] font-normal lg:text-sm text-xs pt-2.5"
           content="Gift card balance is valid for 12 months from date of purchase"
         />
       </FormModal>

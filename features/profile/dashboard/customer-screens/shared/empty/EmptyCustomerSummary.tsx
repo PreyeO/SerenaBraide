@@ -1,6 +1,5 @@
 import Paragraph from "@/components/ui/typography/paragraph";
 import SubHeading from "@/components/ui/typography/subHeading";
-import { Plus } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
@@ -10,6 +9,8 @@ interface EmptyCustomerProps {
   contentOne: string;
   contentTwo: string;
   subHeadingThree: string;
+  firstName?: string;
+  lastName?: string;
 }
 
 const EmptyCustomerSummary: React.FC<EmptyCustomerProps> = ({
@@ -18,7 +19,14 @@ const EmptyCustomerSummary: React.FC<EmptyCustomerProps> = ({
   subHeadingThree,
   contentOne,
   contentTwo,
+  firstName,
+  lastName,
 }) => {
+  const initials =
+    firstName && lastName
+      ? `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase()
+      : "SB"; // Default fallback
+
   return (
     <div className="w-full bg-[#F6F7F8] border border-[#F5F5F5] py-3 lg:py-4.75 px-4 lg:px-8.5 rounded-[10px]">
       <SubHeading
@@ -34,11 +42,8 @@ const EmptyCustomerSummary: React.FC<EmptyCustomerProps> = ({
           <div className="flex gap-3 sm:gap-4">
             {/* Avatar + Plus Icon */}
             <div className="relative w-14 h-14 sm:w-17 sm:h-17 shrink-0">
-              <div className="rounded-full w-full h-full bg-[#6F6E6C]" />
-
-              {/* Plus icon positioned bottom-right */}
-              <div className="absolute bottom-0 right-0 w-5 h-5 sm:w-6 sm:h-6 bg-[#2F88FF] rounded-full flex items-center justify-center border border-white">
-                <Plus className="text-white size-3 sm:size-4" />
+              <div className="rounded-full w-full h-full bg-[#47011d] flex items-center justify-center text-white text-lg sm:text-xl font-medium border border-[#3B3B3B]">
+                {initials}
               </div>
             </div>
 
@@ -46,7 +51,7 @@ const EmptyCustomerSummary: React.FC<EmptyCustomerProps> = ({
             <div className="min-w-0 flex-1">
               <SubHeading
                 title={subHeadingTwo}
-                className="text-base sm:text-lg font-semibold font-PPEditorialNew text-[#3B3B3B] break-words"
+                className="text-base sm:text-lg font-semibold font-PPEditorialNew text-[#3B3B3B] wrap-break-word"
               />
               <Paragraph
                 className="font-normal leading-5 sm:leading-6 text-sm sm:text-base"
@@ -65,7 +70,7 @@ const EmptyCustomerSummary: React.FC<EmptyCustomerProps> = ({
             <div className="flex gap-1 sm:gap-1.5 items-center">
               <SubHeading
                 title={contentTwo}
-                className="font-medium text-sm sm:text-base break-words"
+                className="font-medium text-sm sm:text-base wrap-break-word"
               />
               <Image
                 className="mx-auto shrink-0 w-5 h-5 sm:w-6 sm:h-6"

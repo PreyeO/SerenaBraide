@@ -83,7 +83,7 @@ export function formatDateOfBirth(dateStr: string | null): string {
  * Get phone number from addresses with fallback to user phone
  */
 export function getPrimaryPhoneNumber(
-    addresses: Array<{ is_default?: boolean; phone_number?: string }> | undefined,
+    addresses: Array<{ is_default?: boolean; phone_number?: string | null }> | undefined,
     userPhoneNumber?: string | null
 ): string | null {
     if (!addresses || addresses.length === 0) {

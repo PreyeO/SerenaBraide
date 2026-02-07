@@ -5,6 +5,7 @@ import SubHeading from "@/components/ui/typography/subHeading";
 import { FulfilmentStatusProps } from "@/features/profile/type/customers/profile.type";
 import { formatCurrency } from "@/lib/utils";
 import React from "react";
+import { formatDateShort } from "../../../utils/profile.utils";
 
 const FulfilmentStatus: React.FC<FulfilmentStatusProps> = ({
   header,
@@ -24,20 +25,12 @@ const FulfilmentStatus: React.FC<FulfilmentStatusProps> = ({
   giftCardNumber,
   giftCardStatus,
 }) => {
-  // Format date
-  const formatDate = (dateString: string): string => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
-  };
+
 
   // Get status with date for mobile
   const getStatusWithDate = () => {
     if (!orderDetail?.updated_at) return status;
-    return `${status} on ${formatDate(orderDetail.updated_at)}`;
+    return `${status} on ${formatDateShort(orderDetail.updated_at)}`;
   };
 
   // Build order summary from orderDetail
@@ -142,7 +135,7 @@ const FulfilmentStatus: React.FC<FulfilmentStatusProps> = ({
               <Paragraph
                 content={
                   orderDetail?.created_at
-                    ? `Order date: ${formatDate(orderDetail.created_at)}`
+                    ? `Order date: ${formatDateShort(orderDetail.created_at)}`
                     : ""
                 }
                 className="text-sm text-[#9A9A98]"
@@ -208,7 +201,7 @@ const FulfilmentStatus: React.FC<FulfilmentStatusProps> = ({
 
               {orderDetail.updated_at && (
                 <Paragraph
-                  content={`Paid on ${formatDate(orderDetail.updated_at)}`}
+                  content={`Paid on ${formatDateShort(orderDetail.updated_at)}`}
                   className="text-xs text-[#6F6E6C] pt-1"
                 />
               )}

@@ -74,13 +74,14 @@ const CheckoutSection = () => {
         open={showGiftCardModal}
         onClose={closeGiftCardModal}
         title="Pay with Gift Card"
-        className="font-PPEditorialNew text-lg lg:text-[40px] font-normal text-[#3B3B3B]"
+        className="font-PPEditorialNew text-[22px] lg:text-[40px] font-normal text-[#3B3B3B]"
       >
         <div className="w-full">
           <SubHeading
             className="text-base font-medium text-[#3B3B3B] mb-4 text-center"
             title={`Order Total: ${formatCurrency(orderTotal)}`}
           />
+
           <GiftCardForm
             onSubmit={handleGiftCardSubmit}
             isLoading={isGiftCardPending}

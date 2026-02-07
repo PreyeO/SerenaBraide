@@ -9,7 +9,16 @@ import BackNavigation from "@/components/ui/btns/back-navigation";
 const CustomerOrders = () => {
   const [activeTab, setActiveTab] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [filterValue, setFilterValue] = useState("all");
+
+  // Debounce search query for API
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 500); // 500ms debounce
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   // Map UI tab to backend status filter
   const statusFilter =
@@ -24,7 +33,7 @@ const CustomerOrders = () => {
   const { data: ordersData, isLoading } = useOrders({
     status: statusFilter,
     // Let the API handle searching against product name
-    search: searchQuery || undefined,
+    search: debouncedSearchQuery || undefined,
   });
 
   // Transform API response to OrderInfo format

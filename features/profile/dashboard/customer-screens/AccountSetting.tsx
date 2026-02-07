@@ -9,6 +9,11 @@ import { CheckCircle } from "lucide-react";
 import { useGetAddresses } from "@/features/cart-checkout/hooks/useGetAddresses";
 import BackNavigation from "@/components/ui/btns/back-navigation";
 import LoadingState from "@/components/ui/loaders/loading-state";
+import {
+  displayValue,
+  formatDateOfBirth,
+  getPrimaryPhoneNumber,
+} from "../../utils/profile.utils";
 
 const AccountSetting = () => {
   const user = useAuthStore((state) => state.user);
@@ -18,51 +23,9 @@ const AccountSetting = () => {
     return <LoadingState />;
   }
 
-  // Helper function to display value or "null"
-  const displayValue = (value: string | null | undefined): string => {
-    if (value === null || value === undefined || value === "") {
-      return "null";
-    }
-    return value;
-  };
-
-  const getPrimaryPhoneNumber = (): string | null => {
-    if (!addresses || addresses.length === 0) {
-      return user?.phone_number ?? null;
-    }
-
-    // Prefer default address if it has a phone number
-    const defaultWithPhone = addresses.find(
-      (addr) => addr.is_default && addr.phone_number,
-    );
-
-    if (defaultWithPhone?.phone_number) {
-      return defaultWithPhone.phone_number;
-    }
-
-    // Otherwise, use the first address that has a phone number
-    const anyWithPhone = addresses.find((addr) => addr.phone_number);
-    if (anyWithPhone?.phone_number) {
-      return anyWithPhone.phone_number;
-    }
-
-    // Fallback to user.phone_number (may be null)
-    return user?.phone_number ?? null;
-  };
-
-  // Format date of birth if available
-  const formatDateOfBirth = (dateStr: string | null): string => {
-    if (!dateStr) return "null";
-    try {
-      return new Date(dateStr).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
-    } catch {
-      return dateStr;
-    }
-  };
+  if (!user) {
+    return <LoadingState />;
+  }
 
   return (
     <section className="flex flex-col gap-4 lg:gap-6">
@@ -78,7 +41,9 @@ const AccountSetting = () => {
         contentOne={`Member since ${new Date(
           user.date_joined,
         ).toLocaleDateString("en-US", { month: "long", year: "numeric" })}`}
-        contentTwo={displayValue(user.country)}
+        contentTwo={user.country}
+        firstName={user.first_name}
+        lastName={user.last_name}
       />
       <OverviewCard subHeading="Profile Information">
         <div className="flex flex-col gap-2 sm:gap-0">
@@ -105,7 +70,7 @@ const AccountSetting = () => {
 
           <AuthSpan className="text-sm sm:text-base font-medium pb-2 sm:pb-2.5 wrap-break-word">
             <span className="text-[#6F6E6C] font-normal">Phone Number: </span>
-            {displayValue(getPrimaryPhoneNumber())}
+            {displayValue(getPrimaryPhoneNumber(addresses, user.phone_number))}
           </AuthSpan>
 
           <AuthSpan className="text-sm sm:text-base font-medium pb-2 sm:pb-2.5 wrap-break-word">

@@ -1,12 +1,10 @@
-"use client";
-
-import React, { useMemo, useEffect, useState } from "react";
 import OrdersProductCard from "./OrdersProductCard";
 import OrdersTabCard from "./OrdersTabCard";
 import OrdersSearchFilter from "./OrdersSearchFilter";
 import OrderSkeleton from "./OrderSkeleton";
 import { OrderInfo } from "@/features/profile/type/customers/profile.type";
 import EmptyOrders from "../empty-screens/EmptyOrders";
+import { useOrderFiltering } from "@/features/profile/hooks/customer/useOrderFiltering";
 
 interface OrdersListProps {
   orders: OrderInfo[];
@@ -37,84 +35,10 @@ const OrdersList: React.FC<OrdersListProps> = ({
   orderDetail = "View Details",
   isLoading = false,
 }) => {
-  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
-  const [isFiltering, setIsFiltering] = useState(false);
-
-  // Debounce search query
-  useEffect(() => {
-    setIsFiltering(true);
-    const timer = setTimeout(() => {
-      setDebouncedSearchQuery(searchQuery);
-      setIsFiltering(false);
-    }, 300);
-    return () => clearTimeout(timer);
-  }, [searchQuery]);
-
-  // Show loading when tab or filter changes
-  useEffect(() => {
-    setIsFiltering(true);
-    const timer = setTimeout(() => {
-      setIsFiltering(false);
-    }, 200);
-    return () => clearTimeout(timer);
-  }, [activeTab, filterValue]);
-
-  // Apply all filters
-  const filteredOrders = useMemo(() => {
-    // Filter orders based on tab selection
-    let result = orders;
-    if (activeTab !== "all") {
-      if (activeTab === "processing") {
-        result = result.filter((order) => order.statusType === "PROCESSING");
-      } else if (activeTab === "in-transit") {
-        result = result.filter((order) => order.statusType === "IN_TRANSIT");
-      } else if (
-        activeTab === "delivered" ||
-        activeTab === "ready-for-review"
-      ) {
-        result = result.filter((order) => order.statusType === "DELIVERED");
-      }
-    }
-
-    // Filter by search query
-    if (debouncedSearchQuery.trim()) {
-      const query = debouncedSearchQuery.toLowerCase();
-      result = result.filter(
-        (order) =>
-          order.productName.toLowerCase().includes(query) ||
-          order.orderNumber.toLowerCase().includes(query)
-      );
-    }
-
-    // Filter by date range
-    if (filterValue !== "all") {
-      const now = new Date();
-      const sixMonthsAgo = new Date();
-      sixMonthsAgo.setMonth(now.getMonth() - 6);
-      const oneYearAgo = new Date();
-      oneYearAgo.setFullYear(now.getFullYear() - 1);
-      const recentDate = new Date();
-      recentDate.setDate(now.getDate() - 30); // Last 30 days
-
-      result = result.filter((order) => {
-        const dateStr = order.date.replace("Order date: ", "").trim();
-        const orderDate = new Date(dateStr);
-
-        if (filterValue === "recent") {
-          return orderDate >= recentDate;
-        }
-        if (filterValue === "last-6-months") {
-          return orderDate >= sixMonthsAgo;
-        }
-        if (filterValue === "last-year") {
-          return orderDate >= oneYearAgo;
-        }
-        return true;
-      });
-    }
-
-    return result;
-  }, [orders, activeTab, debouncedSearchQuery, filterValue]);
+  const { filteredOrders, isFiltering } = useOrderFiltering({
+    orders,
+    filterValue,
+  });
 
   const displayLoading = isLoading || isFiltering;
 

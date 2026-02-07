@@ -4,6 +4,7 @@ import FormModal from "@/components/ui/modals/form-modals";
 import SubHeading from "@/components/ui/typography/subHeading";
 import Paragraph from "@/components/ui/typography/paragraph";
 import LinkCta from "@/components/ui/btns/link-cta";
+import { formatCurrency } from "@/features/profile/dashboard/utils/currency.utils";
 
 interface RemainingBalanceModalProps {
   open: boolean;
@@ -19,7 +20,6 @@ const RemainingBalanceModal = ({
   onClose,
   remainingAmount,
   giftCardAmount,
-  giftCardBalance,
   onPayRemaining,
 }: RemainingBalanceModalProps) => {
   return (
@@ -29,11 +29,11 @@ const RemainingBalanceModal = ({
       title="Partial Payment Applied"
       showVideo={true}
     >
-      <div className="w-full flex flex-col gap-4">
-        <div className="bg-[#F0F3F7] w-full border rounded-[10px] py-6.25 px-4 flex flex-col items-center gap-3">
+      <div className="w-full flex flex-col lg:gap-4 gap-2.5">
+        <div className="bg-[#F0F3F7] w-full border rounded-[10px] lg:py-6.25 py-4 px-4 flex flex-col items-center gap-3">
           <SubHeading
-            className="text-[32px] font-semibold text-[#01AD73]"
-            title={`$${parseFloat(giftCardAmount).toFixed(2)}`}
+            className="lg:text-[32px] text-[22px] font-semibold text-[#01AD73]"
+            title={formatCurrency(parseFloat(giftCardAmount))}
           />
           <Paragraph
             className="text-[#3B3B3B] font-medium text-base"
@@ -43,23 +43,14 @@ const RemainingBalanceModal = ({
 
         <div className="bg-[#FFF4E6] w-full border border-[#FFA500] rounded-[10px] py-4 px-4 flex flex-col gap-2">
           <Paragraph
-            className="text-[#3B3B3B] font-medium text-base"
-            content={`Remaining Balance: $${parseFloat(remainingAmount).toFixed(2)}`}
+            className="text-[#3B3B3B] font-medium lg:text-base text-sm"
+            content={`Balance: $${parseFloat(remainingAmount).toFixed(2)}`}
           />
           <Paragraph
-            className="text-[#6F6E6C] font-normal text-sm"
+            className="text-[#6F6E6C] font-normal lg:text-sm text-xs"
             content="Please complete your payment using another payment method to complete your order."
           />
         </div>
-
-        {parseFloat(giftCardBalance) > 0 && (
-          <div className="bg-[#F0F3F7] w-full border rounded-[10px] py-4 px-4">
-            <Paragraph
-              className="text-[#3B3B3B] font-normal text-sm"
-              content={`Your gift card balance: $${parseFloat(giftCardBalance).toFixed(2)}`}
-            />
-          </div>
-        )}
 
         <div className="flex flex-col gap-3 mt-2">
           <LinkCta

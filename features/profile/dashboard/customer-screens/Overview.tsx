@@ -45,6 +45,8 @@ const Overview = () => {
           subHeadingThree="Country/Region:"
           contentOne={memberSince}
           contentTwo={user.country}
+          firstName={user.first_name}
+          lastName={user.last_name}
         />
         {isLoading ? (
           <OverviewCard subHeading="Default Address">
