@@ -4,6 +4,7 @@ import Image from "next/image";
 import { pros } from "@/constant/data";
 import Heading from "../ui/typography/heading";
 import Paragraph from "../ui/typography/paragraph";
+import Link from "next/link";
 
 const Hero = () => {
   return (
@@ -29,16 +30,24 @@ const Hero = () => {
             content="Essentials that linger on skin, in memory & mind."
           />
         </div>
-
-        <Button className="bg-white text-[#3B3B3B] rounded-full py-6 px-4 font-normal text-sm mt-6 lg:mt-12.5">
-          See all Products
-        </Button>
+        <Link href="/all-products">
+          <Button className="bg-white hover:bg-white text-[#3B3B3B] rounded-full py-6 px-4 font-normal text-sm mt-6 lg:mt-12.5">
+            Shop all Products
+          </Button>
+        </Link>
         <div className="flex justify-end">
           <Image src="/dots.svg" alt="dots" width={78} height={30} />
         </div>
 
         <div className="mt-7.5 mx-auto lg:flex justify-center hidden">
-          <Image src="/gif.svg" alt="gif" width={35} height={59} />
+          <Image
+            src="/scroll-animation.gif"
+            alt="sprout animation"
+            width={59}
+            height={59}
+            className="object-contain"
+            unoptimized
+          />
         </div>
       </div>
       <div className="hidden  h-25 text-[#989898] font-normal text-sm items-center bg-[#141210]/50 backdrop-blur-[40%] lg:flex justify-evenly  mt-9 ">

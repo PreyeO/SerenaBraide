@@ -9,6 +9,7 @@ import NavCartButton from "./NavCartButton";
 import { DesktopProfileMenu } from "./DesktopProfileMenu";
 import { DesktopDropdownPanel } from "./DesktopDropdownPanel";
 import { NavWishlistButton } from "./NavWhislistButton";
+import { DesktopSearchPanel } from "./DesktopSearchPanel";
 
 interface DesktopNavProps {
   navItems: NavItem[];
@@ -59,7 +60,10 @@ export const DesktopNav = forwardRef<HTMLDivElement, DesktopNavProps>(
 
           {/* Right - Icons */}
           <div className="flex gap-4 items-center justify-end xl:w-136 max-w-136">
-            <Search className="text-white size-6 cursor-pointer" />
+            <Search
+              className="text-white size-6 cursor-pointer"
+              onClick={() => onMenuOpen("SEARCH")}
+            />
 
             <NavWishlistButton
               count={wishlistCount}
@@ -75,8 +79,16 @@ export const DesktopNav = forwardRef<HTMLDivElement, DesktopNavProps>(
         </div>
 
         {/* Dropdown Panel */}
-        {activeMenu && (
-          <DesktopDropdownPanel activeMenu={activeMenu} navItems={navItems} onMenuClose={onMenuClose} />
+        {activeMenu === "SEARCH" ? (
+          <DesktopSearchPanel onClose={onMenuClose} />
+        ) : (
+          activeMenu && (
+            <DesktopDropdownPanel
+              activeMenu={activeMenu}
+              navItems={navItems}
+              onMenuClose={onMenuClose}
+            />
+          )
         )}
       </div>
     );

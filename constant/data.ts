@@ -128,7 +128,7 @@ export const navItems: NavItem[] = [
 
 export const pros = [
   {
-    name: "Fast Delivery Over",
+    name: "Fast Delivery",
     src: "/fast-delivery.svg",
   },
   {
