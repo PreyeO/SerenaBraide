@@ -18,6 +18,7 @@ export const headerAdvert = [
 ];
 
 export const currencies = [
+  { name: "NGN", src: "/nigeria-flag.svg" },
   {
     name: "USD",
     src: "/usa-flag.svg",
@@ -26,7 +27,7 @@ export const currencies = [
     name: "EUR",
     src: "/eu-flag.svg",
   },
-  { name: "NGN", src: "/nigeria-flag.svg" },
+
   {
     name: "GBP",
     src: "/usa-flag.svg",

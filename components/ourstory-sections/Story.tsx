@@ -11,7 +11,7 @@ const Story = () => {
     <section className=" font-normal">
       <SubHeading
         title="Founder’s Note"
-        className="text-[32px] lg:px-8.5 px-6  font-PPEditorialNew font-medium"
+        className="text-[32px] lg:px-8.5 px-6 lg:text-start text-center font-PPEditorialNew font-medium"
       />
       <div className="grid lg:grid-cols-2  grid-cols-1">
         <div className="flex flex-col items-center  justify-center lg:gap-37.5 gap-10 pt-10 lg:pt-37.5 pb-10 lg:pb-26.75">
@@ -25,7 +25,7 @@ const Story = () => {
               </span>
             </AuthSpan>
           </div>
-          <div className="flex flex-col lg:gap-12.5 gap-10 items-center text-center  ">
+          <div className="flex flex-col lg:gap-12.5 gap-10 items-center text-center justify-center  ">
             <ProductImage
               alt="about us image"
               src="/about-image5.png"

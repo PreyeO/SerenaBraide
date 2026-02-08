@@ -68,8 +68,9 @@ const Philosophy = () => {
       <div className="grid lg:grid-cols-2 grid-cols-1 w-full gap-0">
         <div className="flex gap-1.5 flex-col items-center justify-center text-center bg-black  px-5.5 py-10 h-93.75 lg:h-125">
           <AuthSpan className=" text-[32px] max-w-83 text-[#FFFFFF] font-medium  leading-9.5 text-center">
-            Ideally, you don't just walk into a room
+            {`Ideally, you don't just walk into a room`}
             <span className="font-PPEditorialNew italic  font-normal">
+              {" "}
               you own the memory of it
             </span>{" "}
           </AuthSpan>

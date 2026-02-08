@@ -22,10 +22,7 @@ export const buildCategorySections = (
     });
 };
 
-export const buildNavItems = (
-  categorySections: NavSection[],
-  includeCurrency: boolean = false,
-): NavItem[] => {
+export const buildNavItems = (categorySections: NavSection[]): NavItem[] => {
   const categoryItem: NavItem = {
     title: "CATEGORIES",
     href: "/categories",
