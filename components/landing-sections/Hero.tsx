@@ -14,25 +14,25 @@ const Hero = () => {
         <div className="flex items-center lg:w-62.5 w-47 gap-[10px">
           <span className="border-[0.8px] border-[#F5F5F5] lg:w-15 w-7.5"></span>
           <h3 className="lg:text-sm text-[10px] font-light lg:leading-6.25 leading-3.5 text-[#F5F5F5] lg:w-45 w-37 pl-2 tracking-[10%]">
-            SCENT. BEAUTY. PRESENCE.
+            FRAGRANCE. BEAUTY. PRESENCE.
           </h3>
         </div>
 
         {/* Heading + description */}
         <div className="lg:mt-50 mt-27 text-white max-w-131 flex flex-col lg:gap-6 gap-4">
           <Heading
-            title="Make your presence felt. "
+            title="Make an entrance. Leave a memory."
             className="lg:text-[60px] text-[32px] lg:leading-15 leading-9.5 font-normal"
           />
 
           <Paragraph
             className="lg:text-[22px] text-sm lg:leading-7 leading-5.5 font-light"
-            content="Essentials that linger on skin, in memory & mind."
+            content="Fragrance and beauty essentials for the individual. Define your presence."
           />
         </div>
         <Link href="/all-products">
           <Button className="bg-white hover:bg-white text-[#3B3B3B] rounded-full py-6 px-4 font-normal text-sm mt-6 lg:mt-12.5">
-            Shop all Products
+            SHOP NOW
           </Button>
         </Link>
         <div className="flex justify-end">

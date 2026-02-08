@@ -128,20 +128,23 @@ export const navItems: NavItem[] = [
 
 export const pros = [
   {
-    name: "Fast Delivery",
+    name: "Expedited Shipping", // Sounds more premium than "Fast Delivery"
     src: "/fast-delivery.svg",
   },
   {
-    name: "Gift Cards",
+    name: "Signature Gifting", // Fits your "Signature" brand theme
     src: "/gift-card.svg",
   },
-  { name: "Secure Payment", src: "/payment.svg" },
   {
-    name: "Easy Checkout",
+    name: "Secure Transactions", // More professional than "Secure Payment"
+    src: "/payment.svg",
+  },
+  {
+    name: "Seamless Shopping", // Elevates "Easy Checkout"
     src: "/checkout.svg",
   },
   {
-    name: "Loyalty Reward",
+    name: "Member Privileges", // "Privileges" sounds more exclusive than "Rewards"
     src: "/loyalty.svg",
   },
 ];

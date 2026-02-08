@@ -3,6 +3,7 @@ import SubHeading from "../ui/typography/subHeading";
 import ProductImage from "../ui/images/product-image";
 import { Instagram } from "lucide-react";
 import Paragraph from "../ui/typography/paragraph";
+import Image from "next/image";
 
 const ConnectWithUs = () => {
   return (
@@ -10,7 +11,7 @@ const ConnectWithUs = () => {
       <div className="flex flex-col lg:flex-row lg:gap-6 xl:gap-12.5 items-center justify-center lg:items-start">
         {/* Left Image */}
         <div className="flex-col items-center lg:items-start hidden lg:flex">
-          <ProductImage
+          <Image
             className=" object-contain max-w-45 lg:max-w-55 xl:max-w-61.75"
             alt="product image"
             src="/insta-product-3.png"
@@ -38,7 +39,7 @@ const ConnectWithUs = () => {
             "
           />
 
-          <ProductImage
+          <Image
             className=" object-contain w-full xl:max-h-179.75  max-h-51.75 max-w-81.75 xl:max-w-179.75  relative z-10"
             alt="product image"
             src="/insta-product-1.png"
@@ -96,7 +97,7 @@ const ConnectWithUs = () => {
 
         {/* Right Image */}
         <div className="hidden lg:flex items-end relative">
-          <ProductImage
+          <Image
             className="object-contain relative xl:top-45 top-45 lg:top-25 max-w-45 lg:max-w-55 xl:max-w-61.75"
             alt="product image"
             src="/insta-product-2.png"

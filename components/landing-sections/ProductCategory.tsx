@@ -9,6 +9,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import Image from "next/image";
 
 const breakpointColumnsObj = {
   default: 3,
@@ -19,7 +20,7 @@ const breakpointColumnsObj = {
 
 const ProductCategory = () => {
   return (
-    <section className="lg:px-16 lg:py-12.5 py-6 bg-[#FAF5EF] overflow-x-clip">
+    <section className="lg:px-16 lg:py-12.5 py-6 bg-[#FAF5EF] ">
       <SubHeading
         title="Our Product Categories"
         className="text-[#3B3B3B] font-extralight italic lg:text-[40px] text-lg text-center"
@@ -29,18 +30,17 @@ const ProductCategory = () => {
       <div className="hidden lg:block">
         <Masonry
           breakpointCols={breakpointColumnsObj}
-          className="flex xl:gap-5 gap-2 mt-12.5"
+          className="flex  gap-2 lg:gap-5 mt-12.5"
           columnClassName="space-y-5"
         >
           {productCategories.map((product, index) => (
             <div key={index}>
-              <ProductImage
-                className=" "
+              <Image
+                className=" w-full lg:w-72.5 xl:w-106"
                 src={product.src}
                 alt={product.name}
                 width={424}
                 height={product.height}
-                imageClassName="w-full lg:w-72.5 xl:w-106"
               />
             </div>
           ))}
