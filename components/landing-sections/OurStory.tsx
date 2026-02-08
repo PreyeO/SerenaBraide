@@ -10,9 +10,9 @@ const OurStory = () => {
       <div>
         <div className="flex justify-between">
           <TitleSpan
-            title="REFINED ESSENTIALS. TIMELESS"
+            title="IDENTITY. POWER. "
             className="lg:text-[22px] text-base lg:leading-7 leading-6 max-w-76"
-            span="PRESENCE"
+            span="MEMORY."
           />
           <div className="hidden lg:flex border text-[#3B3B3B] border-[#3B3B3B] text-sm rounded-full w-28.5 h-10.5 items-center justify-center ">
             <Dot size={18} />
@@ -27,9 +27,9 @@ const OurStory = () => {
           >
             <div className="flex items-end flex-col">
               <TitleSpan
-                title="A life written in scent and beauty. "
+                title="Scent is a liquid personality. "
                 className="text-sm leading-5.5  text-[#6F6E6C] max-w-55.75"
-                span="Fragrance as memory, Beauty as presence."
+                span="An invisible armor. A silent introduction."
               />
             </div>
 
@@ -60,14 +60,13 @@ const OurStory = () => {
               <h4>Our Story</h4>
             </div>
             <TitleSpan
-              title="Conscious "
+              title="The Art of"
               className="lg:text-[40px] text-[26px] lg:leading-12 leading-8"
-              span="Scent & Beauty"
+              span="Being Remembered"
             />
 
             <Paragraph
-              content="From childhood, Serena Braide understood scent as a language.
-Fragrance shapes memory. Beauty completes presence. Every creation is deliberate, never loud, always remembered."
+              content="We believe that while anyone can make an entrance, very few are truly remembered. We create for the latter. Simple. Classy. Unforgettable."
               className="text-[#6F6E6C] font-normal lg:text-base text-sm lg:leading-6 leading-5.5"
             />
 

@@ -13,24 +13,22 @@ const Philosophy = () => {
           Our
           <span className="font-PPEditorialNew italic text-[#3B3B3B]">
             {" "}
-            Philosophy
+            Ethos
           </span>{" "}
         </AuthSpan>
         <div className="order-2 lg:order-2  lg:leading-6 leading-5.5 max-w-116  lg:pt-12.5 pt-8.5 flex flex-col mx-auto">
           <Paragraph
             className="lg:text-base text-sm font-normal text-[#6F6E6C]"
-            content="Everything at SerenaBraide is created with intention."
+            content="We believe that class is quiet."
           />
 
           <Paragraph
             className="lg:text-base text-sm font-normal text-[#6F6E6C]"
-            content="Ingredients are chosen with care.
-Formulations are thoughtful, not excessive.
-Packaging is considered, not loud."
+            content="We believe that impact is loud."
           />
           <Paragraph
             className="lg:text-base pt-2.5 text-sm font-normal text-[#6F6E6C]"
-            content="Nothing exists to impress. Everything exists to last."
+            content="We strip away the noise to focus on the essence. We create for the discerning few."
           />
         </div>
         <div className="pt-6 lg:pt-0 order-1 lg:order-3 rounded-full size-12.5 bg-[#F5F5F5] flex items-center justify-center ">
@@ -70,16 +68,15 @@ Packaging is considered, not loud."
       <div className="grid lg:grid-cols-2 grid-cols-1 w-full gap-0">
         <div className="flex gap-1.5 flex-col items-center justify-center text-center bg-black  px-5.5 py-10 h-93.75 lg:h-125">
           <AuthSpan className=" text-[32px] max-w-83 text-[#FFFFFF] font-medium  leading-9.5 text-center">
-            From scent to beauty essentials, every detail reflects the same
-            belief:
+            Ideally, you don't just walk into a room
             <span className="font-PPEditorialNew italic  font-normal">
-              presence should feel natural.
+              you own the memory of it
             </span>{" "}
           </AuthSpan>
 
           <Paragraph
             className="text-[#F5F5F5] font-normal lg:text-base text-sm leading-5.5 lg:leading-6 max-w-150"
-            content="SerenaBraide is designed to sit quietly on the skin and stay in memory."
+            content="Serena Braide. The signature that remains."
           />
         </div>
 

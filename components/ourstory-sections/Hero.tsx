@@ -6,7 +6,7 @@ const Hero = () => {
   return (
     <section className="pb-12.5 lg:px-8.5 px-6  pt-38 font-GeneralSans text-[55px] lg:text-[124px] font-normal text-[#3B3B3B]">
       <h1 className="pb-5 md:text-start text-center md:pb-0">
-        <span className="font-PPEditorialNew italic">Be </span>True
+        <span className="font-PPEditorialNew italic">Wear</span> Identity
       </h1>
 
       <div className="flex justify-center lg:-my-10">
@@ -28,15 +28,16 @@ const Hero = () => {
 
       {/* Bottom Text */}
       <h1 className="md:text-end text-center md:pt-0 pt-5">
-        <span className="font-PPEditorialNew italic">Be </span>Kind
+        <span className="font-PPEditorialNew italic">Leave </span>Memory
       </h1>
 
       {/* Description */}
       <div className="leading-5.5 max-w-63.25 text-[#6F6E6C] text-sm mt-4">
         <AuthSpan>
-          Scent. Beauty. Presence.
-          <span className="font-PPEditorialNew italic"> SERENA BRAIDE </span>
-          is a personal world shaped by memory, identity, and quiet confidence.
+          Identity. Power. Scent.
+          <span className="font-PPEditorialNew italic"> SERENA BRAIDE </span> is
+          not just a brand. It is the signature of those who intend to be
+          remembered.
         </AuthSpan>
       </div>
     </section>

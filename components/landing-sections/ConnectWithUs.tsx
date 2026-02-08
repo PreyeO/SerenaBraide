@@ -1,6 +1,5 @@
 import React from "react";
 import SubHeading from "../ui/typography/subHeading";
-import ProductImage from "../ui/images/product-image";
 import { Instagram } from "lucide-react";
 import Paragraph from "../ui/typography/paragraph";
 import Image from "next/image";

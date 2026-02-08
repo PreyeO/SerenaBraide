@@ -4,18 +4,24 @@ import AuthSpan from "../ui/typography/auth-span";
 import { Sparkle } from "lucide-react";
 import Paragraph from "../ui/typography/paragraph";
 import Image from "next/image";
+import SubHeading from "../ui/typography/subHeading";
 
 const Story = () => {
   return (
     <section className=" font-normal">
+      <SubHeading
+        title="Founder’s Note"
+        className="text-[32px] lg:px-8.5 px-6  font-PPEditorialNew font-medium"
+      />
       <div className="grid lg:grid-cols-2  grid-cols-1">
         <div className="flex flex-col items-center  justify-center lg:gap-37.5 gap-10 pt-10 lg:pt-37.5 pb-10 lg:pb-26.75">
           <div className="max-[235px] flex flex-col gap-6 items-center px-7.5 ">
             <Sparkle className="size-7.5" fill="#3B3B3B" stroke="none" />
             <AuthSpan className=" text-[32px] max-w-78.75  leading-9.5 text-center">
-              Essentials designed with intention,
+              I Designed this for the individual
               <span className="font-PPEditorialNew italic text-[#3B3B3B]">
-                never excess
+                {" "}
+                never the crowd
               </span>
             </AuthSpan>
           </div>
@@ -29,12 +35,11 @@ const Story = () => {
             />
             <Paragraph
               className="px-6 lg:text-base text-sm leading-5.5 font-normal lg:leading-6 max-w-125 text-[#6F6E6C]"
-              content="SerenaBraide was born from a lifelong sensitivity to scent.
-From childhood, fragrance held meaning, it marked moments, shaped memory, and expressed identity without words."
+              content="To me, perfume has always been more than a scent. It is a liquid personality. It is the attributes of Identity, Power, and Memory bottled."
             />
             <Paragraph
               className="px-6  lg:text-base text-sm leading-5.5 font-normal lg:leading-6 max-w-125 text-[#6F6E6C]"
-              content="As that understanding deepened, beauty followed naturally. Not as transformation, but as completion. Small rituals. Finishing touches. Presence refined."
+              content="I believe that anyone can make an entrance, but not everyone is remembered. That is the signature I wanted to create. Simple. Classy. And designed to linger long after you are gone."
             />
           </div>
         </div>

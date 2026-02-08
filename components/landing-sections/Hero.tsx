@@ -14,7 +14,7 @@ const Hero = () => {
         <div className="flex items-center lg:w-62.5 w-47 gap-[10px">
           <span className="border-[0.8px] border-[#F5F5F5] lg:w-15 w-7.5"></span>
           <h3 className="lg:text-sm text-[10px] font-light lg:leading-6.25 leading-3.5 text-[#F5F5F5] lg:w-45 w-37 pl-2 tracking-[10%]">
-            FRAGRANCE. BEAUTY. PRESENCE.
+            FRAGRANCE. BEAUTY. MEMORY.
           </h3>
         </div>
 
