@@ -10,11 +10,11 @@ const GiftCard = () => {
       {/* Heading + CTA */}
       <div className="flex flex-col max-w-131.5 pt-5 lg:gap-8.5 gap-4 mx-auto">
         <SubHeading
-          title="A Scent for Everyone.  A Gift for Every Occasion"
+          title="Scent is personal. Let them define their own signature"
           className="font-extralight italic lg:text-[40px] text-lg  leading-6 lg:leading-12 text-center"
         />
 
-        <LinkCta label="Buy A Gift Card" className=" py-4 px-6" />
+        <LinkCta label="Gift the Choice" className=" py-4 px-6" />
       </div>
 
       {/* Cards Layout */}
@@ -60,7 +60,7 @@ const GiftCard = () => {
         /> */}
       </div>
       <TitleSpan
-        title="SerenaBraide Gift Cards can be used only to purchase products and services from this store only. Valid online - No expiry date - Redeemable for any product in our collection."
+        title="Timeless gifts have no expiration."
         className="pt-8.5 text-[#6F6E6C] text-sm font-normal  leading-5.5 max-w-163.75 mx-auto"
         span=""
       ></TitleSpan>

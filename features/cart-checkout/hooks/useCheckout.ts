@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthStore } from "@/features/auth/auth.store";
-import { useCreateOrder } from "./useCreateOrder";
 import { useOrderDetail } from "./useOrderDetail";
 import { useInitiatePayment } from "@/features/payment/hooks/useInitiatePayment";
 import { useApplyGiftCard } from "@/features/gift-card/hooks/useApplyGiftCard";
@@ -27,7 +26,6 @@ export function useCheckout() {
     const [selectedPayment, setSelectedPayment] = useState<string>(
         paymentType[0].id
     );
-    const [orderCreated, setOrderCreated] = useState(false);
     const [showGiftCardModal, setShowGiftCardModal] = useState(false);
     const [showRemainingBalanceModal, setShowRemainingBalanceModal] =
         useState(false);
@@ -42,7 +40,6 @@ export function useCheckout() {
     const paymentStatusParam = searchParams.get("status");
 
     // Mutations
-    const createOrderMutation = useCreateOrder({ redirectToCheckout: false });
     const initiatePaymentMutation = useInitiatePayment();
 
     // Fetch order details
@@ -80,32 +77,20 @@ export function useCheckout() {
         },
     });
 
-    // Auto-create order for authenticated users
+    // If user navigates to checkout without an order_number, redirect them back to cart
     useEffect(() => {
         if (
             !isHydrated ||
-            orderCreated ||
-            createOrderMutation.isPending ||
-            createOrderMutation.isSuccess ||
             orderNumber ||
             paymentStatusParam
         ) {
             return;
         }
 
-        if (user?.email_validated) {
-            createOrderMutation.mutate(undefined, {
-                onSuccess: (order) => {
-                    setOrderCreated(true);
-                    router.replace(`/checkout?order_number=${order.order_number}`);
-                },
-            });
-        }
+        // No order_number and no payment status — send them back to cart
+        router.replace("/cart");
     }, [
         isHydrated,
-        user,
-        orderCreated,
-        createOrderMutation,
         orderNumber,
         paymentStatusParam,
         router,

@@ -183,3 +183,16 @@ export interface CustomerLocationData {
   customer_count: number;
   percentage: string;
 }
+
+export interface ShippingArea {
+  id: number;
+  name: string;
+  fee: string;
+}
+
+export interface ShippingAreasResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: ShippingArea[];
+}

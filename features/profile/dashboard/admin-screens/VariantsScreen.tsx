@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useGetVariants } from "@/features/profile/hooks/admin/useGetVariants";
@@ -8,7 +9,10 @@ import BackNavigation from "@/components/ui/btns/back-navigation";
 import SubHeading from "@/components/ui/typography/subHeading";
 import DashboardLoader from "@/components/ui/loaders/dasboard-loader";
 import Empty from "./components/shared/empty-screens/Empty";
-import { Package } from "lucide-react";
+import { Package, Trash2 } from "lucide-react";
+import { useDeleteVariant } from "@/features/profile/hooks/admin/useDeleteVariant";
+import DeleteConfirmationModal from "@/components/ui/modals/delete-confirmation-modal";
+import { useIsSuperAdmin } from "@/hooks/useIsSuperAdmin";
 
 interface VariantsScreenProps {
   productId: number;
@@ -17,6 +21,29 @@ interface VariantsScreenProps {
 const VariantsScreen = ({ productId }: VariantsScreenProps) => {
   const router = useRouter();
   const { data: variantsData, isLoading } = useGetVariants(productId);
+  const isSuperAdmin = useIsSuperAdmin();
+  const [variantToDelete, setVariantToDelete] = useState<ProductVariant | null>(null);
+
+  const deleteVariantMutation = useDeleteVariant({
+    onSuccess: () => {
+      setVariantToDelete(null);
+    },
+  });
+
+  const handleConfirmDelete = () => {
+    if (variantToDelete) {
+      deleteVariantMutation.mutate({
+        productId,
+        variantId: variantToDelete.id,
+      });
+    }
+  };
+
+  const getVariantImage = (variant: ProductVariant): string | undefined => {
+    if (!variant.images || variant.images.length === 0) return undefined;
+    const primary = variant.images.find((img) => img.is_primary);
+    return primary?.image_url || variant.images[0].image_url;
+  };
 
   return (
     <section className="py-7.5">
@@ -128,11 +155,10 @@ const VariantsScreen = ({ productId }: VariantsScreenProps) => {
                       Status
                     </p>
                     <span
-                      className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium ${
-                        variant.is_in_stock
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
-                      }`}
+                      className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium ${variant.is_in_stock
+                        ? "bg-green-100 text-green-700"
+                        : "bg-red-100 text-red-700"
+                        }`}
                     >
                       {variant.is_in_stock ? "In Stock" : "Out of Stock"}
                     </span>
@@ -143,16 +169,28 @@ const VariantsScreen = ({ productId }: VariantsScreenProps) => {
                       Active
                     </p>
                     <span
-                      className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium ${
-                        variant.is_active
-                          ? "bg-green-100 text-green-700"
-                          : "bg-gray-100 text-gray-600"
-                      }`}
+                      className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium ${variant.is_active
+                        ? "bg-green-100 text-green-700"
+                        : "bg-gray-100 text-gray-600"
+                        }`}
                     >
                       {variant.is_active ? "Active" : "Inactive"}
                     </span>
                   </div>
                 </div>
+
+                {/* Delete Button */}
+                {isSuperAdmin && (
+                  <div className="shrink-0">
+                    <button
+                      onClick={() => setVariantToDelete(variant)}
+                      className="p-2 text-[#6F6E6C] hover:text-red-500 hover:bg-red-50 rounded-md transition-colors cursor-pointer"
+                      title="Delete variant"
+                    >
+                      <Trash2 className="w-5 h-5" />
+                    </button>
+                  </div>
+                )}
               </div>
 
               {/* Variant Images */}
@@ -182,8 +220,24 @@ const VariantsScreen = ({ productId }: VariantsScreenProps) => {
           ))}
         </div>
       )}
+
+      <DeleteConfirmationModal
+        open={!!variantToDelete}
+        onClose={() => setVariantToDelete(null)}
+        onConfirm={handleConfirmDelete}
+        title={`Are you sure you want to delete variant "${variantToDelete?.sku}"?`}
+        description="This action cannot be undone. The variant will be permanently removed."
+        productImage={variantToDelete ? getVariantImage(variantToDelete) : undefined}
+        productName={variantToDelete?.sku}
+        productSize={variantToDelete?.size}
+        productPrice={variantToDelete ? `₦${variantToDelete.price}` : undefined}
+        confirmText="Delete"
+        cancelText="Cancel"
+        isLoading={deleteVariantMutation.isPending}
+      />
     </section>
   );
 };
 
 export default VariantsScreen;
+

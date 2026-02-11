@@ -40,3 +40,46 @@ export async function updateOrderStatus(
   return response.data;
 }
 
+// --- Shipping Areas ---
+
+import {
+  ShippingArea,
+  ShippingAreasResponse,
+} from "../../type/admin/general.type";
+
+export interface CreateShippingAreaPayload {
+  name: string;
+  fee: string;
+}
+
+export async function getShippingAreas(): Promise<ShippingAreasResponse> {
+  const response: AxiosResponse<ShippingAreasResponse> =
+    await api.get("/api/shipping-areas/");
+  return response.data;
+}
+
+export async function createShippingArea(
+  payload: CreateShippingAreaPayload,
+): Promise<ShippingArea> {
+  const response: AxiosResponse<ShippingArea> = await api.post(
+    "/api/shipping-areas/",
+    payload,
+  );
+  return response.data;
+}
+
+export async function updateShippingArea(
+  id: number,
+  payload: Partial<CreateShippingAreaPayload>,
+): Promise<ShippingArea> {
+  const response: AxiosResponse<ShippingArea> = await api.patch(
+    `/api/shipping-areas/${id}/`,
+    payload,
+  );
+  return response.data;
+}
+
+export async function deleteShippingArea(id: number): Promise<void> {
+  await api.delete(`/api/shipping-areas/${id}/`);
+}
+

@@ -80,3 +80,8 @@ export const CreateStaffInviteSchema = z.object({
   last_name: z.string().min(1, "Last name is required"),
   phone_number: z.string().min(1, "Phone number is required"),
 });
+
+export const CreateShippingAreaSchema = z.object({
+  name: z.string().min(1, "Area name is required"),
+  fee: z.string().min(1, "Shipping fee is required"),
+});

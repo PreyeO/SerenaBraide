@@ -28,11 +28,11 @@ const Wholesale = () => {
           <div className="w-full lg:flex-1 flex items-center py-6 lg:py-0 order-2 lg:order-2">
             <div className={`${TEXT_WRAPPER} text-center space-y-3`}>
               <Paragraph
-                content="Every Purchase Earns You Points"
+                content="Every Purchase Earns You Points."
                 className="text-[#3B3B3B] font-medium text-[22px] lg:text-[32px] lg:leading-9.5 leading-7"
               />
               <Paragraph
-                content="Shop your favorite scents and collect points automatically—rewarding you with savings on future orders."
+                content="The Signature Club."
                 className="text-[#6F6E6C] font-normal text-sm lg:text-lg leading-5.5 lg:leading-7"
               />
             </div>
@@ -60,7 +60,7 @@ const Wholesale = () => {
                 className="text-[#3B3B3B] font-medium text-[22px] lg:text-[32px] lg:leading-9.5 leading-7"
               />
               <Paragraph
-                content="Join our wholesale program and offer timeless perfumes your customers will love."
+                content="Partner with Presence"
                 className="text-[#6F6E6C] font-normal text-sm lg:text-lg leading-5.5 lg:leading-7"
               />
               <div className=" lg:flex hidden">

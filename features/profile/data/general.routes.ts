@@ -12,6 +12,7 @@ import {
   ShoppingBag,
   Package,
   UserCheck,
+  Truck,
 } from "lucide-react";
 
 export const customerRoutes: SidebarItem[] = [
@@ -48,6 +49,11 @@ export const adminRoutes: SidebarItem[] = [
     title: "Orders",
     href: "/admin/orders",
     icon: ShoppingBag,
+  },
+  {
+    title: "Shipping",
+    href: "/admin/shipping",
+    icon: Truck,
   },
   {
     title: "Customers",

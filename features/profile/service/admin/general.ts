@@ -68,6 +68,10 @@ export async function createAdminInvite(
   return response.data;
 }
 
+export async function deleteAdminProfile(id: number): Promise<void> {
+  await api.delete(`/api/admin-profiles/${id}/`);
+}
+
 // Dashboard APIs
 export async function getRevenueGraph(
   year?: number,

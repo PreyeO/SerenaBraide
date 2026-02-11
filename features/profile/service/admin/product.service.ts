@@ -84,11 +84,11 @@ export async function getCategories() {
       page_size: 1000,
     },
   });
-  
+
   // API returns paginated response with results array
   // Extract the results array from the paginated response
   let categories: any[] = [];
-  
+
   if (Array.isArray(res.data)) {
     categories = res.data;
   } else if (Array.isArray(res.data.results)) {
@@ -99,12 +99,12 @@ export async function getCategories() {
       categories = res.data[arrayKey];
     }
   }
-  
+
   // Ensure we return an array (even if empty)
   if (!Array.isArray(categories)) {
     return [];
   }
-  
+
   return categories;
 }
 export async function getProducts() {
@@ -165,4 +165,15 @@ export async function createVariant(
   );
 
   return response.data;
+}
+
+export async function deleteProduct(id: number): Promise<void> {
+  await api.delete(`/api/products/${id}/`);
+}
+
+export async function deleteVariant(
+  productId: number,
+  variantId: number,
+): Promise<void> {
+  await api.delete(`/api/products/${productId}/variants/${variantId}/`);
 }

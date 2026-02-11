@@ -19,7 +19,7 @@ const ConnectWithUs = () => {
           />
 
           <Paragraph
-            content="Get the latest news about perfume tips and new products launch."
+            content="Discover the art of presence."
             className="text-[#6F6E6C] text-xs md:text-sm leading-4.5 mt-6 text-center lg:text-left max-w-55"
           />
         </div>

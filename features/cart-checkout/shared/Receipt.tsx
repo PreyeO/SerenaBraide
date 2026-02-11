@@ -20,6 +20,8 @@ interface ReceiptProps {
   showButton?: boolean;
   showMobilePayButton?: boolean;
   onMobilePayClick?: () => void;
+  onValidate?: () => boolean;
+  shippingAreaId?: string;
 }
 
 const Receipt = ({
@@ -31,6 +33,8 @@ const Receipt = ({
   showButton = true,
   showMobilePayButton = false,
   onMobilePayClick,
+  onValidate,
+  shippingAreaId,
 }: ReceiptProps) => {
   const router = useRouter();
   const { user } = useAuthStore();
@@ -39,17 +43,26 @@ const Receipt = ({
   const handleProceedToCheckout = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
 
+    // Run validation if provided
+    if (onValidate && !onValidate()) {
+      return;
+    }
+
+    const returnUrl = `/cart${shippingAreaId ? `?shippingAreaId=${shippingAreaId}` : ""}`;
+
     // Check if user is authenticated
     if (!user) {
-      // Redirect to register with return URL to checkout (order will be created there)
-      router.push("/auth/register?return_url=/checkout");
+      // Redirect to register with return URL to cart (they'll click checkout again after login)
+      router.push(`/auth/register?return_url=${encodeURIComponent(returnUrl)}`);
       return;
     }
 
     // Check if email is verified
     if (!user.email_validated) {
-      // Redirect to verify OTP with return URL to checkout
-      router.push(`/auth/verify-otp?email=${user.email}&return_url=/checkout`);
+      // Redirect to verify OTP with return URL to cart
+      router.push(
+        `/auth/verify-otp?email=${user.email}&return_url=${encodeURIComponent(returnUrl)}`
+      );
       return;
     }
 
