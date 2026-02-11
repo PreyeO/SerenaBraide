@@ -3,10 +3,15 @@ import RecommendationSection from "@/features/products/components/Recommendation
 
 import React from "react";
 
+import LoadingState from "@/components/ui/loaders/loading-state";
+import { Suspense } from "react";
+
 const CartPage = () => {
   return (
     <>
-      <CartSection />
+      <Suspense fallback={<LoadingState />}>
+        <CartSection />
+      </Suspense>
       <RecommendationSection />
     </>
   );

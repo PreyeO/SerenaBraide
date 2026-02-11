@@ -1,7 +1,7 @@
 import React from "react";
 import SubHeading from "../../ui/typography/subHeading";
 import { ChevronRight } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "../../ui/tabs";
 
 import { Product } from "@/types/product";
 import UnderlineLink from "@/components/ui/btns/underline-cta";
@@ -25,7 +25,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({
   categories,
   textColor = "text-white",
   linkColor = "text-white",
-  productDisplay,
+  // productDisplay,
 }) => {
   return (
     <section className={`px-16 py-12.5 ${bgColor}`}>

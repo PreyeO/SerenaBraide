@@ -10,7 +10,7 @@ import GeneralModal from "@/components/ui/modals/general-modal";
 import ReviewDetails from "./components/ReviewDetails";
 
 const ReviewScreen = () => {
-  const { data: reviewsData, isLoading, refetch } = useGetReviews();
+  const { data: reviewsData, isLoading } = useGetReviews();
   const [selectedReview, setSelectedReview] = useState<Review | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -18,10 +18,8 @@ const ReviewScreen = () => {
   // Must be called before any early returns to follow Rules of Hooks
   const reviews = useMemo(() => {
     if (!reviewsData || !reviewsData.results) return [];
-    return reviewsData.results.filter(
-      (review) => review.is_approved === null,
-    );
-  }, [reviewsData?.results]);
+    return reviewsData.results.filter((review) => review.is_approved === null);
+  }, [reviewsData]);
 
   const handleViewReview = (review: Review) => {
     setSelectedReview(review);

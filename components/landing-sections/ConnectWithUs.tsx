@@ -1,9 +1,9 @@
 import React from "react";
 import SubHeading from "../ui/typography/subHeading";
 import { Facebook, Instagram } from "lucide-react";
-import Paragraph from "../ui/typography/paragraph";
+// import Paragraph from "../ui/typography/paragraph";
 import Image from "next/image";
-import ProductImage from "../ui/images/product-image";
+// import ProductImage from "../ui/images/product-image";
 
 const ConnectWithUs = () => {
   return (
