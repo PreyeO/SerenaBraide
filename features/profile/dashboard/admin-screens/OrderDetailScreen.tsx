@@ -12,7 +12,7 @@ import dynamic from "next/dynamic";
 
 const UpdateShippingStatusModal = dynamic(
   () => import("./components/UpdateShippingStatusModal"),
-  { ssr: false }
+  { ssr: false },
 );
 import { Edit } from "lucide-react";
 import DashboardLoader from "@/components/ui/loaders/dasboard-loader";
@@ -31,11 +31,6 @@ const OrderDetailScreen = ({ orderNumber }: OrderDetailScreenProps) => {
       string,
       { bg: string; text: string; label: string }
     > = {
-      pending: {
-        bg: "bg-orange-100",
-        text: "text-orange-700",
-        label: "Pending",
-      },
       paid: { bg: "bg-blue-100", text: "text-blue-700", label: "Paid" },
       processing: {
         bg: "bg-yellow-100",
@@ -175,8 +170,11 @@ const OrderDetailScreen = ({ orderNumber }: OrderDetailScreenProps) => {
                         <Image
                           src={primaryImage.image_url}
                           alt={item.variant.product_name}
-                          fill
-                          className="object-cover"
+                          width={96}
+                          height={96}
+                          className="max-w-24 h-full object-cover"
+                          unoptimized
+                          priority
                         />
                       </div>
                     )}
@@ -238,10 +236,9 @@ const OrderDetailScreen = ({ orderNumber }: OrderDetailScreenProps) => {
                 Shipping Information
               </h3>
               <Button
-                variant="outline"
                 size="sm"
                 onClick={() => setIsUpdateStatusModalOpen(true)}
-                className="flex items-center gap-2 bg-[#3B3B3B] text-white"
+                className="flex items-center gap-2 bg-[#3B3B3B]  text-white"
               >
                 <Edit className="h-4 w-4" />
                 Change Shipping Status

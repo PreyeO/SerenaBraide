@@ -12,11 +12,24 @@ import { useCheckout } from "../../hooks/useCheckout";
 import { formatCurrency } from "@/lib/utils";
 import dynamic from "next/dynamic";
 
-const SuccessModal = dynamic(() => import("@/components/ui/modals/sucess"), { ssr: false });
-const FormModal = dynamic(() => import("@/components/ui/modals/form-modals"), { ssr: false });
-const PaymentMethodModal = dynamic(() => import("../modals/PaymentMethodModal"), { ssr: false });
-const RemainingBalanceModal = dynamic(() => import("../modals/RemainingBalanceModal"), { ssr: false });
-const GiftCardForm = dynamic(() => import("@/features/gift-card/components/forms/GiftCardForm"), { loading: () => <p>Loading...</p> });
+const SuccessModal = dynamic(() => import("@/components/ui/modals/sucess"), {
+  ssr: false,
+});
+const FormModal = dynamic(() => import("@/components/ui/modals/form-modals"), {
+  ssr: false,
+});
+const PaymentMethodModal = dynamic(
+  () => import("../modals/PaymentMethodModal"),
+  { ssr: false },
+);
+const RemainingBalanceModal = dynamic(
+  () => import("../modals/RemainingBalanceModal"),
+  { ssr: false },
+);
+const GiftCardForm = dynamic(
+  () => import("@/features/gift-card/components/forms/GiftCardForm"),
+  { loading: () => <p>Loading...</p> },
+);
 
 const CheckoutSection = () => {
   const {
@@ -29,7 +42,6 @@ const CheckoutSection = () => {
     totalPrice,
     subtotal,
     shippingCost,
-    tax,
 
     // Modal states
     showSuccessModal,
@@ -112,7 +124,7 @@ const CheckoutSection = () => {
         <div className="flex flex-col lg:flex-row flex-wrap lg:flex-nowrap xl:gap-10 md:gap-5 gap-0 lg:mt-10 mt-4">
           {/* Left Column - Shipping & Payment */}
           <div className="flex flex-col gap-6 order-2 lg:order-1 mt-6 lg:mt-0">
-            <div className="xl:w-175  lg:w-120  w-full">
+            <div className=" w-full">
               <ShippingAddress />
             </div>
 
@@ -143,7 +155,6 @@ const CheckoutSection = () => {
                 totalPrice={orderTotal}
                 subtotal={subtotal}
                 shippingCost={shippingCost}
-                tax={tax}
                 showButton={false}
                 showMobilePayButton
                 onMobilePayClick={handleMobileContinue}
@@ -157,7 +168,6 @@ const CheckoutSection = () => {
               totalPrice={orderTotal}
               subtotal={subtotal}
               shippingCost={shippingCost}
-              tax={tax}
               showButton={false}
               showMobilePayButton
               onMobilePayClick={handleMobileContinue}

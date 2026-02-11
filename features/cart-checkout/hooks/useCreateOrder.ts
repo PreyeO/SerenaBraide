@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useRouter, usePathname } from "next/navigation";
 import { notify } from "@/lib/notify";
-import { createOrder } from "../service/checkout.service";
+import { createOrder, CreateOrderPayload } from "../service/checkout.service";
 import { Order } from "../type/checkout.type";
 
 interface UseCreateOrderOptions {
@@ -22,8 +22,8 @@ export const useCreateOrder = ({
   const pathname = usePathname();
   const isOnCheckoutPage = pathname === "/checkout";
 
-  return useMutation<Order, AxiosError<{ message?: string }>>({
-    mutationFn: () => createOrder(),
+  return useMutation<Order, AxiosError<{ message?: string }>, CreateOrderPayload | undefined>({
+    mutationFn: (payload) => createOrder(payload),
     onSuccess: (order) => {
       notify.success("Order created successfully!");
 

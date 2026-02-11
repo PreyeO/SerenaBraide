@@ -68,9 +68,7 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({ order, onSuccess }) => {
   };
 
   const onSubmit = (data: CreateRatingFormValues) => {
-    console.log("Form submitted with data:", data);
     if (!order.id) {
-      console.error("Order item ID is missing");
       return;
     }
 
@@ -80,7 +78,6 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({ order, onSuccess }) => {
       review: data.review?.trim() || undefined,
     };
 
-    console.log("Submitting payload:", payload);
     createRatingMutation.mutate(payload);
   };
 

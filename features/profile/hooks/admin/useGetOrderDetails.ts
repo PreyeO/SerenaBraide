@@ -8,6 +8,7 @@ export const useGetOrderDetails = (orderNumber: number | null) => {
     queryKey: ["order-details", orderNumber],
     queryFn: () => getOrderDetails(orderNumber!),
     enabled: !!orderNumber,
+    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 };
 

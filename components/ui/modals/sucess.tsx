@@ -54,7 +54,7 @@ const SuccessModal = ({ isOpen, message }: SuccessModalProps) => {
                 label="View Order Summary"
               />
             </Link>
-            <Link href="/">
+            <Link href="/all-products">
               <LinkCta
                 className="text-[#3B3B3B] border border-[#6F6E6C] w-full bg-white hover:bg-transparent"
                 label="Continue Shopping"

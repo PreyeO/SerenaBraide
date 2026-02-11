@@ -17,9 +17,9 @@ const ReviewScreen = () => {
   // Filter out approved reviews - only show pending reviews (is_approved === null or false)
   // Must be called before any early returns to follow Rules of Hooks
   const reviews = useMemo(() => {
-    if (!reviewsData?.results) return [];
+    if (!reviewsData || !reviewsData.results) return [];
     return reviewsData.results.filter(
-      (review) => review.is_approved !== true,
+      (review) => review.is_approved === null,
     );
   }, [reviewsData?.results]);
 
@@ -34,8 +34,7 @@ const ReviewScreen = () => {
   };
 
   const handleReviewUpdated = async () => {
-    // Wait for refetch to complete before closing modal
-    await refetch();
+    // Close modal immediately, refetch handled by mutation
     handleCloseModal();
   };
 

@@ -26,7 +26,7 @@ const Wholesale = () => {
 
           {/* Text 1 */}
           <div className="w-full lg:flex-1 flex items-center py-6 lg:py-0 order-2 lg:order-2">
-            <div className={`${TEXT_WRAPPER} text-center space-y-3`}>
+            <div className={`${TEXT_WRAPPER} lg:text-center space-y-3`}>
               <Paragraph
                 content="Every Purchase Earns You Points."
                 className="text-[#3B3B3B] font-medium text-[22px] lg:text-[32px] lg:leading-9.5 leading-7"
@@ -54,7 +54,7 @@ const Wholesale = () => {
 
           {/* Text 2 */}
           <div className="w-full lg:flex-1 flex items-center py-6 lg:py-0 order-4 lg:order-1">
-            <div className={`${TEXT_WRAPPER} text-center space-y-3`}>
+            <div className={`${TEXT_WRAPPER} lg:text-center space-y-3`}>
               <Paragraph
                 content="Interested in Reselling?"
                 className="text-[#3B3B3B] font-medium text-[22px] lg:text-[32px] lg:leading-9.5 leading-7"
@@ -63,12 +63,12 @@ const Wholesale = () => {
                 content="Partner with Presence"
                 className="text-[#6F6E6C] font-normal text-sm lg:text-lg leading-5.5 lg:leading-7"
               />
-              <div className=" lg:flex hidden">
+              <Link className=" lg:flex hidden" href="/contact-us">
                 <LinkCta
                   label="Contact Us"
                   className="w-40 mt-6 bg-[#3B3B3B] text-white"
                 />
-              </div>
+              </Link>
               <Link
                 href="/contact-us"
                 className="flex gap-1.5 lg:hidden items-center text-sm font-normal text-[#3B3B3B]"

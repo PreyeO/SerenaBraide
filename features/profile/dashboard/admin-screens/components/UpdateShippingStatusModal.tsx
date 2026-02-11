@@ -26,7 +26,7 @@ import { useUpdateOrderStatus } from "@/features/profile/hooks/admin/useUpdateOr
 
 const updateShippingStatusSchema = z.object({
   order_number: z.string(),
-  status: z.enum(["pending", "paid", "shipped", "delivered"]),
+  status: z.enum(["paid", "shipped", "delivered"]),
 });
 
 type UpdateShippingStatusValues = z.infer<typeof updateShippingStatusSchema>;
@@ -55,7 +55,7 @@ const UpdateShippingStatusModal = ({
     resolver: zodResolver(updateShippingStatusSchema),
     defaultValues: {
       order_number: orderNumber.toString(),
-      status: currentStatus as "pending" | "paid" | "shipped" | "delivered",
+      status: currentStatus as "paid" | "shipped" | "delivered",
     },
   });
 
@@ -64,7 +64,7 @@ const UpdateShippingStatusModal = ({
     if (isOpen) {
       form.reset({
         order_number: orderNumber.toString(),
-        status: currentStatus as "pending" | "paid" | "shipped" | "delivered",
+        status: currentStatus as "paid" | "shipped" | "delivered",
       });
     }
   }, [isOpen, orderNumber, currentStatus, form]);
@@ -117,7 +117,6 @@ const UpdateShippingStatusModal = ({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="pending">Pending</SelectItem>
                     <SelectItem value="paid">Paid (Processing)</SelectItem>
                     <SelectItem value="shipped">
                       Shipped (In Transit)

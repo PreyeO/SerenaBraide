@@ -209,7 +209,10 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
               content={product.description}
             />
 
-            <ProductRating totalReviews={200} className="lg:pt-4 pt-3.75" />
+            <ProductRating
+              totalReviews={product.total_ratings}
+              className="lg:pt-4 pt-3.75"
+            />
           </div>
 
           {/* Variants Section */}

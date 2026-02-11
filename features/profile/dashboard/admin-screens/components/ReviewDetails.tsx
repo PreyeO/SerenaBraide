@@ -139,7 +139,7 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({ review, onSuccess }) => {
           isPending={isApproving}
           loadingLabel="Approving..."
           disabled={updateReviewMutation.isPending}
-          className="flex-1 bg-[#3B3B3B] text-white hover:bg-[#2f2f2f] rounded-full cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 bg-[#3B3B3B] text-white rounded-full cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={handleApprove}
         />
         <SubmitButton
@@ -147,7 +147,7 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({ review, onSuccess }) => {
           isPending={isDeclining}
           loadingLabel="Declining..."
           disabled={updateReviewMutation.isPending}
-          className="flex-1 bg-white text-[#3B3B3B] border border-[#6F6E6C] hover:bg-[#F5F5F5] rounded-full cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1  rounded-full cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={handleDecline}
         />
       </div>

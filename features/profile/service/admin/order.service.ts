@@ -3,22 +3,23 @@ import { AxiosResponse } from "axios";
 import { Order, OrdersResponse } from "../../type/customers/profile.type";
 
 export interface GetOrdersParams {
-  status?: "paid" | "shipped" | "delivered" | "pending";
+  status?: "paid" | "shipped" | "delivered";
   search?: string;
 }
 
 export async function getOrders(
   params?: GetOrdersParams,
 ): Promise<OrdersResponse> {
-  const response: AxiosResponse<OrdersResponse> = await api.get("/api/orders/", {
-    params,
-  });
+  const response: AxiosResponse<OrdersResponse> = await api.get(
+    "/api/orders/",
+    {
+      params,
+    },
+  );
   return response.data;
 }
 
-export async function getOrderDetails(
-  orderNumber: number,
-): Promise<Order> {
+export async function getOrderDetails(orderNumber: number): Promise<Order> {
   const response: AxiosResponse<Order> = await api.get(
     `/api/orders/${orderNumber}/`,
   );
@@ -26,7 +27,7 @@ export async function getOrderDetails(
 }
 
 export interface UpdateOrderStatusPayload {
-  status: "pending" | "paid" | "shipped" | "delivered";
+  status: "paid" | "shipped" | "delivered";
 }
 
 export async function updateOrderStatus(
@@ -53,8 +54,9 @@ export interface CreateShippingAreaPayload {
 }
 
 export async function getShippingAreas(): Promise<ShippingAreasResponse> {
-  const response: AxiosResponse<ShippingAreasResponse> =
-    await api.get("/api/shipping-areas/");
+  const response: AxiosResponse<ShippingAreasResponse> = await api.get(
+    "/api/shipping-areas/",
+  );
   return response.data;
 }
 
@@ -82,4 +84,3 @@ export async function updateShippingArea(
 export async function deleteShippingArea(id: number): Promise<void> {
   await api.delete(`/api/shipping-areas/${id}/`);
 }
-

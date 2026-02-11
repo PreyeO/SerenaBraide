@@ -144,4 +144,5 @@ export interface ProductDetail {
   inspiration: string | null;
   created_at: string;
   updated_at: string;
+  total_ratings: number;
 }

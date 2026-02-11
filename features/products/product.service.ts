@@ -11,7 +11,7 @@ import {
 
 export async function getReviews(productId: number): Promise<ReviewsResponse> {
   const response: AxiosResponse<ReviewsResponse> = await api.get(
-    `/api/ratings/?order_item__variant__product=${productId}`,
+    `/api/ratings/?product_id=${productId}`,
   );
   return response.data;
 }
@@ -81,8 +81,7 @@ export async function getFeaturedProducts(): Promise<ProductListItem[]> {
 }
 
 export async function getAllProducts(): Promise<ProductListResponse> {
-  const response: AxiosResponse<ProductListResponse> = await api.get(
-    "/api/products/",
-  );
+  const response: AxiosResponse<ProductListResponse> =
+    await api.get("/api/products/");
   return response.data;
 }

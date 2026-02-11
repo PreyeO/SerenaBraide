@@ -133,11 +133,12 @@
 }
 
 .hero_background {
-  background-image: url("/hero-background.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  min-height: 100vh;
+  /* background-image: url("/hero-model-1.png"); */
+  /* background-size: cover; */
+  /* background-repeat: no-repeat; */
+  /* background-position: left; */
+  /* min-height: 100vh; */
+  /* background-color: "#f49670"; */
 }
 
 .footer_background {

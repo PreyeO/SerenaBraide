@@ -44,7 +44,7 @@ const RemainingBalanceModal = ({
         <div className="bg-[#FFF4E6] w-full border border-[#FFA500] rounded-[10px] py-4 px-4 flex flex-col gap-2">
           <Paragraph
             className="text-[#3B3B3B] font-medium lg:text-base text-sm"
-            content={`Balance: $${parseFloat(remainingAmount).toFixed(2)}`}
+            content={`Balance: ₦${parseFloat(remainingAmount).toFixed(2)}`}
           />
           <Paragraph
             className="text-[#6F6E6C] font-normal lg:text-sm text-xs"

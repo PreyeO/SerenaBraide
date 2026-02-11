@@ -90,6 +90,7 @@ const ProductTable = ({ products, onAddProduct, hideEmptyState }: ProductTablePr
             alt={product.name}
             fill
             className="object-cover"
+            unoptimized
           />
         </div>
       );

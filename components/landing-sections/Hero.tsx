@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import { pros } from "@/constant/data";
@@ -6,10 +8,69 @@ import Heading from "../ui/typography/heading";
 import Paragraph from "../ui/typography/paragraph";
 import Link from "next/link";
 
+const HERO_IMAGES = [
+  "/hero-model-1.png",
+  "/hero-model-2.png",
+  "/hero-model-3.png",
+  "/hero-model-4.png",
+  "/hero-model-5.png",
+  "/hero-model-6.png",
+];
+
+const HERO_MOBILE_IMAGES = [
+  "/hero-model-mobile-1.png",
+  "/hero-model-mobile-2.png",
+  "/hero-model-mobile-3.png",
+  "/hero-model-mobile-4.png",
+  "/hero-model-mobile-5.png",
+  "/hero-model-mobile-6.png",
+];
+
 const Hero = () => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex === HERO_IMAGES.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000); // Change image every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [currentImageIndex]);
+
   return (
-    <section className="hero_background  font-GeneralSans  pt-56.5 ">
-      <div className="lg:px-16 px-6 pb-10">
+    <section className="relative font-GeneralSans pt-50 min-h-screen overflow-hidden">
+      {/* Background Carousel */}
+      {HERO_IMAGES.map((src, index) => (
+        <div
+          key={src}
+          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentImageIndex ? "opacity-100" : "opacity-0"
+            }`}
+        >
+          {/* Desktop Image */}
+          <Image
+            src={src}
+            alt={`Hero background ${index + 1}`}
+            fill
+            className="hidden lg:block object-cover object-left"
+            priority={index === 0}
+            quality={90}
+          />
+          {/* Mobile Image */}
+          <Image
+            src={HERO_MOBILE_IMAGES[index]}
+            alt={`Hero background mobile ${index + 1}`}
+            fill
+            className="lg:hidden object-cover object-left"
+            priority={index === 0}
+            quality={90}
+          />
+        </div>
+      ))}
+
+      {/* Content Overlay */}
+      <div className="relative z-10 lg:px-16 px-6 pb-10">
         {/* Top line + small text */}
         <div className="flex items-center lg:w-62.5 w-47 gap-[10px">
           <span className="border-[0.8px] border-[#F5F5F5] lg:w-15 w-7.5"></span>
@@ -35,8 +96,20 @@ const Hero = () => {
             SHOP NOW
           </Button>
         </Link>
-        <div className="flex justify-end">
-          <Image src="/dots.svg" alt="dots" width={78} height={30} />
+
+        {/* Carousel Dots */}
+        <div className="flex justify-end gap-2 mt-6 lg:mt-0">
+          {HERO_IMAGES.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentImageIndex(index)}
+              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${currentImageIndex === index
+                  ? "bg-white scale-125"
+                  : "bg-white/40 hover:bg-white/60"
+                }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
         </div>
 
         <div className="mt-7.5 mx-auto lg:flex justify-center hidden">
@@ -50,7 +123,7 @@ const Hero = () => {
           />
         </div>
       </div>
-      <div className="hidden  h-25 text-[#989898] font-normal text-sm items-center bg-[#141210]/50 backdrop-blur-[40%] lg:flex justify-evenly  mt-9 ">
+      <div className="hidden relative z-10 h-25 text-[#989898] font-normal text-sm items-center bg-[#141210]/50 backdrop-blur-[40%] lg:flex justify-evenly  mt-9 ">
         {pros.map((item, index) => (
           <div
             key={index}

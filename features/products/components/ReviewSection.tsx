@@ -2,25 +2,19 @@
 
 import { useMemo } from "react";
 import { Star, Verified } from "lucide-react";
-
-// UI Components
 import BorderLine from "@/components/ui/border-line";
-import ProductImage from "@/components/ui/images/product-image";
 import Caption from "@/components/ui/typography/caption";
 import Paragraph from "@/components/ui/typography/paragraph";
 import SubHeading from "@/components/ui/typography/subHeading";
-
-// Shared Components
 import { StarRating } from "./shared";
-
-// Hooks & Utils
 import { useGetReviews, useReviewPagination } from "../hooks";
 import {
   formatReviewDate,
   getCustomerInitials,
-  getReviewPrimaryImage,
   calculateReviewStats,
+  getReviewPrimaryImage,
 } from "../review.utils";
+import ProductImage from "@/components/ui/images/product-image";
 
 interface ReviewSectionProps {
   productId: number | null;
@@ -34,6 +28,14 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
     [reviewsData],
   );
 
+  const sortedReviews = useMemo(() => {
+    if (!reviewsData?.results) return [];
+    return [...reviewsData.results].sort(
+      (a, b) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+    );
+  }, [reviewsData?.results]);
+
   const {
     paginatedReviews,
     currentPage,
@@ -43,7 +45,7 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
     goToNextPage,
     displayRange,
   } = useReviewPagination({
-    reviews: reviewsData?.results,
+    reviews: sortedReviews,
     mobilePageSize: 5,
   });
 
@@ -83,7 +85,7 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
           />
           <Paragraph
             className="leading-6 text-[#6F6E6C]"
-            content="No reviews yet. Be the first to review this product!"
+            content="No reviews yet. Buy a product to drop a review!"
           />
         </div>
       </section>
@@ -115,6 +117,7 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
           content={`${totalReviews} Reviews ${totalReviews === 1 ? "customer" : "customers"
             }`}
         />
+
         <div className="border border-[#3B3B3B] flex justify-center h-4 ml-2.5" />
         <div className="flex items-center gap-1.5">
           <h3 className="lg:text-lg text-xs font-medium pl-2.5">
@@ -141,7 +144,6 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
       <div className="space-y-8">
         {paginatedReviews.map((review) => {
           const primaryImage = getReviewPrimaryImage(review);
-
           return (
             <div key={review.id}>
               <div className="flex justify-between pt-8 items-center">
@@ -209,8 +211,8 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
               onClick={goToPrevPage}
               disabled={currentPage === 1}
               className={`text-sm ${currentPage === 1
-                ? "text-[#D6D6D6] cursor-not-allowed"
-                : "text-[#3B3B3B] hover:underline"
+                  ? "text-[#D6D6D6] cursor-not-allowed"
+                  : "text-[#3B3B3B] hover:underline"
                 }`}
             >
               Previous
@@ -220,8 +222,8 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
               onClick={goToNextPage}
               disabled={currentPage === totalPages}
               className={`text-sm ${currentPage === totalPages
-                ? "text-[#D6D6D6] cursor-not-allowed"
-                : "text-[#3B3B3B] hover:underline"
+                  ? "text-[#D6D6D6] cursor-not-allowed"
+                  : "text-[#3B3B3B] hover:underline"
                 }`}
             >
               Next

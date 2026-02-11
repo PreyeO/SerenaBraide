@@ -23,13 +23,16 @@ export const useUpdateReviewApproval = (
           ? "Review approved successfully!"
           : "Review rejected successfully!",
       );
+      // Close modal immediately
+      options?.onSuccess?.();
+
       // Invalidate and refetch reviews to ensure fresh data
       await queryClient.invalidateQueries({ queryKey: ["admin-reviews"] });
-      await queryClient.refetchQueries({ queryKey: ["admin-reviews"] });
+      // Remove redundant manual refetch since invalidation triggers it for active queries
+      // await queryClient.refetchQueries({ queryKey: ["admin-reviews"] });
       queryClient.invalidateQueries({
         queryKey: ["admin-review", variables.id],
       });
-      options?.onSuccess?.();
     },
     onError: () => {
       // Axios interceptor handles error toast

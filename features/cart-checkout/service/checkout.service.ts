@@ -2,8 +2,12 @@ import { api } from "@/lib/axios";
 import { AxiosResponse } from "axios";
 import { Order, Address, CreateAddressPayload, UpdateAddressPayload } from "../type/checkout.type";
 
-export async function createOrder(): Promise<Order> {
-  const response: AxiosResponse<Order> = await api.post("/api/orders/");
+export interface CreateOrderPayload {
+  shipping_area_id?: number;
+}
+
+export async function createOrder(payload?: CreateOrderPayload): Promise<Order> {
+  const response: AxiosResponse<Order> = await api.post("/api/orders/", payload);
   return response.data;
 }
 

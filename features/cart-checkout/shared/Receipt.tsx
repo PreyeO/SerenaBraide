@@ -67,7 +67,9 @@ const Receipt = ({
     }
 
     // User is authenticated and verified, create order
-    createOrderMutation.mutate();
+    createOrderMutation.mutate({
+      shipping_area_id: shippingAreaId ? parseInt(shippingAreaId) : undefined,
+    });
   };
 
   return (
