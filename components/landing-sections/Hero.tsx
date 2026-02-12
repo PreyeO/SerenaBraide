@@ -32,12 +32,12 @@ const Hero = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) =>
-        prevIndex === HERO_IMAGES.length - 1 ? 0 : prevIndex + 1
+        prevIndex === HERO_IMAGES.length - 1 ? 0 : prevIndex + 1,
       );
-    }, 5000); // Change image every 5 seconds
+    }, 20000);
 
     return () => clearInterval(interval);
-  }, [currentImageIndex]);
+  }, []);
 
   return (
     <section className="relative font-GeneralSans pt-50 min-h-screen overflow-hidden">
@@ -45,8 +45,11 @@ const Hero = () => {
       {HERO_IMAGES.map((src, index) => (
         <div
           key={src}
-          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentImageIndex ? "opacity-100" : "opacity-0"
-            }`}
+          className={`absolute inset-0 transition-all duration-2000 ease-in-out${
+            index === currentImageIndex
+              ? "opacity-100 scale-100 blur-0 z-10"
+              : "opacity-0 scale-105 blur-sm z-0"
+          }`}
         >
           {/* Desktop Image */}
           <Image
@@ -103,10 +106,11 @@ const Hero = () => {
             <button
               key={index}
               onClick={() => setCurrentImageIndex(index)}
-              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${currentImageIndex === index
+              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                currentImageIndex === index
                   ? "bg-white scale-125"
                   : "bg-white/40 hover:bg-white/60"
-                }`}
+              }`}
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}
