@@ -31,7 +31,7 @@ const ConnectWithUs = () => {
           <SubHeading
             title="Connect With Us"
             className="
-            lg:absolute lg:-top-20   lg:left-1/2 lg:-translate-x-1/2
+            lg:absolute lg:-top-20 font-PPEditorialNew  lg:left-1/2 lg:-translate-x-1/2
               text-[#141210] font-medium
               text-[40px] lg:text-[54px]
               leading-10 lg:leading-13.5

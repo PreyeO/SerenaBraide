@@ -59,13 +59,13 @@ const Wholesale = () => {
                 content="Interested in Reselling?"
                 className="text-[#3B3B3B] font-medium text-[22px] lg:text-[32px] lg:leading-9.5 leading-7"
               />
-              <Paragraph
+              {/* <Paragraph
                 content="Partner with Presence"
                 className="text-[#6F6E6C] font-normal text-sm lg:text-lg leading-5.5 lg:leading-7"
-              />
+              /> */}
               <Link className=" lg:flex hidden" href="/contact-us">
                 <LinkCta
-                  label="Contact Us"
+                  label="Partner With Us"
                   className="w-40 mt-6 bg-[#3B3B3B] text-white"
                 />
               </Link>
@@ -73,7 +73,7 @@ const Wholesale = () => {
                 href="/contact-us"
                 className="flex gap-1.5 lg:hidden items-center text-sm font-normal text-[#3B3B3B]"
               >
-                <span className="">Contact us</span>
+                <span className="">Partner With Us</span>
                 <ChevronRight size={18} className="" />
               </Link>
             </div>

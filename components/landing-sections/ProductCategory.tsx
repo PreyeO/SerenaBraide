@@ -22,7 +22,7 @@ const ProductCategory = () => {
   return (
     <section className="lg:px-16 lg:py-12.5 py-6 bg-[#FAF5EF] ">
       <SubHeading
-        title="Our Product Categories"
+        title="Our Products"
         className="text-[#3B3B3B] font-extralight italic lg:text-[40px] text-lg text-center"
       />
 
