@@ -10,7 +10,7 @@ const OurStory = () => {
       <div>
         <div className="flex justify-between">
           <TitleSpan
-            title="IDENTITY. POWER. "
+            title="FRAGRANCE. BEAUTY."
             className="lg:text-[22px] text-base lg:leading-7 leading-6 max-w-76"
             span="MEMORY."
           />
@@ -25,7 +25,7 @@ const OurStory = () => {
             className="order-1 bg-[#F5F5F5] rounded-[30px] lg:px-6.25 px-3.5 py-3.5
           lg:py-6.25 flex flex-col gap-6.25 w-full md:max-w-[48%] lg:max-w-87.5"
           >
-            <div className="flex items-end flex-col">
+            <div className="flex flex-col">
               <TitleSpan
                 title="Scent is a liquid personality. "
                 className="text-sm leading-5.5  text-[#6F6E6C] max-w-55.75"
@@ -72,7 +72,7 @@ const OurStory = () => {
 
             <UnderlineLink
               href="/our-story"
-              text="  Read more of our story"
+              text="  Read more"
               className={`text-[12px] text-[#3B3B3B] font-semibold  w-17  leading-4.5 `}
             />
           </div>
