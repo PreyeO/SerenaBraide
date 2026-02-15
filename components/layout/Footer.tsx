@@ -27,7 +27,7 @@ const Footer = () => {
             className="text-[#F5F5F5] font-normal lg:text-sm text-xs leading-4.5 lg:leading-5.5 pt-1.5 text-center "
             span="privacy policy."
           />
-          <div className="flex items-center px-3 lg:px-12 max-w-122 mt-8.5 border border-white rounded-full">
+          <div className="flex items-center px-6 lg:px-12 max-w-122 mt-8.5 border border-white rounded-full">
             <Input
               className="flex-1 py-5.5 rounded-full border-0 text-sm text-[#F5F5F5] font-normal bg-transparent lg:px-4"
               placeholder="enter your email address"

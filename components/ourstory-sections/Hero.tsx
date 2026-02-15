@@ -22,21 +22,20 @@ const Hero = () => {
           src="/about-image1.png"
           height={150}
           width={300}
-          className="max-w-75  lg:hidden  "
+          className="max-w-75 lg:hidden  "
         />
       </div>
 
       {/* Bottom Text */}
       <h1 className="md:text-end text-center md:pt-0 pt-5">
-        <span className="font-PPEditorialNew italic">Leave </span>Memory
+        <span className="font-PPEditorialNew italic">Be </span>Remembered
       </h1>
 
       {/* Description */}
       <div className="leading-5.5 max-w-63.25 text-[#6F6E6C] text-sm mt-4">
         <AuthSpan>
-          Identity. Power. Scent.
           <span className="font-PPEditorialNew italic"> SERENA BRAIDE </span> is
-          not just a brand. It is the signature of those who intend to be
+          not just a brand, it is the signature of those who intend to be
           remembered.
         </AuthSpan>
       </div>
