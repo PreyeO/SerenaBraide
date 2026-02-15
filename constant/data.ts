@@ -242,23 +242,42 @@ export const icons = [
 
 export const faq = [
   {
-    question: "What makes Serena Braide fragrances unique?",
+    question: "How do I place an order?",
     answer:
-      "Our fragrances are crafted from the finest natural ingredients, blending artistry with science to deliver timeless, elegant scents that evoke emotion and identity.",
+      "Simply browse our collections, add your favorites to your cart, and proceed to checkout. You will receive an email confirming that your order has been received.",
   },
   {
-    question: "When will my order ship?",
+    question: "Can I change or cancel my order?",
     answer:
-      "Orders are processed within 1–2 business days. You will receive a tracking number once your order has been dispatched.",
+      "We work quickly to process orders. Modifications or cancellations are not possible once it has been placed. Please double-check all shipping details, items, and quantities before purchasing.",
   },
   {
-    question: "Are your products cruelty-free?",
+    question: "How do I know my order went through?",
     answer:
-      "Yes. Serena Braide is fully committed to ethical sourcing — all our products are cruelty-free and never tested on animals.",
+      "You will receive a confirmation email with your order number shortly after payment.",
   },
   {
-    question: "Do you offer international shipping?",
+    question: "Where do you ship to?",
     answer:
-      "Yes, we ship worldwide. Shipping rates and delivery times vary depending on the destination.",
+      "We ship worldwide. Shipping rates and delivery times vary depending on the destination.",
+  },
+  {
+    question: "Do I pay customs fees for international orders?",
+    answer:
+      "Some countries may charge duties or taxes. These are determined by local authorities and are the customer’s responsibility.",
+  },
+  {
+    question: "What payment methods do you accept?",
+    answer:
+      "We accept bank cards, bank transfers, and Serena Braide gift cards.",
+  },
+  {
+    question: "Do you store my card details?",
+    answer: "No. Payments are processed securely by certified providers.",
+  },
+  {
+    question: "How do I use my gift card?",
+    answer:
+      "At checkout, enter the gift card number and pin sent to your email. The value will be applied to your order.",
   },
 ];
