@@ -1,6 +1,6 @@
 import React from "react";
 import SubHeading from "../ui/typography/subHeading";
-import { Facebook, Instagram } from "lucide-react";
+import { Facebook, Instagram, Youtube } from "lucide-react";
 // import Paragraph from "../ui/typography/paragraph";
 import Image from "next/image";
 // import ProductImage from "../ui/images/product-image";
@@ -99,6 +99,14 @@ const ConnectWithUs = () => {
                 className="rounded-full bg-[#3B3B3B] size-10 flex justify-center items-center"
               >
                 <Facebook color="white" className="size-6" />
+              </a>
+              <a
+                href="https://youtube.com/@serenabraideofficial?si=-rulUJc-gy-VgBjZ"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full bg-[#3B3B3B] size-10 flex justify-center items-center"
+              >
+                <Youtube color="white" className="size-6" />
               </a>
             </div>
           </div>
