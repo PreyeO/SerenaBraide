@@ -29,7 +29,7 @@ const Footer = () => {
           />
           <div className="flex items-center px-6 lg:px-12 max-w-122 mt-8.5 border border-white rounded-full">
             <Input
-              className="flex-1 py-5.5 rounded-full border-0 text-xs text-[#F5F5F5] font-normal bg-transparent px-4"
+              className="flex-1 py-5.5 rounded-full border-0 text-sm text-[#F5F5F5] font-normal bg-transparent lg:px-4 px-2"
               placeholder="enter your email address"
             />
             <Button className="bg-white rounded-full size-10 shadow-[0px_16px_40px_-12px_#12121226] flex items-center justify-center">
@@ -58,7 +58,7 @@ const Footer = () => {
               <ul
                 className={`mt-4 ${
                   section.heading === "WE ACCEPT"
-                    ? "flex items-center flex-wrap  gap-4 max-w-37.75 "
+                    ? "flex items-center lg:flex-wrap  gap-4 max-w-37.75 "
                     : "space-y-4"
                 }`}
               >

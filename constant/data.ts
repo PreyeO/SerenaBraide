@@ -212,7 +212,6 @@ export const footerLinks: FooterSection[] = [
     items: [
       { name: "Visa", src: "/visa.svg", width: 72 },
       { name: "MasterCard", src: "/mastercard.svg", width: 68.12 },
-      { name: "Paystack", src: "/paystack.svg", width: 50 },
     ],
   },
 ];
