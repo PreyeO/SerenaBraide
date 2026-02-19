@@ -1,7 +1,6 @@
 import React from "react";
 import SubHeading from "../ui/typography/subHeading";
 import ProductImage from "../ui/images/product-image";
-import LinkCta from "../ui/btns/link-cta";
 import TitleSpan from "../ui/typography/title-span";
 import { Button } from "../ui/button";
 import Link from "next/link";

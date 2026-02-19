@@ -34,7 +34,7 @@ const ForgotPasswordForm = () => {
     <div className="flex flex-col w-full gap-8.5 mb-27.75">
       <AuthTitle
         title="Forgot Password?"
-        subtitle="Enter the email address you use in creating your account to reset password"
+        subtitle="Enter the email address associated with your profile, and we will send you a secure link to restore your account"
         className="max-w-121"
       />
       <Form {...form}>

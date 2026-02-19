@@ -44,7 +44,7 @@ const LoginForm = () => {
     <div className="flex flex-col w-full gap-8.5 mb-27.75">
       <AuthTitle
         title="Login"
-        subtitle="By accessing your Serena Braide Account you can track and manage your orders and also save multiple items in your cart and wishlist."
+        subtitle="Access your profile to complete your checkout, track your orders, and manage your signature collection."
         className="max-w-121"
       />
 
@@ -108,7 +108,7 @@ const LoginForm = () => {
               label="Login"
               loadingLabel="Logging in..."
               isPending={isPending}
-              onClick={() => { }}
+              onClick={() => {}}
             />
           </div>
 

@@ -21,16 +21,9 @@ const BestSeller = () => {
         />
         <ChevronRight size={24} className="text-white" />
       </div>
-      {/* <ProductSection
-      title="Best Sellers"
-      linkText="Shop More Best Sellers"
-      linkHref="/best-sellers"
-      bgColor="bg-black"
-      categories={categories}
-      productDisplay={productDisplay}
-    /> */}
+
       <RecommendationCarousel className="text-white" />
-      <div className="gap-2.5 items-center justify-center flex lg:hidden">
+      <div className="gap-2.5 items-center justify-center flex lg:hidden pt-5">
         <UnderlineLink
           href="/all-products"
           text="Shop More Best Sellers"

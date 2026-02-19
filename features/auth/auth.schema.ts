@@ -16,8 +16,8 @@ export const RegisterSchema = z
     date_of_birth: z
       .string()
       .regex(
-        /^\d{4}-\d{2}-\d{2}$/,
-        "Date of birth must be in YYYY-MM-DD format",
+        /^\d{2}-\d{2}$/,
+        "Date of birth must be in MM-DD format",
       ),
     phone_number: z.string(),
   })

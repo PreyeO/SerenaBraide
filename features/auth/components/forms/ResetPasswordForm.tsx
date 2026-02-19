@@ -40,7 +40,7 @@ const ResetPasswordForm = () => {
     <div className="flex flex-col w-full gap-8.5 mb-27.75">
       <AuthTitle
         title="Reset Password"
-        subtitle={`We’ve sent a 6-digit verification code to your email ${email}. Please enter the code below and create a new password.`}
+        subtitle={`A 6-digit code was sent to ${email}. Enter it below to securely update your password.`}
         className="max-w-121"
       />
       <Form {...form}>
@@ -102,7 +102,7 @@ const ResetPasswordForm = () => {
               label="Reset Password"
               loadingLabel="Resetting..."
               isPending={isPending}
-              onClick={() => { }}
+              onClick={() => {}}
             />
           </div>
           <div className=" lg:mt-4 flex items-center justify-center">
