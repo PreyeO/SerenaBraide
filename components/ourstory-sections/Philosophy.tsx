@@ -7,34 +7,35 @@ import Image from "next/image";
 
 const Philosophy = () => {
   return (
-    <section className=" font-normal  w-full">
-      <div className="lg:px-16 px-6 lg:py-22 py-10 flex flex-col ">
+    <section className="py-6 lg:py-24">
+      <div className="lg:px-16 px-6 lg:pb-22 pb-10 flex flex-col ">
         <AuthSpan className=" text-[32px] lg:text-[54px] max-w-132.25  lg:leading-14.75 text-center">
           Our
           <span className="font-PPEditorialNew italic text-[#3B3B3B]">
             {" "}
-            Ethos
+            Philosophy
           </span>{" "}
         </AuthSpan>
         <div className="order-2 lg:order-2  lg:leading-6 leading-5.5 max-w-116  lg:pt-12.5 pt-8.5 flex flex-col mx-auto">
           <Paragraph
             className="lg:text-base text-sm font-normal text-[#6F6E6C]"
-            content="We believe that class is quiet."
+            content=" We believe that true luxury is quiet."
           />
 
           <Paragraph
             className="lg:text-base text-sm font-normal text-[#6F6E6C]"
-            content="We believe that impact is loud."
+            content=" We believe that a signature should be undeniable."
           />
           <Paragraph
             className="lg:text-base pt-2.5 text-sm font-normal text-[#6F6E6C]"
-            content="We strip away the noise to focus on the essence. We create for the discerning few."
+            content="We strip away the unnecessary to focus purely on the essence."
           />
           <Paragraph
             className="lg:text-base pt-2.5 text-sm font-normal text-[#6F6E6C]"
-            content="We create for the discerning few."
+            content=" We do not create for the crowd. We create for the discerning few"
           />
         </div>
+
         <div className="pt-6 lg:pt-0 order-1 lg:order-3 rounded-full size-12.5 bg-[#F5F5F5] flex items-center justify-center ">
           <Image
             src="/sprout-animation.gif"
@@ -72,7 +73,7 @@ const Philosophy = () => {
       <div className="grid lg:grid-cols-2 grid-cols-1 w-full gap-0">
         <div className="flex gap-1.5 flex-col items-center justify-center text-center bg-black  px-5.5 py-10 h-93.75 lg:h-125">
           <AuthSpan className=" text-[32px] max-w-83 text-[#FFFFFF] font-medium  leading-9.5 text-center">
-            {`Ideally, you don't just walk into a room`}
+            {`You don't just walk into a room.`}
             <span className="font-PPEditorialNew italic  font-normal">
               {" "}
               you own the memory of it

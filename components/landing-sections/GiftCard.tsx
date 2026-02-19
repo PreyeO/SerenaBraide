@@ -3,6 +3,8 @@ import SubHeading from "../ui/typography/subHeading";
 import ProductImage from "../ui/images/product-image";
 import LinkCta from "../ui/btns/link-cta";
 import TitleSpan from "../ui/typography/title-span";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 const GiftCard = () => {
   return (
@@ -13,8 +15,11 @@ const GiftCard = () => {
           title="Scent is personal. Let them define their own signature"
           className="font-extralight italic lg:text-[40px] text-lg  leading-6 lg:leading-12 text-center"
         />
-
-        <LinkCta label="Gift the Choice" className=" py-4 px-6" />
+        <Link href="/giftcard" className="mx-auto">
+          <Button className="py-4 px-6 rounded-full cursor-pointer ">
+            Gift the Choice
+          </Button>
+        </Link>
       </div>
 
       {/* Cards Layout */}

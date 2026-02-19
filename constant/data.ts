@@ -210,8 +210,8 @@ export const footerLinks: FooterSection[] = [
   {
     heading: "WE ACCEPT",
     items: [
-      { name: "Visa", src: "/visa.svg", width: 72 },
-      { name: "MasterCard", src: "/mastercard.svg", width: 68.12 },
+      { name: "Visa", src: "/VISA-logo.png", width: 72 },
+      { name: "MasterCard", src: "/MASTER-logo.png", width: 72 },
     ],
   },
 ];
@@ -220,22 +220,22 @@ export const icons = [
   {
     id: 1,
     Icon: Leaf,
-    description: "Eco-Designed Packaging with Purpose",
+    description: "Considered Packaging",
   },
   {
     id: 2,
     Icon: Lightbulb,
-    description: "Sustainable Manufacturing",
+    description: "Conscious Craftsmanship",
   },
   {
     id: 3,
     Icon: TestTubeDiagonal,
-    description: "100% Transparent & Proven Formula",
+    description: "Uncompromised Formulations",
   },
   {
     id: 4,
     Icon: Sprout,
-    description: "Distilled Elegance from Earth’s Elements",
+    description: "Earth-Derived Elegance",
   },
 ];
 

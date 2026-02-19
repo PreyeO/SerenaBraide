@@ -6,23 +6,18 @@ import SubHeading from "@/components/ui/typography/subHeading";
 import { MobileMenuLevel } from "./MobileMenuLevel";
 import { NavItem } from "@/types/general";
 import { useMobileMenuState } from "@/hooks/useMobileMenuState";
-import { currencyNavItem } from "@/constant/data";
 import { useRouter } from "next/navigation";
 
 interface MobileMenuSheetProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   navItems: NavItem[];
-  selectedCurrency: string;
-  onCurrencySelect: (currency: string) => void;
 }
 
 export const MobileMenuSheet = ({
   isOpen,
   onOpenChange,
   navItems,
-  selectedCurrency,
-  onCurrencySelect,
 }: MobileMenuSheetProps) => {
   const router = useRouter();
   const menu = useMobileMenuState();
@@ -47,14 +42,6 @@ export const MobileMenuSheet = ({
     [onOpenChange, router, menu],
   );
 
-  const handleCurrencySelect = useCallback(
-    (currency: string) => {
-      onCurrencySelect(currency);
-      onOpenChange(false);
-      menu.resetMenu();
-    },
-    [onCurrencySelect, onOpenChange, menu],
-  );
 
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
@@ -77,9 +64,6 @@ export const MobileMenuSheet = ({
           onBack={menu.goBack}
           onLinkClick={handleLinkClick}
           navItems={navItems}
-          selectedCurrency={selectedCurrency}
-          onCurrencySelect={handleCurrencySelect}
-          currencyItems={currencyNavItem.sections[0]?.items || []}
         />
       </SheetContent>
     </Sheet>

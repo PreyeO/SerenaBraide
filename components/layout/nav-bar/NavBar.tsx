@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState, useCallback } from "react";
+import { useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useNavbarCounts } from "@/hooks/useNavbarCounts";
 import { useDesktopMenu } from "@/hooks/useDesktopMenu";
@@ -14,7 +14,6 @@ const NavBar = () => {
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
   const navRef = useRef<HTMLDivElement>(null);
-  const [selectedCurrency, setSelectedCurrency] = useState("USD");
 
   // Custom hooks - destructure to get stable function references
   const { sheets, openSheet, closeSheet, closeAllSheets } = useSheetManager();
@@ -32,13 +31,6 @@ const NavBar = () => {
     [user, router],
   );
 
-  const handleCurrencySelect = useCallback(
-    (currencyCode: string) => {
-      setSelectedCurrency(currencyCode);
-      closeAllSheets();
-    },
-    [closeAllSheets],
-  );
 
   const handleSheetChange = useCallback(
     (sheet: "menu" | "search" | "profile", open: boolean) => {
@@ -73,8 +65,6 @@ const NavBar = () => {
         user={user}
         sheets={sheets}
         onSheetChange={handleSheetChange}
-        selectedCurrency={selectedCurrency}
-        onCurrencySelect={handleCurrencySelect}
       />
 
       {/* Desktop Navigation */}

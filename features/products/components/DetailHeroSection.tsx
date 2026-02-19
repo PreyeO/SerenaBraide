@@ -237,14 +237,6 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
             }
             onClick={handleAddToCart}
           />
-
-          {/* Loyalty Badge */}
-          <LoyaltyBadge className="lg:mt-10 mt-6" />
-
-          <Paragraph
-            content="Standard Lagos Delivery within 3-5 workings days"
-            className="font-normal lg:pt-6 pt-2.5 lg:text-sm text-xs"
-          />
         </div>
       </div>
     </section>

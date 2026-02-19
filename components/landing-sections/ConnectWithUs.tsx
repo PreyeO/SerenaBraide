@@ -1,41 +1,21 @@
 import React from "react";
 import SubHeading from "../ui/typography/subHeading";
 import { Facebook, Instagram, Youtube } from "lucide-react";
-// import Paragraph from "../ui/typography/paragraph";
 import Image from "next/image";
-// import ProductImage from "../ui/images/product-image";
 
 const ConnectWithUs = () => {
   return (
     <section className="px-6 lg:px-16 py-6 lg:py-20  ">
       <div className="flex flex-col lg:flex-row lg:gap-6  items-center justify-center lg:items-start">
-        {/* Left Image */}
-        {/* <div className="flex-col items-center lg:items-start hidden lg:flex">
-          <ProductImage
-            className=""
-            alt="product image"
-            src="/insta-product-3.png"
-            width={247}
-            height={180}
-            imageClassName="max-w-45 lg:max-w-55 xl:max-w-61.75"
-          />
-
-          <Paragraph
-            content="Discover the art of presence."
-            className="text-[#6F6E6C] text-xs md:text-sm leading-4.5 mt-6 text-center lg:text-left max-w-55"
-          />
-        </div> */}
-
-        {/* Center Content */}
         <div className="relative flex flex-col items-center  mt-4 lg:mt-20">
           <SubHeading
             title="Connect With Us"
             className="
             lg:absolute lg:-top-20 font-PPEditorialNew  lg:left-1/2 lg:-translate-x-1/2
-              text-[#141210] font-medium
-              text-[40px] lg:text-[54px]
-              leading-10 lg:leading-13.5
-              text-center w-43  lg:w-83
+              text-[#141210] font-normal
+              text-[40px] lg:text-[76px]
+              leading-10 lg:leading-16
+              text-center w-43  lg:w-81.5
               z-20
             "
           />
@@ -111,18 +91,6 @@ const ConnectWithUs = () => {
             </div>
           </div>
         </div>
-
-        {/* Right Image */}
-        {/* <div className="hidden lg:flex items-end relative">
-          <ProductImage
-            className=""
-            alt="product image"
-            src="/insta-product-2.png"
-            width={247}
-            height={300}
-            imageClassName="max-w-45 lg:max-w-55 xl:max-w-61.75"
-          />
-        </div> */}
       </div>
     </section>
   );

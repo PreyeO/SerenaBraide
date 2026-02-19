@@ -2,7 +2,6 @@
 import Link from "next/link";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import { NavItem, NavSection } from "@/types/general";
-import Image from "next/image";
 
 interface MobileMenuLevelProps {
   activeItem: string | null;
@@ -14,9 +13,6 @@ interface MobileMenuLevelProps {
   onBack: () => void;
   onLinkClick: (e: React.MouseEvent<HTMLAnchorElement>, href: string) => void;
   navItems: NavItem[];
-  selectedCurrency: string;
-  onCurrencySelect: (currency: string) => void;
-  currencyItems: Array<{ name: string; icon?: string }>;
 }
 
 export const MobileMenuLevel = ({
@@ -29,19 +25,15 @@ export const MobileMenuLevel = ({
   onBack,
   onLinkClick,
   navItems,
-  selectedCurrency,
-  onCurrencySelect,
-  currencyItems,
 }: MobileMenuLevelProps) => {
   return (
     <div className="relative overflow-hidden">
       {/* Main Menu Level */}
       <div
-        className={`transition-all duration-300 ease-in-out ${
-          activeItem
-            ? "opacity-0 -translate-x-full absolute inset-0"
-            : "opacity-100 translate-x-0"
-        }`}
+        className={`transition-all duration-300 ease-in-out ${activeItem
+          ? "opacity-0 -translate-x-full absolute inset-0"
+          : "opacity-100 translate-x-0"
+          }`}
       >
         <div className="flex flex-col">
           <ul className="space-y-3 my-6">
@@ -83,31 +75,16 @@ export const MobileMenuLevel = ({
                 <ChevronRight color="#3B3B3B" size={18} />
               </Link>
             </li>
-            <li className="flex justify-between w-full items-center transition-colors duration-200 hover:text-[#3B3B3B] cursor-pointer">
-              <button
-                onClick={() => onItemClick("CURRENCY")}
-                className="text-left w-full flex justify-between items-center"
-              >
-                <span className="flex items-center gap-2">
-                  CURRENCY
-                  <span className="text-xs text-[#3B3B3B]">
-                    ({selectedCurrency})
-                  </span>
-                </span>
-                <ChevronRight color="#3B3B3B" size={18} />
-              </button>
-            </li>
           </ul>
         </div>
       </div>
 
       {/* Section Menu Level */}
       <div
-        className={`transition-all duration-300 ease-in-out ${
-          activeItem && !activeSection
-            ? "opacity-100 translate-x-0"
-            : "opacity-0 translate-x-full absolute inset-0"
-        }`}
+        className={`transition-all duration-300 ease-in-out ${activeItem && !activeSection
+          ? "opacity-100 translate-x-0"
+          : "opacity-0 translate-x-full absolute inset-0"
+          }`}
       >
         {activeItem && !activeSection && (
           <>
@@ -121,63 +98,32 @@ export const MobileMenuLevel = ({
               </h2>
             </button>
 
-            {activeItem === "CURRENCY" ? (
-              <ul className="space-y-3 my-6">
-                {currencyItems.map((currency) => (
-                  <li
-                    key={currency.name}
-                    className="text-sm font-normal text-[#6F6E6C] transition-colors duration-200 hover:text-[#3B3B3B]"
+            <ul className="space-y-3">
+              {currentItem?.sections.map((section) => (
+                <li
+                  key={section.heading}
+                  className="text-sm font-normal text-[#6F6E6C] transition-colors duration-200 hover:text-[#3B3B3B]"
+                >
+                  <button
+                    onClick={() => onSectionClick(section.heading)}
+                    className="text-left w-full flex justify-between items-center"
                   >
-                    <button
-                      onClick={() => onCurrencySelect(currency.name)}
-                      className="flex items-center gap-3 w-full"
-                    >
-                      {currency.icon && (
-                        <Image
-                          src={currency.icon}
-                          width={24}
-                          height={16}
-                          alt={currency.name}
-                          className="rounded"
-                        />
-                      )}
-                      <span className="flex-1 text-left">{currency.name}</span>
-                      {selectedCurrency === currency.name && (
-                        <span className="text-green-600">✓</span>
-                      )}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <ul className="space-y-3">
-                {currentItem?.sections.map((section) => (
-                  <li
-                    key={section.heading}
-                    className="text-sm font-normal text-[#6F6E6C] transition-colors duration-200 hover:text-[#3B3B3B]"
-                  >
-                    <button
-                      onClick={() => onSectionClick(section.heading)}
-                      className="text-left w-full flex justify-between items-center"
-                    >
-                      {section.heading}
-                      <ChevronRight color="#3B3B3B" size={18} />
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
+                    {section.heading}
+                    <ChevronRight color="#3B3B3B" size={18} />
+                  </button>
+                </li>
+              ))}
+            </ul>
           </>
         )}
       </div>
 
       {/* Item Menu Level */}
       <div
-        className={`transition-all duration-300 ease-in-out ${
-          activeSection
-            ? "opacity-100 translate-x-0"
-            : "opacity-0 translate-x-full absolute inset-0"
-        }`}
+        className={`transition-all duration-300 ease-in-out ${activeSection
+          ? "opacity-100 translate-x-0"
+          : "opacity-0 translate-x-full absolute inset-0"
+          }`}
       >
         {activeSection && (
           <>

@@ -39,7 +39,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="bg-black lg:px-16 px-6 py-7.25">
-        <div className=" text-white flex lg:justify-evenly flex-wrap lg:flex-nowrap justify-start lg:gap-0 gap-8.5">
+        <div className="text-white flex flex-col lg:flex-row lg:justify-evenly gap-10 lg:gap-0">
           <div className="col-span-2 md:col-span-1 flex flex-col  max-w-47.25">
             <Logo width={134.48} height={50} />
             <Paragraph
@@ -81,8 +81,8 @@ const Footer = () => {
                         alt={item.name}
                         src={item.src}
                         width={item.width}
-                        height={28}
-                        className="object-contain"
+                        height={40}
+                        className="object-contain rounded-md"
                       />
                     )}
                   </li>

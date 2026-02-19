@@ -9,7 +9,6 @@ import {
   whyCookiesList,
 } from "@/components/legal-sections/data/legal";
 import { effectiveDate } from "@/lib/utils";
-import Link from "next/link";
 import LegalParagraph from "./shared-components/LegalParagraph";
 import LegalList from "./shared-components/LegalList";
 import LegalIntro from "./shared-components/LegalIntro";

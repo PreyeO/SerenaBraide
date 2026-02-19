@@ -22,8 +22,6 @@ interface MobileNavProps {
     profile: boolean;
   };
   onSheetChange: (sheet: "menu" | "search" | "profile", open: boolean) => void;
-  selectedCurrency: string;
-  onCurrencySelect: (currency: string) => void;
 }
 
 export const MobileNav = ({
@@ -32,8 +30,6 @@ export const MobileNav = ({
   user,
   sheets,
   onSheetChange,
-  selectedCurrency,
-  onCurrencySelect,
 }: MobileNavProps) => {
   const router = useRouter();
   const logoutMutation = useLogout();
@@ -72,8 +68,6 @@ export const MobileNav = ({
           isOpen={sheets.menu}
           onOpenChange={(open) => onSheetChange("menu", open)}
           navItems={navItems}
-          selectedCurrency={selectedCurrency}
-          onCurrencySelect={onCurrencySelect}
         />
 
         <MobileSearchSheet
