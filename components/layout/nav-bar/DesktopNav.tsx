@@ -53,7 +53,7 @@ export const DesktopNav = forwardRef<HTMLDivElement, DesktopNavProps>(
       >
         <div className="bg-black/30 backdrop-blur-lg rounded-full h-17.5 my-4 mx-16 px-6 flex items-center justify-between">
           {/* Left - Nav Items */}
-          <div className="flex  items-center xl:w-136">
+          <div className="flex items-center xl:w-136">
             <DesktopNavItems
               items={navItems}
               activeMenu={activeMenu}
