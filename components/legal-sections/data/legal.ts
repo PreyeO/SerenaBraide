@@ -84,40 +84,31 @@ export const giftCardList = [
 ];
 export const useCookiesList = [
   {
-    list: "Ensure our website functions properly",
+    list: "keep the website working properly",
   },
   {
-    list: "Remember items in your shopping bag or wishlist",
+    list: "remember your cart and preferences",
   },
   {
-    list: "Understand how visitors use our website",
+    list: "analyze traffic and usage",
   },
   {
-    list: "Improve performance, design, and content",
-  },
-  {
-    list: "Enable secure and seamless checkout",
-  },
-  {
-    list: "Personalize your browsing experience",
-  },
-  {
-    list: "Deliver relevant marketing or promotional content (if applicable)",
+    list: "support marketing and advertising",
   },
 ];
 
 export const CookiesTypeList = [
   {
-    list: "Essential Cookies: equired for core website functionality such as navigation, checkout, and account access.",
+    list: "Essential: required for the site to function.",
   },
   {
-    list: "Performance & Analytics Cookies: Help us understand how visitors interact with our site (e.g., page views, time spent).Example: Google Analytics.",
+    list: "Analytics: help us measure performance.",
   },
   {
-    list: "Functionality Cookies: Remember choices you make (like currency or region) and enhance features like product recommendations.",
+    list: "Functionality: remember your choices.",
   },
   {
-    list: "Marketing & Advertising Cookies: May be used to deliver ads relevant to your interests on third-party platforms (e.g., Instagram, Google Ads).",
+    list: "Marketing: show relevant promotions.",
   },
 ];
 
@@ -129,16 +120,20 @@ export const whyCookiesList = [
     list: "Email address",
   },
   {
-    list: "Shipping & billing address",
-  },
-  {
     list: "Phone number",
   },
   {
-    list: "Payment details (processed securely via third-party providers)",
+    list: "Billing & delivery address",
+  },
+
+  {
+    list: "Order details and purchase history",
   },
   {
-    list: "Gift message notes (if applicable)",
+    list: "Communications you send to us",
+  },
+  {
+    list: "Marketing preferences",
   },
 ];
 
@@ -147,68 +142,99 @@ export const collectedCookiesList = [
     list: "IP address",
   },
   {
-    list: "Browser and device type",
+    list: "Browser type and version",
+  },
+  {
+    list: "Device information",
   },
   {
     list: "Pages visited and time spent",
   },
   {
-    list: "Cookies and usage data ",
+    list: "Referral source",
+  },
+  {
+    list: "Cookies identifiers",
   },
 ];
+
 export const useOfData = [
   {
-    list: "Process and fulfill your orders",
+    list: "create and manage your orders",
   },
   {
-    list: "Send order and shipping confirmations",
+    list: " deliver products and provide customer support",
   },
   {
-    list: "Respond to your inquiries or customer service requests",
+    list: "communicate order updates",
   },
   {
-    list: "Provide personalized product recommendations",
+    list: "personalize your shopping experience",
   },
   {
-    list: "Improve the functionality and design of our website",
+    list: "improve our website, products, and services",
   },
   {
-    list: "Send promotional offers, only with your consent",
+    list: "send marketing communications where you have opted in",
   },
   {
-    list: "Prevent fraud and ensure website security",
+    list: " comply with legal and regulatory obligations",
+  },
+  {
+    list: " detect and prevent fraud or misuse of our services",
+  },
+];
+
+export const processedBasis = [
+  {
+    list: "performance of a contract (to fulfill your order)",
+  },
+  {
+    list: "your consent (for marketing communications)",
+  },
+  {
+    list: " compliance with legal obligations",
+  },
+  {
+    list: " our legitimate business interests, provided these do not override your rights",
   },
 ];
 export const dataShared = [
   {
-    list: "Payment processors (e.g., Paystack)",
+    list: "payment processors",
   },
   {
-    list: "Shipping partners (e.g., DHL, FedEx)",
+    list: " logistics and delivery partners",
   },
   {
-    list: "Email marketing platforms (e.g., Klaviyo or Mailchimp)",
+    list: "email and marketing service providers",
   },
   {
-    list: "Analytics providers (e.g., Google Analytics)",
+    list: " IT, hosting, and analytics providers",
+  },
+  {
+    list: "professional advisers where required",
   },
 ];
 
 export const dataRights = [
   {
-    list: "Access the personal data we hold about you",
+    list: "request access to your data",
   },
   {
-    list: "Request corrections to inaccurate data",
+    list: "request correction of inaccurate information",
   },
   {
-    list: "Request deletion of your data",
+    list: " request deletion of your data",
   },
   {
-    list: "Opt-out of marketing communications",
+    list: "restrict or object to certain processing",
   },
   {
-    list: "Withdraw consent where processing is based on consent",
+    list: "withdraw consent for marketing",
+  },
+  {
+    list: "request transfer of your data where technically feasible",
   },
 ];
 

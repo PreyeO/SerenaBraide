@@ -9,7 +9,7 @@ const ContactUs = () => {
       <div className="w-full max-w-175 flex flex-col gap-1.5 items-start">
         <SubHeading
           className="text-[#3B3B3B] lg:text-[26px] text-[22px] font-normal "
-          title="We'd Love to Hear from You"
+          title="We'd love to hear from you"
         />
         <Paragraph
           className="text-[#3B3B3B] font-normal text-sm"

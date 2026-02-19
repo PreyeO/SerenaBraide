@@ -30,6 +30,10 @@ const Philosophy = () => {
             className="lg:text-base pt-2.5 text-sm font-normal text-[#6F6E6C]"
             content="We strip away the noise to focus on the essence. We create for the discerning few."
           />
+          <Paragraph
+            className="lg:text-base pt-2.5 text-sm font-normal text-[#6F6E6C]"
+            content="We create for the discerning few."
+          />
         </div>
         <div className="pt-6 lg:pt-0 order-1 lg:order-3 rounded-full size-12.5 bg-[#F5F5F5] flex items-center justify-center ">
           <Image

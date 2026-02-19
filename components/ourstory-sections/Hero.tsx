@@ -35,7 +35,7 @@ const Hero = () => {
       <div className="leading-5.5 max-w-63.25 text-[#6F6E6C] text-sm mt-4">
         <AuthSpan>
           <span className="font-PPEditorialNew italic"> SERENA BRAIDE </span> is
-          not just a brand, it is the signature of those who intend to be
+          not just a brand, it is the signEature of those who intend to be
           remembered.
         </AuthSpan>
       </div>

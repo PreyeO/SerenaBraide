@@ -26,13 +26,13 @@ const Story = () => {
             </AuthSpan>
           </div>
           <div className="flex flex-col lg:gap-12.5 gap-10 items-center text-center justify-center  ">
-            <ProductImage
+            {/* <ProductImage
               alt="about us image"
               src="/about-image5.png"
               height={250}
               width={300}
               className="max-w-75 h-full"
-            />
+            /> */}
             <Paragraph
               className="px-6 lg:text-base text-sm leading-5.5 font-normal lg:leading-6 max-w-125 text-[#6F6E6C]"
               content="To me, perfume has always been more than a scent. It is a liquid personality. It is the attributes of Identity, Power, and Memory bottled."
