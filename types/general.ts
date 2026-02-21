@@ -13,7 +13,13 @@ export type FooterSection = {
 export type NavSection = {
   heading: string;
   image?: string; // optional
-  items: { name: string; href: string; icon?: string }[];
+  items: {
+    name: string;
+    href?: string;
+    icon?: string;
+    caption?: string;
+    captionColor?: "amber" | "blue" | "purple" | "slate" | "pink" | "teal";
+  }[];
 };
 
 export type NavItem = {

@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import { NavItem, NavSection } from "@/types/general";
+import { ComingSoonBadge } from "./ComingSoonBadge";
 
 interface MobileMenuLevelProps {
   activeItem: string | null;
@@ -30,10 +31,11 @@ export const MobileMenuLevel = ({
     <div className="relative overflow-hidden">
       {/* Main Menu Level */}
       <div
-        className={`transition-all duration-300 ease-in-out ${activeItem
-          ? "opacity-0 -translate-x-full absolute inset-0"
-          : "opacity-100 translate-x-0"
-          }`}
+        className={`transition-all duration-300 ease-in-out ${
+          activeItem
+            ? "opacity-0 -translate-x-full absolute inset-0"
+            : "opacity-100 translate-x-0"
+        }`}
       >
         <div className="flex flex-col">
           <ul className="space-y-3 my-6">
@@ -81,10 +83,11 @@ export const MobileMenuLevel = ({
 
       {/* Section Menu Level */}
       <div
-        className={`transition-all duration-300 ease-in-out ${activeItem && !activeSection
-          ? "opacity-100 translate-x-0"
-          : "opacity-0 translate-x-full absolute inset-0"
-          }`}
+        className={`transition-all duration-300 ease-in-out ${
+          activeItem && !activeSection
+            ? "opacity-100 translate-x-0"
+            : "opacity-0 translate-x-full absolute inset-0"
+        }`}
       >
         {activeItem && !activeSection && (
           <>
@@ -120,10 +123,11 @@ export const MobileMenuLevel = ({
 
       {/* Item Menu Level */}
       <div
-        className={`transition-all duration-300 ease-in-out ${activeSection
-          ? "opacity-100 translate-x-0"
-          : "opacity-0 translate-x-full absolute inset-0"
-          }`}
+        className={`transition-all duration-300 ease-in-out ${
+          activeSection
+            ? "opacity-100 translate-x-0"
+            : "opacity-0 translate-x-full absolute inset-0"
+        }`}
       >
         {activeSection && (
           <>
@@ -138,21 +142,35 @@ export const MobileMenuLevel = ({
             </button>
 
             <ul className="space-y-2 my-6">
-              {currentSection?.items.map((link) => (
-                <li
-                  key={link.name}
-                  className="text-sm font-normal text-[#6F6E6C] transition-colors duration-200 hover:text-[#3B3B3B]"
-                >
-                  <Link
-                    href={link.href}
-                    onClick={(e) => onLinkClick(e, link.href)}
-                    className="flex justify-between items-center"
+              {currentSection?.items.map((link) => {
+                const comingSoon =
+                  link.caption?.toLowerCase() === "coming soon";
+                return (
+                  <li
+                    key={link.name}
+                    className="text-sm font-normal text-[#6F6E6C] transition-colors duration-200 hover:text-[#3B3B3B]"
                   >
-                    {link.name}
-                    <ChevronRight color="#3B3B3B" size={18} />
-                  </Link>
-                </li>
-              ))}
+                    {comingSoon ? (
+                      <div className="flex items-center gap-2 cursor-default">
+                        <span>{link.name}</span>
+                        <ComingSoonBadge
+                          caption={link.caption}
+                          captionColor={link.captionColor}
+                        />
+                      </div>
+                    ) : (
+                      <Link
+                        href={link.href || "#"}
+                        onClick={(e) => onLinkClick(e, link.href || "#")}
+                        className="flex justify-between items-center"
+                      >
+                        {link.name}
+                        <ChevronRight color="#3B3B3B" size={18} />
+                      </Link>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </>
         )}

@@ -1,9 +1,13 @@
 "use client";
 
+import { useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { Product } from "@/types/product";
 import ProductCard from "../../../../components/ui/cards/product-card";
 import SortDropdown from "./SortDropdown";
 import SubmitButton from "@/components/ui/btns/submit-cta";
+import LoadingState from "@/components/ui/loaders/loading-state";
+import { getProductById } from "@/features/products/product.service";
 
 interface ProductGridProps {
   products: Product[];
@@ -18,15 +22,24 @@ export default function ProductGrid({
   onSortChange,
   isLoading = false,
 }: ProductGridProps) {
+  const queryClient = useQueryClient();
+
+  // Prefetch product details so add-to-cart from ProductCard is instant
+  useEffect(() => {
+    if (!products.length) return;
+    products.slice(0, 12).forEach((p) => {
+      if (p.productId && !p.variantId) {
+        queryClient.prefetchQuery({
+          queryKey: ["product", "id", p.productId],
+          queryFn: () => getProductById(p.productId!),
+          staleTime: 1000 * 60 * 2,
+        });
+      }
+    });
+  }, [products, queryClient]);
+
   if (isLoading) {
-    return (
-      <div className="py-20">
-        <div className="flex justify-center items-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#3B3B3B]"></div>
-        </div>
-        <p className="text-center text-gray-500 mt-4">Loading products...</p>
-      </div>
-    );
+    return <LoadingState />;
   }
 
   if (products.length === 0) {

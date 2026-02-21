@@ -1,11 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import ProductCard from "@/components/ui/cards/product-card";
 import { Product } from "@/types/product";
 import { useGetFeaturedProducts } from "../../hooks/useGetFeaturedProducts";
 import { ProductListItem } from "../../product.type";
 import { mapProductListItemToProduct } from "../../utils/product-mapper";
+import { getProductById } from "../../product.service";
 import {
   Carousel,
   CarouselContent,
@@ -46,6 +48,22 @@ const RecommendationCarousel: React.FC<RecommendationCarouselProps> = ({
     }
     return item as Product;
   });
+
+  const queryClient = useQueryClient();
+
+  // Prefetch product details so add-to-cart from ProductCard is instant
+  useEffect(() => {
+    if (!products.length) return;
+    products.slice(0, 8).forEach((p) => {
+      if (p.productId && !p.variantId) {
+        queryClient.prefetchQuery({
+          queryKey: ["product", "id", p.productId],
+          queryFn: () => getProductById(p.productId!),
+          staleTime: 1000 * 60 * 2,
+        });
+      }
+    });
+  }, [products, queryClient]);
 
   if (isLoading) {
     return (

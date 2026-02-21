@@ -2,12 +2,16 @@
 import Link from "next/link";
 import ProductImage from "@/components/ui/images/product-image";
 import { NavItem } from "@/types/general";
+import { ComingSoonBadge } from "./ComingSoonBadge";
 
 interface DesktopDropdownPanelProps {
   activeMenu: string;
   navItems: NavItem[];
   onMenuClose: () => void;
 }
+
+const isComingSoon = (caption?: string) =>
+  caption?.toLowerCase() === "coming soon";
 
 export const DesktopDropdownPanel = ({
   activeMenu,
@@ -35,13 +39,30 @@ export const DesktopDropdownPanel = ({
             {section.heading}
           </h4>
           <ul className="space-y-1 text-sm font-normal">
-            {section.items.map((link) => (
-              <li key={link.name} className="mb-2.5">
-                <Link href={link.href} className="block" onClick={onMenuClose}>
-                  {link.name}
-                </Link>
-              </li>
-            ))}
+            {section.items.map((link) => {
+              const comingSoon = isComingSoon(link.caption);
+              return (
+                <li key={link.name} className="mb-2.5">
+                  {comingSoon ? (
+                    <div className="flex items-center gap-2 cursor-default">
+                      <span className="text-[#6F6E6C]">{link.name}</span>
+                      <ComingSoonBadge
+                        caption={link.caption}
+                        captionColor={link.captionColor}
+                      />
+                    </div>
+                  ) : (
+                    <Link
+                      href={link.href || "#"}
+                      className="block hover:text-[#3B3B3B]"
+                      onClick={onMenuClose}
+                    >
+                      {link.name}
+                    </Link>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </div>
       ))}

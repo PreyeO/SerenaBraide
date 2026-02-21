@@ -6,10 +6,8 @@ import { AxiosError } from "axios";
 import { addToCart } from "../service/cart.service";
 import { AddToCartPayload, CartItem } from "../type/cart.type";
 import { notify } from "@/lib/notify";
-import { useRouter } from "next/navigation";
 
 export const useAddToCart = () => {
-  const router = useRouter();
   const queryClient = useQueryClient();
 
   return useMutation<
@@ -24,9 +22,6 @@ export const useAddToCart = () => {
 
       // Refetch the cart and wait for it to complete before navigating
       await queryClient.refetchQueries({ queryKey: ["cart"] });
-
-      // Now navigate - cart data will be ready
-      router.push("/cart");
     },
 
     onError: () => {

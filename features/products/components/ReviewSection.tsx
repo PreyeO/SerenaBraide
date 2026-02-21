@@ -46,7 +46,7 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
     displayRange,
   } = useReviewPagination({
     reviews: sortedReviews,
-    mobilePageSize: 5,
+    mobilePageSize: 1,
   });
 
   // Don't render if no productId
@@ -114,8 +114,9 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
       <div className="flex lg:pt-12.5 pt-6 items-center lg:mb-6.5 mb-4">
         <Paragraph
           className="font-medium lg;text-lg text-xs"
-          content={`${totalReviews} Reviews ${totalReviews === 1 ? "customer" : "customers"
-            }`}
+          content={`${totalReviews} Reviews ${
+            totalReviews === 1 ? "customer" : "customers"
+          }`}
         />
 
         <div className="border border-[#3B3B3B] flex justify-center h-4 ml-2.5" />
@@ -132,8 +133,9 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
             <StarRating rating={Math.round(averageRating)} />
           </div>
           <Caption
-            title={`${totalReviews} ${totalReviews === 1 ? "rating" : "ratings"
-              }`}
+            title={`${totalReviews} ${
+              totalReviews === 1 ? "rating" : "ratings"
+            }`}
             className="font-normal lg:text-sm text-xs"
           />
         </div>
@@ -201,8 +203,9 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
       {reviewsData.count > 0 && (
         <div className="flex flex-col md:flex-row justify-between pt-8 items-center gap-4 w-full">
           <Caption
-            title={`Displaying Review${isMobile ? "" : "s"} ${displayRange} of ${reviewsData.count
-              }`}
+            title={`Displaying Review${isMobile ? "" : "s"} ${displayRange} of ${
+              reviewsData.count
+            }`}
             className="text-sm text-[#6F6E6C] font-normal order-1"
           />
 
@@ -210,10 +213,11 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
             <button
               onClick={goToPrevPage}
               disabled={currentPage === 1}
-              className={`text-sm ${currentPage === 1
+              className={`text-sm ${
+                currentPage === 1
                   ? "text-[#D6D6D6] cursor-not-allowed"
                   : "text-[#3B3B3B] hover:underline"
-                }`}
+              }`}
             >
               Previous
             </button>
@@ -221,10 +225,11 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
             <button
               onClick={goToNextPage}
               disabled={currentPage === totalPages}
-              className={`text-sm ${currentPage === totalPages
+              className={`text-sm ${
+                currentPage === totalPages
                   ? "text-[#D6D6D6] cursor-not-allowed"
                   : "text-[#3B3B3B] hover:underline"
-                }`}
+              }`}
             >
               Next
             </button>
@@ -236,11 +241,6 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
           />
         </div>
       )}
-
-      <Caption
-        title="Leave a review and earn 5 loyalty points!*"
-        className="md:hidden text-xs text-[#6F6E6C] font-normal mt-4 text-center block"
-      />
     </section>
   );
 };

@@ -3,14 +3,8 @@
 import { Product } from "@/types/product";
 import ProductImage from "../images/product-image";
 import Caption from "../typography/caption";
-import { Heart, ShoppingBasket, Star } from "lucide-react";
-import { useWishlist } from "@/features/profile/hooks/customer/useWishlist";
-import { useAddToWishlist } from "@/features/profile/hooks/customer/useAddToWishlist";
-import { useRemoveFromWishlist } from "@/features/profile/hooks/customer/useRemoveFromWishlist";
-import { useAuthStore } from "@/features/auth/auth.store";
-import { useRouter } from "next/navigation";
+import { ShoppingBasket, Star } from "lucide-react";
 import Link from "next/link";
-import { useMemo, useState } from "react";
 import { useAddToCartFromProduct } from "@/features/cart-checkout/hooks/useAddToCartFromProduct";
 
 interface ProductCardProps {
@@ -19,62 +13,9 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
-  const router = useRouter();
-  const user = useAuthStore((state) => state.user);
-  const { data: wishlistData } = useWishlist();
-  const addToWishlistMutation = useAddToWishlist();
-  const removeFromWishlistMutation = useRemoveFromWishlist();
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [isLocallyLiked, setIsLocallyLiked] = useState(false);
-
   // Add to cart from product hook
   const { addToCartFromProduct, isPending: isAddingToCart } =
     useAddToCartFromProduct();
-
-  const isInWishlist = useMemo(() => {
-    if (!product.variantId || !wishlistData?.results) return false;
-    return wishlistData.results.some(
-      (item) => item.product_variant.id === product.variantId,
-    );
-  }, [product.variantId, wishlistData]);
-
-  const wishlistItemId = useMemo(() => {
-    if (!product.variantId || !wishlistData?.results) return null;
-    const item = wishlistData.results.find(
-      (item) => item.product_variant.id === product.variantId,
-    );
-    return item?.id || null;
-  }, [product.variantId, wishlistData]);
-
-  const isLoading =
-    addToWishlistMutation.isPending || removeFromWishlistMutation.isPending;
-
-  const isLiked = product.variantId ? isInWishlist : isLocallyLiked;
-
-  const handleWishlistToggle = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (!user) {
-      const currentPath = window.location.pathname;
-      router.push(`/auth/login?return_url=${encodeURIComponent(currentPath)}`);
-      return;
-    }
-
-    setIsAnimating(true);
-    setTimeout(() => setIsAnimating(false), 300);
-
-    if (!product.variantId) {
-      setIsLocallyLiked(!isLocallyLiked);
-      return;
-    }
-
-    if (isInWishlist && wishlistItemId) {
-      removeFromWishlistMutation.mutate(wishlistItemId);
-    } else {
-      addToWishlistMutation.mutate({ product_variant: product.variantId });
-    }
-  };
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -124,9 +65,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
               <Caption title={product.price} className="font-medium" />
             </span>
 
-            {/* Wishlist and Cart Icons - Flexed together */}
-            <div className="absolute bottom-3 right-3 z-20 flex gap-2">
-              {/* Cart Icon */}
+            {/* Cart Icon */}
+            <div className="absolute bottom-3 right-3 z-20">
               <button
                 onClick={handleAddToCart}
                 disabled={isAddingToCart || !product.inStock}
@@ -142,34 +82,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
                 <ShoppingBasket
                   className="w-3.5 h-3.5 text-black hover:text-white"
                   strokeWidth={2}
-                />
-              </button>
-
-              {/* Wishlist Icon */}
-              <button
-                onClick={handleWishlistToggle}
-                disabled={isLoading}
-                className={`
-                rounded-full w-6 h-6 flex items-center justify-center 
-                transition-all duration-200
-                ${
-                  isLiked
-                    ? "bg-black"
-                    : "bg-white/30 backdrop-blur-2xl hover:bg-white/50"
-                }
-                ${isLoading ? "opacity-50 cursor-wait" : "cursor-pointer"}
-                ${isAnimating ? "animate-bounce" : ""}
-                hover:scale-110 active:scale-95
-              `}
-                aria-label={
-                  isLiked ? "Remove from wishlist" : "Add to wishlist"
-                }
-              >
-                <Heart
-                  className="w-3.5 h-3.5"
-                  fill={isLiked ? "#FFFFFF" : "transparent"}
-                  color={isLiked ? "#FFFFFF" : "#000000"}
-                  strokeWidth={isLiked ? 0 : 2}
                 />
               </button>
             </div>

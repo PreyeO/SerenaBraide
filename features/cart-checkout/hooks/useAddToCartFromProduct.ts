@@ -2,6 +2,7 @@
 "use client";
 
 import { useCallback } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { notify } from "@/lib/notify";
 import { getProductById } from "@/features/products/product.service";
@@ -16,6 +17,7 @@ export const useAddToCartFromProduct = (
   options?: UseAddToCartFromProductOptions
 ) => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const addToCartMutation = useAddToCartMutation();
   const { onSuccess } = options || {};
 
@@ -43,10 +45,14 @@ export const useAddToCartFromProduct = (
         return;
       }
 
-      // If no variantId but we have productId, fetch product details to get first variant
+      // If no variantId but we have productId, fetch product details (cached via React Query)
       if (product.productId) {
         try {
-          const productDetail = await getProductById(product.productId);
+          const productDetail = await queryClient.fetchQuery({
+            queryKey: ["product", "id", product.productId],
+            queryFn: () => getProductById(product.productId!),
+            staleTime: 1000 * 60 * 2, // 2 min cache - matches useGetProductById
+          });
           const firstVariant = productDetail.variants?.[0];
 
           if (!firstVariant) {
@@ -83,7 +89,7 @@ export const useAddToCartFromProduct = (
         notify.error("Please select a variant first");
       }
     },
-    [addToCartMutation, router, onSuccess]
+    [addToCartMutation, queryClient, router, onSuccess]
   );
 
   return {

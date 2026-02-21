@@ -6,7 +6,6 @@ import { useSearchParams } from "next/navigation";
 import BackNavigation from "@/components/ui/btns/back-navigation";
 import { notify } from "@/lib/notify";
 import CartHeader from "../../shared/CartHeader";
-
 import CartItem from "../../shared/CartItem";
 import Receipt from "../../shared/Receipt";
 import EmptyCart from "../empty-screens/EmptyCart";
@@ -25,12 +24,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { CartItem as CartItemType } from "../../type/cart.type";
 
 const DeleteConfirmationModal = dynamic(
   () => import("@/components/ui/modals/delete-confirmation-modal"),
   { ssr: false },
 );
-import { CartItem as CartItemType } from "../../type/cart.type";
 
 const CartSection = () => {
   const { data, isLoading } = useCart();
@@ -39,7 +38,7 @@ const CartSection = () => {
   const searchParams = useSearchParams();
   const [itemToDelete, setItemToDelete] = useState<CartItemType | null>(null);
   const [selectedShippingAreaId, setSelectedShippingAreaId] = useState<string>(
-    searchParams.get("shippingAreaId") || ""
+    searchParams.get("shippingAreaId") || "",
   );
 
   const { data: shippingData } = useGetShippingAreas();

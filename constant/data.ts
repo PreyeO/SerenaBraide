@@ -100,22 +100,42 @@ export const navItems: NavItem[] = [
     href: "/giftcards",
     sections: [
       {
-        heading: "Gift cards",
+        heading: "Gift Cards",
         image: "/gift-card.png",
         items: [
-          { name: "Gift card", href: "/giftcard" },
+          { name: "Buy Gift Cards", href: "/giftcard" },
           { name: "Gift card balance", href: "/giftcard-balance" },
         ],
       },
       {
-        heading: "Gifting Ideas",
+        heading: "Gift Boxes",
         image: "/gift-set.png",
         items: [
-          { name: "Valentines day", href: "/gifts-sets/winter-glow" },
-          { name: "Anniversary", href: "/gifts-sets/lip-love" },
-          { name: "Mothers day", href: "/gifts-sets/lip-love" },
-          { name: "Fathers day", href: "/gifts-sets/lip-love" },
-          { name: "Birthdays", href: "/gifts-sets/lip-love" },
+          {
+            name: "The Intimate Edit",
+            caption: "coming soon",
+            captionColor: "amber",
+          },
+          {
+            name: "The Legacy Collection",
+            caption: "coming soon",
+            captionColor: "blue",
+          },
+          {
+            name: "The Milestone Set",
+            caption: "coming soon",
+            captionColor: "purple",
+          },
+          {
+            name: "The Discovery Archive",
+            caption: "coming soon",
+            captionColor: "teal",
+          },
+          {
+            name: "The Complete Signature",
+            caption: "coming soon",
+            captionColor: "pink",
+          },
         ],
       },
     ],

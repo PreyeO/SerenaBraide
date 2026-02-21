@@ -16,11 +16,9 @@ export const useAddToCartMutation = () => {
   >({
     mutationFn: addToCart,
 
-    onSuccess: () => {
+    onSuccess: async () => {
       notify.success("Added to cart");
-
-      // Refetch the cart in the background (don't wait for it)
-      queryClient.refetchQueries({ queryKey: ["cart"] });
+      await queryClient.refetchQueries({ queryKey: ["cart"] });
     },
 
     onError: (error) => {
