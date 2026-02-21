@@ -20,26 +20,30 @@ import dynamic from "next/dynamic";
 const LocationChart = dynamic(
   () => import("./components/shared/LocationChart"),
   {
-    loading: () => (
-      <div className="h-75 w-full bg-gray-100 animate-pulse rounded-lg" />
-    ),
+    loading: () => <CardSkeleton />,
   },
 );
 const RevenueChart = dynamic(() => import("./components/shared/RevenueChart"), {
-  loading: () => (
-    <div className="h-75 w-full bg-gray-100 animate-pulse rounded-lg" />
-  ),
+  loading: () => <CardSkeleton />,
 });
 import {
   transformRevenueData,
   transformLocationData,
   formatCurrency,
 } from "../../utils/dashboard.utils";
+import CardSkeleton from "@/components/ui/loaders/card-skeleton";
 
 const Overview = () => {
   const router = useRouter();
-  const { dateRange, displayLabel, setDateRange, period, setPeriod } =
-    useDateRange();
+  const {
+    dateRange,
+    displayLabel,
+    setDateRange,
+    period,
+    setPeriod,
+    startDate,
+    endDate,
+  } = useDateRange();
 
   // Get current year for revenue graph
   const currentYear = new Date().getFullYear();
@@ -48,8 +52,8 @@ const Overview = () => {
   const { data: revenueData, isLoading: isRevenueLoading } =
     useGetRevenueGraph(currentYear);
   const { data: cardsData, isLoading: isCardsLoading } = useGetDashboardCards({
-    startDate: dateRange.from?.toISOString().split("T")[0],
-    endDate: dateRange.to?.toISOString().split("T")[0],
+    startDate,
+    endDate,
   });
   const { data: locationData, isLoading: isLocationLoading } =
     useGetCustomersByLocation();
@@ -82,9 +86,13 @@ const Overview = () => {
     }
   };
 
-  const isLoading = isRevenueLoading || isCardsLoading || isLocationLoading;
+  // Show full-page loading only on initial load (no data at all), not on date filter changes
+  const isInitialLoading =
+    (!revenueData && isRevenueLoading) ||
+    (!cardsData && isCardsLoading) ||
+    (!locationData && isLocationLoading);
 
-  if (isLoading) {
+  if (isInitialLoading) {
     return <LoadingState />;
   }
 

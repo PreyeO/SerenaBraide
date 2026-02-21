@@ -29,7 +29,6 @@ const GiftCardForm = ({
   onSubmit,
   isLoading = false,
   buttonLabel = "Continue",
-  showHelpText = true,
 }: GiftCardFormProps) => {
   const form = useForm<BalanceFormValues>({
     resolver: zodResolver(BalanceSchema),
@@ -40,7 +39,7 @@ const GiftCardForm = ({
   });
 
   return (
-    <div className="flex flex-col items-center w-full">
+    <div className="flex flex-col items-center w-full md:px-6">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -54,7 +53,7 @@ const GiftCardForm = ({
                 <FormControl>
                   <Input
                     {...field}
-                    placeholder="Gift card number"
+                    placeholder="Enter your gift card number"
                     className="rounded-[50px] border h-12.5"
                   />
                 </FormControl>
@@ -72,27 +71,26 @@ const GiftCardForm = ({
                   <Input
                     {...field}
                     type="password"
-                    placeholder="Pin"
+                    placeholder="Enter your security pin"
                     className="rounded-[50px] border h-12.5"
                   />
                 </FormControl>
                 <FormMessage />
-                {showHelpText && (
-                  <AuthSpan className="font-normal text-sm leading-5.5">
-                    <Link href="/">
-                      <span className="font-medium text-black">
-                        {" "}
-                        Need Help?{" "}
-                      </span>
-                    </Link>{" "}
-                    Your gift card number and PIN were sent to the email address
-                    you used at the time of purchase.
-                  </AuthSpan>
-                )}
+
+                <AuthSpan className="  mt-1 font-normal text-[#6F6E6C] text-sm md:text-[12px] leading-5.5">
+                  <Link href="/">
+                    <span className="font-medium text-[#3B3B3B]">
+                      {" "}
+                      Require Assistance?{" "}
+                    </span>
+                  </Link>{" "}
+                  Your card details and security PIN were securely delivered to
+                  the email provided at purchase
+                </AuthSpan>
               </FormItem>
             )}
           />
-          <div className="mt-4">
+          <div className="my-1">
             <SubmitButton
               label={buttonLabel}
               isPending={isLoading}
@@ -106,4 +104,3 @@ const GiftCardForm = ({
 };
 
 export default GiftCardForm;
-

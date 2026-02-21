@@ -54,10 +54,9 @@ const PaymentMethodModal = ({
             onClick={onSubmit}
           />
           <AuthSpan className="text-xs lg:text-sm w-full mx-auto leading-5.5 pt-2.5 text-[#3B3B3B] font-normal text-center">
-            By submitting my order, I confirm I have read and acknowledged all{" "}
+            By placing your order, you agree to Serena Braide’s{" "}
             <span className="underline font-medium">
-              <Link href="/terms_of_service">terms</Link> and{" "}
-              <Link href="/purchase_service">policies.</Link>
+              <Link href="/purchase_policy">Purchase Policy.</Link>
             </span>
           </AuthSpan>
         </div>

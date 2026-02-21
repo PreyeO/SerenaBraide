@@ -3,17 +3,21 @@ import { Leaf, Lightbulb, Sprout, TestTubeDiagonal } from "lucide-react";
 
 export const headerAdvert = [
   {
-    text: "Sign up for the newsletter for 10% off your first order",
+    text: "Fragrance and beauty designed for the individual. Read our story",
     link: {
-      label: "Sign up",
-      href: "/signup",
+      label: "Read our story",
+      href: "/our-story",
     },
   },
   {
-    text: "Enjoy complementary next working day delivery when you order above $150",
+    text: "Wear identity. Own the memory of the room.",
   },
   {
-    text: "Receive 20ml scented complementary gift with every purchase over $200",
+    text: "Complete your signature with our defining perfumes and essential lip care. Explore the collection",
+    link: {
+      label: "Explore the collection",
+      href: "/all-products",
+    },
   },
 ];
 
@@ -104,7 +108,7 @@ export const navItems: NavItem[] = [
         image: "/gift-card.png",
         items: [
           { name: "Buy Gift Cards", href: "/giftcard" },
-          { name: "Gift card balance", href: "/giftcard-balance" },
+          { name: "Gift Card Balance", href: "/giftcard-balance" },
         ],
       },
       {

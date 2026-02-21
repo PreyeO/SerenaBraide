@@ -37,11 +37,11 @@ export function CustomerTable({ data }: CustomerTableProps) {
   const totalPages = Math.ceil((data?.length || 0) / ITEMS_PER_PAGE);
   const paginatedData = data.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
+    currentPage * ITEMS_PER_PAGE,
   );
 
   const handleRowClick = (customer: Customer) => {
-    navigateToCustomer(customer.id);
+    navigateToCustomer(customer.customer_profile.id);
   };
 
   const getCustomerActions = (customer: Customer): TableAction[] => {

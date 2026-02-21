@@ -1,7 +1,6 @@
 "use client";
 
 import SubmitButton from "@/components/ui/btns/submit-cta";
-import ProductImage from "@/components/ui/images/product-image";
 import SubHeading from "@/components/ui/typography/subHeading";
 import { cardDesign } from "../general.data";
 import { Input } from "@/components/ui/input";
@@ -54,14 +53,14 @@ const GiftCardSection = () => {
             />
             <Paragraph
               className="text-[#6F6E6C] font-normal text-sm lg:text-lg mt-2"
-              content="Treat your loved ones to the perfect gift."
+              content="Give the gift of a signature. Allow them to define their own memory"
             />
           </div>
 
           {/* Choose a design */}
           <Paragraph
             className="text-[#3B3B3B] font-medium text-sm lg:text-base lg:mt-10 mt-8.5 lg:mb-4 mb-2.5"
-            content="Choose a design"
+            content="Select a Design"
           />
           <div className="grid grid-cols-4 max-w-95.5 md:gap-1 lg:gap-2 gap-2.5 ">
             {cardDesign.map((item, index) => (
@@ -89,7 +88,7 @@ const GiftCardSection = () => {
           {/* Choose an amount */}
           <Paragraph
             className="text-[#3B3B3B] font-medium text-sm lg:text-base lg:mt-10 mt-8.5 lg:mb-4 mb-2.5"
-            content="Choose amount"
+            content="Select Value"
           />
           <div className="flex flex-wrap max-w-125 gap-x-2 gap-y-4 lg:gap-x-3 lg:gap-y-6 mb-6 lg:mb-10">
             {cardDesign.map((item, index) => {
@@ -119,11 +118,11 @@ const GiftCardSection = () => {
           <div className="w-full">
             <Paragraph
               className="text-[#3B3B3B] font-medium text-sm lg:text-base lg:mt-10 mt-8.5 lg:mb-4 mb-2.5"
-              content="Custom amount:"
+              content="Custom Value:"
             />
             <Input
               className="rounded-[50px] text-[#9A9A98] px-5 py-6"
-              placeholder="20000"
+              placeholder="₦20,000"
               value={customAmount}
               onChange={(e) => handleCustomAmountChange(e.target.value)}
               type="number"
@@ -133,7 +132,10 @@ const GiftCardSection = () => {
 
           {/* Mobile: Show inline recipient form */}
           <div className="md:hidden mt-6">
-            <RecipientForm closeModal={() => {}} buttonLabel="Add to Cart" />
+            <RecipientForm
+              closeModal={() => {}}
+              buttonLabel="Secure This Gift"
+            />
           </div>
 
           {/* Desktop: Show Continue button + Modal */}
@@ -156,7 +158,7 @@ const GiftCardSection = () => {
           </div>
 
           {/* Loyalty Points Section */}
-          <div className="bg-[#F5F5F5] w-full mt-6 lg:mt-10 flex justify-between items-center rounded-lg">
+          {/* <div className="bg-[#F5F5F5] w-full mt-6 lg:mt-10 flex justify-between items-center rounded-lg">
             <ProductImage
               alt="shopping bag icon"
               src="/shop-bag.svg"
@@ -171,11 +173,7 @@ const GiftCardSection = () => {
                 className="font-medium"
               />
             </span>
-          </div>
-          <Paragraph
-            content="Standard Delivery within 3-5 workings days"
-            className="font-normal pt-6 text-sm lg:text-base"
-          />
+          </div> */}
         </div>
       </div>
     </section>

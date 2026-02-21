@@ -16,7 +16,7 @@ const GiftCardBalance = () => {
         <div className="flex flex-col lg:gap-7.5 lg:max-w-138 w-full">
           <SubHeading
             className="font-PPEditorialNew lg:text-[40px] text-[26px] text-[#3B3B3B] font-normal "
-            title="Check your Gift Card Balance"
+            title="Your Gift Card Balance"
           />
           <BalanceForm />
         </div>

@@ -78,7 +78,7 @@ const BalanceForm = () => {
       <GiftCardForm
         onSubmit={onSubmit}
         isLoading={checkBalanceMutation.isPending}
-        buttonLabel="Check card balance"
+        buttonLabel="Verify Balance"
         showHelpText={true}
       />
 
@@ -88,7 +88,7 @@ const BalanceForm = () => {
           setIsModalOpen(false);
           setBalanceData(null);
         }}
-        title="Gift card balance"
+        title="Your Current Balance"
         showVideo={true}
       >
         {balanceData && (
@@ -109,7 +109,7 @@ const BalanceForm = () => {
 
             <Paragraph
               className="text-[#3B3B3B] leading-6 font-normal text-base  italic"
-              content="This balance can be used across Serena Braid products"
+              content="This value can be applied toward any Serena Braide acquisition"
             />
             {balanceData.status && (
               <Paragraph
@@ -120,7 +120,7 @@ const BalanceForm = () => {
           </div>
         )}
 
-        <Link href="/" className="pt-2.5">
+        <Link href="/all-products" className="pt-2.5">
           <LinkCta
             className="w-full bg-[#3B3B3B] text-white hover:bg-[#2f2f2f] "
             label="Continue shopping"
@@ -128,7 +128,7 @@ const BalanceForm = () => {
         </Link>
         <Paragraph
           className="text-[#3B3B3B] font-normal lg:text-sm text-xs pt-2.5"
-          content="Gift card balance is valid for 12 months from date of purchase"
+          content="Gift card value remains valid for 12 months from the date of acquisition"
         />
       </FormModal>
     </>

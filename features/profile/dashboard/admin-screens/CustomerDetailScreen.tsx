@@ -39,7 +39,7 @@ const CustomerDetailScreen = ({ id }: { id: string }) => {
           <div>
             <Heading
               className="text-2xl font-semibold font-PPEditorialNew text-[#3B3B3B] "
-              title={`${customer.first_name} $${customer.last_name}`}
+              title={`${customer.first_name} ${customer.last_name}`}
             />
 
             <Paragraph

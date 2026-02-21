@@ -40,7 +40,7 @@ const LogoutModal: React.FC<LogoutModalProps> = ({
             Are you sure you want to log out?
           </DialogTitle>
           <DialogDescription className="text-center text-sm text-[#6F6E6C]">
-            You'll need to sign in again to access your dashboard.
+            {`You'll need to sign in again to access your dashboard.`}
           </DialogDescription>
         </DialogHeader>
         <div className="flex gap-3 mt-6">
@@ -64,6 +64,3 @@ const LogoutModal: React.FC<LogoutModalProps> = ({
 };
 
 export default LogoutModal;
-
-
-

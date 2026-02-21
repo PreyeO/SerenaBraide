@@ -10,6 +10,7 @@ import {
   getOrderItemMetaLabel,
 } from "../utils/checkout.utils";
 import { OrderItem } from "../type/checkout.type";
+import CardSkeleton from "@/components/ui/loaders/card-skeleton";
 
 interface OrderSummaryCardProps {
   totalPrice: number;
@@ -28,7 +29,6 @@ interface OrderSummaryCardProps {
  */
 const OrderSummaryCard = ({
   totalPrice,
-  totalQuantity,
   items,
   isLoading = false,
   isExpanded: controlledExpanded,
@@ -46,8 +46,6 @@ const OrderSummaryCard = ({
     }
   };
 
-  const pointsEarned = totalQuantity * 2;
-
   return (
     <div className="xl:w-143 lg:w-118 w-full lg:py-4 lg:px-4 bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5]">
       {/* Mobile Collapsible Header */}
@@ -62,11 +60,7 @@ const OrderSummaryCard = ({
           <div className="text-left">
             <Paragraph
               className="text-white font-medium text-sm"
-              content={`My cart - ${formatCurrency(totalPrice)}`}
-            />
-            <Paragraph
-              className="text-[#9A9A98] italic font-normal text-xs"
-              content={`You will earn ${pointsEarned} points earned from this purchase*`}
+              content={`My Order - ${formatCurrency(totalPrice)}`}
             />
           </div>
         </div>
@@ -84,10 +78,6 @@ const OrderSummaryCard = ({
             className="text-white font-medium text-sm"
             content={`My order - ${formatCurrency(totalPrice)}`}
           />
-          <Paragraph
-            className="text-[#9A9A98] italic font-normal text-sm"
-            content={`You will earn ${pointsEarned} points earned from this purchase*`}
-          />
         </div>
       </div>
 
@@ -100,9 +90,7 @@ const OrderSummaryCard = ({
         }`}
       >
         {isLoading ? (
-          <div className="py-8 text-center text-[#6F6E6C]">
-            Loading order...
-          </div>
+          <CardSkeleton />
         ) : items.length > 0 ? (
           items.map((item) => {
             const image = getOrderItemImage(item.variant.images);

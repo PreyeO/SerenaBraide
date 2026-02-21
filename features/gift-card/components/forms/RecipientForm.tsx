@@ -79,7 +79,7 @@ const RecipientForm = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-sm font-medium">
-                  Add recipient delivery details
+                  Recipient Details
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -133,18 +133,17 @@ const RecipientForm = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-sm font-medium">
-                  Add an optional message
+                  Include a Personal Note
                 </FormLabel>
                 <FormControl>
                   <Textarea
                     {...field}
                     value={field.value ?? ""}
-                    placeholder="Enter a personalized message for the recipient."
+                    placeholder="Write a message to accompany their gift"
                     className="border rounded-xl min-h-30 p-4 focus:border-[#3B3B3B] focus:bg-[#F5F5F5]"
                   />
                 </FormControl>
-                <div className="flex justify-between text-[12px] font-normal text-[#6F6E6C]">
-                  <span>Enter a personalized message for the recipient.</span>
+                <div className="text-end text-[12px] font-normal text-[#6F6E6C]">
                   <span>0/250</span>
                 </div>
                 <FormMessage />

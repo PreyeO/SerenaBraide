@@ -26,7 +26,7 @@ const EmptyCart = () => {
             content="Your cart is empty"
           />
 
-          <Link href="/" className="w-full">
+          <Link href="/all-products" className="w-full">
             <LinkCta
               className="bg-[#3B3B3B] w-full text-white hover:bg-[#2f2f2f]"
               label="Start Shopping"

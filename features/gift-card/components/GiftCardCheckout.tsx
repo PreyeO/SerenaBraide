@@ -90,7 +90,7 @@ const GiftCardCheckout = () => {
 
     // Check if user is authenticated
     if (!user || !user.email_validated) {
-      notify.error("Please log in to continue with payment.");
+      notify.error("Kindly log in to proceed.");
       router.push("/auth/login?return_url=/giftcard-checkout");
       return;
     }
@@ -111,11 +111,11 @@ const GiftCardCheckout = () => {
     <>
       <SuccessModal
         isOpen={showSuccessModal}
-        message="Thank you for your purchase! Your gift card details including the card number and PIN will be sent to the recipient's email shortly."
+        message="Your acquisition is complete. The gift card details will be delivered to the recipient shortly."
       />
 
       <section className="lg:pt-38 pt-33 xl:px-16 px-6 lg:pb-25 pb-12.5">
-        <BackNavigation href="/giftcard" text="Gift Card" />
+        <BackNavigation href="/giftcard" text="Return to Gift Card" />
 
         <div className="flex flex-col lg:flex-row flex-wrap lg:flex-nowrap xl:gap-10 md:gap-5 gap-6 lg:mt-10 mt-4">
           {/* Left Column - Payment Method */}
@@ -127,7 +127,7 @@ const GiftCardCheckout = () => {
                 onPaymentChange={setSelectedPayment}
                 onSubmit={handleSubmit}
                 isPending={initiatePaymentMutation.isPending}
-                buttonLabel={`Pay ${formatCurrency(totalAmount, true)}`}
+                buttonLabel={`Complete Order for ${formatCurrency(totalAmount, true)}`}
               />
             </div>
           </div>
@@ -135,8 +135,8 @@ const GiftCardCheckout = () => {
           {/* Right Column - Order Summary (Receipt-like) */}
           <div className="order-1 lg:order-2">
             <SimpleOrderSummary
-              title="Gift Card Purchase"
-              subtitle="Digital delivery via email"
+              title="Your Selected Gift"
+              subtitle="Secure digital delivery"
               orderNumber={giftCardData.order_number}
               subtotal={giftCardData.amount}
               tax={orderData?.tax}
@@ -151,4 +151,3 @@ const GiftCardCheckout = () => {
   );
 };
 export default GiftCardCheckout;
-

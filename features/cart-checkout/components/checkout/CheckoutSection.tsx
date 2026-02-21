@@ -2,7 +2,6 @@
 
 import React from "react";
 import BackNavigation from "@/components/ui/btns/back-navigation";
-import CartHeader from "@/features/cart-checkout/shared/CartHeader";
 import ShippingAddress from "./ShippingAddress";
 import Receipt from "../../shared/Receipt";
 import OrderSummaryCard from "../../shared/OrderSummaryCard";
@@ -118,8 +117,7 @@ const CheckoutSection = () => {
       )}
 
       <section className="lg:pt-38 pt-33 xl:px-16 px-6 lg:pb-25 pb-12.5">
-        <BackNavigation href="/cart" text="Cart" />
-        <CartHeader totalItems={totalQuantity} />
+        <BackNavigation href="/cart" text="Back to Cart" />
 
         <div className="flex flex-col lg:flex-row flex-wrap lg:flex-nowrap xl:gap-10 md:gap-5 gap-0 lg:mt-10 mt-4">
           {/* Left Column - Shipping & Payment */}

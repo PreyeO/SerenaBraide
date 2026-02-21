@@ -33,4 +33,3 @@ const GeneralModal = ({ open, onClose, title, children }: ModalProps) => {
 };
 
 export default GeneralModal;
-

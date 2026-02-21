@@ -32,10 +32,11 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
 
   const handleSelect = (range: ReactDayPickerRange | undefined) => {
     if (range?.from && range?.to) {
+      // onDateRangeChange maps to setPeriodAndRange("custom", range) — no need to call onPeriodChange separately
       onDateRangeChange(range);
-      onPeriodChange("custom");
       setIsOpen(false);
     } else if (range?.from) {
+      // Partial selection (only start date picked so far), keep popover open
       onDateRangeChange(range);
     }
   };
@@ -52,7 +53,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
           variant="outline"
           className={cn(
             "justify-start text-left font-normal border border-[#D1D5DB] rounded-lg px-4 py-2 h-auto",
-            !dateRange && "text-muted-foreground"
+            !dateRange && "text-muted-foreground",
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
@@ -74,16 +75,16 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
                   "text-xs",
                   period === p
                     ? "bg-[#3B3B3B] text-white"
-                    : "text-[#6F6E6C] hover:bg-[#F5F5F5]"
+                    : "text-[#6F6E6C] hover:bg-[#F5F5F5]",
                 )}
               >
                 {p === "1D"
                   ? "Today"
                   : p === "7D"
-                  ? "Last 7 Days"
-                  : p === "1M"
-                  ? "Last Month"
-                  : "Last Year"}
+                    ? "Last 7 Days"
+                    : p === "1M"
+                      ? "Last Month"
+                      : "This Year"}
               </Button>
             ))}
           </div>
@@ -106,4 +107,3 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
 };
 
 export default DateRangePicker;
-

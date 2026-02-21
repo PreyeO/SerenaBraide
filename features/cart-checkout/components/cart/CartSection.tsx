@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import BackNavigation from "@/components/ui/btns/back-navigation";
 import { notify } from "@/lib/notify";
 import CartHeader from "../../shared/CartHeader";
@@ -12,6 +12,8 @@ import EmptyCart from "../empty-screens/EmptyCart";
 import { useCart } from "../../hooks/useCart";
 import { useUpdateCartItem } from "../../hooks/useUpdateCartItem";
 import { useRemoveCartItem } from "../../hooks/useRemoveCartItem";
+import { useCreateOrder } from "../../hooks/useCreateOrder";
+import { useAuthStore } from "@/features/auth/auth.store";
 import LoadingState from "@/components/ui/loaders/loading-state";
 import { getOrderItemImage } from "../../utils/checkout.utils";
 import { formatCurrency } from "@/lib/utils";
@@ -35,7 +37,10 @@ const CartSection = () => {
   const { data, isLoading } = useCart();
   const updateMutation = useUpdateCartItem();
   const removeMutation = useRemoveCartItem();
+  const router = useRouter();
   const searchParams = useSearchParams();
+  const { user } = useAuthStore();
+  const createOrderMutation = useCreateOrder({ redirectToCheckout: true });
   const [itemToDelete, setItemToDelete] = useState<CartItemType | null>(null);
   const [selectedShippingAreaId, setSelectedShippingAreaId] = useState<string>(
     searchParams.get("shippingAreaId") || "",
@@ -78,12 +83,33 @@ const CartSection = () => {
     return getOrderItemImage(item.variant.images);
   };
 
-  const handleValidate = () => {
+  const handleProceedToCheckout = () => {
+    // Validate shipping area
     if (!selectedShippingAreaId) {
       notify.error("Please select a shipping area to proceed");
-      return false;
+      return;
     }
-    return true;
+
+    // Check if user is authenticated — send them to auth, then straight to /checkout
+    if (!user) {
+      const returnUrl = `/checkout?shippingAreaId=${selectedShippingAreaId}`;
+      router.push(`/auth/register?return_url=${encodeURIComponent(returnUrl)}`);
+      return;
+    }
+
+    // Check if email is verified
+    if (!user.email_validated) {
+      const returnUrl = `/checkout?shippingAreaId=${selectedShippingAreaId}`;
+      router.push(
+        `/auth/verify-otp?email=${user.email}&return_url=${encodeURIComponent(returnUrl)}`,
+      );
+      return;
+    }
+
+    // User is authenticated and verified, create order right now
+    createOrderMutation.mutate({
+      shipping_area_id: parseInt(selectedShippingAreaId),
+    });
   };
 
   return (
@@ -155,8 +181,9 @@ const CartSection = () => {
             totalItems={totalQuantity}
             totalPrice={totalPrice}
             showButton
-            onValidate={handleValidate}
-            shippingAreaId={selectedShippingAreaId}
+            showTotal={false}
+            onProceedToCheckout={handleProceedToCheckout}
+            isCheckoutPending={createOrderMutation.isPending}
           />
         </div>
       </div>

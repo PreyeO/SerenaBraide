@@ -4,7 +4,7 @@ export const PAYMENT_TYPES = {
   FLUTTERWAVE: "2",
 } as const;
 
-export type PaymentTypeId = typeof PAYMENT_TYPES[keyof typeof PAYMENT_TYPES];
+export type PaymentTypeId = (typeof PAYMENT_TYPES)[keyof typeof PAYMENT_TYPES];
 
 export const paymentType = [
   {

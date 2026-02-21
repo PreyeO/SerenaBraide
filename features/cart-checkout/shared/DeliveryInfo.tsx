@@ -16,7 +16,7 @@ export default function DeliveryInformation() {
           <span className="font-medium">Standard Shipping:</span> Arrives within
           2–4 business days. <br />
           Orders placed after 10 PM on Friday or during the weekend will be
-          processed on Monday, excluding public holidays.
+          processed on Monday.
         </AuthSpan>
       </div>
     </div>
