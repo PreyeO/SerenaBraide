@@ -65,11 +65,6 @@ export const MobileProfileSheet = ({
           <li>Ratings & Reviews</li>
         </ul>
 
-        <div className="bg-[#F5F5F5] p-3 rounded-lg text-sm mb-6">
-          <p className="font-medium text-[#3B3B3B]">Loyalty Point</p>
-          <p className="text-xs text-[#6F6E6C]">You have 0 points = $0.00</p>
-        </div>
-
         {user ? (
           <button
             onClick={onLogout}

@@ -37,9 +37,13 @@ const CustomerOrders = () => {
   });
 
   // Transform API response to OrderInfo format
+  // Filter out "pending" orders — those are unpaid/incomplete checkout attempts
   const orders = useMemo(() => {
     if (!ordersData?.results) return [];
-    return transformOrdersToOrderInfo(ordersData.results);
+    const paidOrders = ordersData.results.filter(
+      (order) => order.status !== "pending"
+    );
+    return transformOrdersToOrderInfo(paidOrders);
   }, [ordersData]);
 
   return (

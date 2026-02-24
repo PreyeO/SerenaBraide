@@ -57,7 +57,7 @@ const ProfileDropdown = () => {
             </DropdownMenuGroup>
           );
         })}
-        <div className="mb-2.5  text-[#3B3B3B] flex gap-2.5">
+        {/* <div className="mb-2.5  text-[#3B3B3B] flex gap-2.5">
           <span className="w-10.5 h-10.5 rounded-[5px] bg-[#2F88FF]/10 flex items-center justify-center">
             <Trophy className="text-[#2F88FF] size-6" />
           </span>
@@ -71,7 +71,7 @@ const ProfileDropdown = () => {
               content="You have 0 points = $0.00"
             />
           </div>
-        </div>
+        </div> */}
         {user ? (
           <button
             onClick={handleLogout}
