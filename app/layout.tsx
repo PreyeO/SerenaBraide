@@ -88,12 +88,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`font-GeneralSans antialiased ${generalSans.variable} ${ppEditorial.variable} bg-[#FAF5EF] text-[#3B3B3B]`}
+        className={`font-GeneralSans antialiased ${generalSans.variable} ${ppEditorial.variable} bg-white text-[#3B3B3B]`}
       >
         <ReactQueryProvider>
-          <main className="min-h-screen flex flex-col">
-            {children}
-          </main>
+          <main className="min-h-screen flex flex-col">{children}</main>
         </ReactQueryProvider>
       </body>
     </html>
