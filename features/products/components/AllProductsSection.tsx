@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import ProductGrid from "@/features/products/components/shared/ProductGrid";
 import { useGetAllProducts } from "../hooks/useGetAllProducts";
 import { Product } from "@/types/product";
@@ -30,8 +30,6 @@ const convertToProduct = (item: ProductListItem): Product => ({
 });
 
 const AllProductsSection = () => {
-  const [sortType, setSortType] = useState("all");
-
   // Fetch all products
   const { data: productsData, isLoading: productsLoading } =
     useGetAllProducts();
@@ -42,44 +40,10 @@ const AllProductsSection = () => {
     return productsData.results.map(convertToProduct);
   }, [productsData]);
 
-  // Sort products
-  const sortedProducts = useMemo(() => {
-    const sorted = [...products];
-
-    switch (sortType) {
-      case "price-asc":
-        sorted.sort(
-          (a, b) =>
-            parseInt(a.price.replace(/\D/g, "")) -
-            parseInt(b.price.replace(/\D/g, "")),
-        );
-        break;
-      case "price-desc":
-        sorted.sort(
-          (a, b) =>
-            parseInt(b.price.replace(/\D/g, "")) -
-            parseInt(a.price.replace(/\D/g, "")),
-        );
-        break;
-      case "newest":
-        // Products are likely already sorted by newest from API, or we can add logic if date is available
-        break;
-      default:
-        break;
-    }
-
-    return sorted;
-  }, [products, sortType]);
-
   return (
     <section>
       <div className="container mx-auto px-4 lg:px-12 my-8">
-        <ProductGrid
-          products={sortedProducts}
-          sortType={sortType}
-          onSortChange={setSortType}
-          isLoading={productsLoading}
-        />
+        <ProductGrid products={products} isLoading={productsLoading} />
       </div>
     </section>
   );
