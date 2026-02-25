@@ -1,15 +1,19 @@
 // components/navbar/desktop/DesktopProfileMenu.tsx
 import { useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import ProfileDropdown from "@/components/ui/profile-dropdown";
 import ProductImage from "@/components/ui/images/product-image";
+import { useAuthStore } from "@/features/auth/auth.store";
+import InitialsAvatar from "@/components/ui/InitialsAvatar";
+import { User } from "lucide-react";
 
 export const DesktopProfileMenu = () => {
   const [open, setOpen] = useState(false);
+  const user = useAuthStore((state) => state.user);
 
   return (
     <DropdownMenu onOpenChange={setOpen}>
@@ -25,10 +29,21 @@ export const DesktopProfileMenu = () => {
             />
           )}
 
-          <Avatar className="size-6 bg-[#F5F5F5] text-black font-normal text-base cursor-pointer shrink-0">
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+          {user ? (
+            <InitialsAvatar
+              firstName={user.first_name}
+              lastName={user.last_name}
+              fallback={user.email}
+              size="sm"
+              className="cursor-pointer bg-white text-[#3B3B3B]"
+            />
+          ) : (
+            <Avatar className="size-6 bg-[#F5F5F5] text-black font-normal text-base cursor-pointer shrink-0">
+              <AvatarFallback>
+                <User className="size-3.5 text-[#6F6E6C]" />
+              </AvatarFallback>
+            </Avatar>
+          )}
         </button>
       </DropdownMenuTrigger>
 

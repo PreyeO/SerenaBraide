@@ -181,6 +181,7 @@ function transformGiftCardOrderToOrderInfo(order: Order): OrderInfo {
     productId: undefined, // Gift cards don't have a product ID
     isGiftCard: true, // Flag to identify gift card orders
     giftCardNumber: giftCard.card_number,
+    giftCardColour: giftCard.colour,
   };
 }
 

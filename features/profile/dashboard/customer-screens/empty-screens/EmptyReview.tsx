@@ -8,7 +8,6 @@ import OrdersTabCard from "../shared/OrdersTabCard";
 const EmptyReview = () => {
   const [activeTab, setActiveTab] = useState("ready-for-review");
   const [searchQuery, setSearchQuery] = useState("");
-  const [filterValue, setFilterValue] = useState("all");
 
   const reviewTabs = [
     {
@@ -24,8 +23,6 @@ const EmptyReview = () => {
         onTabChange={setActiveTab}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
-        filterValue={filterValue}
-        onFilterChange={setFilterValue}
         tabs={reviewTabs}
       />
       <EmptyCustomerDefault
@@ -46,3 +43,4 @@ const EmptyReview = () => {
 };
 
 export default EmptyReview;
+

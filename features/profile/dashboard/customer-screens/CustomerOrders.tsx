@@ -10,7 +10,6 @@ const CustomerOrders = () => {
   const [activeTab, setActiveTab] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
-  const [filterValue, setFilterValue] = useState("all");
 
   // Debounce search query for API
   React.useEffect(() => {
@@ -57,10 +56,8 @@ const CustomerOrders = () => {
         orders={orders}
         activeTab={activeTab}
         searchQuery={searchQuery}
-        filterValue={filterValue}
         onTabChange={setActiveTab}
         onSearchChange={setSearchQuery}
-        onFilterChange={setFilterValue}
         isLoading={isLoading}
       />
     </>
@@ -68,3 +65,4 @@ const CustomerOrders = () => {
 };
 
 export default CustomerOrders;
+

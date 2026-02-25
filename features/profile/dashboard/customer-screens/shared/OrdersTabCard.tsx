@@ -9,8 +9,6 @@ interface OrdersTabCardProps {
   onTabChange: (value: string) => void;
   searchQuery: string;
   onSearchChange: (value: string) => void;
-  filterValue: string;
-  onFilterChange: (value: string) => void;
   tabs?: Array<{ value: string; label: string }>;
 }
 
@@ -19,8 +17,6 @@ const OrdersTabCard: React.FC<OrdersTabCardProps> = ({
   onTabChange,
   searchQuery,
   onSearchChange,
-  filterValue,
-  onFilterChange,
   tabs,
 }) => {
   const defaultTabs = [
@@ -55,8 +51,6 @@ const OrdersTabCard: React.FC<OrdersTabCardProps> = ({
         <OrdersSearchFilterSection
           searchQuery={searchQuery}
           onSearchChange={onSearchChange}
-          filterValue={filterValue}
-          onFilterChange={onFilterChange}
         />
       </Tabs>
     </div>
@@ -64,4 +58,3 @@ const OrdersTabCard: React.FC<OrdersTabCardProps> = ({
 };
 
 export default OrdersTabCard;
-

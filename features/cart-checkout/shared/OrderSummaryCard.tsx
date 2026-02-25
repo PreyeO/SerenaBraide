@@ -10,7 +10,7 @@ import {
   getOrderItemMetaLabel,
 } from "../utils/checkout.utils";
 import { OrderItem } from "../type/checkout.type";
-import CardSkeleton from "@/components/ui/loaders/card-skeleton";
+import LoadingState from "@/components/ui/loaders/loading-state";
 
 interface OrderSummaryCardProps {
   totalPrice: number;
@@ -90,7 +90,7 @@ const OrderSummaryCard = ({
         }`}
       >
         {isLoading ? (
-          <CardSkeleton />
+          <LoadingState />
         ) : items.length > 0 ? (
           items.map((item) => {
             const image = getOrderItemImage(item.variant.images);

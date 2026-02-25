@@ -74,11 +74,6 @@ const Overview = () => {
             href="/"
           />
         )}
-
-        <EmptyCustomerLoyalty
-          subHeading="Loyalty Points"
-          contentOne=" You have 0 points = $0.00"
-        />
       </section>
     </>
   );

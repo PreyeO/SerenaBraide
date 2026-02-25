@@ -15,7 +15,7 @@ const ResendOtp = ({ email }: ResendOtpProps) => {
     const storedTimestamp = sessionStorage.getItem("otp-resend-time");
     if (storedTimestamp) {
       const remaining = Math.floor(
-        (Number(storedTimestamp) - Date.now()) / 1000
+        (Number(storedTimestamp) - Date.now()) / 1000,
       );
       if (remaining > 0) setResendTimer(remaining);
       else sessionStorage.removeItem("otp-resend-time");
@@ -44,7 +44,7 @@ const ResendOtp = ({ email }: ResendOtpProps) => {
     setResendTimer(duration);
     sessionStorage.setItem(
       "otp-resend-time",
-      (Date.now() + duration * 1000).toString()
+      (Date.now() + duration * 1000).toString(),
     );
   };
 
@@ -55,7 +55,7 @@ const ResendOtp = ({ email }: ResendOtpProps) => {
   };
 
   return (
-    <div className="flex flex-col justify-center gap-[6px] items-center">
+    <div className="flex flex-col justify-center gap-1.5 items-center">
       <span className="text-sm text-[#6F6E6C] font-normal">
         {`Didn't`} receive the code?{" "}
         <button

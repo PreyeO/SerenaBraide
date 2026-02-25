@@ -134,8 +134,22 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
                 className="w-16 h-16 lg:w-25.5 lg:h-25.5 object-cover rounded-[5px] flex shrink-0"
               />
             ) : (
-              <div className="w-16 h-16 lg:w-25.5 lg:h-25.5 rounded-[5px]  shrink-0 bg-linear-to-br from-[#3B3B3B] to-[#1a1a1a] flex items-center justify-center">
-                <span className="text-white text-xs lg:text-sm font-medium">
+              <div
+                className="w-16 h-16 lg:w-25.5 lg:h-25.5 rounded-[5px] shrink-0 flex items-center justify-center"
+                style={{
+                  backgroundColor: order.giftCardColour || "#3B3B3B",
+                }}
+              >
+                <span
+                  className="text-xs lg:text-sm font-medium"
+                  style={{
+                    color:
+                      order.giftCardColour === "#ffffff" ||
+                        order.giftCardColour === "#f49670"
+                        ? "#3B3B3B"
+                        : "#ffffff",
+                  }}
+                >
                   Gift Card
                 </span>
               </div>

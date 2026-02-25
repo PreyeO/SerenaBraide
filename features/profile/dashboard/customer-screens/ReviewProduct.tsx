@@ -9,7 +9,6 @@ import BackNavigation from "@/components/ui/btns/back-navigation";
 const ReviewProduct = () => {
   const [activeTab, setActiveTab] = useState("ready-for-review");
   const [searchQuery, setSearchQuery] = useState("");
-  const [filterValue, setFilterValue] = useState("all");
 
   const { data: ordersData, isLoading } = useOrders();
 
@@ -45,10 +44,8 @@ const ReviewProduct = () => {
         orders={deliveredOrders}
         activeTab={activeTab}
         searchQuery={searchQuery}
-        filterValue={filterValue}
         onTabChange={setActiveTab}
         onSearchChange={setSearchQuery}
-        onFilterChange={setFilterValue}
         showTabs={true}
         tabs={reviewTabs}
         orderDetail="View Details"

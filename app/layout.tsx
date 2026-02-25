@@ -7,8 +7,8 @@ import ReactQueryProvider from "./provider";
 export const metadata: Metadata = {
   title: "Serena Braide | We're Here for Lasting Impressions",
   description:
-    "Shop Serena Braide for premium fragrances and lip makeup. Quality beauty products built to last.",
-  icons: { icon: "/favicon.png" },
+    "Shop Serena Braide for fragrances and lip makeup. Quality beauty products built to last.",
+  icons: { icon: "/favicon.ico" },
 };
 
 export default function RootLayout({

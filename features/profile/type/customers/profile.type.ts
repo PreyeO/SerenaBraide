@@ -58,6 +58,7 @@ export interface OrderInfo {
   productId?: number; // Product ID for navigation
   isGiftCard?: boolean; // Flag to identify gift card orders
   giftCardNumber?: string; // Gift card number for display
+  giftCardColour?: string; // Gift card colour for display
 }
 
 export interface Props {
@@ -157,6 +158,7 @@ export interface GiftCard {
   current_balance: string;
   currency: string;
   status: string;
+  colour?: string;
   created_at: string;
 }
 

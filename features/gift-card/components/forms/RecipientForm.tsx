@@ -20,6 +20,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { usePurchaseGiftCard } from "../../hooks/usePurchaseGiftCard";
 import { useGiftCardStore } from "../../giftcard.store";
 import { useRouter } from "next/navigation";
+import { cardDesign } from "../../general.data";
 
 interface RecipientFormProps {
   closeModal: () => void;
@@ -52,7 +53,7 @@ const RecipientForm = ({
       recipient_last_name: data.last_name,
       recipient_email: data.email,
       message: data.message || undefined,
-      colour: selectedDesign || undefined,
+      colour: cardDesign.find(d => d.name === selectedDesign)?.colour || undefined,
     };
 
     purchaseMutation.mutate(payload, {

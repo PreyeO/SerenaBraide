@@ -2,6 +2,7 @@ import Paragraph from "@/components/ui/typography/paragraph";
 import SubHeading from "@/components/ui/typography/subHeading";
 import Image from "next/image";
 import React from "react";
+import InitialsAvatar from "@/components/ui/InitialsAvatar";
 
 interface EmptyCustomerProps {
   subHeadingOne: string;
@@ -22,11 +23,6 @@ const EmptyCustomerSummary: React.FC<EmptyCustomerProps> = ({
   firstName,
   lastName,
 }) => {
-  const initials =
-    firstName && lastName
-      ? `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase()
-      : "SB"; // Default fallback
-
   return (
     <div className="w-full bg-[#F6F7F8] border border-[#F5F5F5] py-3 lg:py-4.75 px-4 lg:px-8.5 rounded-[10px]">
       <SubHeading
@@ -40,13 +36,21 @@ const EmptyCustomerSummary: React.FC<EmptyCustomerProps> = ({
         <div className="flex flex-col sm:flex-row sm:justify-between pt-3 sm:pt-4.75 w-full gap-3 sm:gap-0">
           {/* LEFT SIDE */}
           <div className="flex gap-3 sm:gap-4">
-            {/* Avatar + Plus Icon */}
-            <div className="relative w-14 h-14 sm:w-17 sm:h-17 shrink-0">
-              <div className="rounded-full w-full h-full bg-[#47011d] flex items-center justify-center text-white text-lg sm:text-xl font-medium border border-[#3B3B3B]">
-                {initials}
-              </div>
-            </div>
-
+            {/* Avatar */}
+            <InitialsAvatar
+              firstName={firstName}
+              lastName={lastName}
+              fallback="SB"
+              size="lg"
+              className="text-white bg-[#47011d] hidden md:flex"
+            />
+            <InitialsAvatar
+              firstName={firstName}
+              lastName={lastName}
+              fallback="SB"
+              size="md"
+              className="text-white bg-[#47011d] md:hidden  "
+            />
             {/* User name + content */}
             <div className="min-w-0 flex-1">
               <SubHeading
@@ -61,7 +65,7 @@ const EmptyCustomerSummary: React.FC<EmptyCustomerProps> = ({
           </div>
 
           {/* RIGHT SIDE */}
-          <div className="max-w-full sm:max-w-52.25 flex justify-start sm:justify-center items-start gap-1 sm:gap-1.5 text-[#3B3B3B] shrink-0">
+          <div className="max-w-full sm:max-w-52.25 flex justify-end sm:justify-center items-start gap-1 sm:gap-1.5 text-[#3B3B3B] shrink-0">
             <SubHeading
               title={subHeadingThree}
               className="text-sm sm:text-base font-normal"

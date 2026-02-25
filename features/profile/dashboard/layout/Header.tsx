@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { Plus, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import InitialsAvatar from "@/components/ui/InitialsAvatar";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import {
   DropdownMenu,
@@ -30,15 +30,10 @@ const Header = () => {
     logoutMutation.mutate();
   };
 
-  const initials =
-    user?.first_name && user?.last_name
-      ? `${user.first_name[0]}${user.last_name[0]}`.toUpperCase()
-      : user?.email?.[0].toUpperCase() || "A";
-
   const fullName =
     user?.first_name && user?.last_name
       ? `${user.first_name} ${user.last_name}`
-      : "Admin User";
+      : "";
 
   const greeting = getGreeting();
 
@@ -46,7 +41,9 @@ const Header = () => {
     <header className=" px-5 py-2.5 flex justify-between items-center border-b border-[#F0F0F0]">
       <div className="flex items-center gap-7.5">
         <div className="text-[#6F6E6C] font-PPEditorialNew font-normal text-base flex items-center ">
-          <h2>{greeting}, {fullName}</h2>
+          <h2>
+            {greeting}, {fullName}
+          </h2>
         </div>
       </div>
 
@@ -67,21 +64,25 @@ const Header = () => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button className="cursor-pointer">
-                <Avatar>
-                  <AvatarImage src="/avatar.png" alt="Admin avatar" />
-                  <AvatarFallback>{initials}</AvatarFallback>
-                </Avatar>
+                <InitialsAvatar
+                  firstName={user?.first_name}
+                  lastName={user?.last_name}
+                  fallback={user?.email}
+                  size="md"
+                  className="bg-[#47011d] text-white"
+                />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-64 p-4">
               {/* Admin Info */}
               <div className="flex items-center gap-3 mb-3">
-                <Avatar className="h-12 w-12">
-                  <AvatarImage src="/avatar.png" alt="Admin avatar" />
-                  <AvatarFallback className="text-lg">
-                    {initials}
-                  </AvatarFallback>
-                </Avatar>
+                <InitialsAvatar
+                  firstName={user?.first_name}
+                  lastName={user?.last_name}
+                  fallback={user?.email}
+                  size="md"
+                  className="text-white bg-[#47011d]"
+                />
                 <div className="flex flex-col min-w-0">
                   <span className="font-medium text-sm text-[#3B3B3B] truncate">
                     {fullName}

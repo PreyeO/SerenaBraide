@@ -18,7 +18,6 @@ export const useAddToWishlist = () => {
     CreateWishlistPayload
   >({
     mutationFn: (payload) => {
-      console.log("Adding to wishlist with payload:", payload);
       return addToWishlist(payload);
     },
     onSuccess: (data) => {

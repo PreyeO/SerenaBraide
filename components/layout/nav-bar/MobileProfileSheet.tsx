@@ -1,8 +1,10 @@
 // components/navbar/mobile/MobileProfileSheet.tsx
 import Link from "next/link";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { LogOut } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { LogOut, User as UserIcon } from "lucide-react";
+import { useAuthStore } from "@/features/auth/auth.store";
+import InitialsAvatar from "@/components/ui/InitialsAvatar";
 
 interface MobileProfileSheetProps {
   isOpen: boolean;
@@ -25,14 +27,27 @@ export const MobileProfileSheet = ({
   onLogout,
   isLoggingOut = false,
 }: MobileProfileSheetProps) => {
+  const authUser = useAuthStore((state) => state.user);
+
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetTrigger asChild>
         <button className="relative w-6 h-6 p-0 m-0 bg-transparent">
-          <Avatar className="size-6 bg-[#F5F5F5]">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+          {authUser ? (
+            <InitialsAvatar
+              firstName={authUser.first_name}
+              lastName={authUser.last_name}
+              fallback={authUser.email}
+              size="sm"
+              className="cursor-pointer bg-white text-[#3B3B3B]"
+            />
+          ) : (
+            <Avatar className="size-6 bg-[#F5F5F5]">
+              <AvatarFallback>
+                <UserIcon className="size-3.5 text-[#6F6E6C]" />
+              </AvatarFallback>
+            </Avatar>
+          )}
         </button>
       </SheetTrigger>
 
