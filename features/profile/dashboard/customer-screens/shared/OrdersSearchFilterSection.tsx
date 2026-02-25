@@ -19,7 +19,7 @@ const OrdersSearchFilterSection: React.FC<OrdersSearchFilterSectionProps> = ({
       <div className="relative flex-1 lg:max-w-md">
         <Input
           type="text"
-          placeholder="Order ID, Product or Store"
+          placeholder="search with product name"
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
           className="pr-12 rounded-full text-sm"
@@ -33,4 +33,3 @@ const OrdersSearchFilterSection: React.FC<OrdersSearchFilterSectionProps> = ({
 };
 
 export default OrdersSearchFilterSection;
-

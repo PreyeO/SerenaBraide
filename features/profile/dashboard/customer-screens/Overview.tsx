@@ -3,7 +3,6 @@
 import React from "react";
 import EmptyCustomerSummary from "./shared/empty/EmptyCustomerSummary";
 import OverviewCard from "./shared/OverviewCard";
-import EmptyCustomerLoyalty from "./shared/empty/EmptyCustomerLoyalty";
 import { useGetAddresses } from "@/features/cart-checkout/hooks/useGetAddresses";
 import { useAuthStore } from "@/features/auth/auth.store";
 import AddressCard from "@/features/cart-checkout/shared/AddressCard";

@@ -75,7 +75,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
             className={cn(
               "transition-all w-full justify-start",
               isActive
-                ? `px-4 py-5 rounded-lg font-medium ${activeBg} ${activeText}`
+                ? `px-4 py-5 rounded-lg font-medium ${activeBg} ${activeText} data-[active=true]:hover:bg-[#3B3B3B] data-[active=true]:hover:text-[#F5F5F5]`
                 : `px-3 py-5`,
             )}
           >
