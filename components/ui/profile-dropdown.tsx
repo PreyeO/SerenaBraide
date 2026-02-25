@@ -9,11 +9,10 @@ import {
 import { profileRoutes } from "@/features/profile/data/general.routes";
 import Link from "next/link";
 import LinkCta from "./btns/link-cta";
-import { Trophy, LogOut } from "lucide-react";
-import Paragraph from "./typography/paragraph";
 import { useAuthStore } from "@/features/auth/auth.store";
 import { useRouter } from "next/navigation";
 import { useLogout } from "@/features/auth/hooks/useLogout";
+import { LogOut } from "lucide-react";
 
 const ProfileDropdown = () => {
   const user = useAuthStore((state) => state.user);

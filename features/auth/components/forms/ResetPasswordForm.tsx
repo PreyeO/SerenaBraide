@@ -20,6 +20,7 @@ import { useResetPassword } from "@/features/auth/hooks/useResetPassword";
 import AuthLinkPrompt from "../shared/AuthLinkPrompt";
 import AuthSwitchPrompt from "../shared/AuthSwitchPrompt";
 import PasswordInput from "../shared/PasswordInput";
+import ResendOtp from "../shared/ResendOtp";
 
 const ResetPasswordForm = () => {
   const searchParams = useSearchParams();
@@ -106,11 +107,7 @@ const ResetPasswordForm = () => {
             />
           </div>
           <div className=" lg:mt-4 flex items-center justify-center">
-            <AuthLinkPrompt
-              message="Didn't get the code?"
-              linkText="Resend Code"
-              href="/auth/resend"
-            />
+            <ResendOtp email={email} />
           </div>
           <AuthSwitchPrompt
             message="Remember Password?"

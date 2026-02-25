@@ -2,7 +2,6 @@
 
 import React, { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import ProductCard from "@/components/ui/cards/product-card";
 import { Product } from "@/types/product";
 import { useGetFeaturedProducts } from "../../hooks/useGetFeaturedProducts";
 import { ProductListItem } from "../../product.type";
@@ -15,6 +14,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import ProductCard from "@/components/ui/cards/product-card";
 
 interface RecommendationCarouselProps {
   products?: Product[] | ProductListItem[]; // pass products array directly (optional)

@@ -25,9 +25,5 @@ export const useAddToWishlist = () => {
       notify.success("Added to wishlist");
       queryClient.invalidateQueries({ queryKey: ["wishlist"] });
     },
-    onError: (error) => {
-      console.error("Failed to add to wishlist:", error.response?.data);
-      // Axios interceptor handles error toast
-    },
   });
 };
