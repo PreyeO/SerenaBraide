@@ -17,7 +17,6 @@ import SubmitButton from "@/components/ui/btns/submit-cta";
 import { ResetPasswordFormValues } from "@/features/auth/auth.type";
 import { ResetPasswordSchema } from "@/features/auth/auth.schema";
 import { useResetPassword } from "@/features/auth/hooks/useResetPassword";
-import AuthLinkPrompt from "../shared/AuthLinkPrompt";
 import AuthSwitchPrompt from "../shared/AuthSwitchPrompt";
 import PasswordInput from "../shared/PasswordInput";
 import ResendOtp from "../shared/ResendOtp";
