@@ -8,7 +8,7 @@ const OurStory = () => {
   return (
     <section className="lg:px-16 px-6 lg:pt-25 pt-8.5 pb-18.75">
       <div>
-        <div className="flex justify-between">
+        <div className=" lg:flex justify-between hidden">
           <TitleSpan
             title="FRAGRANCE. BEAUTY."
             className="lg:text-[22px] text-base lg:leading-7 leading-6 max-w-76"
@@ -23,9 +23,9 @@ const OurStory = () => {
           {/* First box (A) - always first */}
           <div
             className="order-1 bg-[#F5F5F5] rounded-[30px] lg:px-6.25 px-3.5 py-3.5
-          lg:py-6.25 flex flex-col gap-6.25 w-full md:max-w-[48%] lg:max-w-87.5"
+          lg:py-6.25 lg:flex flex-col gap-6.25 w-full md:max-w-[48%] lg:max-w-87.5 hidden"
           >
-            <div className=" hidden">
+            <div className=" ">
               <TitleSpan
                 title="Scent is a liquid personality. "
                 className="text-sm leading-5.5  text-[#6F6E6C] max-w-55.75"
