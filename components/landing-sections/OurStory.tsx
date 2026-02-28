@@ -25,7 +25,7 @@ const OurStory = () => {
             className="order-1 bg-[#F5F5F5] rounded-[30px] lg:px-6.25 px-3.5 py-3.5
           lg:py-6.25 flex flex-col gap-6.25 w-full md:max-w-[48%] lg:max-w-87.5"
           >
-            <div className="flex flex-col">
+            <div className=" hidden">
               <TitleSpan
                 title="Scent is a liquid personality. "
                 className="text-sm leading-5.5  text-[#6F6E6C] max-w-55.75"
@@ -38,7 +38,7 @@ const OurStory = () => {
               alt="image of model spraying perfume"
               width={300}
               height={257}
-              className="rounded-[15px] w-full xl:w-75 xl:h-64.25 h-64.25 object-cover"
+              className="rounded-[15px] w-full xl:w-75 xl:h-64.25 h-64.25 object-cover "
             />
           </div>
 

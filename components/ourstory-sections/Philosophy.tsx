@@ -9,14 +9,14 @@ const Philosophy = () => {
   return (
     <section className="py-6 lg:py-24">
       <div className="lg:px-16 px-6 lg:pb-22 pb-10 flex flex-col ">
-        <AuthSpan className=" text-[32px] lg:text-[54px] max-w-132.25  lg:leading-14.75 text-center">
+        <AuthSpan className=" text-[32px] lg:text-[54px] max-w-132.25  lg:leading-14.75 lg:text-center">
           Our
           <span className="font-PPEditorialNew italic text-[#3B3B3B]">
             {" "}
             Philosophy
           </span>{" "}
         </AuthSpan>
-        <div className="order-2 lg:order-2  lg:leading-6 leading-5.5 max-w-116  lg:pt-12.5 pt-8.5 flex flex-col mx-auto">
+        <div className="order-2 lg:order-2  lg:leading-6 leading-5.5 max-w-116  lg:pt-12.5 pt-4.5 flex flex-col mx-auto">
           <Paragraph
             className="lg:text-base text-sm font-normal text-[#6F6E6C]"
             content=" We believe that true luxury is quiet."
@@ -36,7 +36,7 @@ const Philosophy = () => {
           />
         </div>
 
-        <div className="pt-6 lg:pt-0 order-1 lg:order-3 rounded-full size-12.5 bg-[#F5F5F5] flex items-center justify-center ">
+        <div className="pt-6 lg:pt-0 order-2 lg:order-3 rounded-full size-12.5 bg-[#F5F5F5] flex lg:items-center justify-center items-end ">
           <Image
             src="/sprout-animation.gif"
             alt="sprout animation"
@@ -48,7 +48,7 @@ const Philosophy = () => {
         </div>
       </div>
 
-      <div className="relative w-full h-93.75 lg:h-125">
+      <div className="relative w-full h-93.75 lg:h-125 lg:block hidden ">
         <Image
           src="/about-image3.png"
           alt="about us image"
@@ -57,7 +57,7 @@ const Philosophy = () => {
         />
       </div>
 
-      <div className="grid lg:grid-cols-4 grid-cols-2 lg:gap-37.5 gap-10 lg:justify-center py-19.25 px-10.5 lg:px-30 xl:px-58.25">
+      <div className="grid lg:grid-cols-4 grid-cols-2 lg:gap-37.5 gap-10 lg:justify-center lg:py-19.25 py-10 px-10.5 lg:px-30 xl:px-58.25">
         {icons.map(({ id, Icon, description }) => (
           <div key={id} className="flex flex-col items-center gap-[15.5px]">
             <div className="rounded-full size-25 bg-[#F5F5F5] flex items-center justify-center">

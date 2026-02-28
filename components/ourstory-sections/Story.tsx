@@ -8,15 +8,23 @@ const Story = () => {
   return (
     <section className="py-6 lg:py-20 ">
       <div className="grid lg:grid-cols-2  grid-cols-1">
-        <div className="flex flex-col items-center  justify-center  gap-10  pb-10 lg:pb-26.75">
-          <div className="max-[235px] flex flex-col gap-6 items-center px-7.5 ">
+        <div className="relative w-full h-142.25 lg:h-full lg:hidden">
+          <Image
+            src="/about-image2.png"
+            alt="about us image"
+            fill
+            className="object-cover rounded-md"
+          />
+        </div>
+        <div className="flex flex-col items-center  justify-center  lg:gap-10 gap-4  pb-10 lg:pb-26.75">
+          <div className="max-[235px] flex flex-col lg:gap-6 gap-4 items-center px-7.5 ">
             <Sparkle className="size-7.5" fill="#3B3B3B" stroke="none" />
             <SubHeading
               title="Founder’s Note"
               className="text-[32px] lg:px-8.5 px-6 lg:text-start text-center font-PPEditorialNew font-medium"
             />
           </div>
-          <div className="flex flex-col lg:gap-12.5 gap-10 items-center text-center justify-center  ">
+          <div className="flex flex-col lg:gap-12.5 gap-4 lg:items-center lg:justify-center  ">
             <Paragraph
               className="px-6 lg:text-base text-sm leading-5.5 font-normal lg:leading-6 max-w-125 text-[#6F6E6C]"
               content="To me, perfume has always been more than a scent, and beauty more than a routine. They are the invisible armor we wear into the world, a liquid personality and a finishing touch that capture who we are in a way words never could."
@@ -40,12 +48,20 @@ const Story = () => {
             />
           </div>
         </div>
-        <div className="relative w-full h-142.25 lg:h-full">
+        <div className=" w-full h-142.25 lg:h-full relative lg:block hidden">
           <Image
             src="/about-image2.png"
             alt="about us image"
             fill
             className="object-cover rounded-md"
+          />
+        </div>
+        <div className="relative w-full h-93.75 lg:h-125 lg:hidden block ">
+          <Image
+            src="/about-image3.png"
+            alt="about us image"
+            fill
+            className="object-cover"
           />
         </div>
       </div>

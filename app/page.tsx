@@ -12,16 +12,15 @@ export default function Home() {
   return (
     <>
       <Hero />
+
       <OurStory />
-      <ProductCategory />
       <BestSeller />
+      {/* <ProductCategory /> */}
+
       {/* <GiftSet /> */}
       <GiftCard />
       <Wholesale />
       <ConnectWithUs />
-      {/* <div className="lg:hidden block">
-        <Delivery />
-      </div> */}
     </>
   );
 }
