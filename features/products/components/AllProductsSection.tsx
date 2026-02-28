@@ -41,7 +41,7 @@ const AllProductsSection = () => {
   }, [productsData]);
 
   return (
-    <section>
+    <section className="md:pt-38 pt-20">
       <div className="container mx-auto px-4 lg:px-12 my-8">
         <ProductGrid products={products} isLoading={productsLoading} />
       </div>

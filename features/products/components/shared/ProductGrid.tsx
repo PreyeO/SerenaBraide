@@ -46,9 +46,7 @@ export default function ProductGrid({
   return (
     <div>
       <div className="flex justify-between items-center lg:pt-12.5 pt-6 font-normal text-sm text-[#3B3B3B]">
-        <p>
-          {products.length} {products.length === 1 ? "PRODUCT" : "PRODUCTS"}
-        </p>
+        <p>{products.length === 0 ? "NO PRODUCT" : "ALL PRODUCTS"}</p>
       </div>
 
       {/* Product grid */}
