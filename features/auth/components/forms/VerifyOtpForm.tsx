@@ -35,7 +35,7 @@ const VerifyOtpForm = ({ email }: { email: string }) => {
   return (
     <div className="flex flex-col w-full gap-8.5 mb-27.75">
       <AuthTitle
-        title="Verify OTP"
+        title="Verify Your Email"
         subtitle={`We’ve sent a 6-digit verification code to your email ${email}. Please enter the code below to confirm your account.`}
         className="max-w-121"
       />
@@ -51,10 +51,7 @@ const VerifyOtpForm = ({ email }: { email: string }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <OtpInput
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
+                  <OtpInput value={field.value} onChange={field.onChange} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

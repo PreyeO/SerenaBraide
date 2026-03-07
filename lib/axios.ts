@@ -2,8 +2,16 @@ import { useAuthStore } from "@/features/auth/auth.store";
 import axios from "axios";
 import { toast } from "sonner";
 
+const getBaseURL = () => {
+  if (typeof window !== "undefined") {
+    return process.env.NEXT_PUBLIC_API_BASE_URL || "";
+  }
+  // On server, we need an absolute URL
+  return process.env.NEXT_PUBLIC_API_BASE_URL || "https://serenabraide.com"; // Fallback to live if not set
+};
+
 export const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  baseURL: getBaseURL(),
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",

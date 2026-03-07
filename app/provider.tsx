@@ -13,7 +13,19 @@ export default function ReactQueryProvider({
 }: {
   children: ReactNode;
 }) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 60 * 1000, // 1 minute
+            gcTime: 1000 * 60 * 60 * 24, // 24 hours
+            refetchOnWindowFocus: false,
+            retry: 1,
+          },
+        },
+      }),
+  );
   const pathname = usePathname() ?? "";
 
   const pathSegments = pathname.split("/").filter(Boolean);

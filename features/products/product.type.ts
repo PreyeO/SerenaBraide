@@ -113,6 +113,7 @@ export interface ProductListParams {
   category?: string;
   search?: string;
   is_featured?: boolean;
+  slug?: string;
 }
 
 // Product Detail Types

@@ -7,15 +7,13 @@ import DetailInfoSection from "./DetailInfoSection";
 
 const RecommendationSection = dynamic(
   () => import("./RecommendationSection"),
-  { loading: () => <LoadingState /> }
+  { loading: () => <div className="h-40 w-full bg-gray-50 animate-pulse rounded-lg" /> }
 );
 const ReviewSection = dynamic(
   () => import("./ReviewSection"),
-  { loading: () => <LoadingState /> }
+  { loading: () => <div className="h-60 w-full bg-gray-50 animate-pulse rounded-lg mt-8" /> }
 );
 import { useGetProductBySlug } from "../hooks/useGetProductDetail";
-
-import LoadingState from "@/components/ui/loaders/loading-state";
 
 interface ProductDetailContentProps {
   category: string;
@@ -26,7 +24,7 @@ const ProductDetailContent: React.FC<ProductDetailContentProps> = ({
   category,
   slug,
 }) => {
-  const { data: product, isLoading, error } = useGetProductBySlug(slug);
+  const { data: product, error } = useGetProductBySlug(slug);
   const [selectedVariantId, setSelectedVariantId] = useState<number | null>(
     null,
   );
@@ -42,10 +40,6 @@ const ProductDetailContent: React.FC<ProductDetailContentProps> = ({
       setSelectedVariantId(product.variants[0].id);
     }
   }, [product, selectedVariantId]);
-
-  if (isLoading) {
-    return <LoadingState />;
-  }
 
   if (error || !product) {
     console.error("Product detail error:", error);

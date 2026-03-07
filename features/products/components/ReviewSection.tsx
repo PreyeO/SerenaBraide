@@ -56,8 +56,14 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
     return (
       <section className="px-16 text-[#3B3B3B]">
         <BorderLine className="" />
-        <div className="pt-12.5 flex justify-center items-center">
-          <Paragraph content="Loading reviews..." className="text-lg" />
+        <div className="pt-12.5 flex flex-col gap-4">
+          <div className="h-8 w-1/3 bg-gray-100 animate-pulse rounded" />
+          <div className="h-4 w-1/4 bg-gray-100 animate-pulse rounded" />
+          <div className="space-y-4 pt-8">
+            {[...Array(2)].map((_, i) => (
+              <div key={i} className="h-32 w-full bg-gray-50 animate-pulse rounded-lg" />
+            ))}
+          </div>
         </div>
       </section>
     );
@@ -114,9 +120,8 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
       <div className="flex lg:pt-12.5 pt-6 items-center lg:mb-6.5 mb-4">
         <Paragraph
           className="font-medium lg;text-lg text-xs"
-          content={`${totalReviews} Reviews ${
-            totalReviews === 1 ? "customer" : "customers"
-          }`}
+          content={`${totalReviews} Reviews ${totalReviews === 1 ? "customer" : "customers"
+            }`}
         />
 
         <div className="border border-[#3B3B3B] flex justify-center h-4 ml-2.5" />
@@ -133,9 +138,8 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
             <StarRating rating={Math.round(averageRating)} />
           </div>
           <Caption
-            title={`${totalReviews} ${
-              totalReviews === 1 ? "rating" : "ratings"
-            }`}
+            title={`${totalReviews} ${totalReviews === 1 ? "rating" : "ratings"
+              }`}
             className="font-normal lg:text-sm text-xs"
           />
         </div>
@@ -203,9 +207,8 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
       {reviewsData.count > 0 && (
         <div className="flex flex-col md:flex-row justify-between pt-8 items-center gap-4 w-full">
           <Caption
-            title={`Displaying Review${isMobile ? "" : "s"} ${displayRange} of ${
-              reviewsData.count
-            }`}
+            title={`Displaying Review${isMobile ? "" : "s"} ${displayRange} of ${reviewsData.count
+              }`}
             className="text-sm text-[#6F6E6C] font-normal order-1"
           />
 
@@ -213,11 +216,10 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
             <button
               onClick={goToPrevPage}
               disabled={currentPage === 1}
-              className={`text-sm ${
-                currentPage === 1
+              className={`text-sm ${currentPage === 1
                   ? "text-[#D6D6D6] cursor-not-allowed"
                   : "text-[#3B3B3B] hover:underline"
-              }`}
+                }`}
             >
               Previous
             </button>
@@ -225,11 +227,10 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
             <button
               onClick={goToNextPage}
               disabled={currentPage === totalPages}
-              className={`text-sm ${
-                currentPage === totalPages
+              className={`text-sm ${currentPage === totalPages
                   ? "text-[#D6D6D6] cursor-not-allowed"
                   : "text-[#3B3B3B] hover:underline"
-              }`}
+                }`}
             >
               Next
             </button>

@@ -21,6 +21,14 @@ const NavBar = () => {
   const counts = useNavbarCounts();
   const desktopMenu = useDesktopMenu(navRef);
 
+  const desktopNavItems = navigation.desktop.filter(
+    (i) => i.title?.toLowerCase() !== "categories",
+  );
+
+  const mobileNavItems = navigation.mobile.filter(
+    (i) => i.title?.toLowerCase() !== "categories",
+  );
+
   const handleWishlistClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>) => {
       if (!user) {
@@ -30,7 +38,6 @@ const NavBar = () => {
     },
     [user, router],
   );
-
 
   const handleSheetChange = useCallback(
     (sheet: "menu" | "search" | "profile", open: boolean) => {
@@ -60,7 +67,7 @@ const NavBar = () => {
     <nav className="fixed top-0 left-0 right-0 z-40 font-GeneralSans">
       {/* Mobile Navigation */}
       <MobileNav
-        navItems={navigation.mobile}
+        navItems={mobileNavItems}
         cartCount={counts.cart}
         user={user}
         sheets={sheets}
@@ -70,7 +77,7 @@ const NavBar = () => {
       {/* Desktop Navigation */}
       <DesktopNav
         ref={navRef}
-        navItems={navigation.desktop}
+        navItems={desktopNavItems}
         cartCount={counts.cart}
         wishlistCount={counts.wishlist}
         activeMenu={desktopMenu.activeMenu}

@@ -40,8 +40,14 @@ const RegisterForm = () => {
   const { mutate, isPending } = useRegister();
 
   const onSubmit = (values: RegisterFormValues) => {
-    // We can now send the values directly without any key transformation
-    mutate(values);
+    // Fail-safe: Ensure date_of_birth is YYYY-MM-DD
+    const finalValues = { ...values };
+    if (values.date_of_birth && values.date_of_birth.split("-").length === 2) {
+      const currentYear = new Date().getFullYear().toString();
+      finalValues.date_of_birth = `${currentYear}-${values.date_of_birth}`;
+    }
+
+    mutate(finalValues);
   };
 
   return (
@@ -180,20 +186,19 @@ const RegisterForm = () => {
             control={form.control}
             name="date_of_birth"
             render={({ field }) => {
-              const [month, day] = field.value
+              const [year, month, day] = field.value
                 ? field.value.split("-")
-                : ["", ""];
+                : ["", "", ""];
+
+              const currentYear = new Date().getFullYear().toString();
 
               const handleChange = (part: "month" | "day", val: string) => {
-                const newMonth = part === "month" ? val : month || "";
-                const newDay = part === "day" ? val : day || "";
-                if (newMonth && newDay) {
-                  field.onChange(`${newMonth}-${newDay}`);
-                } else {
-                  field.onChange(
-                    newMonth || newDay ? `${newMonth}-${newDay}` : "",
-                  );
-                }
+                const newMonth = part === "month" ? val : month;
+                const newDay = part === "day" ? val : day;
+
+                // Keep the currentYear prepended and use placeholders for missing parts
+                // This allows the selects to stay populated while building the full string
+                field.onChange(`${currentYear}-${newMonth || ""}-${newDay || ""}`);
               };
 
               const months = [
@@ -286,7 +291,7 @@ const RegisterForm = () => {
               label="Create Account"
               loadingLabel="Creating account..."
               isPending={isPending}
-              onClick={() => {}}
+              onClick={() => { }}
             />
           </div>
           <div className="md:col-span-2">

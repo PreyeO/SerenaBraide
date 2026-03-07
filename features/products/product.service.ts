@@ -37,9 +37,12 @@ export async function getProducts(
   if (params?.is_featured !== undefined) {
     queryParams.append("is_featured", String(params.is_featured));
   }
+  if (params?.slug) {
+    queryParams.append("slug", params.slug);
+  }
 
   // Request more items to handle pagination
-  queryParams.append("page_size", "100");
+  queryParams.append("page_size", "20");
 
   const queryString = queryParams.toString();
   const url = `/api/products/${queryString ? `?${queryString}` : ""}`;
@@ -58,18 +61,23 @@ export async function getProductById(
 }
 
 export async function getProductBySlug(slug: string): Promise<ProductDetail> {
-  // Fetch all products (no category filter since API expects category ID, not slug)
-  const response = await getProducts();
-
-  // Find exact match by slug
+  // 1. Attempt to fetch by slug if the backend supports it (best case: 1 call)
+  const response = await getProducts({ slug });
   const product = response.results.find((p) => p.slug === slug);
 
-  if (!product) {
+  if (product) {
+    return getProductById(product.id);
+  }
+
+  // 2. Fallback search (though backend SHOULD have an endpoint for this)
+  const searchResponse = await getProducts({ search: slug });
+  const searchProduct = searchResponse.results.find((p) => p.slug === slug);
+
+  if (!searchProduct) {
     throw new Error("Product not found");
   }
 
-  // Get full product details by ID
-  return getProductById(product.id);
+  return getProductById(searchProduct.id);
 }
 
 // ... existing code ...
