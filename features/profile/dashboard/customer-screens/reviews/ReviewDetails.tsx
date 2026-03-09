@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Badge } from "@/components/ui/badge";
@@ -34,9 +34,15 @@ interface ReviewDetailsProps {
 }
 
 const ReviewDetails: React.FC<ReviewDetailsProps> = ({ order, onSuccess }) => {
+  const isSubmittingRef = useRef(false);
+
   const createRatingMutation = useCreateRating({
     onSuccess: () => {
+      isSubmittingRef.current = false;
       onSuccess?.();
+    },
+    onError: () => {
+      isSubmittingRef.current = false;
     },
   });
 
@@ -68,9 +74,12 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({ order, onSuccess }) => {
   };
 
   const onSubmit = (data: CreateRatingFormValues) => {
-    if (!order.id) {
+    // Prevent double submission using ref (synchronous check)
+    if (!order.id || isSubmittingRef.current || createRatingMutation.isPending) {
       return;
     }
+
+    isSubmittingRef.current = true;
 
     const payload: CreateRatingPayload = {
       order_item: order.id,
@@ -256,20 +265,6 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({ order, onSuccess }) => {
               isPending={createRatingMutation.isPending}
               loadingLabel="Submitting..."
               className="w-full rounded-full cursor-pointer"
-              onClick={() => {
-                console.log("Submit button clicked");
-                // Manually trigger form validation and submission
-                form.trigger().then((isValid) => {
-                  console.log("Form validation result:", isValid);
-                  if (isValid) {
-                    const formData = form.getValues();
-                    console.log("Form values:", formData);
-                    onSubmit(formData);
-                  } else {
-                    console.log("Form errors:", form.formState.errors);
-                  }
-                });
-              }}
             />
           </div>
         </form>

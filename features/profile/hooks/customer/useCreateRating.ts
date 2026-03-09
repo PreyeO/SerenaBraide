@@ -23,6 +23,7 @@ export const useCreateRating = ({
     CreateRatingPayload
   >({
     mutationFn: createRating,
+    retry: false,
     onSuccess: (rating) => {
       notify.success("Review submitted successfully!");
       queryClient.invalidateQueries({ queryKey: ["ratings"] });

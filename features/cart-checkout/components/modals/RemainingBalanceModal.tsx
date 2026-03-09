@@ -58,12 +58,12 @@ const RemainingBalanceModal = ({
             label="Pay Remaining Balance"
             onClick={onPayRemaining}
           />
-          <button
+          {/* <button
             onClick={onClose}
             className="w-full text-[#3B3B3B] border border-[#6F6E6C] rounded-[50px] py-3 px-4 font-medium text-sm hover:bg-gray-50"
           >
             Cancel
-          </button>
+          </button> */}
         </div>
       </div>
     </FormModal>

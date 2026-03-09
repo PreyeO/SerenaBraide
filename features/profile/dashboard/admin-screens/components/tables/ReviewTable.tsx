@@ -1,11 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Review } from "@/features/profile/type/admin/general.type";
 import { TableAction, TableActions } from "../shared/TableActions";
 import { DataTable } from "../shared/DataTable";
-import { useGetCustomers } from "@/features/profile/hooks/admin/useCustomers";
 import TablePagination from "../shared/TablePagination";
 
 const ITEMS_PER_PAGE = 10;
@@ -15,36 +14,17 @@ interface ReviewTableProps {
   onViewReview: (review: Review) => void;
 }
 
-const REVIEW_TABLE_HEADERS = [
-  "Customer name",
-  "Email",
-  "Product",
-  "Review",
-  "Action",
-];
+const REVIEW_TABLE_HEADERS = ["Customer name", "Product", "Review", "Action"];
 
 const ReviewTable = ({ reviews, onViewReview }: ReviewTableProps) => {
-  const { data: customersData } = useGetCustomers();
+  // const { data: customersData } = useGetCustomers();
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = Math.ceil((reviews?.length || 0) / ITEMS_PER_PAGE);
   const paginatedReviews = reviews.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
+    currentPage * ITEMS_PER_PAGE,
   );
-
-  // Create a map of customer profile ID to email for efficient lookup
-  const customerEmailMap = useMemo(() => {
-    const map = new Map<number, string>();
-    if (customersData?.results) {
-      customersData.results.forEach((customer) => {
-        if (customer.customer_profile?.id) {
-          map.set(customer.customer_profile.id, customer.email);
-        }
-      });
-    }
-    return map;
-  }, [customersData]);
 
   const getReviewActions = (review: Review): TableAction[] => [
     {
@@ -53,12 +33,10 @@ const ReviewTable = ({ reviews, onViewReview }: ReviewTableProps) => {
     },
   ];
 
-  const getCustomerEmail = (review: Review): string => {
-    const email = customerEmailMap.get(review.customer_profile.id);
-    return email || "N/A";
-  };
-
-  const truncateReview = (reviewText: string, maxLength: number = 50): string => {
+  const truncateReview = (
+    reviewText: string,
+    maxLength: number = 50,
+  ): string => {
     if (reviewText.length <= maxLength) return reviewText;
     return reviewText.substring(0, maxLength) + "...";
   };
@@ -72,7 +50,8 @@ const ReviewTable = ({ reviews, onViewReview }: ReviewTableProps) => {
         isEmpty={isEmpty}
         emptyState={{
           title: "No reviews yet",
-          description: "Customer reviews will appear here once they are submitted.",
+          description:
+            "Customer reviews will appear here once they are submitted.",
           showButton: false,
         }}
       >
@@ -80,10 +59,6 @@ const ReviewTable = ({ reviews, onViewReview }: ReviewTableProps) => {
           <TableRow key={review.id} className="hover:bg-[#FAFAFA]">
             <TableCell className="font-medium text-[#3B3B3B]">
               {review.reviewer_name || review.customer_profile.name}
-            </TableCell>
-
-            <TableCell className="text-[#6F6E6C]">
-              {getCustomerEmail(review)}
             </TableCell>
 
             <TableCell className="text-[#3B3B3B]">
@@ -111,4 +86,3 @@ const ReviewTable = ({ reviews, onViewReview }: ReviewTableProps) => {
 };
 
 export default ReviewTable;
-

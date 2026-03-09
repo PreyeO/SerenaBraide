@@ -29,11 +29,13 @@ const ReviewDetails: React.FC<ReviewDetailsProps> = ({ review, onSuccess }) => {
   });
 
   const handleApprove = () => {
+    if (updateReviewMutation.isPending) return;
     setActionType("approve");
     updateReviewMutation.mutate({ id: review.id, isApproved: true });
   };
 
   const handleDecline = () => {
+    if (updateReviewMutation.isPending) return;
     setActionType("decline");
     updateReviewMutation.mutate({ id: review.id, isApproved: false });
   };

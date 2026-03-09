@@ -24,6 +24,7 @@ interface OrdersTableProps {
 const ORDER_TABLE_HEADERS = [
   "Order Number",
   "Status",
+  "Date",
   "Total Amount",
   "Total Quantity",
   "Actions",
@@ -36,7 +37,7 @@ const OrdersTable = ({ orders }: OrdersTableProps) => {
   const totalPages = Math.ceil((orders?.length || 0) / ITEMS_PER_PAGE);
   const paginatedOrders = orders.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
+    currentPage * ITEMS_PER_PAGE,
   );
 
   const getOrderActions = (order: Order): TableAction[] => [
@@ -71,6 +72,14 @@ const OrdersTable = ({ orders }: OrdersTableProps) => {
               </StatusBadge>
             </TableCell>
 
+            <TableCell className="text-[#6F6E6C]">
+              {new Date(order.created_at).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              })}
+            </TableCell>
+
             <TableCell className="font-medium text-[#3B3B3B]">
               {formatNaira(order.total_amount)}
             </TableCell>
@@ -96,4 +105,3 @@ const OrdersTable = ({ orders }: OrdersTableProps) => {
 };
 
 export default OrdersTable;
-

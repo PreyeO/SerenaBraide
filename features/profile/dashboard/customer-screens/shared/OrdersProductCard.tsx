@@ -111,11 +111,13 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
         </div>
       </div>
 
-      <ReviewModal
-        open={reviewOpen}
-        onClose={() => setReviewOpen(false)}
-        order={order}
-      />
+      {reviewOpen && (
+        <ReviewModal
+          open={reviewOpen}
+          onClose={() => setReviewOpen(false)}
+          order={order}
+        />
+      )}
 
       {/* Separator */}
       <div className="border border-[#F0F0F0] lg:border-[#D1D5DB] w-full" />
