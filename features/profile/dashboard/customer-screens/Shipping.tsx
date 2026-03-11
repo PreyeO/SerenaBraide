@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useAddressModals } from "@/features/cart-checkout/hooks/useAddressModals";
 import { useGetAddresses } from "@/features/cart-checkout/hooks/useGetAddresses";
 import { useDeleteAddress } from "@/features/cart-checkout/hooks/useDeleteAddress";
 import { useAuthStore } from "@/features/auth/auth.store";
@@ -22,10 +23,18 @@ import BackNavigation from "@/components/ui/btns/back-navigation";
 const Shipping = () => {
   const user = useAuthStore((state) => state.user);
   const { data: addresses, isLoading } = useGetAddresses();
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const {
+    isAddModalOpen,
+    isEditModalOpen,
+    selectedAddress,
+    handleAddClick,
+    handleAddSuccess,
+    handleEditClick,
+    handleEditSuccess,
+    closeAddModal,
+    closeEditModal,
+  } = useAddressModals();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
   const [addressToDelete, setAddressToDelete] = useState<number | null>(null);
 
   const deleteAddressMutation = useDeleteAddress({
@@ -38,20 +47,6 @@ const Shipping = () => {
   if (!user) {
     return <LoadingState />;
   }
-
-  const handleAddSuccess = () => {
-    setIsAddModalOpen(false);
-  };
-
-  const handleEditSuccess = () => {
-    setIsEditModalOpen(false);
-    setSelectedAddress(null);
-  };
-
-  const handleEdit = (address: Address) => {
-    setSelectedAddress(address);
-    setIsEditModalOpen(true);
-  };
 
   const handleDelete = (addressId: number) => {
     setAddressToDelete(addressId);
@@ -81,7 +76,7 @@ const Shipping = () => {
       />
       <OverviewCard subHeading="Default Address">
         <div
-          onClick={() => setIsAddModalOpen(true)}
+          onClick={handleAddClick}
           className="flex flex-col pt-4 cursor-pointer items-center justify-center mx-auto"
         >
           <span className="rounded-full w-5.5 h-5.5 bg-[#3B3B3B] flex justify-center  items-center">
@@ -104,22 +99,19 @@ const Shipping = () => {
           <AddressCard
             key={address.id}
             address={address}
-            onEdit={handleEdit}
+            onEdit={() => handleEditClick(address)}
             onDelete={handleDelete}
             variant="shipping"
           />
         ))}
       </div>
 
-      <FormModal open={isAddModalOpen} onClose={() => setIsAddModalOpen(false)}>
+      <FormModal open={isAddModalOpen} onClose={closeAddModal}>
         <AddNewAddressForm onSuccess={handleAddSuccess} />
       </FormModal>
 
       {selectedAddress && (
-        <FormModal
-          open={isEditModalOpen}
-          onClose={() => setIsEditModalOpen(false)}
-        >
+        <FormModal open={isEditModalOpen} onClose={closeEditModal}>
           <UpdateAddressForm
             address={selectedAddress}
             onSuccess={handleEditSuccess}

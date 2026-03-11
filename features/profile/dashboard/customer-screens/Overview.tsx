@@ -7,13 +7,23 @@ import { useGetAddresses } from "@/features/cart-checkout/hooks/useGetAddresses"
 import { useAuthStore } from "@/features/auth/auth.store";
 import AddressCard from "@/features/cart-checkout/shared/AddressCard";
 import EmptyCustomerDefault from "./shared/empty/EmptyCustomerDefault";
+import FormModal from "@/components/ui/modals/form-modals";
+import AddNewAddressForm from "@/features/cart-checkout/components/forms/AddNewAddressForm";
 import LoadingState from "@/components/ui/loaders/loading-state";
 import DashboardLoader from "@/components/ui/loaders/dasboard-loader";
 import MobileProfileOverview from "./mobile-components/MobileProfileOverview";
+import { useAddressModals } from "@/features/cart-checkout/hooks/useAddressModals";
 
 const Overview = () => {
   const user = useAuthStore((state) => state.user);
   const { data: addresses, isLoading } = useGetAddresses();
+
+  const {
+    isAddModalOpen: isModalOpen,
+    handleAddClick,
+    handleAddSuccess,
+    closeAddModal,
+  } = useAddressModals();
 
   if (!user) {
     return <DashboardLoader />;
@@ -60,18 +70,23 @@ const Overview = () => {
             />
           </OverviewCard>
         ) : (
-          <EmptyCustomerDefault
-            src="/empty-location-icon.png"
-            alt="icon of a maps"
-            width={153.33}
-            height={100}
-            className=""
-            subHeading="Default Address"
-            contentOne="No saved address. Add address to make checkout faster and smoother."
-            contentTwo="Add shipping address"
-            useCircle
-            href="/"
-          />
+          <>
+            <EmptyCustomerDefault
+              src="/empty-location-icon.png"
+              alt="icon of a maps"
+              width={153.33}
+              height={100}
+              className=""
+              subHeading="Default Address"
+              contentOne="No saved address. Add address to make checkout faster and smoother."
+              contentTwo="Add shipping address"
+              useCircle
+              onClick={handleAddClick}
+            />
+            <FormModal open={isModalOpen} onClose={closeAddModal}>
+              <AddNewAddressForm onSuccess={handleAddSuccess} />
+            </FormModal>
+          </>
         )}
       </section>
     </>

@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Paragraph from "@/components/ui/typography/paragraph";
 import SubHeading from "@/components/ui/typography/subHeading";
-import React, { useState } from "react";
+import React from "react";
 import AddAddressButton from "../../shared/AddAddressButton";
 import FormModal from "@/components/ui/modals/form-modals";
 import AddNewAddressForm from "../forms/AddNewAddressForm";
@@ -13,26 +13,21 @@ import UpdateAddressForm from "../forms/UpdateAddress";
 import { useGetAddresses } from "../../hooks/useGetAddresses";
 import EmptyAdress from "../empty-screens/EmptyAdress";
 import LoadingState from "@/components/ui/loaders/loading-state";
+import { useAddressModals } from "@/features/cart-checkout/hooks/useAddressModals";
 
 const ShippingAddress = () => {
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [selectedAddress, setSelectedAddress] = useState<number | null>(null);
+  const {
+    isAddModalOpen,
+    isEditModalOpen,
+    selectedAddress,
+    handleAddClick,
+    handleAddSuccess,
+    handleEditClick,
+    handleEditSuccess,
+    closeAddModal,
+    closeEditModal,
+  } = useAddressModals();
   const { data: addresses, isLoading } = useGetAddresses();
-
-  const handleAddSuccess = () => {
-    setIsAddModalOpen(false);
-  };
-
-  const handleEditSuccess = () => {
-    setIsEditModalOpen(false);
-    setSelectedAddress(null);
-  };
-
-  const handleEditClick = (addressId: number) => {
-    setSelectedAddress(addressId);
-    setIsEditModalOpen(true);
-  };
 
   if (isLoading) {
     return (
@@ -45,10 +40,6 @@ const ShippingAddress = () => {
   if (!addresses || addresses.length === 0) {
     return <EmptyAdress />;
   }
-
-  const addressToEdit = selectedAddress
-    ? addresses.find((addr) => addr.id === selectedAddress)
-    : null;
 
   return (
     <div className="bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5] w-full flex flex-col gap-6 lg:px-15 px-4 lg:py-7.5 py-4">
@@ -89,7 +80,7 @@ const ShippingAddress = () => {
               <div>
                 <button
                   className="lg:text-base text-sm text-[#3B3B3B] font-medium underline"
-                  onClick={() => handleEditClick(address.id)}
+                  onClick={() => handleEditClick(address)}
                 >
                   Edit
                 </button>
@@ -98,21 +89,18 @@ const ShippingAddress = () => {
           ))}
         </RadioGroup>
         <div>
-          <AddAddressButton onClick={() => setIsAddModalOpen(true)} />
+          <AddAddressButton onClick={handleAddClick} />
         </div>
       </div>
 
-      <FormModal open={isAddModalOpen} onClose={() => setIsAddModalOpen(false)}>
+      <FormModal open={isAddModalOpen} onClose={closeAddModal}>
         <AddNewAddressForm onSuccess={handleAddSuccess} />
       </FormModal>
 
-      {addressToEdit && (
-        <FormModal
-          open={isEditModalOpen}
-          onClose={() => setIsEditModalOpen(false)}
-        >
+      {selectedAddress && (
+        <FormModal open={isEditModalOpen} onClose={closeEditModal}>
           <UpdateAddressForm
-            address={addressToEdit}
+            address={selectedAddress}
             onSuccess={handleEditSuccess}
           />
         </FormModal>

@@ -22,6 +22,7 @@ import { RegisterSchema } from "@/features/auth/auth.schema";
 import { RegisterFormValues } from "@/features/auth/auth.type";
 import { useRegister } from "@/features/auth/hooks/useRegister";
 import Paragraph from "@/components/ui/typography/paragraph";
+import { COUNTRIES } from "@/constant/countries";
 
 const RegisterForm = () => {
   const form = useForm<RegisterFormValues>({
@@ -31,6 +32,7 @@ const RegisterForm = () => {
       last_name: "",
       email: "",
       phone_number: "",
+      country: "",
       password: "",
       confirm_password: "",
       date_of_birth: "",
@@ -198,7 +200,9 @@ const RegisterForm = () => {
 
                 // Keep the currentYear prepended and use placeholders for missing parts
                 // This allows the selects to stay populated while building the full string
-                field.onChange(`${currentYear}-${newMonth || ""}-${newDay || ""}`);
+                field.onChange(
+                  `${currentYear}-${newMonth || ""}-${newDay || ""}`,
+                );
               };
 
               const months = [
@@ -222,7 +226,7 @@ const RegisterForm = () => {
               });
 
               return (
-                <FormItem className="md:col-span-2">
+                <FormItem>
                   <FormLabel className="text-[12px] font-medium">
                     DATE OF BIRTH<span className="text-red-500">*</span>
                   </FormLabel>
@@ -262,15 +266,42 @@ const RegisterForm = () => {
                     </div>
                   </FormControl>
                   <FormMessage />
-                  <Paragraph
+                  {/* <Paragraph
                     className="text-[#9A9A98] lg:text-sm text-xs leading-4.5 font-normal pt-1"
                     content="Get Membership Reward on Your Birthday!"
-                  />
+                  /> */}
                 </FormItem>
               );
             }}
           />
-
+          {/* Country */}
+          <FormField
+            control={form.control}
+            name="country"
+            render={() => (
+              <FormItem>
+                <FormLabel className="text-[12px] font-medium">
+                  COUNTRY<span className="text-red-500">*</span>
+                </FormLabel>
+                <FormControl>
+                  <select
+                    {...form.register("country")}
+                    className="w-full rounded-[50px] border border-input bg-background px-4 h-12.5 text-sm text-[#3B3B3B] focus:outline-none focus:border-[#3B3B3B] focus:bg-[#F5F5F5] appearance-none"
+                  >
+                    <option value="" disabled>
+                      Select your country
+                    </option>
+                    {COUNTRIES.map((c) => (
+                      <option key={c.code} value={c.name}>
+                        {c.name}
+                      </option>
+                    ))}
+                  </select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           {/* Terms */}
           <div className="md:col-span-2 lg:mt-4 text-[#3B3B3B] flex gap-6 items-center">
             <AuthSpan className="font-normal lg:text-sm text-xs lg:leading-5.5 leading-4.5">
@@ -291,7 +322,7 @@ const RegisterForm = () => {
               label="Create Account"
               loadingLabel="Creating account..."
               isPending={isPending}
-              onClick={() => { }}
+              onClick={() => {}}
             />
           </div>
           <div className="md:col-span-2">

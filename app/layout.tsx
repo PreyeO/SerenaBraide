@@ -1,14 +1,14 @@
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 import "./globals.css";
 import { generalSans, ppEditorial } from "./assets/fonts/font";
 import ReactQueryProvider from "./provider";
 
-export const viewport: Viewport = {
-  themeColor: "#FAF5EF",
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 1,
-};
+// export const viewport: Viewport = {
+//   themeColor: "#FAF5EF",
+//   width: "device-width",
+//   initialScale: 1,
+//   maximumScale: 1,
+// };
 
 export const metadata: Metadata = {
   title: {
@@ -65,19 +65,19 @@ export const metadata: Metadata = {
   icons: {
     icon: "/icon.png",
     shortcut: "/icon.png",
-    apple: "/favicon.ico",
+    apple: "/icon.png",
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
+  // robots: {
+  //   index: true,
+  //   follow: true,
+  //   googleBot: {
+  //     index: true,
+  //     follow: true,
+  //     "max-video-preview": -1,
+  //     "max-image-preview": "large",
+  //     "max-snippet": -1,
+  //   },
+  // },
 };
 
 export default function RootLayout({

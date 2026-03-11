@@ -30,7 +30,7 @@ import {
 } from "../../type/checkout.type";
 import LinkCta from "@/components/ui/btns/link-cta";
 import { useUpdateAddress } from "../../hooks/useUpdateAddress";
-import { countries } from "../../data/countries";
+import { COUNTRIES } from "@/constant/countries";
 
 interface UpdateAddressFormProps {
   address: Address;
@@ -113,7 +113,7 @@ const UpdateAddressForm = ({ address, onSuccess }: UpdateAddressFormProps) => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {countries.map((country) => (
+                      {COUNTRIES.map((country) => (
                         <SelectItem key={country.code} value={country.code}>
                           {country.name} ({country.code})
                         </SelectItem>

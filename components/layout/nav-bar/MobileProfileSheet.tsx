@@ -68,6 +68,7 @@ export const MobileProfileSheet = ({
             </Link>
           </li>
           <div className="border border-[#F0F0F0] w-full shrink-0 my-2.5" />
+          {/* WISHLIST HIDDEN FOR LAUNCH
           <li>
             <Link
               href="/profile/wishlist"
@@ -77,6 +78,7 @@ export const MobileProfileSheet = ({
             </Link>
           </li>
           <div className="border border-[#F0F0F0] w-full shrink-0 my-2.5" />
+          */}
           <li>Ratings & Reviews</li>
         </ul>
 

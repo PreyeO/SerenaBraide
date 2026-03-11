@@ -1,8 +1,8 @@
 import Paragraph from "@/components/ui/typography/paragraph";
 import SubHeading from "@/components/ui/typography/subHeading";
-import Image from "next/image";
 import React from "react";
 import InitialsAvatar from "@/components/ui/InitialsAvatar";
+import { getCountryFlag } from "@/constant/countries";
 
 interface EmptyCustomerProps {
   subHeadingOne: string;
@@ -12,6 +12,7 @@ interface EmptyCustomerProps {
   subHeadingThree: string;
   firstName?: string;
   lastName?: string;
+  countryCode?: string;
 }
 
 const EmptyCustomerSummary: React.FC<EmptyCustomerProps> = ({
@@ -22,6 +23,7 @@ const EmptyCustomerSummary: React.FC<EmptyCustomerProps> = ({
   contentTwo,
   firstName,
   lastName,
+  countryCode,
 }) => {
   return (
     <div className="w-full bg-[#F6F7F8] border border-[#F5F5F5] py-3 lg:py-4.75 px-4 lg:px-8.5 rounded-[10px]">
@@ -42,14 +44,14 @@ const EmptyCustomerSummary: React.FC<EmptyCustomerProps> = ({
               lastName={lastName}
               fallback="SB"
               size="lg"
-              className="text-white bg-[#47011d] hidden md:flex"
+              className="text-white bg-[#3B3B3B] hidden md:flex"
             />
             <InitialsAvatar
               firstName={firstName}
               lastName={lastName}
               fallback="SB"
               size="md"
-              className="text-white bg-[#47011d] md:hidden  "
+              className="text-white bg-[#3B3B3B] md:hidden  "
             />
             {/* User name + content */}
             <div className="min-w-0 flex-1">
@@ -76,13 +78,11 @@ const EmptyCustomerSummary: React.FC<EmptyCustomerProps> = ({
                 title={contentTwo}
                 className="font-medium text-sm sm:text-base wrap-break-word"
               />
-              <Image
-                className="mx-auto shrink-0 w-5 h-5 sm:w-6 sm:h-6"
-                alt="country flag"
-                src="/country-flag.svg"
-                width={24}
-                height={24}
-              />
+              {countryCode && (
+                <span className="text-lg sm:text-xl shrink-0">
+                  {getCountryFlag(countryCode)}
+                </span>
+              )}
             </div>
           </div>
         </div>

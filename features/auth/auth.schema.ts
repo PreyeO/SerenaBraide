@@ -20,6 +20,7 @@ export const RegisterSchema = z
         "Date of birth is required",
       ),
     phone_number: z.string(),
+    country: z.string().min(1, "Country is required"),
   })
   .refine((data) => data.password === data.confirm_password, {
     path: ["confirm_password"],

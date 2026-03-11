@@ -15,10 +15,22 @@ const ReviewScreen = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Filter out approved reviews - only show pending reviews (is_approved === null or false)
-  // Must be called before any early returns to follow Rules of Hooks
+  // Then deduplicate: when a customer submits the same review for multiple items in one order,
+  // only show it once in the table (keep the first occurrence)
   const reviews = useMemo(() => {
     if (!reviewsData || !reviewsData.results) return [];
-    return reviewsData.results.filter((review) => review.is_approved === null);
+    const pendingReviews = reviewsData.results.filter(
+      (review) => review.is_approved === null,
+    );
+
+    // Deduplicate by customer + review text + rating
+    const seen = new Set<string>();
+    return pendingReviews.filter((review) => {
+      const key = `${review.customer_profile.id}_${review.rating}_${review.review ?? ""}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
   }, [reviewsData]);
 
   const handleViewReview = (review: Review) => {

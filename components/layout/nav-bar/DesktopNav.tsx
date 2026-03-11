@@ -7,7 +7,7 @@ import { NavItem } from "@/types/general";
 import { DesktopNavItems } from "./DesktopNavItems";
 import NavCartButton from "./NavCartButton";
 import { DesktopProfileMenu } from "./DesktopProfileMenu";
-import { NavWishlistButton } from "./NavWhislistButton";
+// import { NavWishlistButton } from "./NavWhislistButton"; // WISHLIST HIDDEN FOR LAUNCH
 import dynamic from "next/dynamic";
 
 const DesktopDropdownPanel = dynamic(
@@ -23,11 +23,11 @@ const DesktopSearchPanel = dynamic(
 interface DesktopNavProps {
   navItems: NavItem[];
   cartCount: number;
-  wishlistCount: number;
+  // wishlistCount: number; // WISHLIST HIDDEN FOR LAUNCH
   activeMenu: string | null;
   onMenuOpen: (menu: string) => void;
   onMenuClose: () => void;
-  onWishlistClick: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+  // onWishlistClick: (e: React.MouseEvent<HTMLAnchorElement>) => void; // WISHLIST HIDDEN FOR LAUNCH
 }
 
 export const DesktopNav = forwardRef<HTMLDivElement, DesktopNavProps>(
@@ -35,20 +35,19 @@ export const DesktopNav = forwardRef<HTMLDivElement, DesktopNavProps>(
     {
       navItems,
       cartCount,
-      wishlistCount,
+      // wishlistCount, // WISHLIST HIDDEN FOR LAUNCH
       activeMenu,
       onMenuOpen,
       onMenuClose,
-      onWishlistClick,
+      // onWishlistClick, // WISHLIST HIDDEN FOR LAUNCH
     },
     ref,
   ) => {
     return (
       <div
         ref={ref}
-        className={`hidden lg:block transition-all duration-300 pt-12.5 ${
-          activeMenu ? "bg-white h-117.5" : "h-25"
-        }`}
+        className={`hidden lg:block transition-all duration-300 pt-12.5 ${activeMenu ? "bg-white h-117.5" : "h-25"
+          }`}
         onMouseLeave={onMenuClose}
       >
         <div className="bg-black/30 backdrop-blur-lg rounded-full h-17.5 my-4 mx-16 px-6 flex items-center justify-between">
@@ -75,10 +74,12 @@ export const DesktopNav = forwardRef<HTMLDivElement, DesktopNavProps>(
               onClick={() => onMenuOpen("SEARCH")}
             />
 
+            {/* WISHLIST HIDDEN FOR LAUNCH
             <NavWishlistButton
               count={wishlistCount}
               onClick={onWishlistClick}
             />
+            */}
 
             <div className="py-3.25 px-4.25 flex items-center gap-4.25 bg-[#3B3B3B] rounded-[50px] shrink-0 h-fit">
               <NavCartButton count={cartCount} />

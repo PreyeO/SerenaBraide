@@ -4,7 +4,7 @@ import {
   MessageSquareMore,
   User,
   Gift,
-  Heart,
+  // Heart, // WISHLIST HIDDEN FOR LAUNCH
   Star,
   SlidersHorizontal,
   House,
@@ -18,7 +18,7 @@ import {
 export const customerRoutes: SidebarItem[] = [
   { title: "My Account", href: "/profile", icon: User },
   { title: "My Orders", href: "/profile/order", icon: Gift },
-  { title: "Wishlist", href: "/profile/wishlist", icon: Heart },
+  // { title: "Wishlist", href: "/profile/wishlist", icon: Heart }, // WISHLIST HIDDEN FOR LAUNCH
   {
     title: "Shipping Address",
     href: "/profile/shipping-detail",
@@ -83,10 +83,11 @@ export const profileRoutes: MenuItem[] = [
     href: "/profile/order",
   },
 
-  {
-    title: "Wishlist",
-    href: "/profile/wishlist",
-  },
+  // WISHLIST HIDDEN FOR LAUNCH
+  // {
+  //   title: "Wishlist",
+  //   href: "/profile/wishlist",
+  // },
   {
     title: "Ratings & Reviews",
     href: "/profile/review",

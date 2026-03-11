@@ -69,7 +69,7 @@ const Header = () => {
                   lastName={user?.last_name}
                   fallback={user?.email}
                   size="md"
-                  className="bg-[#47011d] text-white"
+                  className="bg-[#3B3B3B]  text-white"
                 />
               </button>
             </DropdownMenuTrigger>

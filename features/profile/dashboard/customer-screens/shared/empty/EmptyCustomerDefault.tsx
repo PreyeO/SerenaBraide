@@ -18,7 +18,8 @@ interface EmptyCustomerProps {
   Icon?: LucideIcon;
   useCircle: boolean;
   quantity?: string;
-  href: string;
+  href?: string;
+  onClick?: () => void;
 }
 
 const EmptyCustomerDefault: React.FC<EmptyCustomerProps> = ({
@@ -34,9 +35,13 @@ const EmptyCustomerDefault: React.FC<EmptyCustomerProps> = ({
   useCircle = true,
   quantity,
   href,
+  onClick,
 }) => {
   return (
-    <div className="w-full bg-[#F6F7F8] border border-[#F5F5F5] lg:h-73.25 lg:px-8.5 px-6  rounded-[10px] ">
+    <div
+      className="w-full bg-[#F6F7F8] border border-[#F5F5F5] lg:h-73.25 lg:px-8.5 px-6  rounded-[10px] "
+      onClick={onClick}
+    >
       <div className="flex justify-between  text-[#3B3B3B] py-4.75">
         <SubHeading title={subHeading} className="text-lg font-medium" />
         <h4 className="text-base font-normal">{quantity} </h4>
@@ -58,13 +63,19 @@ const EmptyCustomerDefault: React.FC<EmptyCustomerProps> = ({
           />
           <div className="flex items-center gap-2 pb-6 justify-center pt-1.75">
             {useCircle ? (
-              <Link href={href}>
-                <span className="rounded-full w-6 h-6 bg-[#3B3B3B] flex justify-center items-center">
+              href ? (
+                <Link href={href}>
+                  <span className=" cursor-pointer rounded-full w-6 h-6 bg-[#3B3B3B] flex justify-center items-center">
+                    <Icon className="text-white size-5" />
+                  </span>
+                </Link>
+              ) : (
+                <span className=" cursor-pointer rounded-full w-6 h-6 bg-[#3B3B3B] flex justify-center items-center">
                   <Icon className="text-white size-5" />
                 </span>
-              </Link>
+              )
             ) : (
-              <Icon className="text-[#3B3B3B] size-5" />
+              <Icon className="cursor-pointer text-[#3B3B3B] size-5" />
             )}
 
             <Paragraph

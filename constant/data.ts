@@ -83,8 +83,9 @@ export const NAVIGATION_CONFIG = {
 
 export const BADGE_STYLES = {
   cart: "absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center",
-  wishlist:
-    "absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center",
+  // WISHLIST HIDDEN FOR LAUNCH
+  // wishlist:
+  //   "absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center",
 } as const;
 
 export const navItems: NavItem[] = [

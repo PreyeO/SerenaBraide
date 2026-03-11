@@ -14,6 +14,7 @@ import {
   formatDateOfBirth,
   getPrimaryPhoneNumber,
 } from "../../utils/profile.utils";
+import { getCountryName } from "@/constant/countries";
 
 const AccountSetting = () => {
   const user = useAuthStore((state) => state.user);
@@ -41,7 +42,8 @@ const AccountSetting = () => {
         contentOne={`Member since ${new Date(
           user.date_joined,
         ).toLocaleDateString("en-US", { month: "long", year: "numeric" })}`}
-        contentTwo={user.country}
+        contentTwo={getCountryName(user.country)}
+        countryCode={user.country}
         firstName={user.first_name}
         lastName={user.last_name}
       />

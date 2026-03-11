@@ -29,15 +29,16 @@ const NavBar = () => {
     (i) => i.title?.toLowerCase() !== "categories",
   );
 
-  const handleWishlistClick = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>) => {
-      if (!user) {
-        e.preventDefault();
-        router.push("/auth/register?return_url=/profile/wishlist");
-      }
-    },
-    [user, router],
-  );
+  // WISHLIST HIDDEN FOR LAUNCH
+  // const handleWishlistClick = useCallback(
+  //   (e: React.MouseEvent<HTMLAnchorElement>) => {
+  //     if (!user) {
+  //       e.preventDefault();
+  //       router.push("/auth/register?return_url=/profile/wishlist");
+  //     }
+  //   },
+  //   [user, router],
+  // );
 
   const handleSheetChange = useCallback(
     (sheet: "menu" | "search" | "profile", open: boolean) => {
@@ -79,11 +80,11 @@ const NavBar = () => {
         ref={navRef}
         navItems={desktopNavItems}
         cartCount={counts.cart}
-        wishlistCount={counts.wishlist}
+        // wishlistCount={counts.wishlist} // WISHLIST HIDDEN FOR LAUNCH
         activeMenu={desktopMenu.activeMenu}
         onMenuOpen={desktopMenu.openMenu}
         onMenuClose={desktopMenu.closeMenu}
-        onWishlistClick={handleWishlistClick}
+      // onWishlistClick={handleWishlistClick} // WISHLIST HIDDEN FOR LAUNCH
       />
     </nav>
   );

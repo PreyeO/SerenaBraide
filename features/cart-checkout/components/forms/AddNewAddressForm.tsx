@@ -28,7 +28,7 @@ import {
 } from "../../type/checkout.type";
 import LinkCta from "@/components/ui/btns/link-cta";
 import { useCreateAddress } from "../../hooks/useCreateAddress";
-import { countries } from "../../data/countries";
+import { COUNTRIES } from "@/constant/countries";
 
 interface AddNewAddressFormProps {
   onSuccess?: () => void;
@@ -94,7 +94,7 @@ const AddNewAddressForm = ({ onSuccess }: AddNewAddressFormProps) => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {countries.map((country) => (
+                      {COUNTRIES.map((country) => (
                         <SelectItem key={country.code} value={country.code}>
                           {country.name} ({country.code})
                         </SelectItem>
