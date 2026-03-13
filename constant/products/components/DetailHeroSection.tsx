@@ -13,7 +13,7 @@ import BackNavigation from "@/components/ui/btns/back-navigation";
 
 // Shared Components
 import {
-  // WishlistButton,
+  WishlistButton,
   ProductRating,
   // LoyaltyBadge,
   VariantSelector,
@@ -23,9 +23,9 @@ import {
 
 // Hooks & Services
 import { useAddToCart } from "@/features/cart-checkout/hooks/useAddToCart";
-// import { useWishlist } from "@/features/profile/hooks/customer/useWishlist";
-// import { useAddToWishlist } from "@/features/profile/hooks/customer/useAddToWishlist";
-// import { useRemoveFromWishlist } from "@/features/profile/hooks/customer/useRemoveFromWishlist";
+import { useWishlist } from "@/features/profile/hooks/customer/useWishlist";
+import { useAddToWishlist } from "@/features/profile/hooks/customer/useAddToWishlist";
+import { useRemoveFromWishlist } from "@/features/profile/hooks/customer/useRemoveFromWishlist";
 import { useAuthStore } from "@/features/auth/auth.store";
 import { notify } from "@/lib/notify";
 
@@ -57,9 +57,9 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
 
   // External hooks
   const { mutate: addToCart, isPending } = useAddToCart();
-  // const { data: wishlistData } = useWishlist();
-  // const addToWishlistMutation = useAddToWishlist();
-  // const removeFromWishlistMutation = useRemoveFromWishlist();
+  const { data: wishlistData } = useWishlist();
+  const addToWishlistMutation = useAddToWishlist();
+  const removeFromWishlistMutation = useRemoveFromWishlist();
 
   // Derived state
   const selectedVariant = useMemo(
@@ -82,7 +82,6 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
     [product, selectedVariant],
   );
 
-  /*
   const isInWishlist = useMemo(() => {
     if (!selectedVariantId || !wishlistData?.results) return false;
     return wishlistData.results.some(
@@ -100,7 +99,6 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
 
   const isWishlistLoading =
     addToWishlistMutation.isPending || removeFromWishlistMutation.isPending;
-  */
 
   // Handlers
   const handleVariantClick = (variant: Variant) => {
@@ -109,7 +107,6 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
     }
   };
 
-  /*
   const handleWishlistToggle = () => {
     if (!user) {
       const currentPath = window.location.pathname;
@@ -131,7 +128,6 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
       addToWishlistMutation.mutate({ product_variant: selectedVariantId });
     }
   };
-  */
 
   const handleAddToCart = () => {
     if (!selectedVariantId) {
@@ -165,13 +161,13 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
             imageClassName="w-full h-full object-cover"
           />
 
-          {/* <WishlistButton
+          <WishlistButton
             isInWishlist={isInWishlist}
             isLoading={isWishlistLoading}
             isAnimating={isAnimating}
             onClick={handleWishlistToggle}
             className="absolute top-4 md:right-6 lg:right-4 right-4"
-          /> */}
+          />
         </div>
         <div className="w-full lg:block xl:hidden relative hidden">
           <ProductImage
@@ -183,19 +179,18 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
             imageClassName="w-full h-full object-cover"
           />
 
-          {/* <WishlistButton
+          <WishlistButton
             isInWishlist={isInWishlist}
             isLoading={isWishlistLoading}
             isAnimating={isAnimating}
             onClick={handleWishlistToggle}
             className="absolute top-4 md:right-6 lg:right-4 right-4"
-          /> */}
+          />
         </div>
 
         {/* Product Image - Mobile Carousel */}
         <div className="w-full md:hidden block relative ">
           <ProductImageCarousel images={carouselImages} />
-          {/* 
           <WishlistButton
             isInWishlist={isInWishlist}
             isLoading={isWishlistLoading}
@@ -203,7 +198,6 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
             onClick={handleWishlistToggle}
             className="absolute top-4 right-4 z-10"
           />
-          */}
         </div>
 
         {/* Product Info */}

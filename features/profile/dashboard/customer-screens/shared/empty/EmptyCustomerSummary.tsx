@@ -79,9 +79,11 @@ const EmptyCustomerSummary: React.FC<EmptyCustomerProps> = ({
                 className="font-medium text-sm sm:text-base wrap-break-word"
               />
               {countryCode && (
-                <span className="text-lg sm:text-xl shrink-0">
-                  {getCountryFlag(countryCode)}
-                </span>
+                <img
+                  src={`https://flagcdn.com/w40/${countryCode.toLowerCase()}.png`}
+                  alt={`${countryCode} flag`}
+                  className="w-6 h-6 rounded-full"
+                />
               )}
             </div>
           </div>

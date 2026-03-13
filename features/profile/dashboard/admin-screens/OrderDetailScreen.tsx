@@ -26,7 +26,13 @@ const OrderDetailScreen = ({ orderNumber }: OrderDetailScreenProps) => {
   const { data: order, isLoading } = useGetOrderDetails(orderNumber);
   const [isUpdateStatusModalOpen, setIsUpdateStatusModalOpen] = useState(false);
 
-  const getStatusBadge = (status: string) => {
+  const getStatusBadge = (status: string, isGiftCard?: boolean) => {
+    const normalizedStatus = status.toLowerCase();
+
+    // Gift cards are delivered immediately once paid
+    const isDelivered =
+      normalizedStatus === "delivered" || (isGiftCard && normalizedStatus === "paid");
+
     const statusConfig: Record<
       string,
       { bg: string; text: string; label: string }
@@ -54,11 +60,15 @@ const OrderDetailScreen = ({ orderNumber }: OrderDetailScreenProps) => {
       },
     };
 
-    const config = statusConfig[status.toLowerCase()] || {
+    let config = statusConfig[normalizedStatus] || {
       bg: "bg-gray-100",
       text: "text-gray-700",
       label: status,
     };
+
+    if (isGiftCard && isDelivered) {
+      config = statusConfig.delivered;
+    }
 
     return (
       <span
@@ -128,8 +138,27 @@ const OrderDetailScreen = ({ orderNumber }: OrderDetailScreenProps) => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div>
               <p className="text-xs text-[#6F6E6C] mb-1">Status</p>
-              {getStatusBadge(order.status)}
+              {getStatusBadge(order.status, !!order.purchased_gift_card)}
             </div>
+            {order.purchased_gift_card && (
+              <div>
+                <p className="text-xs text-[#6F6E6C] mb-1">Order Type</p>
+                <span
+                  className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium border"
+                  style={{
+                    backgroundColor: order.purchased_gift_card.colour ? `${order.purchased_gift_card.colour}15` : "#F3E8FF",
+                    color: order.purchased_gift_card.colour || "#7E22CE",
+                    borderColor: order.purchased_gift_card.colour ? `${order.purchased_gift_card.colour}30` : "#E9D5FF",
+                  }}
+                >
+                  <div
+                    className="w-2 h-2 rounded-full mr-1.5 shadow-sm"
+                    style={{ backgroundColor: order.purchased_gift_card.colour || "#7E22CE" }}
+                  />
+                  E-Gift Card
+                </span>
+              </div>
+            )}
             <div>
               <p className="text-xs text-[#6F6E6C] mb-1">Subtotal</p>
               <p className="font-semibold text-[#3B3B3B]">₦{order.subtotal}</p>
@@ -235,14 +264,16 @@ const OrderDetailScreen = ({ orderNumber }: OrderDetailScreenProps) => {
               <h3 className="text-lg font-semibold text-[#3B3B3B]">
                 Shipping Information
               </h3>
-              <Button
-                size="sm"
-                onClick={() => setIsUpdateStatusModalOpen(true)}
-                className="flex items-center gap-2 bg-[#3B3B3B]  text-white"
-              >
-                <Edit className="h-4 w-4" />
-                Change Shipping Status
-              </Button>
+              {!order.purchased_gift_card && (
+                <Button
+                  size="sm"
+                  onClick={() => setIsUpdateStatusModalOpen(true)}
+                  className="flex items-center gap-2 bg-[#3B3B3B]  text-white"
+                >
+                  <Edit className="h-4 w-4" />
+                  Change Shipping Status
+                </Button>
+              )}
             </div>
             {defaultAddress && (
               <div className="space-y-2">
@@ -312,8 +343,8 @@ const OrderDetailScreen = ({ orderNumber }: OrderDetailScreenProps) => {
                 <p className="text-xs text-[#6F6E6C] mb-1">Status</p>
                 <span
                   className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${order.purchased_gift_card.status === "active"
-                      ? "bg-green-100 text-green-700"
-                      : "bg-gray-100 text-gray-600"
+                    ? "bg-green-100 text-green-700"
+                    : "bg-gray-100 text-gray-600"
                     }`}
                 >
                   {order.purchased_gift_card.status}

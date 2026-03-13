@@ -175,6 +175,7 @@ export interface DashboardCardsResponse {
   orders_fulfilled: number;
   cancelled_orders: number;
   returning_customers: number;
+  total_customers: number;
 }
 
 export interface CustomerLocationData {

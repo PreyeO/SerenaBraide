@@ -10,18 +10,28 @@ import {
  */
 function mapStatusToFulfilmentType(
   status: string,
+  isGiftCard?: boolean,
 ): FulfilmentType {
-  switch (status.toLowerCase()) {
+  const normalizedStatus = status.toLowerCase();
+
+  // Gift cards are delivered immediately once paid or processing
+  if (
+    isGiftCard &&
+    (normalizedStatus === "paid" ||
+      normalizedStatus === "delivered" ||
+      normalizedStatus === "processing")
+  ) {
+    return "DELIVERED";
+  }
+
+  switch (normalizedStatus) {
     case "delivered":
       return "DELIVERED";
     case "pending":
-      return "PROCESSING";
     case "paid":
-      return "PROCESSING"; // Paid status = Processing in UI
-    case "shipped":
-      return "IN_TRANSIT"; // Shipped status = In Transit in UI
     case "processing":
       return "PROCESSING";
+    case "shipped":
     case "in_transit":
     case "in-transit":
       return "IN_TRANSIT";
@@ -109,7 +119,10 @@ function transformOrderItemToOrderInfo(
   order: Order,
   item: Order["items"][0],
 ): OrderInfo {
-  const statusType = mapStatusToFulfilmentType(order.status);
+  const isGiftCard =
+    !!order.purchased_gift_card ||
+    item.variant.product_name.toLowerCase().includes("gift card");
+  const statusType = mapStatusToFulfilmentType(order.status, isGiftCard);
   // Use updated_at for delivered orders as delivery date, otherwise use created_at
   const deliveryDate =
     statusType === "DELIVERED" ? order.updated_at : undefined;
@@ -141,6 +154,7 @@ function transformOrderItemToOrderInfo(
     OrderAction1: statusConfig.OrderAction1,
     orderAction2: statusConfig.orderAction2,
     productId: item.variant.product,
+    isGiftCard,
   };
 }
 
@@ -148,15 +162,15 @@ function transformOrderItemToOrderInfo(
  * Transforms a gift card order to OrderInfo format
  */
 function transformGiftCardOrderToOrderInfo(order: Order): OrderInfo {
-  const statusType = mapStatusToFulfilmentType(order.status);
+  const statusType = mapStatusToFulfilmentType(order.status, true);
   const deliveryDate =
     statusType === "DELIVERED" ? order.updated_at : undefined;
   const statusConfig = getStatusConfig(statusType, deliveryDate);
   const orderDate = formatDate(order.created_at);
 
   // Gift card specific info
-  const giftCard = order.purchased_gift_card!;
-  const giftCardAmount = giftCard.initial_amount || order.subtotal;
+  const giftCard = order.purchased_gift_card;
+  const giftCardAmount = giftCard?.initial_amount || order.subtotal;
 
   return {
     id: order.order_number, // Use order_number as unique id
@@ -180,8 +194,8 @@ function transformGiftCardOrderToOrderInfo(order: Order): OrderInfo {
     orderAction2: "View Order",
     productId: undefined, // Gift cards don't have a product ID
     isGiftCard: true, // Flag to identify gift card orders
-    giftCardNumber: giftCard.card_number,
-    giftCardColour: giftCard.colour,
+    giftCardNumber: giftCard?.card_number,
+    giftCardColour: giftCard?.colour,
   };
 }
 
@@ -201,6 +215,10 @@ export function transformOrdersToOrderInfo(orders: Order[]): OrderInfo[] {
 
     // Handle gift card orders (orders with no items but have purchased_gift_card)
     if (order.items.length === 0 && order.purchased_gift_card) {
+      orderInfoList.push(transformGiftCardOrderToOrderInfo(order));
+    } else if (order.items.length === 0 && order.status !== "pending") {
+      // Fallback for gift card orders that might not have items or purchased_gift_card populated yet
+      // but are paid/processing
       orderInfoList.push(transformGiftCardOrderToOrderInfo(order));
     }
   }

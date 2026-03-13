@@ -2,6 +2,7 @@ import {
     RevenueMonthData,
     CustomerLocationData,
 } from "@/features/profile/type/admin/general.type";
+import { getCountryName } from "@/constant/countries";
 
 // Color palette for pie charts
 export const CHART_COLORS = [
@@ -37,7 +38,7 @@ export const transformRevenueData = (
     if (!monthlyData) return [];
     return monthlyData.map((item) => ({
         date: item.month_name.substring(0, 3),
-        value: parseFloat(item.revenue),
+        value: parseFloat(item.revenue) || 0,
     }));
 };
 
@@ -49,8 +50,8 @@ export const transformLocationData = (
 ): PieChartDataPoint[] => {
     if (!locationData) return [];
     return locationData.map((item, index) => ({
-        name: item.country_name,
-        value: parseFloat(item.percentage),
+        name: item.country_name || getCountryName(item.country) || item.country,
+        value: parseFloat(item.percentage) || 0,
         color: CHART_COLORS[index % CHART_COLORS.length],
     }));
 };

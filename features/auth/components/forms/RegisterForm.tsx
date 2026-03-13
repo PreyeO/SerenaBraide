@@ -292,7 +292,7 @@ const RegisterForm = () => {
                       Select your country
                     </option>
                     {COUNTRIES.map((c) => (
-                      <option key={c.code} value={c.name}>
+                      <option key={c.code} value={c.code}>
                         {c.name}
                       </option>
                     ))}
@@ -322,7 +322,7 @@ const RegisterForm = () => {
               label="Create Account"
               loadingLabel="Creating account..."
               isPending={isPending}
-              onClick={() => {}}
+              onClick={() => { }}
             />
           </div>
           <div className="md:col-span-2">

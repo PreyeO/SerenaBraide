@@ -17,7 +17,18 @@ export function formatOrderNumber(orderNumber: number | string): string {
 /**
  * Get order status label
  */
-export function getOrderStatusLabel(status: string): string {
+export function getOrderStatusLabel(status: string, isGiftCard?: boolean): string {
+  const normalizedStatus = status.toLowerCase();
+
+  if (
+    isGiftCard &&
+    (normalizedStatus === "paid" ||
+      normalizedStatus === "delivered" ||
+      normalizedStatus === "processing")
+  ) {
+    return "Delivered";
+  }
+
   const statusLabels: Record<string, string> = {
     pending: "Pending",
     paid: "Paid",
@@ -27,5 +38,5 @@ export function getOrderStatusLabel(status: string): string {
     delivered: "Delivered",
   };
 
-  return statusLabels[status.toLowerCase()] || status;
+  return statusLabels[normalizedStatus] || status;
 }

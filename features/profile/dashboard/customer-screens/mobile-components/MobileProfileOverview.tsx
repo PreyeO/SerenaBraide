@@ -8,6 +8,8 @@ import SubHeading from "@/components/ui/typography/subHeading";
 import MobileProfileMenu from "./MobileProfileMenu";
 import BackNavigation from "@/components/ui/btns/back-navigation";
 
+import { getCountryFlag } from "@/constant/countries";
+
 interface MobileProfileOverviewProps {
   userName: string;
   memberSince: string;
@@ -75,11 +77,10 @@ const MobileProfileOverview: React.FC<MobileProfileOverviewProps> = ({
 
           {/* Right: Country flag */}
           {country && (
-            <Image
-              alt="country flag"
-              src="/country-flag.svg"
-              width={24}
-              height={24}
+            <img
+              src={`https://flagcdn.com/w40/${country.toLowerCase()}.png`}
+              alt={`${country} flag`}
+              className="w-6 h-auto shrink-0 shadow-sm rounded-sm"
             />
           )}
         </div>

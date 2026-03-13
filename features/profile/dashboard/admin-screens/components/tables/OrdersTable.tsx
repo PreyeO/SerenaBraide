@@ -68,7 +68,7 @@ const OrdersTable = ({ orders }: OrdersTableProps) => {
 
             <TableCell>
               <StatusBadge variant={order.status}>
-                {getOrderStatusLabel(order.status)}
+                {getOrderStatusLabel(order.status, !!order.purchased_gift_card)}
               </StatusBadge>
             </TableCell>
 

@@ -127,8 +127,8 @@ const Overview = () => {
             value={cardsData?.orders_fulfilled ?? 0}
           />
           <MetricCard
-            label="Cancelled Orders"
-            value={cardsData?.cancelled_orders ?? 0}
+            label="Total Customers"
+            value={cardsData?.total_customers ?? 0}
           />
           <MetricCard
             label="Returning Customers"

@@ -19,31 +19,37 @@ const CustomerOrders = () => {
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  // Map UI tab to backend status filter
-  const statusFilter =
-    activeTab === "processing"
-      ? "paid"
-      : activeTab === "in-transit"
-        ? "shipped"
-        : activeTab === "delivered"
-          ? "delivered"
-          : undefined;
-
   const { data: ordersData, isLoading } = useOrders({
-    status: statusFilter,
-    // Let the API handle searching against product name
+    // Fetch all paid orders and filter locally to handle gift card status mapping correctly
     search: debouncedSearchQuery || undefined,
   });
 
-  // Transform API response to OrderInfo format
-  // Filter out "pending" orders — those are unpaid/incomplete checkout attempts
+  // Transform API response to OrderInfo format and filter by active tab
   const orders = useMemo(() => {
     if (!ordersData?.results) return [];
+
+    // Filter out "pending" orders
     const paidOrders = ordersData.results.filter(
       (order) => order.status !== "pending"
     );
-    return transformOrdersToOrderInfo(paidOrders);
-  }, [ordersData]);
+
+    const transformedOrders = transformOrdersToOrderInfo(paidOrders);
+
+    if (activeTab === "all") return transformedOrders;
+
+    return transformedOrders.filter((order) => {
+      if (activeTab === "processing") {
+        return order.statusType === "PROCESSING";
+      }
+      if (activeTab === "in-transit") {
+        return order.statusType === "IN_TRANSIT";
+      }
+      if (activeTab === "delivered") {
+        return order.statusType === "DELIVERED";
+      }
+      return true;
+    });
+  }, [ordersData, activeTab]);
 
   return (
     <>

@@ -14,6 +14,8 @@ import DashboardLoader from "@/components/ui/loaders/dasboard-loader";
 import MobileProfileOverview from "./mobile-components/MobileProfileOverview";
 import { useAddressModals } from "@/features/cart-checkout/hooks/useAddressModals";
 
+import { getCountryName } from "@/constant/countries";
+
 const Overview = () => {
   const user = useAuthStore((state) => state.user);
   const { data: addresses, isLoading } = useGetAddresses();
@@ -53,7 +55,8 @@ const Overview = () => {
           subHeadingTwo={`Hello, ${user.first_name} ${user.last_name}`}
           subHeadingThree="Country/Region:"
           contentOne={memberSince}
-          contentTwo={user.country}
+          contentTwo={getCountryName(user.country)}
+          countryCode={user.country}
           firstName={user.first_name}
           lastName={user.last_name}
         />
