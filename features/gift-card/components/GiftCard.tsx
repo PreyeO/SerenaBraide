@@ -35,8 +35,8 @@ const GiftCardSection = () => {
             src={
               selectedDesign
                 ? cardDesign.find((d) => d.name === selectedDesign)?.src ||
-                  "/big-giftcard.png"
-                : "/big-giftcard.png"
+                  "/gift-card4.png"
+                : "/gift-card4.png"
             }
             width={700}
             height={500}
