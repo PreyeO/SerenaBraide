@@ -8,8 +8,6 @@ import ProductCategory from "@/components/landing-sections/ProductCategory";
 import Wholesale from "@/components/landing-sections/Wholesale";
 
 export default function Home() {
-  // return <ComingSoon />;
-
   return (
     <>
       <Hero />

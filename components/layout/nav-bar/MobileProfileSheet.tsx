@@ -31,8 +31,8 @@ export const MobileProfileSheet = ({
 
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
-      <SheetTrigger asChild>
-        <button className="relative w-6 h-6 p-0 m-0 bg-transparent">
+      <SheetTrigger asChild className="">
+        <button className="relative bg-transparent ">
           {authUser ? (
             <InitialsAvatar
               firstName={authUser.first_name}

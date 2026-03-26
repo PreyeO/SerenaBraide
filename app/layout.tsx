@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     siteName: "Serena Braide",
     images: [
       {
-        url: "/og-image.png", // Ensure this exists or I should mention it
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "Serena Braide - Fragrance and Beauty",

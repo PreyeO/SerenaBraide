@@ -8,9 +8,18 @@ import NavCartButton from "./NavCartButton";
 import { useLogout } from "@/features/auth/hooks/useLogout";
 import dynamic from "next/dynamic";
 
-const MobileMenuSheet = dynamic(() => import("./MobileMenuSheet").then(mod => mod.MobileMenuSheet), { ssr: false });
-const MobileSearchSheet = dynamic(() => import("./MobileSearchSheet").then(mod => mod.MobileSearchSheet), { ssr: false });
-const MobileProfileSheet = dynamic(() => import("./MobileProfileSheet").then(mod => mod.MobileProfileSheet), { ssr: false });
+const MobileMenuSheet = dynamic(
+  () => import("./MobileMenuSheet").then((mod) => mod.MobileMenuSheet),
+  { ssr: false },
+);
+const MobileSearchSheet = dynamic(
+  () => import("./MobileSearchSheet").then((mod) => mod.MobileSearchSheet),
+  { ssr: false },
+);
+const MobileProfileSheet = dynamic(
+  () => import("./MobileProfileSheet").then((mod) => mod.MobileProfileSheet),
+  { ssr: false },
+);
 
 interface MobileNavProps {
   navItems: NavItem[];
@@ -80,7 +89,7 @@ export const MobileNav = ({
         <Logo width={80.69} height={30} />
       </Link>
 
-      <div className="flex gap-2.5">
+      <div className="flex gap-2.5 items-center">
         <NavCartButton count={cartCount} />
 
         <MobileProfileSheet
