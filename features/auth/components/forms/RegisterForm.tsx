@@ -21,7 +21,6 @@ import PasswordInput from "@/features/auth/components/shared/PasswordInput";
 import { RegisterSchema } from "@/features/auth/auth.schema";
 import { RegisterFormValues } from "@/features/auth/auth.type";
 import { useRegister } from "@/features/auth/hooks/useRegister";
-import Paragraph from "@/components/ui/typography/paragraph";
 import { COUNTRIES } from "@/constant/countries";
 
 const RegisterForm = () => {
@@ -188,7 +187,7 @@ const RegisterForm = () => {
             control={form.control}
             name="date_of_birth"
             render={({ field }) => {
-              const [year, month, day] = field.value
+              const [month, day] = field.value
                 ? field.value.split("-")
                 : ["", "", ""];
 
@@ -322,7 +321,7 @@ const RegisterForm = () => {
               label="Create Account"
               loadingLabel="Creating account..."
               isPending={isPending}
-              onClick={() => { }}
+              onClick={() => {}}
             />
           </div>
           <div className="md:col-span-2">
