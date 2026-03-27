@@ -178,7 +178,7 @@ export const pros = [
 export const productCategories = [
   {
     name: "Lips",
-    src: "/lip-gloss.png",
+    src: "/lip-applicator.png",
     height: 327,
   },
   {
