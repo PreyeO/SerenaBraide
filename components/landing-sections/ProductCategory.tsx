@@ -40,7 +40,7 @@ const ProductCategory = () => {
               className="group relative overflow-hidden rounded-[15px] cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
             >
               <Image
-                className="w-full h-[327px] lg:w-72.5 xl:w-106 transition-transform duration-500 ease-out group-hover:scale-110"
+                className="w-full h-full lg:w-72.5 xl:w-106 transition-transform duration-500 ease-out group-hover:scale-110"
                 src={product.src}
                 alt={product.name}
                 width={424}
