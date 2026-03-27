@@ -16,9 +16,9 @@ const Wholesale = () => {
           {/* Image 1 */}
           <div className="w-full lg:flex-1 order-1 lg:order-1">
             <Image
-              className="w-full h-full object-cover"
-              alt="wholesale"
-              src="/wholesale-2.png"
+              className="w-full lg:max-h-178.5 max-h-100"
+              alt="Serena braide carrier bags"
+              src="/bags-shoot.png"
               width={500}
               height={714}
             />
@@ -28,11 +28,11 @@ const Wholesale = () => {
           <div className="w-full lg:flex-1 flex items-center py-6 lg:py-0 order-2 lg:order-2">
             <div className={`${TEXT_WRAPPER} lg:text-center space-y-3`}>
               <Paragraph
-                content="Every Purchase Earns You Points."
+                content="Every Purchase,"
                 className="text-[#3B3B3B] font-medium text-[22px] lg:text-[32px] lg:leading-9.5 leading-7"
               />
               <Paragraph
-                content="The Signature Club."
+                content="A New Experience."
                 className="text-[#6F6E6C] font-normal text-sm lg:text-lg leading-5.5 lg:leading-7"
               />
             </div>
@@ -42,11 +42,11 @@ const Wholesale = () => {
         {/* Second Row */}
         <div className="flex flex-col lg:flex-row w-full lg:min-h-178.5">
           {/* Image 2 (comes BEFORE text on mobile) */}
-          <div className="w-full lg:flex-1 order-3 lg:order-2">
+          <div className="w-full lg:flex-1 order-3 lg:order-2 ">
             <Image
-              className="w-full h-full object-cover"
-              alt="wholesale"
-              src="/wholesale-1.png"
+              className="w-full lg:max-h-178.5 max-h-100"
+              alt="serena braide products"
+              src="/lips-door.png"
               width={500}
               height={714}
             />

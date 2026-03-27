@@ -45,8 +45,8 @@ const OurStory = () => {
           {/* Middle image (B) - last on mobile, middle on desktop */}
           <div className="order-3 lg:order-2 w-full md:max-w-[48%] lg:max-w-none">
             <Image
-              src="/story-img2.png"
-              alt="image of model spraying perfume"
+              src="/product-hole-img.png"
+              alt="image of serena briade product"
               width={450}
               height={546}
               className="rounded-[30px] w-full xl:w-112.5 xl:h-136.5 h-99.25 object-cover"
