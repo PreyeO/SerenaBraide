@@ -32,7 +32,7 @@ const Wholesale = () => {
                 className="text-[#3B3B3B] font-medium text-[22px] lg:text-[32px] lg:leading-9.5 leading-7"
               />
               <Paragraph
-                content="Gives A New Experience."
+                content="Gives a New Experience."
                 className="text-[#6F6E6C] font-normal text-sm lg:text-lg leading-5.5 lg:leading-7"
               />
             </div>
