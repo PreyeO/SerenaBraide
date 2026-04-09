@@ -3,7 +3,7 @@ import { Leaf, Lightbulb, Sprout, TestTubeDiagonal } from "lucide-react";
 
 export const headerAdvert = [
   {
-    text: "Fragrance and beauty designed for the individual. Read our story",
+    text: "Fragrance designed for the individual. Read our story",
     link: {
       label: "Read our story",
       href: "/our-story",
@@ -13,9 +13,9 @@ export const headerAdvert = [
     text: "Wear identity. Own the memory of the room.",
   },
   {
-    text: "Complete your signature with our defining perfumes and essential lip care. Explore the collection",
+    text: "Shop with Serena Braide. Explore our collection",
     link: {
-      label: "Explore the collection",
+      label: "Explore our collection",
       href: "/all-products",
     },
   },
@@ -32,10 +32,10 @@ export const currencies = [
     src: "/eu-flag.svg",
   },
 
-  {
-    name: "GBP",
-    src: "/usa-flag.svg",
-  },
+  // {
+  //   name: "GBP",
+  //   src: "/usa-flag.svg",
+  // },
 ];
 export const dummySearchItems = Array(3).fill({
   name: "Orphéon - Eau de parfum",

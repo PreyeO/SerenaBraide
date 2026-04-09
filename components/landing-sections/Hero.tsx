@@ -5,7 +5,6 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import { pros } from "@/constant/data";
 import Heading from "../ui/typography/heading";
-import Paragraph from "../ui/typography/paragraph";
 import Link from "next/link";
 
 const HERO_IMAGES = [
