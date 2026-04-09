@@ -3,27 +3,9 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import { pros } from "@/constant/data";
+import { HERO_IMAGES, HERO_MOBILE_IMAGES, pros } from "@/constant/data";
 import Heading from "../ui/typography/heading";
 import Link from "next/link";
-
-const HERO_IMAGES = [
-  "/hero-model-1.png",
-  "/hero-model-2.png",
-  "/hero-model-3.png",
-  "/hero-model-4.png",
-  "/hero-model-5.png",
-  "/hero-model-6.png",
-];
-
-const HERO_MOBILE_IMAGES = [
-  "/hero-model-mobile-1.png",
-  "/hero-model-mobile-2.png",
-  "/hero-model-mobile-3.png",
-  "/hero-model-mobile-4.png",
-  "/hero-model-mobile-5.png",
-  "/hero-model-mobile-6.png",
-];
 
 const Hero = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
