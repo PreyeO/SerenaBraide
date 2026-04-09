@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
 import { useNavbarCounts } from "@/hooks/useNavbarCounts";
 import { useDesktopMenu } from "@/hooks/useDesktopMenu";
 import { useAuthStore } from "@/features/auth/auth.store";
@@ -11,7 +10,6 @@ import { useNavigationData } from "@/hooks/useNavigationData";
 import useSheetManager from "@/hooks/useSheetManager";
 
 const NavBar = () => {
-  const router = useRouter();
   const user = useAuthStore((state) => state.user);
   const navRef = useRef<HTMLDivElement>(null);
 
@@ -65,7 +63,7 @@ const NavBar = () => {
   }, [closeAllSheets]);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-40 font-GeneralSans">
+    <nav className="fixed top-0 left-0 right-0 z-90 font-GeneralSans">
       {/* Mobile Navigation */}
       <MobileNav
         navItems={mobileNavItems}
@@ -84,7 +82,7 @@ const NavBar = () => {
         activeMenu={desktopMenu.activeMenu}
         onMenuOpen={desktopMenu.openMenu}
         onMenuClose={desktopMenu.closeMenu}
-      // onWishlistClick={handleWishlistClick} // WISHLIST HIDDEN FOR LAUNCH
+        // onWishlistClick={handleWishlistClick} // WISHLIST HIDDEN FOR LAUNCH
       />
     </nav>
   );

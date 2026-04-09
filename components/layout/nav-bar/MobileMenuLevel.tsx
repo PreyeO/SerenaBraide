@@ -3,6 +3,8 @@ import Link from "next/link";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import { NavItem, NavSection } from "@/types/general";
 import { ComingSoonBadge } from "./ComingSoonBadge";
+import { currencies } from "@/constant/data";
+import Image from "next/image";
 
 interface MobileMenuLevelProps {
   activeItem: string | null;
@@ -76,6 +78,26 @@ export const MobileMenuLevel = ({
                 CONTACT US
                 <ChevronRight color="#3B3B3B" size={18} />
               </Link>
+            </li>
+            <li className="flex flex-col gap-2 pt-2">
+              <span className="text-xs text-[#6F6E6C] uppercase font-medium">
+                We accept payments in
+              </span>
+              <div className="flex items-center gap-2">
+                {currencies.map((currency) => (
+                  <div key={currency.name} className="flex items-center">
+                    {currency.src && (
+                      <Image
+                        src={currency.src}
+                        alt={currency.name}
+                        className="rounded-full"
+                        width={20}
+                        height={20}
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
             </li>
           </ul>
         </div>

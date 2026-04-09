@@ -2,88 +2,134 @@
 
 import React from "react";
 import SubHeading from "../ui/typography/subHeading";
-import ProductImage from "../ui/images/product-image";
 import TitleSpan from "../ui/typography/title-span";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import Image from "next/image";
+import { motion } from "framer-motion";
 
 const GiftCard = () => {
   const cards = [
-    { id: 1, src: "/giftcard-1.png" },
-    { id: 2, src: "/giftcard-2.png" },
-    { id: 3, src: "/giftcard-3.png" },
-    { id: 4, src: "/giftcard-4.png" },
+    {
+      id: 1,
+      src: "/giftcard-1.png",
+      desktop: { x: -260, y: -20, rotate: -18 },
+      mobile: { x: -35, y: -10, rotate: -10, scale: 0.85 },
+    },
+    {
+      id: 2,
+      src: "/giftcard-3.png",
+      desktop: { x: -85, y: -60, rotate: -6, scale: 1.05 },
+      mobile: { x: 0, y: -25, rotate: 0, scale: 1.05 },
+    },
+    {
+      id: 3,
+      src: "/giftcard-2.png",
+      desktop: { x: 85, y: -60, rotate: 6, scale: 1.05 },
+      mobile: { x: 35, y: -10, rotate: 10, scale: 0.85 },
+    },
+    {
+      id: 4,
+      src: "/giftcard-4.png",
+      desktop: { x: 260, y: -20, rotate: 18 },
+      mobile: { x: 45, y: 10, rotate: 15, scale: 0.8 },
+    },
   ];
 
   return (
-    <section className="lg:px-16 lg:py-12.5 px-6 py-6 pb-8.5">
+    <section className="lg:px-16 lg:py-16 px-6 py-10 overflow-hidden bg-white/5">
       {/* Heading + CTA */}
-      <div className="flex flex-col max-w-131.5 pt-5 lg:gap-8.5 gap-4 mx-auto">
+      <div className="flex flex-col max-w-131.5 pt-2 lg:gap-6 gap-4 mx-auto relative z-10 text-center">
         <SubHeading
           title="Scent is personal. Let them define their own signature"
-          className="font-extralight italic lg:text-[40px] text-lg leading-6 lg:leading-12 text-center"
+          className="font-extralight italic lg:text-[42px] text-2xl leading-tight lg:leading-[1.2] text-primary/90"
         />
 
-        {/* Optional: link to a general gift card page */}
         <Link href="/gift-cards" className="mx-auto">
-          <Button className="py-4 px-6 rounded-full cursor-pointer">
+          <Button className="py-5 px-10 rounded-full cursor-pointer hover:scale-110 active:scale-95 transition-all duration-300 shadow-lg hover:shadow-primary/20 text-lg font-light tracking-wide">
             Gift the Choice
           </Button>
         </Link>
       </div>
 
       {/* Cards Layout */}
-      <div className="relative flex flex-wrap justify-center items-center lg:mt-24 mt-12 px-2 lg:px-0">
-        {cards.map((card, index) => {
-          // Define rotations and offsets for a premium "scattered" look
-          const styles = [
-            {
-              rotate: "-rotate-6",
-              zIndex: "z-10",
-              translate: "lg:-mr-12 -mb-8 lg:mb-0",
-            },
-            { rotate: "rotate-3", zIndex: "z-20", translate: "lg:-mt-8" },
-            {
-              rotate: "-rotate-2",
-              zIndex: "z-30",
-              translate: "lg:-ml-8 lg:mt-4",
-            },
-            {
-              rotate: "rotate-6",
-              zIndex: "z-40",
-              translate: "lg:-ml-12 lg:-mt-4",
-            },
-          ][index] || { rotate: "rotate-0", zIndex: "z-10", translate: "" };
-
-          return (
-            <div
+      <div className="relative flex justify-center items-center lg:mt-48 mt-16 lg:min-h-62.5 min-h-12.5  perspective-distant">
+        {/* Desktop View: Auto-fan on Scroll */}
+        <div className="hidden lg:flex relative justify-center items-center w-full">
+          {cards.map((card, idx) => (
+            <motion.div
               key={card.id}
-              className={`relative group cursor-pointer transition-all duration-500 ease-out 
-                hover:z-50 hover:-translate-y-4 hover:scale-105 active:scale-95
-                ${styles.rotate} ${styles.zIndex} ${styles.translate}
-                w-37 md:w-60 lg:w-75 xl:w-82.75
-              `}
+              initial={{ x: 0, y: 0, rotate: 0, zIndex: 10 + idx }}
+              whileInView={{
+                x: card.desktop.x,
+                y: card.desktop.y,
+                rotate: card.desktop.rotate,
+                scale: card.desktop.scale || 1,
+                zIndex: idx === 1 || idx === 2 ? 40 : 20,
+              }}
+              viewport={{ once: false, amount: 0.4 }}
+              transition={{
+                type: "spring",
+                stiffness: 70,
+                damping: 15,
+                delay: idx * 0.05,
+              }}
+              className="absolute w-112.5 cursor-pointer"
             >
-              <div className="relative overflow-hidden rounded-xl shadow-xl transition-shadow duration-500 group-hover:shadow-2xl group-hover:shadow-black/20">
-                <ProductImage
+              <div className="relative rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.12)] hover:shadow-[0_30px_60px_rgba(0,0,0,0.18)] transition-all duration-500 hover:-translate-y-4 hover:scale-105">
+                <Image
                   src={card.src}
                   alt={`giftcard-${card.id}`}
-                  width={331}
-                  height={150}
-                  className="object-contain w-full h-auto"
+                  width={450}
+                  height={200}
+                  className="w-full h-auto rounded-2xl"
                 />
-                {/* Modern subtle overlay */}
-                <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
-            </div>
-          );
-        })}
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Mobile View: Tighter Spacing & Auto-fan */}
+        <div className="lg:hidden relative w-full flex justify-center h-32">
+          {cards.slice(0, 3).map((card, idx) => (
+            <motion.div
+              key={`mobile-${card.id}`}
+              initial={{ x: 0, y: 0, rotate: 0 }}
+              whileInView={{
+                x: card.mobile.x,
+                y: card.mobile.y,
+                rotate: card.mobile.rotate,
+                scale: card.mobile.scale,
+              }}
+              viewport={{ once: false, amount: 0.6 }}
+              transition={{
+                type: "spring",
+                stiffness: 80,
+                damping: 18,
+                delay: idx * 0.1,
+              }}
+              className={`absolute w-56 transition-all duration-500
+                ${idx === 0 ? "rotate-[-8deg] -translate-x-6 z-10" : ""}
+                ${idx === 1 ? "rotate-0 z-30 scale-105" : ""}
+                ${idx === 2 ? "rotate-[8deg] translate-x-6 z-20" : ""}
+              `}
+            >
+              <Image
+                src={card.src}
+                alt={`giftcard-${card.id}`}
+                width={300}
+                height={135}
+                className="w-full h-auto rounded-xl shadow-xl border border-white/5"
+              />
+            </motion.div>
+          ))}
+        </div>
       </div>
 
       {/* Footer Text */}
       <TitleSpan
         title="Timeless gifts have no expiration."
-        className="pt-8.5 text-[#6F6E6C] text-sm font-normal leading-5.5 max-w-163.75 mx-auto text-center"
+        className="pt-4 text-[#6F6E6C] text-sm font-light tracking-widest uppercase max-w-163.75 mx-auto text-center opacity-70"
         span=""
       />
     </section>
