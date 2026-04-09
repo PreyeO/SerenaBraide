@@ -1,6 +1,24 @@
 import { FooterSection, NavItem } from "@/types/general";
 import { Leaf, Lightbulb, Sprout, TestTubeDiagonal } from "lucide-react";
 
+export const HERO_IMAGES = [
+  "/hero-model-1.png",
+  "/hero-model-2.png",
+  "/hero-model-3.png",
+  "/hero-model-4.png",
+  "/hero-model-5.png",
+  "/hero-model-6.png",
+];
+
+export const HERO_MOBILE_IMAGES = [
+  "/hero-model-mobile-1.png",
+  "/hero-model-mobile-2.png",
+  "/hero-model-mobile-3.png",
+  "/hero-model-mobile-4.png",
+  "/hero-model-mobile-5.png",
+  "/hero-model-mobile-6.png",
+];
+
 export const headerAdvert = [
   {
     text: "Fragrance designed for the individual. Read our story",
@@ -183,23 +201,23 @@ export const productCategories = [
   },
   {
     name: "Perfume",
-    src: "/fragrance.png",
+    src: "/perfume.jpg",
     height: 450,
   },
-  { name: "BodyMist", src: "/bodymist.png", height: 327 },
+  { name: "Body Mist", src: "/bodymist.png", height: 327 },
   {
-    name: "Diffusers",
-    src: "/diffusers.png",
+    name: "Perfume Oil",
+    src: "/perfumeoil.png",
     height: 450,
   },
   {
-    name: "Clothings",
-    src: "/clothings.png",
+    name: "Lip Balm",
+    src: "/lip-balm.png",
     height: 327,
   },
   {
-    name: "Skin Care",
-    src: "/skin-care.png",
+    name: "Body Oil",
+    src: "/bodyoil.png",
     height: 450,
   },
 ];
