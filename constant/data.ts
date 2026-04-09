@@ -182,11 +182,11 @@ export const productCategories = [
     height: 327,
   },
   {
-    name: "Fragrance",
+    name: "Perfume",
     src: "/fragrance.png",
     height: 450,
   },
-  { name: "Hair Care", src: "/hair-care.png", height: 327 },
+  { name: "BodyMist", src: "/bodymist.png", height: 327 },
   {
     name: "Diffusers",
     src: "/diffusers.png",
