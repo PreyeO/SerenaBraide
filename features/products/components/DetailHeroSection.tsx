@@ -13,9 +13,7 @@ import BackNavigation from "@/components/ui/btns/back-navigation";
 
 // Shared Components
 import {
-  // WishlistButton,
   ProductRating,
-  // LoyaltyBadge,
   VariantSelector,
   ProductImageCarousel,
   ShadesBadge,
@@ -23,10 +21,6 @@ import {
 
 // Hooks & Services
 import { useAddToCart } from "@/features/cart-checkout/hooks/useAddToCart";
-// import { useWishlist } from "@/features/profile/hooks/customer/useWishlist";
-// import { useAddToWishlist } from "@/features/profile/hooks/customer/useAddToWishlist";
-// import { useRemoveFromWishlist } from "@/features/profile/hooks/customer/useRemoveFromWishlist";
-import { useAuthStore } from "@/features/auth/auth.store";
 import { notify } from "@/lib/notify";
 
 // Types & Utils
@@ -51,15 +45,10 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
   selectedVariantId,
   onVariantChange,
 }) => {
-  const router = useRouter();
-  const user = useAuthStore((state) => state.user);
   const [isAnimating, setIsAnimating] = useState(false);
 
   // External hooks
   const { mutate: addToCart, isPending } = useAddToCart();
-  // const { data: wishlistData } = useWishlist();
-  // const addToWishlistMutation = useAddToWishlist();
-  // const removeFromWishlistMutation = useRemoveFromWishlist();
 
   // Derived state
   const selectedVariant = useMemo(
@@ -82,56 +71,12 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
     [product, selectedVariant],
   );
 
-  /*
-  const isInWishlist = useMemo(() => {
-    if (!selectedVariantId || !wishlistData?.results) return false;
-    return wishlistData.results.some(
-      (item) => item.product_variant.id === selectedVariantId,
-    );
-  }, [selectedVariantId, wishlistData]);
-
-  const wishlistItemId = useMemo(() => {
-    if (!selectedVariantId || !wishlistData?.results) return null;
-    const item = wishlistData.results.find(
-      (item) => item.product_variant.id === selectedVariantId,
-    );
-    return item?.id || null;
-  }, [selectedVariantId, wishlistData]);
-
-  const isWishlistLoading =
-    addToWishlistMutation.isPending || removeFromWishlistMutation.isPending;
-  */
-
   // Handlers
   const handleVariantClick = (variant: Variant) => {
     if (variant.is_in_stock) {
       onVariantChange(variant.id);
     }
   };
-
-  /*
-  const handleWishlistToggle = () => {
-    if (!user) {
-      const currentPath = window.location.pathname;
-      router.push(`/auth/login?return_url=${encodeURIComponent(currentPath)}`);
-      return;
-    }
-
-    if (!selectedVariantId) {
-      notify.error("Please select a variant first");
-      return;
-    }
-
-    setIsAnimating(true);
-    setTimeout(() => setIsAnimating(false), 300);
-
-    if (isInWishlist && wishlistItemId) {
-      removeFromWishlistMutation.mutate(wishlistItemId);
-    } else {
-      addToWishlistMutation.mutate({ product_variant: selectedVariantId });
-    }
-  };
-  */
 
   const handleAddToCart = () => {
     if (!selectedVariantId) {
@@ -148,10 +93,7 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
   return (
     <section className="lg:pt-38 pt-33">
       {/* Back Navigation */}
-      <BackNavigation
-        href={`/categories/${category}`}
-        text={`Back to ${product.category_name}`}
-      />
+      <BackNavigation href={`/all-products`} text={`Back to all products`} />
 
       <div className="flex justify-center xl:gap-15 lg:gap-10 gap-8.5 lg:mt-8.5 mt-6 flex-wrap lg:flex-nowrap">
         {/* Product Image - Desktop */}
@@ -164,14 +106,6 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
             height={500}
             imageClassName="w-full h-full object-cover"
           />
-
-          {/* <WishlistButton
-            isInWishlist={isInWishlist}
-            isLoading={isWishlistLoading}
-            isAnimating={isAnimating}
-            onClick={handleWishlistToggle}
-            className="absolute top-4 md:right-6 lg:right-4 right-4"
-          /> */}
         </div>
         <div className="w-full lg:block xl:hidden relative hidden">
           <ProductImage
@@ -182,28 +116,11 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
             height={500}
             imageClassName="w-full h-full object-cover"
           />
-
-          {/* <WishlistButton
-            isInWishlist={isInWishlist}
-            isLoading={isWishlistLoading}
-            isAnimating={isAnimating}
-            onClick={handleWishlistToggle}
-            className="absolute top-4 md:right-6 lg:right-4 right-4"
-          /> */}
         </div>
 
         {/* Product Image - Mobile Carousel */}
         <div className="w-full md:hidden block relative ">
           <ProductImageCarousel images={carouselImages} />
-          {/* 
-          <WishlistButton
-            isInWishlist={isInWishlist}
-            isLoading={isWishlistLoading}
-            isAnimating={isAnimating}
-            onClick={handleWishlistToggle}
-            className="absolute top-4 right-4 z-10"
-          />
-          */}
         </div>
 
         {/* Product Info */}

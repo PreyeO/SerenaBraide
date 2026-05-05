@@ -47,7 +47,10 @@ export const MobileMenuSheet = ({
       <SheetTrigger className="text-white">
         <Menu className="size-6" />
       </SheetTrigger>
-      <SheetContent side="left" className="px-6 py-6 w-full max-w-xs top-12">
+      <SheetContent
+        side="left"
+        className="px-6 py-6 w-full max-w-xs top-12 pt-20"
+      >
         <SubHeading
           className="font-medium text-sm text-[#3B3B3B]"
           title="Menu"
