@@ -5,9 +5,9 @@ import Image from "next/image";
 import { Instagram, Facebook, Youtube } from "lucide-react";
 
 /* ─────────────────────────────────────────────
-   Target launch date: April 19, 2026
+   Target launch date: June 6, 2026
    ───────────────────────────────────────────── */
-const LAUNCH_DATE = new Date("2026-04-19T00:00:00");
+const LAUNCH_DATE = new Date("2026-06-06T00:00:00");
 
 interface TimeLeft {
   days: number;
