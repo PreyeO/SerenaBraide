@@ -42,7 +42,6 @@ export const MobileMenuSheet = ({
     [onOpenChange, router, menu],
   );
 
-
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetTrigger className="text-white">

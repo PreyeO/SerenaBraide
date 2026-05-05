@@ -11,12 +11,21 @@ interface ModalProps {
   onClose: () => void;
   title?: string;
   children: React.ReactNode;
+  className?: string;
 }
 
-const GeneralModal = ({ open, onClose, title, children }: ModalProps) => {
+const GeneralModal = ({
+  open,
+  onClose,
+  className,
+  title,
+  children,
+}: ModalProps) => {
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="w-full h-full lg:h-auto lg:max-h-[90vh] max-w-none lg:max-w-xl rounded-none lg:rounded-lg overflow-hidden p-4 lg:p-6">
+      <DialogContent
+        className={`w-full h-full lg:h-auto lg:max-h-[90vh] max-w-none lg:max-w-xl rounded-none lg:rounded-lg overflow-hidden p-4 lg:p-6 ${className}`}
+      >
         {title && (
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>

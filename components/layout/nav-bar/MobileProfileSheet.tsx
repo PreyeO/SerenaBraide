@@ -52,7 +52,7 @@ export const MobileProfileSheet = ({
       </SheetTrigger>
 
       <SheetContent side="left" className="px-6 py-6 w-full max-w-xs top-12">
-        <ul className="space-y-4 my-6 text-sm text-[#3B3B3B] font-normal">
+        <ul className="space-y-4 my-6 mt-20 text-sm text-[#3B3B3B] font-normal">
           <li>
             <Link href="/profile" onClick={(e) => onLinkClick(e, "/profile")}>
               My Account
@@ -61,8 +61,8 @@ export const MobileProfileSheet = ({
           <div className="border border-[#F0F0F0] w-full shrink-0 my-2.5" />
           <li>
             <Link
-              href="/profile/orders"
-              onClick={(e) => onLinkClick(e, "/profile/orders")}
+              href="/profile/order"
+              onClick={(e) => onLinkClick(e, "/profile/order")}
             >
               My Orders
             </Link>

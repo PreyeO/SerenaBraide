@@ -66,7 +66,7 @@ const PaymentMethodSection = ({
           isPending={isPending}
           onClick={onSubmit}
         />
-        <AuthSpan className="lg:text-sm max-w-83.75 text-xs mx-auto leading-5.5 pt-2.5 text-[#3B3B3B] font-normal">
+        <AuthSpan className="lg:text-sm  max-w-83.75 text-xs mx-auto leading-5.5 pt-2.5 text-[#3B3B3B] font-normal">
           By placing your order, you agree to Serena Braide’s{" "}
           <span className="underline font-medium">
             <Link href="/purchase_policy">Purchase Policy.</Link>
