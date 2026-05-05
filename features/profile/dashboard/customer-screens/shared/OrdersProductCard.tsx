@@ -65,40 +65,26 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
     }
   };
 
-  const isDarkBg = order.isGiftCard && order.giftCardColour &&
-    (order.giftCardColour === "#000000" || order.giftCardColour === "#47011d");
-  const textColor = isDarkBg ? "text-white" : "text-[#3B3B3B]";
-  const subTextColor = isDarkBg ? "text-gray-300" : "text-[#6F6E6C]";
+  const textColor = "text-[#3B3B3B]";
+  const subTextColor = "text-[#6F6E6C]";
 
   return (
     <div
-      className={cn(
-        "w-full px-4 lg:px-8.5 py-4 lg:py-6 rounded-[10px] transition-all duration-300 hover:shadow-sm border",
-        order.isGiftCard ? "border-transparent" : "bg-white lg:bg-[#F6F7F8] border-[#F5F5F5]"
-      )}
-      style={{
-        backgroundColor: order.isGiftCard ? order.giftCardColour || "#F6F7F8" : undefined,
-      }}
+      className="w-full px-4 lg:px-8.5 py-4 lg:py-6 rounded-[10px] transition-all duration-300 hover:shadow-sm border bg-white lg:bg-[#F6F7F8] border-[#F5F5F5]"
     >
       {/* Header: Status + Order Number */}
-      <div className={cn(
-        "flex flex-col lg:flex-row lg:justify-between items-start lg:items-center gap-2 lg:gap-0 pb-3 lg:py-4.75 text-xs font-normal",
-        textColor
-      )}>
+      <div className="flex flex-col lg:flex-row lg:justify-between items-start lg:items-center gap-2 lg:gap-0 pb-3 lg:py-4.75 text-xs font-normal text-[#3B3B3B]">
         {/* Mobile: Status on left, Order # on right */}
         <div className="flex justify-between items-center w-full lg:w-auto">
           <Badge
             variant="secondary"
-            className={cn(
-              "px-2 py-1.5 lg:py-2 text-xs lg:text-sm",
-              isDarkBg ? "bg-white/10" : ""
-            )}
+            className="px-2 py-1.5 lg:py-2 text-xs lg:text-sm"
             style={{
-              backgroundColor: !isDarkBg && order.color ? `${order.color}10` : undefined,
-              color: isDarkBg ? "#ffffff" : order.color,
+              backgroundColor: order.color ? `${order.color}10` : undefined,
+              color: order.color,
             }}
           >
-            <Icon className="size-3 lg:size-4" color={isDarkBg ? "#ffffff" : order.iconBg} />
+            <Icon className="size-3 lg:size-4" color={order.iconBg} />
             <span className="whitespace-nowrap">
               {order.isGiftCard && (order.statusType === "DELIVERED" || order.title === "Processing")
                 ? "Delivered"
@@ -118,7 +104,7 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
             title={order.orderNumber}
             className={cn("text-xs lg:text-sm truncate max-w-37.5 lg:max-w-none", textColor)}
           />
-          <div className={cn("border h-4 hidden lg:block", isDarkBg ? "border-white/20" : "border-[#D1D5DB]")} />
+          <div className="border h-4 hidden lg:block border-[#D1D5DB]" />
           <>
             <button
               onClick={() => setOpen(true)}
@@ -145,7 +131,7 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
       )}
 
       {/* Separator */}
-      <div className={cn("border w-full", isDarkBg ? "border-white/10" : "border-[#F0F0F0] lg:border-[#D1D5DB]")} />
+      <div className="border w-full border-[#F0F0F0] lg:border-[#D1D5DB]" />
 
       {/* Content: Product Info */}
       <div className={cn("pt-4 lg:pt-6 w-full", subTextColor)}>
@@ -221,10 +207,7 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
             <div className="flex flex-col gap-2 w-full lg:w-50">
               <SubmitButton
                 label={order.OrderAction1}
-                className={cn(
-                  "text-xs lg:text-sm py-2 lg:py-3",
-                  isDarkBg ? "bg-white text-black hover:bg-gray-100" : ""
-                )}
+                className="text-xs lg:text-sm py-2 lg:py-3"
                 isPending={isBuyingAgain}
                 onClick={
                   order.OrderAction1 === "Buy Again"
@@ -234,23 +217,13 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
               />
               {order.orderAction2 === "Leave a review" ? (
                 <LinkCta
-                  className={cn(
-                    "w-full text-xs lg:text-sm border py-2 lg:py-3 transition-colors",
-                    isDarkBg
-                      ? "text-white border-white/20 hover:bg-white/10 bg-transparent"
-                      : "text-[#3B3B3B] border-[#6F6E6C] hover:bg-gray-50 bg-white"
-                  )}
+                  className="w-full text-xs lg:text-sm border py-2 lg:py-3 transition-colors text-[#3B3B3B] border-[#6F6E6C] hover:bg-gray-50 bg-white"
                   label={order.orderAction2}
                   onClick={handleReviewClick}
                 />
               ) : order.orderAction2 === "View Order" ? (
                 <LinkCta
-                  className={cn(
-                    "w-full text-xs lg:text-sm border py-2 lg:py-3 transition-colors",
-                    isDarkBg
-                      ? "text-white border-white/20 hover:bg-white/10 bg-transparent"
-                      : "text-[#3B3B3B] border-[#6F6E6C] hover:bg-gray-50 bg-white"
-                  )}
+                  className="w-full text-xs lg:text-sm border py-2 lg:py-3 transition-colors text-[#3B3B3B] border-[#6F6E6C] hover:bg-gray-50 bg-white"
                   label={order.orderAction2}
                   onClick={() => setOpen(true)}
                 />
@@ -263,10 +236,7 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
         <div className="flex lg:hidden gap-3 mt-4">
           <SubmitButton
             label={order.OrderAction1}
-            className={cn(
-              "flex-1 text-xs",
-              isDarkBg ? "bg-white text-black hover:bg-gray-100" : ""
-            )}
+            className="flex-1 text-xs"
             isPending={isBuyingAgain}
             onClick={
               order.OrderAction1 === "Buy Again" ? handleBuyAgain : undefined
@@ -274,23 +244,13 @@ const OrdersProductCard: React.FC<OrdersProductCardProps> = ({
           />
           {order.orderAction2 === "Leave a review" ? (
             <LinkCta
-              className={cn(
-                "flex-1 text-xs border py-2.5 transition-colors",
-                isDarkBg
-                  ? "text-white border-white/20 hover:bg-white/10 bg-transparent"
-                  : "text-[#3B3B3B] border-[#6F6E6C] hover:bg-gray-50 bg-white"
-              )}
+              className="flex-1 text-xs border py-2.5 transition-colors text-[#3B3B3B] border-[#6F6E6C] hover:bg-gray-50 bg-white"
               label={order.orderAction2}
               onClick={handleReviewClick}
             />
           ) : order.orderAction2 === "View Order" ? (
             <LinkCta
-              className={cn(
-                "flex-1 text-xs border py-2.5 transition-colors",
-                isDarkBg
-                  ? "text-white border-white/20 hover:bg-white/10 bg-transparent"
-                  : "text-[#3B3B3B] border-[#6F6E6C] hover:bg-gray-50 bg-white"
-              )}
+              className="flex-1 text-xs border py-2.5 transition-colors text-[#3B3B3B] border-[#6F6E6C] hover:bg-gray-50 bg-white"
               label={order.orderAction2}
               onClick={() => setOpen(true)}
             />

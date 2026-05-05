@@ -117,6 +117,7 @@ const DetailInfoSection: React.FC<DetailInfoSectionProps> = ({
             title="Ingredient List"
             open={isModalOpen}
             onClose={() => setIsModalOpen(false)}
+            className=""
           >
             {ingredients ? (
               <AuthSpan className="text-sm max-w-162.25 leading-5.5 text-[#6F6E6C]">

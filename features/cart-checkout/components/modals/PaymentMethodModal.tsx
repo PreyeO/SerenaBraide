@@ -29,7 +29,12 @@ const PaymentMethodModal = ({
   totalPrice,
 }: PaymentMethodModalProps) => {
   return (
-    <GeneralModal open={open} onClose={onClose} title="Payment Method">
+    <GeneralModal
+      open={open}
+      onClose={onClose}
+      title="Payment Method"
+      className="pt-30"
+    >
       <div className="flex flex-col gap-6 py-4">
         <RadioGroup value={selectedPayment} onValueChange={onPaymentChange}>
           {paymentType.map((type, index) => (

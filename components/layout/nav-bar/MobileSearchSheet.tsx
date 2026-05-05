@@ -93,11 +93,11 @@ export const MobileSearchSheet = ({
 
       <SheetContent
         side="left"
-        className="py-6 w-full max-w-xs top-12 overflow-y-auto max-h-[calc(100vh-48px)]"
+        className="py-6 pt-20 lg:pt-0 w-full max-w-xs top-12 overflow-y-auto max-h-[calc(100vh-48px)]"
         showClose={false}
       >
         {/* Search input */}
-        <div className="flex items-center gap-2 mb-6 bg-[#F5F5F5] py-4.5 px-6 rounded-lg">
+        <div className="flex items-center gap-2 mb-6  bg-[#F5F5F5] py-4.5 px-6 rounded-lg">
           <ChevronLeft
             className="cursor-pointer"
             onClick={() => onOpenChange(false)}
@@ -112,9 +112,9 @@ export const MobileSearchSheet = ({
         </div>
 
         {/* Recently searched / Search Results */}
-        <div className="mb-6 px-6">
+        <div className="lg:mb-6 mb-2 px-6">
           <SubHeading
-            className="text-base text-[#6F6E6C] font-normal mb-6"
+            className="lg:text-base text-sm text-[#6F6E6C] font-normal mb-6"
             title={searchQuery ? "SEARCH RESULTS" : "RECENTLY SEARCHED"}
           />
           {searchQuery ? (
@@ -134,7 +134,7 @@ export const MobileSearchSheet = ({
         {/* Trending */}
         <div className="px-6">
           <SubHeading
-            className="text-[#6F6E6C] text-base font-normal mb-6"
+            className="text-[#6F6E6C] lg:text-base text-sm font-normal mb-6"
             title="TRENDING NOW"
           />
           {renderProductList(

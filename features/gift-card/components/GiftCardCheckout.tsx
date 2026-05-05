@@ -142,7 +142,7 @@ const GiftCardCheckout = () => {
               tax={orderData?.tax}
               shipping={orderData?.shipping_cost}
               total={totalAmount}
-              className="xl:w-143 lg:w-100 w-full"
+              className=" lg:w-100 w-full"
             />
           </div>
         </div>

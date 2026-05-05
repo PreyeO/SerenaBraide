@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useAuthStore } from "@/features/auth/auth.store";
 import { useGiftCardStore } from "../giftcard.store";
+import { cardDesign } from "../general.data";
 
 export const useGiftCardSelection = () => {
     const router = useRouter();
@@ -18,6 +19,14 @@ export const useGiftCardSelection = () => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [customAmount, setCustomAmount] = useState("");
+
+    // Default to the first card design on mount
+    useEffect(() => {
+        if (!selectedDesign) {
+            setSelectedDesign(cardDesign[0].name);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     // Handle return from login/register
     useEffect(() => {
