@@ -3,13 +3,6 @@ import "./globals.css";
 import { generalSans, ppEditorial } from "./assets/fonts/font";
 import ReactQueryProvider from "./provider";
 
-// export const viewport: Viewport = {
-//   themeColor: "#FAF5EF",
-//   width: "device-width",
-//   initialScale: 1,
-//   maximumScale: 1,
-// };
-
 export const metadata: Metadata = {
   title: {
     default: "Serena Braide | Fragrance, Beauty & Lasting Impressions",
