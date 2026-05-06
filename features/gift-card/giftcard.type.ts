@@ -34,6 +34,7 @@ export interface GiftCardBalanceResponse {
   balance: number;
   currency: string;
   status: string;
+  colour: string;
 }
 
 export interface ApplyGiftCardPayload {

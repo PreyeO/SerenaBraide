@@ -1,7 +1,7 @@
 "use client";
 
 import SubHeading from "@/components/ui/typography/subHeading";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Paragraph from "@/components/ui/typography/paragraph";
 import FormModal from "@/components/ui/modals/form-modals";
 import LinkCta from "@/components/ui/btns/link-cta";
@@ -10,14 +10,10 @@ import {
   GiftCardBalanceResponse,
   BalanceFormValues,
 } from "../../giftcard.type";
-import { useAuthStore } from "@/features/auth/auth.store";
-import { useRouter } from "next/navigation";
 import GiftCardForm from "./GiftCardForm";
 import Link from "next/link";
 
 const BalanceForm = () => {
-  const router = useRouter();
-  const { user, isHydrated } = useAuthStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [balanceData, setBalanceData] =
     useState<GiftCardBalanceResponse | null>(null);
@@ -29,44 +25,7 @@ const BalanceForm = () => {
     },
   });
 
-  // Auto-submit after login redirect
-  useEffect(() => {
-    if (!isHydrated || !user) return;
-
-    // Check if we have stored form data from before auth redirect
-    const storedFormData = sessionStorage.getItem("giftcard_balance_form");
-    if (storedFormData) {
-      try {
-        const { card_number, pin } = JSON.parse(storedFormData);
-
-        // Auto-submit the form
-        checkBalanceMutation.mutate({ card_number, pin });
-
-        // Clear stored data
-        sessionStorage.removeItem("giftcard_balance_form");
-      } catch (error) {
-        console.error("Error restoring form data:", error);
-        sessionStorage.removeItem("giftcard_balance_form");
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, isHydrated]);
-
   const onSubmit = (data: BalanceFormValues) => {
-    // Check authentication before submitting
-    if (!user) {
-      // Store form data in sessionStorage
-      sessionStorage.setItem(
-        "giftcard_balance_form",
-        JSON.stringify({ card_number: data.card_number, pin: data.pin }),
-      );
-
-      // Redirect to login with return_url
-      router.push("/auth/login?return_url=/giftcard-balance");
-      return;
-    }
-
-    // User is authenticated, proceed with API call
     checkBalanceMutation.mutate({
       card_number: data.card_number,
       pin: data.pin,

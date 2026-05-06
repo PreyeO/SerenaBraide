@@ -111,7 +111,7 @@ const ResetPasswordForm = () => {
           <AuthSwitchPrompt
             message="Remember Password?"
             linkText="Login Here"
-            href="/auth/signin"
+            href="/auth/login"
           />
         </form>
       </Form>
