@@ -187,21 +187,16 @@ const RegisterForm = () => {
             control={form.control}
             name="date_of_birth"
             render={({ field }) => {
-              const [month, day] = field.value
-                ? field.value.split("-")
-                : ["", "", ""];
+              const parts = field.value ? field.value.split("-") : ["", "", ""];
+              const [year, month, day] = parts;
 
-              const currentYear = new Date().getFullYear().toString();
+              const currentYear = year || new Date().getFullYear().toString();
 
               const handleChange = (part: "month" | "day", val: string) => {
                 const newMonth = part === "month" ? val : month;
                 const newDay = part === "day" ? val : day;
 
-                // Keep the currentYear prepended and use placeholders for missing parts
-                // This allows the selects to stay populated while building the full string
-                field.onChange(
-                  `${currentYear}-${newMonth || ""}-${newDay || ""}`,
-                );
+                field.onChange(`${currentYear}-${newMonth || ""}-${newDay || ""}`);
               };
 
               const months = [
