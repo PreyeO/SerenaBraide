@@ -9,14 +9,14 @@ const BestSeller = () => {
     <section className="lg:px-16 px-6 lg:py-12.5 py-6 bg-black">
       <div className="flex flex-col">
         <SubHeading
-          title="Our Best Sellers"
+          title="Our Products"
           className="font-extralight italic lg:text-[40px] text-lg text-center pt-5 text-white font-PPEditorialNew"
         />
       </div>
       <div className="gap-2.5 items-center justify-end hidden lg:flex">
         <UnderlineLink
           href="/all-products"
-          text="Shop More Best Sellers"
+          text="Shop More Products"
           className="text-[12px] text-white"
         />
         <ChevronRight size={24} className="text-white" />

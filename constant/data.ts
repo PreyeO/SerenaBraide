@@ -4,9 +4,9 @@ import { Leaf, Lightbulb, Sprout, TestTubeDiagonal } from "lucide-react";
 export const HERO_IMAGES = [
   "/hero-model-1.png",
   "/hero-model-2.png",
-  "/hero-model-3.png",
-  "/hero-model-4.png",
-  "/hero-model-5.png",
+  "/SERENA-1.jpeg",
+  "/SERENA-2.png",
+  "/SERENA-3.jpeg",
   "/hero-model-6.png",
 ];
 
@@ -14,9 +14,9 @@ export const HERO_MOBILE_IMAGES = [
   "/hero-model-mobile-1.png",
   "/hero-model-mobile-2.png",
   "/hero-model-mobile-3.png",
-  "/hero-model-mobile-4.png",
-  "/hero-model-mobile-5.png",
-  "/hero-model-mobile-6.png",
+  "/SERENA-1.jpeg",
+  "/SERENA-2.png",
+  "/SERENA-3. jpeg",
 ];
 
 export const headerAdvert = [
