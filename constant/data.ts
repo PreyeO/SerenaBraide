@@ -1,23 +1,9 @@
 import { FooterSection, NavItem } from "@/types/general";
 import { Leaf, Lightbulb, Sprout, TestTubeDiagonal } from "lucide-react";
 
-export const HERO_IMAGES = [
-  "/hero-model-1.png",
-  "/hero-model-2.png",
-  "/SERENA-1.jpeg",
-  "/SERENA-2.png",
-  "/SERENA-3.jpeg",
-  "/hero-model-6.png",
-];
+export const HERO_IMAGES = ["/banner-A.png", "/banner-B.png"];
 
-export const HERO_MOBILE_IMAGES = [
-  "/hero-model-mobile-1.png",
-  "/hero-model-mobile-2.png",
-  "/hero-model-mobile-3.png",
-  "/SERENA-1.jpeg",
-  "/SERENA-2.png",
-  "/SERENA-3. jpeg",
-];
+export const HERO_MOBILE_IMAGES = ["/banner-A.png", "/banner-B.png"];
 
 export const headerAdvert = [
   {

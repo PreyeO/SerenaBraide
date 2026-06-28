@@ -37,7 +37,7 @@ const Hero = () => {
             src={src}
             alt={`Hero background ${index + 1}`}
             fill
-            className="hidden lg:block object-cover object-left"
+            className="hidden lg:block object-cover object-center"
             priority={index === 0}
             quality={90}
           />
@@ -46,7 +46,7 @@ const Hero = () => {
             src={HERO_MOBILE_IMAGES[index]}
             alt={`Hero background mobile ${index + 1}`}
             fill
-            className="lg:hidden object-cover object-left"
+            className="lg:hidden object-cover object-right"
             priority={index === 0}
             quality={90}
           />

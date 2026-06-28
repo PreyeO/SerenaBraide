@@ -10,7 +10,7 @@ const Story = () => {
       <div className="grid lg:grid-cols-2  grid-cols-1">
         <div className="relative w-full h-142.25 lg:h-full lg:hidden">
           <Image
-            src="/about-image2.png"
+            src="/our-founder.png"
             alt="about us image"
             fill
             className="object-cover rounded-md"
@@ -50,7 +50,7 @@ const Story = () => {
         </div>
         <div className=" w-full h-142.25 lg:h-full relative lg:block hidden">
           <Image
-            src="/about-image2.png"
+            src="/our-founder.png"
             alt="about us image"
             fill
             className="object-cover rounded-md"
