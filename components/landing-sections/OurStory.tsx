@@ -34,7 +34,7 @@ const OurStory = () => {
             </div>
 
             <Image
-              src="/story-img1.png"
+              src="/our-story1.png"
               alt="image of model spraying perfume"
               width={300}
               height={257}
