@@ -71,8 +71,15 @@ const Philosophy = () => {
         ))}
       </div>
       <div className="grid lg:grid-cols-2 grid-cols-1 w-full gap-0">
-        <div className="flex gap-1.5 flex-col items-center justify-center text-center bg-black  px-5.5 py-10 h-93.75 lg:h-125">
-          <AuthSpan className=" text-[32px] max-w-83 text-[#FFFFFF] font-medium  leading-9.5 text-center">
+        <div className="relative flex gap-1.5 flex-col items-center justify-center text-center px-5.5 py-10 h-93.75 lg:h-125 overflow-hidden">
+          <Image
+            src="/ourstory-transparent.png"
+            alt="our story background"
+            fill
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-black/30" />
+          <AuthSpan className="relative z-10 text-[32px] max-w-83 text-[#FFFFFF] font-medium  leading-9.5 text-center">
             {`You don't just walk into a room.`}
             <span className="font-PPEditorialNew italic  font-normal">
               {" "}
@@ -81,7 +88,7 @@ const Philosophy = () => {
           </AuthSpan>
 
           <Paragraph
-            className="text-[#F5F5F5] font-normal lg:text-base text-sm leading-5.5 lg:leading-6 max-w-150"
+            className="relative z-10 text-[#F5F5F5] font-normal lg:text-base text-sm leading-5.5 lg:leading-6 max-w-150"
             content="Serena Braide. The signature that remains."
           />
         </div>
