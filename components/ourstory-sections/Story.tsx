@@ -56,14 +56,14 @@ const Story = () => {
             className="object-cover rounded-md"
           />
         </div>
-        <div className="relative w-full h-93.75 lg:h-125 lg:hidden block ">
+        {/* <div className="relative w-full h-93.75 lg:h-125 lg:hidden block ">
           <Image
             src="/about-image3.png"
             alt="about us image"
             fill
             className="object-cover"
           />
-        </div>
+        </div> */}
       </div>
     </section>
   );
