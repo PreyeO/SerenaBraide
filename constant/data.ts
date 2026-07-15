@@ -3,7 +3,10 @@ import { Leaf, Lightbulb, Sprout, TestTubeDiagonal } from "lucide-react";
 
 export const HERO_IMAGES = ["/banner-A.png", "/banner-B.png"];
 
-export const HERO_MOBILE_IMAGES = ["/banner-A.png", "/banner-B.png"];
+export const HERO_MOBILE_IMAGES = [
+  "/banner-A.png",
+  "/banner-B.png",
+];
 
 export const headerAdvert = [
   {

@@ -22,7 +22,7 @@ const ConnectWithUs = () => {
 
           <Image
             alt="product image"
-            src="/insta-product-1.png"
+            src="/connect-with-us.png"
             width={719}
             height={450}
             className="xl:max-h-179.75  max-h-51.75 max-w-81.75 xl:max-w-179.75  relative z-10"

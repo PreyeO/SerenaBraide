@@ -37,7 +37,7 @@ const Hero = () => {
             src={src}
             alt={`Hero background ${index + 1}`}
             fill
-            className="hidden lg:block object-cover object-center"
+            className="hidden lg:block object-cover object-top"
             priority={index === 0}
             quality={90}
           />
