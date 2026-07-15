@@ -45,7 +45,7 @@ const OurStory = () => {
           {/* Middle image (B) - last on mobile, middle on desktop */}
           <div className="order-3 lg:order-2 w-full md:max-w-[48%] lg:max-w-none">
             <Image
-              src="/serena-cube.png"
+              src="/our-story2.png"
               alt="image of serena briade name"
               width={450}
               height={546}

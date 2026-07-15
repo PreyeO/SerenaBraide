@@ -48,12 +48,12 @@ const Philosophy = () => {
         </div>
       </div>
 
-      <div className="relative w-full h-93.75 lg:h-125 lg:block hidden ">
+      <div className="relative w-full aspect-[4/3] lg:aspect-auto lg:h-125">
         <Image
           src="/about-image3.png"
           alt="about us image"
           fill
-          className="object-cover"
+          className="object-contain lg:object-cover"
         />
       </div>
 
