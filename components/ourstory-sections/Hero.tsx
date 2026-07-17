@@ -23,7 +23,7 @@ const Hero = () => {
             src="/about-image1.png"
             height={150}
             width={300}
-            className="max-w-75 lg:hidden  "
+            className="block max-w-75 lg:hidden"
           />
         </div>
 

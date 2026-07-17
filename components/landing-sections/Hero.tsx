@@ -48,7 +48,7 @@ const Hero = () => {
             alt={`Hero background mobile ${index + 1}`}
             fill
             sizes="(max-width: 1023px) 100vw, 0vw"
-            className="lg:hidden object-cover object-right"
+            className="block lg:hidden object-cover object-right"
             priority={index === 0}
             quality={90}
           />
