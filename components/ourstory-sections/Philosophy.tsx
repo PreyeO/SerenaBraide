@@ -95,7 +95,7 @@ const Philosophy = () => {
 
         <div className="relative w-full h-93.75 lg:h-125">
           <Image
-            src="/all-lipgloss.png"
+            src="/our-story1.png"
             alt="about us image"
             fill
             className="object-cover"
