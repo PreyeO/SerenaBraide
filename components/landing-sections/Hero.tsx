@@ -26,7 +26,7 @@ const Hero = () => {
       {HERO_IMAGES.map((src, index) => (
         <div
           key={src}
-          className={`absolute inset-0 transition-all duration-2000 ease-in-out ${
+          className={`absolute inset-0 transition-all duration-2000 ease-in-out${
             index === currentImageIndex
               ? "opacity-100 scale-100 blur-0 z-10"
               : "opacity-0 scale-105 blur-sm z-0"
@@ -37,7 +37,6 @@ const Hero = () => {
             src={src}
             alt={`Hero background ${index + 1}`}
             fill
-            sizes="(max-width: 1023px) 0vw, 100vw"
             className="hidden lg:block object-cover object-top"
             priority={index === 0}
             quality={90}
@@ -47,8 +46,7 @@ const Hero = () => {
             src={HERO_MOBILE_IMAGES[index]}
             alt={`Hero background mobile ${index + 1}`}
             fill
-            sizes="(max-width: 1023px) 100vw, 0vw"
-            className="block lg:hidden object-cover object-right"
+            className="lg:hidden object-cover object-right"
             priority={index === 0}
             quality={90}
           />
