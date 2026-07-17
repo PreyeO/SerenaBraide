@@ -4,8 +4,8 @@ import { Leaf, Lightbulb, Sprout, TestTubeDiagonal } from "lucide-react";
 export const HERO_IMAGES = ["/banner-A.png", "/banner-B.png"];
 
 export const HERO_MOBILE_IMAGES = [
-  "/banner-A.png",
-  "/banner-B.png",
+  "/mobile-banner1.png",
+  "/mobile-banner2.png",
 ];
 
 export const headerAdvert = [
@@ -113,7 +113,7 @@ export const navItems: NavItem[] = [
     sections: [
       {
         heading: "Gift Cards",
-        image: "/gift-card.png",
+        image: "/giftcard-1.png",
         items: [
           { name: "Buy Gift Cards", href: "/giftcard" },
           { name: "Gift Card Balance", href: "/giftcard-balance" },
@@ -121,7 +121,7 @@ export const navItems: NavItem[] = [
       },
       {
         heading: "Gift Boxes",
-        image: "/gift-set.png",
+        image: "/gift-box.png",
         items: [
           {
             name: "The Intimate Edit",
