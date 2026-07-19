@@ -6,6 +6,7 @@ export const HERO_IMAGES = ["/banner-A.png", "/banner-B.png"];
 export const HERO_MOBILE_IMAGES = [
   "/mobile-banner1.png",
   "/mobile-banner2.png",
+  "/mobile-bann3r2.png",
 ];
 
 export const headerAdvert = [
