@@ -10,8 +10,10 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
-    // Disable optimization for S3 signed URLs to prevent caching issues
-    unoptimized: false,
+    // Serve all images unoptimized: /public assets are already sized/compressed,
+    // and this avoids Vercel's Image Optimization quota (402 OPTIMIZED_IMAGE_REQUEST_PAYMENT_REQUIRED),
+    // which was leaving newly-added images blank on production.
+    unoptimized: true,
   },
 };
 
