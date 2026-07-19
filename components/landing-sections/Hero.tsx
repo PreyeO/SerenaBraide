@@ -76,7 +76,7 @@ const Hero = () => {
           /> */}
         </div>
         <Link href="/all-products">
-          <Button className="bg-white hover:bg-white text-[#3B3B3B] rounded-full py-6 px-4 font-normal text-sm mt-6 lg:mt-12.5">
+          <Button className="bg-white hover:bg-white text-[#3B3B3B] rounded-full py-6 px-16 font-normal text-sm mt-6 lg:mt-12.5">
             SHOP NOW
           </Button>
         </Link>
