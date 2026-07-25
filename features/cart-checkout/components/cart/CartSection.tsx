@@ -165,12 +165,16 @@ const CartSection = () => {
               value={selectedShippingAreaId}
               onValueChange={setSelectedShippingAreaId}
             >
-              <SelectTrigger className="w-full h-11 rounded-[50px] border border-[#D1D5DB] px-5 text-sm bg-white">
+              <SelectTrigger className="w-full h-11 rounded-[50px] border border-[#D1D5DB] px-5 text-sm bg-white *:data-[slot=select-value]:min-w-0">
                 <SelectValue placeholder="Select a shipping area" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="max-w-[95vw] w-[var(--radix-select-trigger-width)]">
                 {shippingAreas.map((area) => (
-                  <SelectItem key={area.id} value={area.id.toString()}>
+                  <SelectItem
+                    key={area.id}
+                    value={area.id.toString()}
+                    className="whitespace-normal break-words"
+                  >
                     {area.name}
                   </SelectItem>
                 ))}
