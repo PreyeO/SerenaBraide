@@ -168,14 +168,22 @@ const CartSection = () => {
               <SelectTrigger className="w-full h-11 rounded-[50px] border border-[#D1D5DB] px-5 text-sm bg-white *:data-[slot=select-value]:min-w-0">
                 <SelectValue placeholder="Select a shipping area" />
               </SelectTrigger>
-              <SelectContent className="max-w-[95vw] w-[var(--radix-select-trigger-width)]">
+              <SelectContent
+                side="bottom"
+                sideOffset={6}
+                avoidCollisions={false}
+                className="max-w-[95vw] w-(--radix-select-trigger-width)"
+              >
                 {shippingAreas.map((area) => (
                   <SelectItem
                     key={area.id}
                     value={area.id.toString()}
-                    className="whitespace-normal break-words"
+                    className="whitespace-normal wrap-break-word border-b border-[#F0F0F0] last:border-b-0 py-2.5"
                   >
-                    {area.name}
+                    <span className="flex items-start gap-2 text-left">
+                      <span className="mt-1.75 size-1.5 shrink-0 rounded-full bg-[#3B3B3B]" />
+                      <span>{area.name}</span>
+                    </span>
                   </SelectItem>
                 ))}
               </SelectContent>
