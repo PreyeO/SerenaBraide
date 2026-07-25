@@ -85,7 +85,9 @@ const ShippingTable = ({ shippingAreas, onAddArea }: ShippingTableProps) => {
                 {paginatedAreas.map((area) => (
                     <TableRow key={area.id} className="hover:bg-[#FAFAFA]">
                         <TableCell className="font-medium text-[#3B3B3B]">
-                            {area.name}
+                            <div className="max-w-65 truncate" title={area.name}>
+                                {area.name}
+                            </div>
                         </TableCell>
 
                         <TableCell className="text-[#6F6E6C]">
