@@ -4,7 +4,7 @@ import FulfilmentStatus from "../shared/FulfilmentStatus";
 import { useGetAddresses } from "@/features/cart-checkout/hooks/useGetAddresses";
 import LoadingState from "@/components/ui/loaders/loading-state";
 import { FulfilmentType } from "@/features/profile/type/customers/profile.type";
-import { BadgeCheckIcon, BookDown, CalendarClock } from "lucide-react";
+import { BadgeCheckIcon, BookDown, CalendarClock, Clock } from "lucide-react";
 import { useOrderDetail } from "@/features/cart-checkout/hooks/useOrderDetail";
 import { formatCurrency } from "@/lib/utils";
 
@@ -40,6 +40,13 @@ const FulfilmentDetails = ({
   // Get status config
   const getStatusConfig = () => {
     switch (statusType) {
+      case "PENDING":
+        return {
+          icon: Clock,
+          iconBg: "#6B7280",
+          color: "#6B7280",
+          status: "Payment processing",
+        };
       case "DELIVERED":
         return {
           icon: BadgeCheckIcon,

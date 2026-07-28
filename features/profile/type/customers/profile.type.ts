@@ -2,7 +2,11 @@ import { LucideIcon } from "lucide-react";
 import { Variant } from "@/features/products/product.type";
 import { CreateRatingFormValues } from "../../schema/customer.schema";
 
-export type FulfilmentType = "PROCESSING" | "IN_TRANSIT" | "DELIVERED";
+export type FulfilmentType =
+  | "PENDING"
+  | "PROCESSING"
+  | "IN_TRANSIT"
+  | "DELIVERED";
 
 export interface FulfilmentStatusProps {
   statusType: FulfilmentType;

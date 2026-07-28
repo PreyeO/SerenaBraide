@@ -8,6 +8,7 @@ import React from "react";
 import { formatDateShort } from "../../../utils/profile.utils";
 
 const FulfilmentStatus: React.FC<FulfilmentStatusProps> = ({
+  statusType,
   header,
   status,
   title,
@@ -199,7 +200,7 @@ const FulfilmentStatus: React.FC<FulfilmentStatusProps> = ({
                 />
               </div>
 
-              {orderDetail.updated_at && (
+              {orderDetail.updated_at && statusType !== "PENDING" && (
                 <Paragraph
                   content={`Paid on ${formatDateShort(orderDetail.updated_at)}`}
                   className="text-xs text-[#6F6E6C] pt-1"
