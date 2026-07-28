@@ -45,6 +45,7 @@ export function useCheckout() {
   const initiatePaymentMutation = useInitiatePayment();
   const createOrderMutation = useCreateOrder({ redirectToCheckout: true });
   const hasAutoCreatedOrder = useRef(false);
+  const hasHandledCancelledPayment = useRef(false);
 
   // Fetch order details
   const { data: orderData, isLoading: isLoadingOrder } =
@@ -112,6 +113,36 @@ export function useCheckout() {
     router,
     createOrderMutation,
   ]);
+
+  // Handle a cancelled or failed payment returning from Flutterwave.
+  // Cancelling is a deliberate choice, not an error, so we acknowledge it,
+  // strip the `status` param (so a refresh won't re-fire the message), then
+  // keep the customer on this order's checkout to retry. If we have no order
+  // context (e.g. the redirect dropped order_number), send them to their
+  // orders, where the pending order shows with a "Payment processing" badge.
+  useEffect(() => {
+    if (!isHydrated || hasHandledCancelledPayment.current) return;
+    if (!paymentStatusParam) return;
+
+    const status = paymentStatusParam.toLowerCase();
+    const isCancelled = status === "cancelled" || status === "canceled";
+    const isFailed = status === "failed";
+    if (!isCancelled && !isFailed) return; // success is handled elsewhere
+
+    hasHandledCancelledPayment.current = true;
+
+    notify.error(
+      isCancelled
+        ? "Payment was cancelled. You can try again when you're ready."
+        : "Payment failed. Please try again.",
+    );
+
+    if (orderNumber) {
+      router.replace(`/checkout?order_number=${orderNumber}`);
+    } else {
+      router.replace("/profile/order");
+    }
+  }, [isHydrated, paymentStatusParam, orderNumber, router]);
 
   // Handlers
   const handleSubmit = useCallback(() => {
