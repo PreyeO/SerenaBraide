@@ -1,4 +1,4 @@
-import { BadgeCheckIcon, BookDown, CalendarClock } from "lucide-react";
+import { BadgeCheckIcon, BookDown, CalendarClock, Clock } from "lucide-react";
 import {
   FulfilmentType,
   Order,
@@ -28,6 +28,8 @@ function mapStatusToFulfilmentType(
     case "delivered":
       return "DELIVERED";
     case "pending":
+      // Payment not yet confirmed by the backend.
+      return "PENDING";
     case "paid":
     case "processing":
       return "PROCESSING";
@@ -71,6 +73,15 @@ function getStatusConfig(
   deliveryDate?: string,
 ) {
   switch (statusType) {
+    case "PENDING":
+      return {
+        icon: Clock,
+        iconBg: "#6B7280",
+        color: "#6B7280",
+        title: "Payment processing",
+        OrderAction1: "Buy Again",
+        orderAction2: "View Order",
+      };
     case "DELIVERED":
       const deliveredDate = deliveryDate
         ? formatDate(deliveryDate)

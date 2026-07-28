@@ -28,12 +28,11 @@ const CustomerOrders = () => {
   const orders = useMemo(() => {
     if (!ordersData?.results) return [];
 
-    // Filter out "pending" orders
-    const paidOrders = ordersData.results.filter(
-      (order) => order.status !== "pending"
-    );
-
-    const transformedOrders = transformOrdersToOrderInfo(paidOrders);
+    // Show all orders — including "pending" (payment not yet confirmed). These
+    // now render with a distinct "Payment processing" badge instead of being
+    // hidden, so a stuck or slow payment never makes an order disappear from
+    // the customer's view.
+    const transformedOrders = transformOrdersToOrderInfo(ordersData.results);
 
     if (activeTab === "all") return transformedOrders;
 
