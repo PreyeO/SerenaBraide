@@ -15,7 +15,7 @@ interface UseAcceptAdminInviteOptions {
 
 export const useAcceptAdminInvite = ({
   onSuccess,
-  onError,
+  // onError,
 }: UseAcceptAdminInviteOptions = {}) => {
   const setAuth = useAuthStore((state) => state.setAuth);
   const router = useRouter();

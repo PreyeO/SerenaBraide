@@ -23,6 +23,17 @@ const AdminAuthGuard = ({ children }: AdminAuthGuardProps) => {
     const isLoggedIn = !!user && hasValidToken;
 
     if (!isLoggedIn) {
+      // Admin-invite emails link to /admin?token=... — hand the token off to the
+      // accept-invite flow (which accepts the invite and logs the user in)
+      // instead of bouncing straight to login and dropping the token.
+      const inviteToken = new URLSearchParams(window.location.search).get(
+        "token",
+      );
+      if (inviteToken) {
+        router.replace(`/auth/accept-invite?token=${inviteToken}`);
+        return;
+      }
+
       // Redirect to login with return URL
       const currentPath = window.location.pathname;
       router.replace(
