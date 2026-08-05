@@ -99,16 +99,16 @@ export const useCookiesList = [
 
 export const CookiesTypeList = [
   {
-    list: "Essential: required for the site to function.",
+    list: "Essential — required for the site to function. These are used automatically and don't require your consent.",
   },
   {
-    list: "Analytics: help us measure performance.",
+    list: "Analytics — help us measure performance.",
   },
   {
-    list: "Functionality: remember your choices.",
+    list: "Functionality — remember your choices.",
   },
   {
-    list: "Marketing: show relevant promotions.",
+    list: "Marketing — show relevant promotions.",
   },
 ];
 
@@ -123,7 +123,7 @@ export const whyCookiesList = [
     list: "Phone number",
   },
   {
-    list: "Billing & delivery address",
+    list: "Billing and delivery address",
   },
 
   {
@@ -154,7 +154,7 @@ export const collectedCookiesList = [
     list: "Referral source",
   },
   {
-    list: "Cookies identifiers",
+    list: "Cookie identifiers",
   },
 ];
 

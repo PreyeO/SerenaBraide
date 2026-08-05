@@ -8,7 +8,6 @@ import {
   useOfData,
   whyCookiesList,
 } from "@/components/legal-sections/data/legal";
-import { effectiveDate } from "@/lib/utils";
 import LegalParagraph from "./shared-components/LegalParagraph";
 import LegalList from "./shared-components/LegalList";
 import LegalIntro from "./shared-components/LegalIntro";
@@ -19,7 +18,7 @@ const Privacy = () => {
       <LegalIntro
         title="Privacy Policy"
         content1="Serena Braide Privacy Policy"
-        content={`Effective Date: ${effectiveDate}`}
+        content="Effective Date: August 22, 2026"
       />
       <LegalParagraph>
         Serena Braide (“we”, “our”, or “us”) respects your privacy and is
@@ -38,7 +37,7 @@ const Privacy = () => {
         </LegalParagraph>
       </LegalTypography>
       <LegalTypography>
-        <LegalParagraph>Information We Provide</LegalParagraph>
+        <LegalParagraph>Information you provide directly</LegalParagraph>
         <LegalList items={whyCookiesList} />
       </LegalTypography>
       <LegalTypography>
@@ -110,7 +109,14 @@ const Privacy = () => {
         <LegalParagraph>
           If you opt in to receive promotions, we may send you emails or
           messages about new products and offers. You may unsubscribe at any
-          time via the link in the message.
+          time via the link in the message, or by contacting{" "}
+          <a
+            href="mailto:hello@serenabraide.com"
+            className="underline text-blue-400"
+          >
+            hello@serenabraide.com
+          </a>
+          .
         </LegalParagraph>
       </LegalTypography>
       <LegalTypography title="Cookies & Tracking">
@@ -129,18 +135,22 @@ const Privacy = () => {
       </LegalTypography>
       <LegalTypography title="Children's Data">
         <LegalParagraph>
-          Our website and products are not directed at children under 13. We do
-          not knowingly collect personal data from minors.
+          Under the Nigeria Data Protection Act (NDPA), a child is defined as
+          anyone under the age of 18. We do not knowingly collect personal data
+          from children without the consent of a parent or legal guardian. If we
+          become aware that we’ve collected a child’s personal data without
+          appropriate consent, we’ll take steps to delete it promptly.
         </LegalParagraph>
       </LegalTypography>
-      <LegalTypography title="Compliants">
+      <LegalTypography title="Complaints">
         <LegalParagraph>
           If you believe your data has been handled improperly, please contact
           us first so we can resolve the issue. You also have the right to lodge
-          a complaint with the relevant data protection authority.
+          a complaint with the Nigeria Data Protection Commission (NDPC) or the
+          relevant data protection authority.
         </LegalParagraph>
       </LegalTypography>
-      <LegalTypography title="Conntact Us">
+      <LegalTypography title="Contact Us">
         <LegalParagraph>
           For questions, requests, or concerns about this Privacy Policy or your
           personal data, please contact:

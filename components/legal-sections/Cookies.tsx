@@ -24,15 +24,18 @@ const Cookies = () => {
 
       <LegalTypography title="Types of Cookies">
         <LegalList items={CookiesTypeList} />
+        <LegalParagraph className="mt-3">
+          Analytics, functionality, and marketing cookies are only set with your
+          consent, collected through our cookie banner when you first visit. You
+          can change your preferences at any time through your browser settings
+          or our cookie preference center.
+        </LegalParagraph>
       </LegalTypography>
 
-      <LegalTypography title="How To Manage Cookies">
+      <LegalTypography title="Managing Cookies">
         <LegalParagraph>
           You can control cookies through your browser settings. Disabling some
           may affect site functionality.
-          <br />
-          <br />
-          By continuing to use our website, you agree to our use of cookies.
         </LegalParagraph>
       </LegalTypography>
     </section>
