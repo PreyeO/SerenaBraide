@@ -78,7 +78,7 @@ export const CreateStaffInviteSchema = z.object({
   email: z.string().email("Enter a valid email address"),
   first_name: z.string().min(1, "First name is required"),
   last_name: z.string().min(1, "Last name is required"),
-  phone_number: z.string().min(1, "Phone number is required"),
+  phone_number: z.string().optional().or(z.literal("")),
 });
 
 export const CreateShippingAreaSchema = z.object({

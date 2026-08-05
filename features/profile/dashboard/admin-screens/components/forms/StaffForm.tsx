@@ -41,7 +41,13 @@ const StaffForm = ({ onSuccess }: StaffFormProps) => {
   });
 
   const onSubmit = (values: CreateStaffInviteFormValues) => {
-    createInviteMutation(values);
+    createInviteMutation({
+      email: values.email,
+      first_name: values.first_name,
+      last_name: values.last_name,
+      // Phone is optional — only send it when provided.
+      ...(values.phone_number ? { phone_number: values.phone_number } : {}),
+    });
   };
 
   return (
@@ -121,7 +127,7 @@ const StaffForm = ({ onSuccess }: StaffFormProps) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-sm font-normal text-[#3B3B3B]">
-                Phone Number <span className="text-red-500">*</span>
+                Phone Number <span className="text-[#6F6E6C]">(optional)</span>
               </FormLabel>
               <FormControl>
                 <Input
