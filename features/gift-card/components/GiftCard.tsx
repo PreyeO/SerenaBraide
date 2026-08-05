@@ -126,7 +126,7 @@ const GiftCardSection = () => {
               value={customAmount}
               onChange={(e) => handleCustomAmountChange(e.target.value)}
               type="number"
-              min="1000"
+              min="20000"
             />
           </div>
 

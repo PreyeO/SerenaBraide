@@ -31,7 +31,10 @@ export function useCheckout() {
   const [showRemainingBalanceModal, setShowRemainingBalanceModal] =
     useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [isMobileOrderExpanded, setIsMobileOrderExpanded] = useState(false);
+  // Open on mobile by default so items are visible without a tap. The list is
+  // height-capped + scrollable (OrderSummaryCard), so a long order won't push
+  // the rest of the checkout down.
+  const [isMobileOrderExpanded, setIsMobileOrderExpanded] = useState(true);
   const [giftCardResponse, setGiftCardResponse] =
     useState<GiftCardResponse | null>(null);
 

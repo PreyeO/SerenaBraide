@@ -29,7 +29,7 @@ export interface CreateAddressPayload {
   address: string;
   city: string;
   state: string;
-  zip_code: string | number;
+  zip_code?: string | number;
   country: string;
   phone_number?: string | null;
 }
