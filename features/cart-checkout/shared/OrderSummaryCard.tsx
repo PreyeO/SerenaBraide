@@ -83,10 +83,10 @@ const OrderSummaryCard = ({
 
       {/* Order Items - Collapsible on mobile, always visible on desktop */}
       <div
-        className={`flex flex-col gap-4 overflow-hidden transition-all duration-300 ${
+        className={`flex flex-col gap-4 transition-all duration-300 ${
           isExpanded
-            ? "max-h-500 opacity-100 py-4 lg:py-0"
-            : "max-h-0 lg:max-h-none opacity-0 lg:opacity-100"
+            ? "max-h-[50vh] overflow-y-auto opacity-100 py-4 lg:max-h-none lg:overflow-visible lg:py-0"
+            : "max-h-0 overflow-hidden opacity-0 lg:max-h-none lg:overflow-visible lg:opacity-100"
         }`}
       >
         {isLoading ? (

@@ -54,20 +54,22 @@ const AddNewAddressForm = ({ onSuccess }: AddNewAddressFormProps) => {
   });
 
   const onSubmit = (data: CreateAddressFormValues) => {
-    // Convert zip_code string to number if it's a valid number, otherwise keep as string
-    const zipCode =
-      data.zip_code && !isNaN(Number(data.zip_code))
-        ? Number(data.zip_code)
-        : data.zip_code;
-
     const payload: CreateAddressPayload = {
       address: data.address,
       city: data.city,
       state: data.state,
-      zip_code: zipCode,
       country: data.country,
       phone_number: data.phone_number || null,
     };
+
+    // Zip code is optional — only send it when provided, converting to a
+    // number when it's numeric.
+    if (data.zip_code) {
+      payload.zip_code = !isNaN(Number(data.zip_code))
+        ? Number(data.zip_code)
+        : data.zip_code;
+    }
+
     createAddressMutation.mutate(payload);
   };
 
@@ -158,7 +160,7 @@ const AddNewAddressForm = ({ onSuccess }: AddNewAddressFormProps) => {
                     <Input
                       {...field}
                       type="tel"
-                      placeholder="Phone number (optional)"
+                      placeholder="Phone number*"
                       className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-3 lg:py-5 text-sm lg:text-base"
                     />
                   </FormControl>
@@ -200,7 +202,7 @@ const AddNewAddressForm = ({ onSuccess }: AddNewAddressFormProps) => {
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="Zip code*"
+                      placeholder="Zip code (optional)"
                       className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-3 lg:py-5 text-sm lg:text-base"
                     />
                   </FormControl>

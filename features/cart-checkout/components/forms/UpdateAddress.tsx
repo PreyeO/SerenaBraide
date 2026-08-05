@@ -177,7 +177,7 @@ const UpdateAddressForm = ({ address, onSuccess }: UpdateAddressFormProps) => {
                     <Input
                       {...field}
                       type="tel"
-                      placeholder="Phone number (optional)"
+                      placeholder="Phone number*"
                       className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-3 lg:py-5 text-sm lg:text-base"
                     />
                   </FormControl>
@@ -219,7 +219,7 @@ const UpdateAddressForm = ({ address, onSuccess }: UpdateAddressFormProps) => {
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="Zip code*"
+                      placeholder="Zip code (optional)"
                       className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-3 lg:py-5 text-sm lg:text-base"
                     />
                   </FormControl>
