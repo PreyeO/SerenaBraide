@@ -14,22 +14,21 @@ const Purchase = () => {
       <LegalTypography title="Order Processing">
         <LegalParagraph>
           Orders are typically processed within 1–2 business days, excluding
-          weekends and public holidays. You will receive a confirmation email
-          after purchase and another once your order has shipped. If there is a
-          delay or stock issue, we will contact you.
+          weekends and public holidays. You’ll receive a confirmation email
+          after purchase, and another once your order ships. If there’s a delay
+          or stock issue, we’ll reach out directly.
           <br />
           <br />
-          Modifications or cancellations are not possible once an order has been
-          placed. Please double-check all shipping details, items, and
-          quantities before purchasing.
+          Orders cannot be modified or cancelled once placed. Please
+          double-check shipping details, items, and quantities before completing
+          your purchase.
         </LegalParagraph>
       </LegalTypography>
-      <LegalTypography title="Orders & Payments">
+      <LegalTypography title="Payments">
         <LegalParagraph>
           We accept major debit and credit cards, Flutterwave, and Serena Braide
           gift cards. All transactions are processed through secure, certified
-          payment providers, and Serena Braide does not store your card
-          information
+          payment providers. Serena Braide does not store your card information.
         </LegalParagraph>
       </LegalTypography>
       <LegalTypography title="Shipping & Delivery">
@@ -39,22 +38,22 @@ const Purchase = () => {
           affected by courier or customs delays.
           <br />
           <br />
-          Customers are responsible for providing accurate shipping information.
-          We are not liable for orders delivered to an incorrect address
-          supplied at checkout.
+          You’re responsible for providing accurate shipping information. We’re
+          not liable for orders delivered to an incorrect address supplied at
+          checkout.
         </LegalParagraph>
       </LegalTypography>
       <LegalTypography title="International Orders">
         <LegalParagraph>
           Duties, taxes, or customs fees may apply depending on your country.
-          These charges are the responsibility of the customer.
+          These charges are the customer’s responsibility.
         </LegalParagraph>
       </LegalTypography>
       <LegalTypography title="Returns & Exchanges">
         <LegalParagraph>
-          For hygiene and safety reasons, we can only accept returns of items
-          that are{" "}
-          <strong>unused, unopened, and in their original packaging</strong>{" "}
+          For hygiene and safety reasons, we only accept returns of items that
+          are{" "}
+          <strong>unused, unopened, and in their original packaging</strong>,
           within <strong>7 days</strong> of delivery.
           <br />
           <br />
@@ -65,30 +64,29 @@ const Purchase = () => {
           >
             hello@serenabraide.com
           </a>{" "}
-          with your order number. If approved, return instructions will be
-          provided.
+          with your order number. If approved, we’ll send return instructions.
           <br />
           <br />
           Shipping fees are non-refundable unless the return is due to our error
           (wrong or defective item).
         </LegalParagraph>
       </LegalTypography>
-      <LegalTypography title="Damaged or Incorect Items">
+      <LegalTypography title="Damaged or Incorrect Items">
         <LegalParagraph>
-          Please notify us within <strong>48 hours</strong> of delivery and
-          include photo evidence. We will arrange a replacement or refund where
+          Please notify us within <strong>48 hours</strong> of delivery, with
+          photo evidence. We’ll arrange a replacement or refund where
           appropriate.
         </LegalParagraph>
       </LegalTypography>
 
-      <LegalTypography title="Gift Card">
+      <LegalTypography title="Gift Cards">
         <LegalParagraph>
           Gift cards are non-refundable, non-transferable, and cannot be
           exchanged for cash.
           <br />
           <br />
-          You can check your balance at any time on our Serena Braide reserves
-          the right to refuse returns that do not meet these conditions.
+          Serena Braide reserves the right to refuse returns that don’t meet
+          these conditions.
         </LegalParagraph>
       </LegalTypography>
     </section>

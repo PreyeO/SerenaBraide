@@ -276,40 +276,46 @@ export const faq = [
   {
     question: "How do I place an order?",
     answer:
-      "Simply browse our collections, add your favorites to your cart, and proceed to checkout. You will receive an email confirming that your order has been received.",
+      "Browse our collections, add your favorites to your bag, and check out. You’ll receive an email confirming your order has been received.",
   },
   {
     question: "Can I change or cancel my order?",
     answer:
-      "We work quickly to process orders. Modifications or cancellations are not possible once it has been placed. Please double-check all shipping details, items, and quantities before purchasing.",
+      "Orders are processed quickly, so changes or cancellations aren’t possible once placed. Please double-check your shipping details, items, and quantities before completing your purchase.",
   },
   {
     question: "How do I know my order went through?",
     answer:
-      "You will receive a confirmation email with your order number shortly after payment.",
+      "You’ll receive a confirmation email with your order number shortly after payment.",
   },
   {
     question: "Where do you ship to?",
     answer:
-      "We ship worldwide. Shipping rates and delivery times vary depending on the destination.",
+      "We ship worldwide. Rates and delivery times vary by destination and are calculated at checkout.",
   },
   {
-    question: "Do I pay customs fees for international orders?",
+    question: "Do I pay customs fees on international orders?",
     answer:
-      "Some countries may charge duties or taxes. These are determined by local authorities and are the customer’s responsibility.",
+      "Some countries charge duties or taxes on incoming orders. These are set by local authorities and are the customer’s responsibility.",
   },
   {
     question: "What payment methods do you accept?",
     answer:
-      "We accept bank cards, bank transfers, and Serena Braide gift cards.",
+      "Bank cards, bank transfers, Flutterwave, and Serena Braide gift cards.",
   },
   {
     question: "Do you store my card details?",
-    answer: "No. Payments are processed securely by certified providers.",
+    answer:
+      "No. Payments are processed securely by certified third-party providers. We never see or store your card information.",
   },
   {
     question: "How do I use my gift card?",
     answer:
-      "At checkout, enter the gift card number and pin sent to your email. The value will be applied to your order.",
+      "At checkout, enter your gift card number and PIN, sent to you by email. The value is applied automatically to your order.",
+  },
+  {
+    question: "Can I return or exchange an item?",
+    answer:
+      "For hygiene and safety reasons, we accept returns only on items that are unused, unopened, and in their original packaging, within 7 days of delivery. Contact hello@serenabraide.com with your order number to start a return.",
   },
 ];
