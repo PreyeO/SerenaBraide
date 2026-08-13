@@ -38,10 +38,7 @@ const Story = () => {
               className="px-6  lg:text-base text-sm leading-5.5 font-normal lg:leading-6 max-w-125 text-[#6F6E6C]"
               content="Whether it is the perfume you spray on your pulse points to command a room, or the lip care you apply to refine your presence, every essential we craft serves a single purpose: to give you the tools for self-definition."
             />
-            <Paragraph
-              className="px-6  lg:text-base text-sm leading-5.5 font-normal lg:leading-6 max-w-125 text-[#6F6E6C]"
-              content="I believe that anyone can make an entrance, but not everyone is remembered. That is the exact signature I wanted to create. Simple. Classy. And designed to linger long after you are gone. I built this for the individual, never the crowd, because while your physical presence in a space might be temporary, the mark you leave behind should be timeless."
-            />
+
             <Paragraph
               className="px-6  lg:text-base text-sm leading-5.5 font-normal lg:leading-6 max-w-125 text-[#6F6E6C]"
               content="This brand carries my name, but the legacy it creates is entirely yours."
