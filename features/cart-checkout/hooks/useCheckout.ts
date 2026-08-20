@@ -122,7 +122,7 @@ export function useCheckout() {
   // strip the `status` param (so a refresh won't re-fire the message), then
   // keep the customer on this order's checkout to retry. If we have no order
   // context (e.g. the redirect dropped order_number), send them to their
-  // orders, where the pending order shows with a "Payment processing" badge.
+  // orders, where the pending order shows with an "Awaiting payment" badge.
   useEffect(() => {
     if (!isHydrated || hasHandledCancelledPayment.current) return;
     if (!paymentStatusParam) return;
