@@ -29,7 +29,7 @@ const CustomerOrders = () => {
     if (!ordersData?.results) return [];
 
     // Show all orders — including "pending" (payment not yet confirmed). These
-    // now render with a distinct "Payment processing" badge instead of being
+    // now render with a distinct "Awaiting payment" badge instead of being
     // hidden, so a stuck or slow payment never makes an order disappear from
     // the customer's view.
     const transformedOrders = transformOrdersToOrderInfo(ordersData.results);

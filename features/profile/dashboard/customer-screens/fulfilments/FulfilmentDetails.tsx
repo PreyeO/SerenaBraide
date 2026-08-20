@@ -45,7 +45,7 @@ const FulfilmentDetails = ({
           icon: Clock,
           iconBg: "#6B7280",
           color: "#6B7280",
-          status: "Payment processing",
+          status: "Awaiting payment",
         };
       case "DELIVERED":
         return {

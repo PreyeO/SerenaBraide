@@ -78,7 +78,7 @@ function getStatusConfig(
         icon: Clock,
         iconBg: "#6B7280",
         color: "#6B7280",
-        title: "Payment processing",
+        title: "Awaiting payment",
         OrderAction1: "Buy Again",
         orderAction2: "View Order",
       };
