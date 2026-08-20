@@ -27,12 +27,12 @@ const Footer = () => {
             className="text-[#F5F5F5] font-normal lg:text-sm text-xs leading-4.5 lg:leading-5.5 pt-1.5 text-center "
             span="privacy policy."
           />
-          <div className="flex items-center px-6 lg:px-12 max-w-122 mt-8.5 border border-white rounded-full">
+          <div className="flex items-center gap-2 py-1.5 pl-6 pr-1.5 max-w-122 mt-8.5 border border-white rounded-full">
             <Input
-              className="flex-1 py-5.5 rounded-full border-0 text-sm text-[#F5F5F5] font-normal bg-transparent lg:px-4"
+              className="flex-1 h-11 rounded-full border-0 text-sm text-[#F5F5F5] font-normal bg-transparent"
               placeholder="enter your email address"
             />
-            <Button className="bg-white rounded-full size-10 shadow-[0px_16px_40px_-12px_#12121226] flex items-center justify-center">
+            <Button className="bg-white rounded-full size-10 shrink-0 shadow-[0px_16px_40px_-12px_#12121226] flex items-center justify-center">
               <ArrowUpRight className="size-[22.22px] text-[#3B3B3B]/50" />
             </Button>
           </div>
