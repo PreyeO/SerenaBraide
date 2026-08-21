@@ -14,7 +14,7 @@ export default function DeliveryInformation() {
       <div className="mt-2.5 border border-[#D1D5DB] rounded-[10px]  lg:px-[12.5px] px-2.5 py-2.5">
         <AuthSpan className="lg:text-sm text-xs leading-4.5 lg:*:leading-5.5 font-normal text-[#3B3B3B]">
           <span className="font-medium">Standard Shipping:</span> Arrives within
-          2–4 business days. <br />
+          1–5 working days. <br />
           Orders placed after 10 PM on Friday or during the weekend will be
           processed on Monday.
         </AuthSpan>
