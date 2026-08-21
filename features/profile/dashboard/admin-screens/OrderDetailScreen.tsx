@@ -114,7 +114,10 @@ const OrderDetailScreen = ({ orderNumber }: OrderDetailScreenProps) => {
     );
   }
 
-  const defaultAddress = getDefaultAddress(order.customer_profile);
+  // Prefer the address captured on the order itself; fall back to the
+  // customer's default profile address for older orders that have none.
+  const shippingAddress =
+    order.address ?? getDefaultAddress(order.customer_profile);
 
   return (
     <section className="py-7.5">
@@ -275,37 +278,37 @@ const OrderDetailScreen = ({ orderNumber }: OrderDetailScreenProps) => {
                 </Button>
               )}
             </div>
-            {defaultAddress && (
+            {shippingAddress && (
               <div className="space-y-2">
                 <div>
                   <p className="text-xs text-[#6F6E6C] mb-1">Address</p>
                   <p className="font-medium text-[#3B3B3B]">
-                    {defaultAddress.address}
+                    {shippingAddress.address}
                   </p>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div>
                     <p className="text-xs text-[#6F6E6C] mb-1">City</p>
                     <p className="font-medium text-[#3B3B3B]">
-                      {defaultAddress.city}
+                      {shippingAddress.city}
                     </p>
                   </div>
                   <div>
                     <p className="text-xs text-[#6F6E6C] mb-1">State</p>
                     <p className="font-medium text-[#3B3B3B]">
-                      {defaultAddress.state}
+                      {shippingAddress.state}
                     </p>
                   </div>
                   <div>
                     <p className="text-xs text-[#6F6E6C] mb-1">Zip Code</p>
                     <p className="font-medium text-[#3B3B3B]">
-                      {defaultAddress.zip_code}
+                      {shippingAddress.zip_code}
                     </p>
                   </div>
                   <div>
                     <p className="text-xs text-[#6F6E6C] mb-1">Phone</p>
                     <p className="font-medium text-[#3B3B3B]">
-                      {defaultAddress.phone_number || "N/A"}
+                      {shippingAddress.phone_number || "N/A"}
                     </p>
                   </div>
                 </div>

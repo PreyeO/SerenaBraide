@@ -185,7 +185,9 @@ export interface Order {
   gift_card_amount: string;
   remaining_amount: string;
   purchased_gift_card: GiftCard | null;
-  address: string | null;
+  // The delivery address captured on the order (the API returns the full
+  // address object, not just a string).
+  address: CustomerAddress | null;
   created_at: string;
   updated_at: string;
 }

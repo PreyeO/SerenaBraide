@@ -65,7 +65,13 @@ export function getApiErrorMessage(
     (error as { response?: { data?: unknown } })?.response?.data ?? error;
 
   if (typeof data === "string") {
-    return data.trim() || fallback;
+    const trimmed = data.trim();
+    // Never surface a raw HTML body (e.g. a server 500 error page) or an
+    // oversized string to the user — fall back to the friendly message.
+    if (!trimmed || trimmed.startsWith("<") || trimmed.length > 300) {
+      return fallback;
+    }
+    return trimmed;
   }
   if (!data || typeof data !== "object") {
     return fallback;
