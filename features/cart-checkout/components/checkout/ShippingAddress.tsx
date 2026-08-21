@@ -43,10 +43,13 @@ const ShippingAddress = () => {
 
   return (
     <div className="bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5] w-full flex flex-col gap-6 lg:px-15 px-4 lg:py-7.5 py-4">
-      <SubHeading
-        title="Shipping Address"
-        className="text-[#3B3B3B] text-sm lg:text-base font-medium"
-      />
+      <div className="flex items-center gap-1">
+        <SubHeading
+          title="Shipping Address"
+          className="text-[#3B3B3B] text-sm lg:text-base font-medium"
+        />
+        <span className="text-red-500 text-sm lg:text-base font-medium">*</span>
+      </div>
       <div className="flex flex-col gap-4">
         <RadioGroup
           defaultValue={

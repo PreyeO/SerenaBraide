@@ -122,7 +122,7 @@ const CheckoutSection = () => {
         <div className="flex flex-col lg:flex-row flex-wrap lg:flex-nowrap xl:gap-10 md:gap-5 gap-0 lg:mt-10 mt-4">
           {/* Left Column - Shipping & Payment */}
           <div className="flex flex-col gap-6 order-2 lg:order-1 mt-6 lg:mt-0">
-            <div className=" w-full">
+            <div id="checkout-shipping-address" className=" w-full scroll-mt-24">
               <ShippingAddress />
             </div>
 
