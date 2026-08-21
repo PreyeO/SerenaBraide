@@ -54,21 +54,18 @@ const AddNewAddressForm = ({ onSuccess }: AddNewAddressFormProps) => {
   });
 
   const onSubmit = (data: CreateAddressFormValues) => {
+    // Zip code is optional. Always send the key (empty string when blank) —
+    // omitting it can crash the backend with a 500 — and convert to a number
+    // when it's numeric.
+    const zip = data.zip_code ?? "";
     const payload: CreateAddressPayload = {
       address: data.address,
       city: data.city,
       state: data.state,
       country: data.country,
       phone_number: data.phone_number || null,
+      zip_code: zip && !isNaN(Number(zip)) ? Number(zip) : zip,
     };
-
-    // Zip code is optional — only send it when provided, converting to a
-    // number when it's numeric.
-    if (data.zip_code) {
-      payload.zip_code = !isNaN(Number(data.zip_code))
-        ? Number(data.zip_code)
-        : data.zip_code;
-    }
 
     createAddressMutation.mutate(payload);
   };
