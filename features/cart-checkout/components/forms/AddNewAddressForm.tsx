@@ -48,7 +48,7 @@ const AddNewAddressForm = ({ onSuccess }: AddNewAddressFormProps) => {
       city: "",
       state: "",
       zip_code: "",
-      country: "",
+      country: "NG",
       phone_number: "",
     },
   });

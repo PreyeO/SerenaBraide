@@ -9,6 +9,7 @@ import { useInitiatePayment } from "@/features/payment/hooks/useInitiatePayment"
 import { useApplyGiftCard } from "@/features/gift-card/hooks/useApplyGiftCard";
 import { usePaymentStatusCheck } from "./usePaymentStatusCheck";
 import { useOrderCalculations } from "./useOrderCalculations";
+import { useGetAddresses } from "./useGetAddresses";
 import { notify } from "@/lib/notify";
 import { paymentType, PAYMENT_TYPES } from "../data/checkout.data";
 import { BalanceFormValues } from "@/features/gift-card/giftcard.type";
@@ -53,6 +54,11 @@ export function useCheckout() {
   // Fetch order details
   const { data: orderData, isLoading: isLoadingOrder } =
     useOrderDetail(orderNumber);
+
+  // Whether the customer has a saved delivery address. Payment is gated on this
+  // so nobody can pay without somewhere to ship to.
+  const { data: addresses } = useGetAddresses();
+  const hasAddress = (addresses?.length ?? 0) > 0;
 
   // Payment status check
   const { showSuccessModal, setShowSuccessModal } = usePaymentStatusCheck({
@@ -147,6 +153,17 @@ export function useCheckout() {
     }
   }, [isHydrated, paymentStatusParam, orderNumber, router]);
 
+  // Block payment until a delivery address exists, and nudge the customer to
+  // the shipping section so they can add one. Returns false when blocked.
+  const ensureAddress = useCallback(() => {
+    if (hasAddress) return true;
+    notify.error("Please add a delivery address before you can pay.");
+    document
+      .getElementById("checkout-shipping-address")
+      ?.scrollIntoView({ behavior: "smooth", block: "center" });
+    return false;
+  }, [hasAddress]);
+
   // Handlers
   const handleSubmit = useCallback(() => {
     const payment = paymentType.find((p) => p.id === selectedPayment);
@@ -166,6 +183,8 @@ export function useCheckout() {
       return;
     }
 
+    if (!ensureAddress()) return;
+
     if (selectedPayment === PAYMENT_TYPES.GIFT_CARD) {
       setShowPaymentModal(false);
       setShowGiftCardModal(true);
@@ -178,7 +197,14 @@ export function useCheckout() {
     }
 
     router.push(payment.href!);
-  }, [selectedPayment, user, orderNumber, router, initiatePaymentMutation]);
+  }, [
+    selectedPayment,
+    user,
+    orderNumber,
+    router,
+    initiatePaymentMutation,
+    ensureAddress,
+  ]);
 
   const handleGiftCardSubmit = useCallback(
     (data: BalanceFormValues) => {
@@ -207,8 +233,9 @@ export function useCheckout() {
   }, [orderNumber, initiatePaymentMutation]);
 
   const handleMobileContinue = useCallback(() => {
+    if (!ensureAddress()) return;
     setShowPaymentModal(true);
-  }, []);
+  }, [ensureAddress]);
 
   const toggleMobileOrderExpanded = useCallback(() => {
     setIsMobileOrderExpanded((prev) => !prev);

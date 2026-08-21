@@ -34,6 +34,8 @@ export function getCountryName(code: string): string {
 }
 
 export const COUNTRIES: Country[] = [
+    // Nigeria first — the majority of our buyers are in Nigeria.
+    { code: "NG", name: "Nigeria" },
     { code: "AF", name: "Afghanistan" },
     { code: "AX", name: "Åland Islands" },
     { code: "AL", name: "Albania" },
@@ -193,7 +195,6 @@ export const COUNTRIES: Country[] = [
     { code: "NZ", name: "New Zealand" },
     { code: "NI", name: "Nicaragua" },
     { code: "NE", name: "Niger" },
-    { code: "NG", name: "Nigeria" },
     { code: "NU", name: "Niue" },
     { code: "NF", name: "Norfolk Island" },
     { code: "KP", name: "North Korea" },
