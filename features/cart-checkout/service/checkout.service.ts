@@ -18,6 +18,17 @@ export async function getOrderDetail(orderNumber: number): Promise<Order> {
   return response.data;
 }
 
+export async function updateOrderAddress(
+  orderNumber: number,
+  addressId: number
+): Promise<Order> {
+  const response: AxiosResponse<Order> = await api.patch(
+    `/api/orders/${orderNumber}/`,
+    { address_id: addressId }
+  );
+  return response.data;
+}
+
 // Address Service Functions
 export async function createAddress(payload: CreateAddressPayload): Promise<Address> {
   const response: AxiosResponse<Address> = await api.post("/api/addresses/", payload);
