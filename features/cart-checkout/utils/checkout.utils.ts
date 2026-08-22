@@ -49,7 +49,12 @@ export function isPaymentSuccessful(
   orderStatus: string | null | undefined
 ): boolean {
   // Check URL params first (from Flutterwave redirect)
-  if (paymentStatusParam === "successful" || paymentStatusParam === "success") {
+  const normalizedParam = paymentStatusParam?.toLowerCase();
+  if (
+    normalizedParam === "successful" ||
+    normalizedParam === "success" ||
+    normalizedParam === "completed"
+  ) {
     return true;
   }
 

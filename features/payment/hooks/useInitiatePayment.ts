@@ -22,9 +22,20 @@ export const useInitiatePayment = ({
   >({
     mutationFn: ({ orderNumber, payload }) =>
       initiatePayment(orderNumber, payload),
-    onSuccess: (payment) => {
+    onSuccess: (payment, variables) => {
       // Redirect to Flutterwave payment link
       if (payment.payment_link) {
+        // Stash the order number so we can recover it if Flutterwave's redirect
+        // comes back without order_number (then still load the order + detect
+        // success on return).
+        try {
+          sessionStorage.setItem(
+            "sb_pending_order_number",
+            String(variables.orderNumber),
+          );
+        } catch {
+          /* sessionStorage unavailable — non-fatal */
+        }
         window.location.href = payment.payment_link;
       } else {
         notify.error("Payment link not received");
