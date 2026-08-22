@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthStore } from "@/features/auth/auth.store";
 import { useOrderDetail } from "./useOrderDetail";
@@ -43,9 +43,31 @@ export function useCheckout() {
 
   // URL Params
   const orderNumberParam = searchParams.get("order_number");
-  const orderNumber = orderNumberParam ? parseInt(orderNumberParam, 10) : null;
   const paymentStatusParam = searchParams.get("status");
   const shippingAreaIdParam = searchParams.get("shippingAreaId");
+
+  // If the Flutterwave redirect dropped order_number, recover the one we stashed
+  // before sending the customer to pay — so we can still load the order and
+  // detect a successful payment. Only recover when clearly returning from a
+  // payment attempt (Flutterwave appends status / tx_ref / transaction_id).
+  const recoveredOrderNumber = useMemo(() => {
+    if (orderNumberParam || typeof window === "undefined") return null;
+    const returningFromPayment =
+      !!paymentStatusParam ||
+      !!searchParams.get("tx_ref") ||
+      !!searchParams.get("transaction_id");
+    if (!returningFromPayment) return null;
+    try {
+      const stored = sessionStorage.getItem("sb_pending_order_number");
+      return stored ? parseInt(stored, 10) : null;
+    } catch {
+      return null;
+    }
+  }, [orderNumberParam, paymentStatusParam, searchParams]);
+
+  const orderNumber = orderNumberParam
+    ? parseInt(orderNumberParam, 10)
+    : recoveredOrderNumber;
 
   // Mutations
   const initiatePaymentMutation = useInitiatePayment();
@@ -72,6 +94,16 @@ export function useCheckout() {
     orderData,
     paymentStatusParam,
   });
+
+  // Once a successful payment is detected, drop the stashed order number.
+  useEffect(() => {
+    if (!showSuccessModal) return;
+    try {
+      sessionStorage.removeItem("sb_pending_order_number");
+    } catch {
+      /* ignore */
+    }
+  }, [showSuccessModal]);
 
   // Order calculations
   const { orderItems, totalQuantity, totalPrice, subtotal, shippingCost, tax } =
@@ -145,6 +177,11 @@ export function useCheckout() {
     if (!isCancelled && !isFailed) return; // success is handled elsewhere
 
     hasHandledCancelledPayment.current = true;
+    try {
+      sessionStorage.removeItem("sb_pending_order_number");
+    } catch {
+      /* ignore */
+    }
 
     notify.error(
       isCancelled
