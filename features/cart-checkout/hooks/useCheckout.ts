@@ -6,6 +6,8 @@ import { useAuthStore } from "@/features/auth/auth.store";
 import { useOrderDetail } from "./useOrderDetail";
 import { useCreateOrder } from "./useCreateOrder";
 import { useInitiatePayment } from "@/features/payment/hooks/useInitiatePayment";
+import { useUpdateOrderAddress } from "./useUpdateOrderAddress";
+import { useCheckoutAddressStore } from "../store/checkout-address.store";
 import { useApplyGiftCard } from "@/features/gift-card/hooks/useApplyGiftCard";
 import { usePaymentStatusCheck } from "./usePaymentStatusCheck";
 import { useOrderCalculations } from "./useOrderCalculations";
@@ -47,6 +49,10 @@ export function useCheckout() {
 
   // Mutations
   const initiatePaymentMutation = useInitiatePayment();
+  const updateOrderAddressMutation = useUpdateOrderAddress();
+  const selectedAddressId = useCheckoutAddressStore(
+    (state) => state.selectedAddressId,
+  );
   const createOrderMutation = useCreateOrder({ redirectToCheckout: true });
   const hasAutoCreatedOrder = useRef(false);
   const hasHandledCancelledPayment = useRef(false);
@@ -185,18 +191,33 @@ export function useCheckout() {
 
     if (!ensureAddress()) return;
 
-    if (selectedPayment === PAYMENT_TYPES.GIFT_CARD) {
-      setShowPaymentModal(false);
-      setShowGiftCardModal(true);
-      return;
-    }
+    // What to run once the order has the chosen address attached.
+    const proceed = () => {
+      if (selectedPayment === PAYMENT_TYPES.GIFT_CARD) {
+        setShowPaymentModal(false);
+        setShowGiftCardModal(true);
+        return;
+      }
 
-    if (selectedPayment === PAYMENT_TYPES.FLUTTERWAVE) {
-      initiatePaymentMutation.mutate({ orderNumber });
-      return;
-    }
+      if (selectedPayment === PAYMENT_TYPES.FLUTTERWAVE) {
+        initiatePaymentMutation.mutate({ orderNumber });
+        return;
+      }
 
-    router.push(payment.href!);
+      router.push(payment.href!);
+    };
+
+    // Attach the customer's selected delivery address to the order first; only
+    // continue to payment if it succeeds, so we never pay against a wrong or
+    // missing address. (Errors surface via the axios interceptor toast.)
+    if (selectedAddressId) {
+      updateOrderAddressMutation.mutate(
+        { orderNumber, addressId: Number(selectedAddressId) },
+        { onSuccess: proceed },
+      );
+    } else {
+      proceed();
+    }
   }, [
     selectedPayment,
     user,
@@ -204,6 +225,8 @@ export function useCheckout() {
     router,
     initiatePaymentMutation,
     ensureAddress,
+    selectedAddressId,
+    updateOrderAddressMutation,
   ]);
 
   const handleGiftCardSubmit = useCallback(
@@ -277,7 +300,8 @@ export function useCheckout() {
     giftCardResponse,
 
     // Loading states
-    isPaymentPending: initiatePaymentMutation.isPending,
+    isPaymentPending:
+      initiatePaymentMutation.isPending || updateOrderAddressMutation.isPending,
     isGiftCardPending: applyGiftCardMutation.isPending,
 
     // Handlers

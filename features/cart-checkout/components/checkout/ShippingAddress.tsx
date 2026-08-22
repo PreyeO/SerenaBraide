@@ -14,6 +14,8 @@ import { useGetAddresses } from "../../hooks/useGetAddresses";
 import EmptyAdress from "../empty-screens/EmptyAdress";
 import LoadingState from "@/components/ui/loaders/loading-state";
 import { useAddressModals } from "@/features/cart-checkout/hooks/useAddressModals";
+import { useEffect } from "react";
+import { useCheckoutAddressStore } from "@/features/cart-checkout/store/checkout-address.store";
 
 const ShippingAddress = () => {
   const {
@@ -28,6 +30,21 @@ const ShippingAddress = () => {
     closeEditModal,
   } = useAddressModals();
   const { data: addresses, isLoading } = useGetAddresses();
+  const { selectedAddressId, setSelectedAddressId } = useCheckoutAddressStore();
+
+  // Default the selection to the customer's default address (or first), and
+  // reset it if the current selection is no longer a valid address.
+  useEffect(() => {
+    if (!addresses || addresses.length === 0) return;
+    const isValid =
+      selectedAddressId &&
+      addresses.some((addr) => addr.id.toString() === selectedAddressId);
+    if (!isValid) {
+      const fallback =
+        addresses.find((addr) => addr.is_default) ?? addresses[0];
+      setSelectedAddressId(fallback.id.toString());
+    }
+  }, [addresses, selectedAddressId, setSelectedAddressId]);
 
   if (isLoading) {
     return (
@@ -52,10 +69,8 @@ const ShippingAddress = () => {
       </div>
       <div className="flex flex-col gap-4">
         <RadioGroup
-          defaultValue={
-            addresses.find((addr) => addr.is_default)?.id.toString() ||
-            addresses[0].id.toString()
-          }
+          value={selectedAddressId ?? undefined}
+          onValueChange={setSelectedAddressId}
         >
           {addresses.map((address) => (
             <div
