@@ -117,6 +117,20 @@ export async function getProductVariants(productId: number) {
   return res.data;
 }
 
+// Partial update of a variant (e.g. stock quantity, active status, price).
+// Sent as JSON — image changes go through the create flow.
+export async function updateVariant(
+  productId: number,
+  variantId: number,
+  data: { stock_quantity?: number; is_active?: boolean; price?: string }
+) {
+  const response = await api.patch(
+    `/api/products/${productId}/variants/${variantId}/`,
+    data
+  );
+  return response.data;
+}
+
 export async function createVariant(
   productId: number,
   data: CreateVariantValues
