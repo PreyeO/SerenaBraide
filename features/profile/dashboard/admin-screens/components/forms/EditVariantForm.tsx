@@ -3,10 +3,11 @@
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef } from "react";
-import { CreateVariantSchema } from "@/features/profile/schema/admin.schema";
+import Image from "next/image";
+import { UpdateVariantSchema } from "@/features/profile/schema/admin.schema";
 import {
-  AllProduct,
-  CreateVariantValues,
+  ProductVariant,
+  UpdateVariantValues,
 } from "@/features/profile/type/admin/product.type";
 import {
   Form,
@@ -18,51 +19,40 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import SubmitButton from "@/components/ui/btns/submit-cta";
-import { useCreateVariant } from "@/features/profile/hooks/admin/useCreateVariant";
-import { useGetProducts } from "@/features/profile/hooks/admin/useGetProducts";
+import { useUpdateVariant } from "@/features/profile/hooks/admin/useUpdateVariant";
 import {
   ImageUploadField,
   ImageMetadataFields,
   ToggleField,
 } from "../shared/ImageComponents";
 
-interface VariantFormProps {
-  productId?: number;
-  onVariantCreated?: () => void;
+interface EditVariantFormProps {
+  productId: number;
+  variant: ProductVariant;
+  onSuccess?: () => void;
 }
 
-const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
-  const { mutate, isPending } = useCreateVariant();
-  const { data: products = [] } = useGetProducts();
+const EditVariantForm = ({
+  productId,
+  variant,
+  onSuccess,
+}: EditVariantFormProps) => {
+  const { mutate, isPending } = useUpdateVariant({ onSuccess });
 
-  const form = useForm<CreateVariantValues>({
-    resolver: zodResolver(CreateVariantSchema),
+  const form = useForm<UpdateVariantValues>({
+    resolver: zodResolver(UpdateVariantSchema),
     defaultValues: {
-      product_id: productId || 0,
-      sku: "",
-      size: "",
-      color: "",
-      price: "",
-      stock_quantity: 0,
-      is_active: true,
+      product_id: productId,
+      sku: variant.sku,
+      size: variant.size,
+      color: variant.color || "",
+      price: variant.price,
+      stock_quantity: variant.stock_quantity,
+      is_active: variant.is_active,
       ingredients: null,
       inspiration: null,
-      images: [
-        {
-          file: null, // Will be stored in filesRef
-          is_primary: true,
-          alt_text: "",
-          order: 1,
-        },
-      ],
+      images: [],
     },
   });
 
@@ -71,9 +61,7 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
     name: "images",
   });
 
-  // Create refs for file inputs
   const fileInputRefs = useRef<Map<number, HTMLInputElement>>(new Map());
-  // Store files separately in a ref since React Hook Form might not handle File objects well
   const filesRef = useRef<Map<number, File>>(new Map());
   const setFileInputRef = (index: number, element: HTMLInputElement | null) => {
     if (element) {
@@ -83,87 +71,26 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
     }
   };
 
-  const onSubmit = (values: CreateVariantValues) => {
-    console.log("Form values on submit:", values);
-    console.log("Files from ref:", Array.from(filesRef.current.entries()));
+  const onSubmit = (values: UpdateVariantValues) => {
+    // Only newly-added image rows need a real File attached — drop any that
+    // never got one (e.g. an added-then-untouched row).
+    const images = (values.images ?? [])
+      .map((img, index) => ({ ...img, file: filesRef.current.get(index) }))
+      .filter((img) => img.file instanceof File);
 
-    // Validate that all images have files stored in the ref
-    const missingFiles: number[] = [];
-    values.images.forEach((img, index) => {
-      const file = filesRef.current.get(index);
-      if (!file || !(file instanceof File)) {
-        missingFiles.push(index);
-      }
+    mutate({
+      productId,
+      variantId: variant.id,
+      data: { ...values, images },
     });
-
-    if (missingFiles.length > 0) {
-      missingFiles.forEach((index) => {
-        form.setError(`images.${index}.file`, {
-          message: "Image file is required",
-        });
-      });
-      return; // Stop submission if validation fails
-    }
-
-    // Create submit data with actual files from ref
-    const submitData: CreateVariantValues = {
-      ...values,
-      images: values.images.map((img, index) => ({
-        ...img,
-        file: filesRef.current.get(index)!,
-      })),
-    };
-
-    console.log("Submitting data with files:", submitData);
-    mutate(
-      { productId: values.product_id, data: submitData },
-      {
-        onSuccess: () => {
-          form.reset();
-          filesRef.current.clear(); // Clear file refs on success
-          onVariantCreated?.();
-        },
-      },
-    );
   };
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-6 max-w-150 border px-6 py-6 rounded-[25px] border-[#F0F0F0]"
+        className="space-y-6 w-full max-w-150"
       >
-        {/* PRODUCT SELECT */}
-        <FormField
-          control={form.control}
-          name="product_id"
-          render={({ field }) => (
-            <FormItem className="">
-              <FormLabel className="text-sm font-normal text-[#3B3B3B]">
-                Product Name <span className="text-red-500">*</span>
-              </FormLabel>
-              <Select
-                onValueChange={(value) => field.onChange(Number(value))}
-                value={field.value?.toString()}
-              >
-                <FormControl>
-                  <SelectTrigger className="h-11 w-full">
-                    <SelectValue placeholder="Select a product" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {(products as AllProduct[]).map((product: AllProduct) => (
-                    <SelectItem key={product.id} value={product.id.toString()}>
-                      {product.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
         {/* SKU, SIZE, COLOR, PRICE */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormField
@@ -195,11 +122,7 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
                   Size <span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="e.g., 100ML"
-                    className="h-11"
-                    {...field}
-                  />
+                  <Input placeholder="e.g., 100ML" className="h-11" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -312,8 +235,8 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
                 </FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="List the ingredients for this variant..."
-                    className="min-h-25"
+                    placeholder="Leave blank to keep unchanged"
+                    className="min-h-[100px]"
                     value={field.value || ""}
                     onChange={(e) => field.onChange(e.target.value || null)}
                   />
@@ -333,8 +256,8 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
                 </FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="Describe the inspiration behind this variant..."
-                    className="min-h-25"
+                    placeholder="Leave blank to keep unchanged"
+                    className="min-h-[100px]"
                     value={field.value || ""}
                     onChange={(e) => field.onChange(e.target.value || null)}
                   />
@@ -345,10 +268,42 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
           />
         </div>
 
-        {/* MEDIA SECTION */}
+        {/* EXISTING IMAGES */}
+        {variant.images.length > 0 && (
+          <div className="space-y-3">
+            <FormLabel className="text-sm font-normal text-[#3B3B3B]">
+              Current Images
+            </FormLabel>
+            <div className="flex flex-wrap gap-3">
+              {variant.images.map((img) => (
+                <div
+                  key={img.id}
+                  className="relative w-20 h-20 rounded-md overflow-hidden border border-[#F0F0F0]"
+                >
+                  <Image
+                    src={img.image_url}
+                    alt={img.alt_text}
+                    fill
+                    className="object-cover"
+                  />
+                  {img.is_primary && (
+                    <span className="absolute bottom-0 inset-x-0 bg-black/60 text-white text-[10px] text-center py-0.5">
+                      Primary
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-[#6F6E6C]">
+              Existing images stay as they are. Add new images below if needed.
+            </p>
+          </div>
+        )}
+
+        {/* NEW IMAGES */}
         <div className="space-y-3">
           <FormLabel className="text-sm font-normal text-[#3B3B3B]">
-            Variant Images <span className="text-red-500">*</span>
+            Add New Images (optional)
           </FormLabel>
           <div className="space-y-4">
             {fields.map((item, index) => (
@@ -389,15 +344,16 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
                     index={index}
                     baseName="images"
                   />
-                  {index > 0 && (
-                    <button
-                      type="button"
-                      onClick={() => remove(index)}
-                      className="text-red-500 hover:text-red-700 text-sm font-medium transition-colors mt-2"
-                    >
-                      Remove Image
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      filesRef.current.delete(index);
+                      remove(index);
+                    }}
+                    className="text-red-500 hover:text-red-700 text-sm font-medium transition-colors mt-2"
+                  >
+                    Remove
+                  </button>
                 </div>
               </div>
             ))}
@@ -408,23 +364,24 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
             className="text-[#3B3B3B] hover:text-[#2B2B2B] text-sm font-normal transition-colors"
             onClick={() =>
               append({
-                file: null, // Will be stored in filesRef
+                file: null,
                 is_primary: false,
                 alt_text: "",
-                order: fields.length + 1,
+                order: variant.images.length + fields.length + 1,
               })
             }
           >
-            + Add Another Image
+            + Add New Image
           </button>
         </div>
 
         {/* SUBMIT */}
         <div className="pt-4">
           <SubmitButton
-            label="Create Variant"
-            loadingLabel="Creating variant..."
+            label="Save Changes"
+            loadingLabel="Saving..."
             isPending={isPending}
+            className="w-full"
           />
         </div>
       </form>
@@ -432,4 +389,4 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
   );
 };
 
-export default VariantForm;
+export default EditVariantForm;

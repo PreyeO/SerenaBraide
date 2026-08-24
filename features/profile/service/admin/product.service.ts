@@ -5,6 +5,7 @@ import {
   CreateCategoryValues,
   CreateProductValues,
   CreateVariantValues,
+  UpdateVariantValues,
 } from "../../type/admin/product.type";
 
 export async function createProduct(data: CreateProductValues) {
@@ -117,9 +118,48 @@ export async function getProductVariants(productId: number) {
   return res.data;
 }
 
-// Partial update of a variant (e.g. stock quantity, active status, price).
-// Sent as JSON — image changes go through the create flow.
+// Full update of a variant — every editable field, plus any new images to
+// append (existing images are left as-is; this never removes them).
 export async function updateVariant(
+  productId: number,
+  variantId: number,
+  data: UpdateVariantValues
+) {
+  const formData = new FormData();
+
+  formData.append("sku", data.sku);
+  formData.append("size", data.size);
+  if (data.color) {
+    formData.append("color", data.color);
+  }
+  formData.append("price", data.price);
+  formData.append("stock_quantity", String(data.stock_quantity));
+  formData.append("is_active", String(data.is_active));
+
+  if (data.ingredients !== null && data.ingredients !== undefined) {
+    formData.append("ingredients", data.ingredients);
+  }
+  if (data.inspiration !== null && data.inspiration !== undefined) {
+    formData.append("inspiration", data.inspiration);
+  }
+
+  (data.images ?? []).forEach((img, index) => {
+    if (!img.file || !(img.file instanceof File)) return;
+    formData.append(`images[${index}].image_url`, img.file);
+    formData.append(`images[${index}].is_primary`, String(img.is_primary));
+    formData.append(`images[${index}].alt_text`, img.alt_text || "");
+    formData.append(`images[${index}].order`, String(img.order));
+  });
+
+  const response = await api.patch(
+    `/api/products/${productId}/variants/${variantId}/`,
+    formData
+  );
+  return response.data;
+}
+
+// Lightweight partial update — used for the quick "update stock" action.
+export async function updateVariantStock(
   productId: number,
   variantId: number,
   data: { stock_quantity?: number; is_active?: boolean; price?: string }
