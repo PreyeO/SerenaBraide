@@ -122,7 +122,11 @@ const EditVariantForm = ({
                   Size <span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g., 100ML" className="h-11" {...field} />
+                  <Input
+                    placeholder="e.g., 100ML"
+                    className="h-11"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -236,7 +240,7 @@ const EditVariantForm = ({
                 <FormControl>
                   <Textarea
                     placeholder="List the ingredients for this variant..."
-                    className="min-h-[100px]"
+                    className="min-h-25"
                     value={field.value || ""}
                     onChange={(e) => field.onChange(e.target.value || null)}
                   />
@@ -257,7 +261,7 @@ const EditVariantForm = ({
                 <FormControl>
                   <Textarea
                     placeholder="Describe the inspiration behind this variant..."
-                    className="min-h-[100px]"
+                    className="min-h-25"
                     value={field.value || ""}
                     onChange={(e) => field.onChange(e.target.value || null)}
                   />
