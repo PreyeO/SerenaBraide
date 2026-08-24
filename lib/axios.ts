@@ -19,16 +19,79 @@ export const api = axios.create({
   },
 });
 
-// Request interceptor
-api.interceptors.request.use((config) => {
-  const { tokens, isTokenExpired, clearAuth } = useAuthStore.getState();
+// A bare client (no interceptors) used only to refresh tokens, so a refresh
+// call never recurses back through the request interceptor below.
+const refreshClient = axios.create({
+  baseURL: getBaseURL(),
+  withCredentials: true,
+  headers: { "Content-Type": "application/json" },
+});
 
-  const accessToken = tokens?.access;
+// Dedupe concurrent refreshes: when the access token has expired, many requests
+// can fire at once — they all await the same in-flight refresh instead of each
+// hitting the endpoint.
+let refreshPromise: Promise<string | null> | null = null;
 
-  if (accessToken && isTokenExpired()) {
+const refreshAccessToken = (): Promise<string | null> => {
+  const { tokens, clearAuth } = useAuthStore.getState();
+  const refresh = tokens?.refresh;
+
+  if (!refresh) {
     clearAuth();
-    toast.error("Session expired. Please log in again.");
-    return Promise.reject("Token expired");
+    return Promise.resolve(null);
+  }
+
+  if (!refreshPromise) {
+    refreshPromise = refreshClient
+      .post<{
+        access?: string;
+        refresh?: string;
+        tokens?: { access?: string; refresh?: string };
+      }>("/api/users/refresh-token/", { refresh })
+      .then((res) => {
+        // Handle both a flat { access, refresh } and a nested
+        // { tokens: { access, refresh } } response shape.
+        const data = res.data;
+        const newAccess = data?.access ?? data?.tokens?.access;
+        if (!newAccess) {
+          clearAuth();
+          return null;
+        }
+        // Keep the rotated refresh token if the backend returns one.
+        const newRefresh = data?.refresh ?? data?.tokens?.refresh ?? refresh;
+        // Update only the tokens; the persisted user stays as-is.
+        useAuthStore.setState({
+          tokens: { access: newAccess, refresh: newRefresh },
+        });
+        return newAccess;
+      })
+      .catch(() => {
+        // The refresh token itself is invalid/expired — end the session
+        // silently (no toast); the app's guards handle any redirect to login.
+        clearAuth();
+        return null;
+      })
+      .finally(() => {
+        refreshPromise = null;
+      });
+  }
+
+  return refreshPromise;
+};
+
+// Request interceptor
+api.interceptors.request.use(async (config) => {
+  const { tokens, isTokenExpired } = useAuthStore.getState();
+
+  let accessToken: string | null | undefined = tokens?.access;
+
+  // If the access token has expired, transparently refresh it in the background
+  // so the customer's session renews instead of silently dropping.
+  if (accessToken && isTokenExpired()) {
+    accessToken = await refreshAccessToken();
+    if (!accessToken) {
+      return Promise.reject("Token expired");
+    }
   }
 
   if (accessToken) {

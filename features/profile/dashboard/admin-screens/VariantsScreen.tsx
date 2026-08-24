@@ -9,9 +9,14 @@ import BackNavigation from "@/components/ui/btns/back-navigation";
 import SubHeading from "@/components/ui/typography/subHeading";
 import DashboardLoader from "@/components/ui/loaders/dasboard-loader";
 import Empty from "./components/shared/empty-screens/Empty";
-import { Package, Trash2 } from "lucide-react";
+import { Package, Trash2, Pencil } from "lucide-react";
 import { useDeleteVariant } from "@/features/profile/hooks/admin/useDeleteVariant";
+import { useUpdateVariant } from "@/features/profile/hooks/admin/useUpdateVariant";
 import DeleteConfirmationModal from "@/components/ui/modals/delete-confirmation-modal";
+import FormModal from "@/components/ui/modals/form-modals";
+import { Input } from "@/components/ui/input";
+import SubmitButton from "@/components/ui/btns/submit-cta";
+import { notify } from "@/lib/notify";
 import { useIsSuperAdmin } from "@/hooks/useIsSuperAdmin";
 
 interface VariantsScreenProps {
@@ -23,10 +28,18 @@ const VariantsScreen = ({ productId }: VariantsScreenProps) => {
   const { data: variantsData, isLoading } = useGetVariants(productId);
   const isSuperAdmin = useIsSuperAdmin();
   const [variantToDelete, setVariantToDelete] = useState<ProductVariant | null>(null);
+  const [variantToEdit, setVariantToEdit] = useState<ProductVariant | null>(null);
+  const [stockValue, setStockValue] = useState("");
 
   const deleteVariantMutation = useDeleteVariant({
     onSuccess: () => {
       setVariantToDelete(null);
+    },
+  });
+
+  const updateVariantMutation = useUpdateVariant({
+    onSuccess: () => {
+      setVariantToEdit(null);
     },
   });
 
@@ -37,6 +50,25 @@ const VariantsScreen = ({ productId }: VariantsScreenProps) => {
         variantId: variantToDelete.id,
       });
     }
+  };
+
+  const openStockEditor = (variant: ProductVariant) => {
+    setVariantToEdit(variant);
+    setStockValue(String(variant.stock_quantity));
+  };
+
+  const handleSaveStock = () => {
+    if (!variantToEdit) return;
+    const quantity = Number(stockValue);
+    if (!Number.isInteger(quantity) || quantity < 0) {
+      notify.error("Enter a valid stock quantity (0 or more).");
+      return;
+    }
+    updateVariantMutation.mutate({
+      productId,
+      variantId: variantToEdit.id,
+      data: { stock_quantity: quantity },
+    });
   };
 
   const getVariantImage = (variant: ProductVariant): string | undefined => {
@@ -179,9 +211,16 @@ const VariantsScreen = ({ productId }: VariantsScreenProps) => {
                   </div>
                 </div>
 
-                {/* Delete Button */}
-                {isSuperAdmin && (
-                  <div className="shrink-0">
+                {/* Actions */}
+                <div className="shrink-0 flex flex-col gap-2">
+                  <button
+                    onClick={() => openStockEditor(variant)}
+                    className="p-2 text-[#6F6E6C] hover:text-[#3B3B3B] hover:bg-gray-50 rounded-md transition-colors cursor-pointer"
+                    title="Update stock"
+                  >
+                    <Pencil className="w-5 h-5" />
+                  </button>
+                  {isSuperAdmin && (
                     <button
                       onClick={() => setVariantToDelete(variant)}
                       className="p-2 text-[#6F6E6C] hover:text-red-500 hover:bg-red-50 rounded-md transition-colors cursor-pointer"
@@ -189,8 +228,8 @@ const VariantsScreen = ({ productId }: VariantsScreenProps) => {
                     >
                       <Trash2 className="w-5 h-5" />
                     </button>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
 
               {/* Variant Images */}
@@ -235,6 +274,44 @@ const VariantsScreen = ({ productId }: VariantsScreenProps) => {
         cancelText="Cancel"
         isLoading={deleteVariantMutation.isPending}
       />
+
+      {/* Update Stock Modal */}
+      <FormModal
+        open={!!variantToEdit}
+        onClose={() => setVariantToEdit(null)}
+        title="Update Stock"
+      >
+        <div className="w-full max-w-sm mx-auto flex flex-col gap-5">
+          <div>
+            <p className="text-xs text-[#6F6E6C] mb-1">SKU</p>
+            <p className="font-semibold text-[#3B3B3B]">{variantToEdit?.sku}</p>
+          </div>
+          <div className="flex flex-col gap-2">
+            <label
+              htmlFor="stock-quantity"
+              className="text-sm font-medium text-[#3B3B3B]"
+            >
+              Stock quantity
+            </label>
+            <Input
+              id="stock-quantity"
+              type="number"
+              min={0}
+              step={1}
+              value={stockValue}
+              onChange={(e) => setStockValue(e.target.value)}
+              className="h-11"
+            />
+          </div>
+          <SubmitButton
+            label="Save"
+            loadingLabel="Saving..."
+            isPending={updateVariantMutation.isPending}
+            onClick={handleSaveStock}
+            className="w-full"
+          />
+        </div>
+      </FormModal>
     </section>
   );
 };
