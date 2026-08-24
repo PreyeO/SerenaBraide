@@ -3,10 +3,12 @@ import {
   CreateCategorySchema,
   CreateProductSchema,
   CreateVariantSchema,
+  UpdateProductSchema,
   UpdateVariantSchema,
 } from "../../schema/admin.schema";
 
 export type CreateProductValues = z.infer<typeof CreateProductSchema>;
+export type UpdateProductValues = z.infer<typeof UpdateProductSchema>;
 export type CreateCategoryValues = z.infer<typeof CreateCategorySchema>;
 export type CreateVariantValues = z.infer<typeof CreateVariantSchema>;
 export type UpdateVariantValues = z.infer<typeof UpdateVariantSchema>;
@@ -58,6 +60,8 @@ export interface ProductVariant {
   is_in_stock: boolean;
   is_active: boolean;
   images: VariantImage[];
+  ingredients: string | null;
+  inspiration: string | null;
   created_at: string;
   updated_at: string;
 }
