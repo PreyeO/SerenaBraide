@@ -10,7 +10,11 @@ import { DataTable } from "../shared/DataTable";
 import { StatusBadge } from "../shared/StatusBadge";
 import { formatDate } from "../../../utils/array.utils";
 import { useDeleteProduct } from "@/features/profile/hooks/admin/useDeleteProduct";
+import { useGetProductDetail } from "@/features/profile/hooks/admin/useGetProductDetail";
 import DeleteConfirmationModal from "@/components/ui/modals/delete-confirmation-modal";
+import FormModal from "@/components/ui/modals/form-modals";
+import EditProductForm from "../forms/EditProductForm";
+import LoadingState from "@/components/ui/loaders/loading-state";
 import { useIsSuperAdmin } from "@/hooks/useIsSuperAdmin";
 import TablePagination from "../shared/TablePagination";
 
@@ -37,7 +41,11 @@ const ProductTable = ({ products, onAddProduct, hideEmptyState }: ProductTablePr
   const { navigateToProduct } = useTableNavigation();
   const isSuperAdmin = useIsSuperAdmin();
   const [productToDelete, setProductToDelete] = useState<AllProduct | null>(null);
+  const [productToEditId, setProductToEditId] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+
+  const { data: productToEdit, isLoading: isLoadingProductToEdit } =
+    useGetProductDetail(productToEditId);
 
   const totalPages = Math.ceil((products?.length || 0) / ITEMS_PER_PAGE);
   const paginatedProducts = products.slice(
@@ -56,6 +64,10 @@ const ProductTable = ({ products, onAddProduct, hideEmptyState }: ProductTablePr
       {
         label: "View More",
         onClick: () => navigateToProduct(product.id, "variants"),
+      },
+      {
+        label: "Edit Product",
+        onClick: () => setProductToEditId(product.id),
       },
     ];
     if (isSuperAdmin) {
@@ -166,6 +178,22 @@ const ProductTable = ({ products, onAddProduct, hideEmptyState }: ProductTablePr
         cancelText="Cancel"
         isLoading={deleteProductMutation.isPending}
       />
+
+      {/* Edit Product Modal */}
+      <FormModal
+        open={!!productToEditId}
+        onClose={() => setProductToEditId(null)}
+        title="Edit Product"
+      >
+        {isLoadingProductToEdit ? (
+          <LoadingState />
+        ) : productToEdit ? (
+          <EditProductForm
+            product={productToEdit}
+            onSuccess={() => setProductToEditId(null)}
+          />
+        ) : null}
+      </FormModal>
 
       <TablePagination
         currentPage={currentPage}

@@ -18,6 +18,21 @@ export const CreateProductSchema = z.object({
     .min(1, "At least one image is required"),
 });
 
+// Editing an existing product: same fields, but new images are optional
+// (the product already has images) — any added here are appended.
+export const UpdateProductSchema = CreateProductSchema.extend({
+  images: z
+    .array(
+      z.object({
+        file: z.any(),
+        is_primary: z.boolean(),
+        alt_text: z.string().optional(),
+        order: z.number(),
+      }),
+    )
+    .optional(),
+});
+
 export const CreateCategorySchema = z.object({
   name: z.string().min(1, "Category name is required"),
   description: z.string().min(1, "Description is required"),

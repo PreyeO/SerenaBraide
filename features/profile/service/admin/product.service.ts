@@ -5,6 +5,7 @@ import {
   CreateCategoryValues,
   CreateProductValues,
   CreateVariantValues,
+  UpdateProductValues,
   UpdateVariantValues,
 } from "../../type/admin/product.type";
 
@@ -38,6 +39,32 @@ export async function createProduct(data: CreateProductValues) {
 
   const response = await api.post("/api/products/", formData);
 
+  return response.data;
+}
+
+// Full update of a product — every editable field, plus any new images to
+// append (existing images are left as-is; this never removes them).
+export async function updateProduct(
+  productId: number,
+  data: UpdateProductValues
+) {
+  const formData = new FormData();
+
+  formData.append("name", data.name);
+  formData.append("description", data.description);
+  formData.append("category", String(data.category));
+  formData.append("base_price", data.base_price);
+  formData.append("is_featured", String(data.is_featured));
+
+  (data.images ?? []).forEach((img, index) => {
+    if (!img.file || !(img.file instanceof File)) return;
+    formData.append(`images[${index}].image_url`, img.file);
+    formData.append(`images[${index}].is_primary`, String(img.is_primary));
+    formData.append(`images[${index}].alt_text`, img.alt_text || "");
+    formData.append(`images[${index}].order`, String(img.order));
+  });
+
+  const response = await api.patch(`/api/products/${productId}/`, formData);
   return response.data;
 }
 
