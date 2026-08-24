@@ -11,12 +11,9 @@ import DashboardLoader from "@/components/ui/loaders/dasboard-loader";
 import Empty from "./components/shared/empty-screens/Empty";
 import { Package, Trash2, Pencil } from "lucide-react";
 import { useDeleteVariant } from "@/features/profile/hooks/admin/useDeleteVariant";
-import { useUpdateVariant } from "@/features/profile/hooks/admin/useUpdateVariant";
 import DeleteConfirmationModal from "@/components/ui/modals/delete-confirmation-modal";
 import FormModal from "@/components/ui/modals/form-modals";
-import { Input } from "@/components/ui/input";
-import SubmitButton from "@/components/ui/btns/submit-cta";
-import { notify } from "@/lib/notify";
+import EditVariantForm from "./components/forms/EditVariantForm";
 import { useIsSuperAdmin } from "@/hooks/useIsSuperAdmin";
 
 interface VariantsScreenProps {
@@ -29,17 +26,10 @@ const VariantsScreen = ({ productId }: VariantsScreenProps) => {
   const isSuperAdmin = useIsSuperAdmin();
   const [variantToDelete, setVariantToDelete] = useState<ProductVariant | null>(null);
   const [variantToEdit, setVariantToEdit] = useState<ProductVariant | null>(null);
-  const [stockValue, setStockValue] = useState("");
 
   const deleteVariantMutation = useDeleteVariant({
     onSuccess: () => {
       setVariantToDelete(null);
-    },
-  });
-
-  const updateVariantMutation = useUpdateVariant({
-    onSuccess: () => {
-      setVariantToEdit(null);
     },
   });
 
@@ -50,25 +40,6 @@ const VariantsScreen = ({ productId }: VariantsScreenProps) => {
         variantId: variantToDelete.id,
       });
     }
-  };
-
-  const openStockEditor = (variant: ProductVariant) => {
-    setVariantToEdit(variant);
-    setStockValue(String(variant.stock_quantity));
-  };
-
-  const handleSaveStock = () => {
-    if (!variantToEdit) return;
-    const quantity = Number(stockValue);
-    if (!Number.isInteger(quantity) || quantity < 0) {
-      notify.error("Enter a valid stock quantity (0 or more).");
-      return;
-    }
-    updateVariantMutation.mutate({
-      productId,
-      variantId: variantToEdit.id,
-      data: { stock_quantity: quantity },
-    });
   };
 
   const getVariantImage = (variant: ProductVariant): string | undefined => {
@@ -214,9 +185,9 @@ const VariantsScreen = ({ productId }: VariantsScreenProps) => {
                 {/* Actions */}
                 <div className="shrink-0 flex flex-col gap-2">
                   <button
-                    onClick={() => openStockEditor(variant)}
+                    onClick={() => setVariantToEdit(variant)}
                     className="p-2 text-[#6F6E6C] hover:text-[#3B3B3B] hover:bg-gray-50 rounded-md transition-colors cursor-pointer"
-                    title="Update stock"
+                    title="Edit variant"
                   >
                     <Pencil className="w-5 h-5" />
                   </button>
@@ -275,42 +246,19 @@ const VariantsScreen = ({ productId }: VariantsScreenProps) => {
         isLoading={deleteVariantMutation.isPending}
       />
 
-      {/* Update Stock Modal */}
+      {/* Edit Variant Modal */}
       <FormModal
         open={!!variantToEdit}
         onClose={() => setVariantToEdit(null)}
-        title="Update Stock"
+        title="Edit Variant"
       >
-        <div className="w-full max-w-sm mx-auto flex flex-col gap-5">
-          <div>
-            <p className="text-xs text-[#6F6E6C] mb-1">SKU</p>
-            <p className="font-semibold text-[#3B3B3B]">{variantToEdit?.sku}</p>
-          </div>
-          <div className="flex flex-col gap-2">
-            <label
-              htmlFor="stock-quantity"
-              className="text-sm font-medium text-[#3B3B3B]"
-            >
-              Stock quantity
-            </label>
-            <Input
-              id="stock-quantity"
-              type="number"
-              min={0}
-              step={1}
-              value={stockValue}
-              onChange={(e) => setStockValue(e.target.value)}
-              className="h-11"
-            />
-          </div>
-          <SubmitButton
-            label="Save"
-            loadingLabel="Saving..."
-            isPending={updateVariantMutation.isPending}
-            onClick={handleSaveStock}
-            className="w-full"
+        {variantToEdit && (
+          <EditVariantForm
+            productId={productId}
+            variant={variantToEdit}
+            onSuccess={() => setVariantToEdit(null)}
           />
-        </div>
+        )}
       </FormModal>
     </section>
   );

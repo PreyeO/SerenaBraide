@@ -3,11 +3,13 @@ import {
   CreateCategorySchema,
   CreateProductSchema,
   CreateVariantSchema,
+  UpdateVariantSchema,
 } from "../../schema/admin.schema";
 
 export type CreateProductValues = z.infer<typeof CreateProductSchema>;
 export type CreateCategoryValues = z.infer<typeof CreateCategorySchema>;
 export type CreateVariantValues = z.infer<typeof CreateVariantSchema>;
+export type UpdateVariantValues = z.infer<typeof UpdateVariantSchema>;
 
 export interface Category {
   id: number;

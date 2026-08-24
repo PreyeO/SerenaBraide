@@ -49,6 +49,21 @@ export const CreateVariantSchema = z.object({
     .min(1, "At least one image is required"),
 });
 
+// Editing an existing variant: same fields, but new images are optional
+// (the variant already has images) — any added here are appended.
+export const UpdateVariantSchema = CreateVariantSchema.extend({
+  images: z
+    .array(
+      z.object({
+        file: z.any(),
+        is_primary: z.boolean(),
+        alt_text: z.string().optional(),
+        order: z.number(),
+      }),
+    )
+    .optional(),
+});
+
 export const LoginSchema = z.object({
   email: z.string().email("Enter a valid email"),
   password: z.string().min(6, "Password must be at least 6 characters"),
