@@ -60,6 +60,8 @@ export interface ProductVariant {
   is_in_stock: boolean;
   is_active: boolean;
   images: VariantImage[];
+  ingredients: string | null;
+  inspiration: string | null;
   created_at: string;
   updated_at: string;
 }

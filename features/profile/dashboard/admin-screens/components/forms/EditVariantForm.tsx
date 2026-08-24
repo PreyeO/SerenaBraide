@@ -50,8 +50,8 @@ const EditVariantForm = ({
       price: variant.price,
       stock_quantity: variant.stock_quantity,
       is_active: variant.is_active,
-      ingredients: null,
-      inspiration: null,
+      ingredients: variant.ingredients,
+      inspiration: variant.inspiration,
       images: [],
     },
   });
@@ -235,7 +235,7 @@ const EditVariantForm = ({
                 </FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="Leave blank to keep unchanged"
+                    placeholder="List the ingredients for this variant..."
                     className="min-h-[100px]"
                     value={field.value || ""}
                     onChange={(e) => field.onChange(e.target.value || null)}
@@ -256,7 +256,7 @@ const EditVariantForm = ({
                 </FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="Leave blank to keep unchanged"
+                    placeholder="Describe the inspiration behind this variant..."
                     className="min-h-[100px]"
                     value={field.value || ""}
                     onChange={(e) => field.onChange(e.target.value || null)}
