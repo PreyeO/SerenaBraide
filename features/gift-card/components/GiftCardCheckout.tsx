@@ -16,6 +16,10 @@ import { useSearchParams } from "next/navigation";
 import SuccessModal from "@/components/ui/modals/sucess";
 import { formatCurrency } from "@/lib/utils";
 import SimpleOrderSummary from "@/features/cart-checkout/shared/SimpleOrderSummary";
+import {
+  trackAddPaymentInfo,
+  trackPurchase,
+} from "@/lib/analytics/pixel-events";
 
 const GiftCardCheckout = () => {
   const router = useRouter();
@@ -42,12 +46,20 @@ const GiftCardCheckout = () => {
   );
 
   useEffect(() => {
+    // Whichever signal confirms the sale first lands here. The Meta Purchase
+    // needs the order for its value, so it is skipped until orderData arrives —
+    // the effect re-runs then, and trackPurchase dedupes by order number.
+    const succeed = () => {
+      if (orderData) trackPurchase(orderData);
+      setShowSuccessModal(true);
+    };
+
     // Check URL params first (from Flutterwave redirect)
     if (
       paymentStatusParam === "successful" ||
       paymentStatusParam === "success"
     ) {
-      setShowSuccessModal(true);
+      succeed();
       return;
     }
 
@@ -61,7 +73,7 @@ const GiftCardCheckout = () => {
         (latestPayment.redirect_verified === true &&
           latestPayment.amount_paid !== null)
       ) {
-        setShowSuccessModal(true);
+        succeed();
         return;
       }
     }
@@ -70,7 +82,7 @@ const GiftCardCheckout = () => {
     if (orderData?.status) {
       const status = orderData.status.toLowerCase();
       if (status === "paid" || status === "completed") {
-        setShowSuccessModal(true);
+        succeed();
       }
     }
   }, [orderData, payments, paymentStatusParam]);
@@ -94,6 +106,9 @@ const GiftCardCheckout = () => {
       router.push("/auth/login?return_url=/giftcard-checkout");
       return;
     }
+
+    // Meta AddPaymentInfo — last funnel step before the payment provider.
+    if (orderData) trackAddPaymentInfo(orderData);
 
     // If Flutterwave is selected, initiate payment
     if (selectedPayment === "2") {

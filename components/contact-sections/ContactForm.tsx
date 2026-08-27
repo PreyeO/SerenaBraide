@@ -16,6 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import SubmitButton from "@/components/ui/btns/submit-cta";
 import { contactSchema } from "../../lib/schemas/schema";
 import { useContact } from "@/hooks/useContact";
+import { trackContact } from "@/lib/analytics/pixel-events";
 import { ContactFormValues } from "@/types/general";
 
 export default function ContactForm() {
@@ -36,6 +37,7 @@ export default function ContactForm() {
   function onSubmit(values: ContactFormValues) {
     mutate(values, {
       onSuccess: () => {
+        trackContact();
         form.reset();
       },
     });

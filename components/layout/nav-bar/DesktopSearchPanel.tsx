@@ -11,6 +11,7 @@ import {
 import { ProductListItem } from "@/features/products/product.type";
 import LoadingState from "@/components/ui/loaders/loading-state";
 import SearchProductItem from "@/features/products/components/shared/SearchProductItem";
+import { trackSearch } from "@/lib/analytics/pixel-events";
 
 interface DesktopSearchPanelProps {
   onClose: () => void;
@@ -43,6 +44,12 @@ export const DesktopSearchPanel = ({ onClose }: DesktopSearchPanelProps) => {
     useSearchProducts(debouncedSearchQuery);
   const { data: trendingProducts, isLoading: isTrendingLoading } =
     useTrendingProducts();
+
+  // Meta Search — on the debounced term, so a customer typing "vanilla" reports
+  // one search rather than seven.
+  useEffect(() => {
+    trackSearch(debouncedSearchQuery);
+  }, [debouncedSearchQuery]);
 
   const handleProductClick = (slug: string, categorySlug: string) => {
     router.push(`/categories/${categorySlug}/${slug}`);
