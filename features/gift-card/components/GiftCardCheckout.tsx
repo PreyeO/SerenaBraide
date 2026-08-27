@@ -1,13 +1,14 @@
 "use client";
 
 import BackNavigation from "@/components/ui/btns/back-navigation";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 
 import { useGiftCardStore } from "../giftcard.store";
 import { useRouter } from "next/navigation";
 import PaymentMethodSection from "@/features/cart-checkout/shared/PaymentMethodSection";
 import { paymentType } from "@/features/cart-checkout/data/checkout.data";
 import { useInitiatePayment } from "@/features/payment/hooks/useInitiatePayment";
+import { PENDING_ORDER_NUMBER_KEY } from "@/features/payment/payment.constants";
 import { useOrderPayments } from "@/features/payment/hooks/useOrderPayments";
 import { notify } from "@/lib/notify";
 import { useAuthStore } from "@/features/auth/auth.store";
@@ -35,15 +36,38 @@ const GiftCardCheckout = () => {
   // Check for payment success in URL params (from Flutterwave redirect)
   const paymentStatusParam = searchParams.get("status");
 
+  // Coming back from Flutterwave is a full page load, and the gift card store
+  // only lives in memory — so by the time the customer lands here their card
+  // details are gone and we no longer know which order they just paid for.
+  // Recover the order number that useInitiatePayment stashed on the way out.
+  // Without this a paid customer bounces straight back to /giftcard and never
+  // sees a confirmation.
+  const recoveredOrderNumber = useMemo(() => {
+    if (giftCardData || typeof window === "undefined") return null;
+
+    // Only recover when they're clearly returning from a payment attempt —
+    // Flutterwave appends status / tx_ref / transaction_id.
+    const returningFromPayment =
+      !!paymentStatusParam ||
+      !!searchParams.get("tx_ref") ||
+      !!searchParams.get("transaction_id");
+    if (!returningFromPayment) return null;
+
+    try {
+      const stored = sessionStorage.getItem(PENDING_ORDER_NUMBER_KEY);
+      return stored ? parseInt(stored, 10) : null;
+    } catch {
+      return null;
+    }
+  }, [giftCardData, paymentStatusParam, searchParams]);
+
+  const orderNumber = giftCardData?.order_number ?? recoveredOrderNumber;
+
   // Fetch order details using order_number from gift card data
-  const { data: orderData } = useOrderDetail(
-    giftCardData ? giftCardData.order_number : null,
-  );
+  const { data: orderData } = useOrderDetail(orderNumber);
 
   // Fetch payment details to check payment status
-  const { data: payments } = useOrderPayments(
-    giftCardData ? giftCardData.order_number : null,
-  );
+  const { data: payments } = useOrderPayments(orderNumber);
 
   useEffect(() => {
     // Whichever signal confirms the sale first lands here. The Meta Purchase
@@ -87,13 +111,27 @@ const GiftCardCheckout = () => {
     }
   }, [orderData, payments, paymentStatusParam]);
 
-  if (!giftCardData) {
-    router.push("/giftcard");
-    return null;
-  }
+  // Once the sale is confirmed the stashed order number has done its job.
+  useEffect(() => {
+    if (!showSuccessModal) return;
+    try {
+      sessionStorage.removeItem(PENDING_ORDER_NUMBER_KEY);
+    } catch {
+      /* ignore */
+    }
+  }, [showSuccessModal]);
+
+  // No card in progress and nothing to recover — send them back to choose one.
+  // In an effect rather than during render: navigating mid-render is a side
+  // effect React warns about, and it ran on every render before.
+  useEffect(() => {
+    if (!orderNumber) router.push("/giftcard");
+  }, [orderNumber, router]);
+
+  if (!orderNumber) return null;
 
   const totalAmount = parseFloat(
-    orderData?.total_amount || giftCardData.amount,
+    orderData?.total_amount || giftCardData?.amount || "0",
   );
 
   const handleSubmit = () => {
@@ -112,9 +150,7 @@ const GiftCardCheckout = () => {
 
     // If Flutterwave is selected, initiate payment
     if (selectedPayment === "2") {
-      initiatePaymentMutation.mutate({
-        orderNumber: giftCardData.order_number,
-      });
+      initiatePaymentMutation.mutate({ orderNumber });
       return;
     }
 
@@ -152,8 +188,8 @@ const GiftCardCheckout = () => {
             <SimpleOrderSummary
               title="Your Selected Gift"
               subtitle="Secure digital delivery"
-              orderNumber={giftCardData.order_number}
-              subtotal={giftCardData.amount}
+              orderNumber={orderNumber}
+              subtotal={giftCardData?.amount ?? orderData?.subtotal ?? 0}
               tax={orderData?.tax}
               shipping={orderData?.shipping_cost}
               total={totalAmount}

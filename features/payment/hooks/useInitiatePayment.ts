@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { notify } from "@/lib/notify";
 import { initiatePayment } from "../payment.service";
+import { PENDING_ORDER_NUMBER_KEY } from "../payment.constants";
 import { PaymentResponse, InitiatePaymentPayload } from "../payment.type";
 
 interface UseInitiatePaymentOptions {
@@ -30,7 +31,7 @@ export const useInitiatePayment = ({
         // success on return).
         try {
           sessionStorage.setItem(
-            "sb_pending_order_number",
+            PENDING_ORDER_NUMBER_KEY,
             String(variables.orderNumber),
           );
         } catch {
