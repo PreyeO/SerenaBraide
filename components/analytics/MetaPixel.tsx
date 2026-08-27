@@ -3,7 +3,7 @@
 
 import Script from "next/script";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   META_PIXEL_ID,
   PixelEvent,
@@ -11,10 +11,29 @@ import {
 } from "@/lib/analytics/meta-pixel";
 
 /**
- * Meta's base code, loaded once per browser session.
+ * Routes the pixel stays off entirely.
  *
- * `afterInteractive` is deliberate: the pixel is not needed to paint the page,
- * and deferring it keeps it off the critical path. The snippet queues any events
+ * Staff spend their working day in the dashboard, and those page views would
+ * otherwise land in the same audiences and conversion data the ad spend is
+ * optimised against — a handful of daily users looking like the site's most
+ * engaged customers.
+ *
+ * Note this is admin only. The customer-facing auth pages are deliberately left
+ * tracked: registering is a funnel step, and CompleteRegistration fires there.
+ */
+const EXCLUDED_PREFIXES = ["/admin"];
+
+function isTrackedPath(pathname: string): boolean {
+  return !EXCLUDED_PREFIXES.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
+  );
+}
+
+/**
+ * Meta's base code, verbatim, loaded once per browser session.
+ *
+ * `afterInteractive` is deliberate: the pixel isn't needed to paint the page, so
+ * deferring it keeps it off the critical path. The snippet queues any events
  * fired before `fbevents.js` finishes downloading, so nothing is lost in the gap.
  */
 const baseCode = `!function(f,b,e,v,n,t,s)
@@ -29,61 +48,73 @@ fbq('init', '${META_PIXEL_ID}');
 fbq('track', 'PageView');`;
 
 /**
- * Reports a PageView for every client-side navigation after the first.
- *
- * The base code above already covers the initial load, so the first run of this
- * effect is skipped — otherwise the landing page would be counted twice.
- *
- * Keyed on pathname alone, not the query string: checkout rewrites its own
- * params several times per visit (attaching an order number, stripping a payment
- * status), and none of those are a new page to a customer.
+ * Mounted once in the root layout, which puts the pixel on every page of the
+ * site bar the exclusions above — the placement Meta's install instructions ask
+ * for.
  */
-function PixelPageView() {
-  const pathname = usePathname();
-  const isInitialLoad = useRef(true);
+export default function MetaPixel() {
+  const pathname = usePathname() ?? "";
+  const isTracked = Boolean(META_PIXEL_ID) && isTrackedPath(pathname);
+
+  // Whether the base code is in the document. Latches on and never off: pulling
+  // the snippet out and putting it back would re-run it and report a second
+  // PageView. Someone who opens the dashboard first and then browses the shop
+  // picks the pixel up from that point on.
+  const [baseCodeMounted, setBaseCodeMounted] = useState(isTracked);
+  const baseCodeMountedRef = useRef(isTracked);
+
+  // The snippet reports the page it loads on itself, so that first view is
+  // already covered and must not be sent twice.
+  const initialViewPending = useRef(isTracked);
 
   useEffect(() => {
-    if (isInitialLoad.current) {
-      isInitialLoad.current = false;
+    if (!isTracked) return;
+
+    // First tracked page after starting somewhere excluded. Mounting the base
+    // code reports it, so there's nothing to send by hand here.
+    if (!baseCodeMountedRef.current) {
+      baseCodeMountedRef.current = true;
+      setBaseCodeMounted(true);
       return;
     }
 
+    if (initialViewPending.current) {
+      initialViewPending.current = false;
+      return;
+    }
+
+    // Every client-side navigation after that. The snippet only ever runs once,
+    // so these views have to be reported manually.
     pixelTrack(PixelEvent.PageView);
-  }, [pathname]);
+  }, [pathname, isTracked]);
 
-  return null;
-}
-
-/**
- * Mounted once in the root layout, which puts the pixel on every page of the
- * site — the placement Meta's install instructions ask for.
- */
-export default function MetaPixel() {
   // No pixel ID configured (local dev, preview builds) — render nothing rather
   // than shipping a snippet that would init against an empty ID.
   if (!META_PIXEL_ID) return null;
 
   return (
     <>
-      <Script
-        id="meta-pixel-base"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{ __html: baseCode }}
-      />
+      {baseCodeMounted && (
+        <Script
+          id="meta-pixel-base"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{ __html: baseCode }}
+        />
+      )}
 
       {/* Fallback for customers browsing with JavaScript disabled. */}
-      <noscript>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          height="1"
-          width="1"
-          style={{ display: "none" }}
-          alt=""
-          src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
-        />
-      </noscript>
-
-      <PixelPageView />
+      {isTracked && (
+        <noscript>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            height="1"
+            width="1"
+            style={{ display: "none" }}
+            alt=""
+            src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
+          />
+        </noscript>
+      )}
     </>
   );
 }

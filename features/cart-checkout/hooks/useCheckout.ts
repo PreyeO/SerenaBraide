@@ -6,6 +6,7 @@ import { useAuthStore } from "@/features/auth/auth.store";
 import { useOrderDetail } from "./useOrderDetail";
 import { useCreateOrder } from "./useCreateOrder";
 import { useInitiatePayment } from "@/features/payment/hooks/useInitiatePayment";
+import { PENDING_ORDER_NUMBER_KEY } from "@/features/payment/payment.constants";
 import { useUpdateOrderAddress } from "./useUpdateOrderAddress";
 import { useCheckoutAddressStore } from "../store/checkout-address.store";
 import { useApplyGiftCard } from "@/features/gift-card/hooks/useApplyGiftCard";
@@ -62,7 +63,7 @@ export function useCheckout() {
       !!searchParams.get("transaction_id");
     if (!returningFromPayment) return null;
     try {
-      const stored = sessionStorage.getItem("sb_pending_order_number");
+      const stored = sessionStorage.getItem(PENDING_ORDER_NUMBER_KEY);
       return stored ? parseInt(stored, 10) : null;
     } catch {
       return null;
@@ -103,7 +104,7 @@ export function useCheckout() {
   useEffect(() => {
     if (!showSuccessModal) return;
     try {
-      sessionStorage.removeItem("sb_pending_order_number");
+      sessionStorage.removeItem(PENDING_ORDER_NUMBER_KEY);
     } catch {
       /* ignore */
     }
@@ -187,7 +188,7 @@ export function useCheckout() {
 
     hasHandledCancelledPayment.current = true;
     try {
-      sessionStorage.removeItem("sb_pending_order_number");
+      sessionStorage.removeItem(PENDING_ORDER_NUMBER_KEY);
     } catch {
       /* ignore */
     }
