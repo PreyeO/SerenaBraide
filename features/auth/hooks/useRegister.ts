@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { AxiosError } from "axios";
 import { useAuthStore } from "../auth.store";
 import { notify } from "@/lib/notify";
+import { trackCompleteRegistration } from "@/lib/analytics/pixel-events";
 import { RegisterFormValues, RegisterResponse } from "../auth.type";
 import { registerUser } from "../auth.service";
 
@@ -30,6 +31,7 @@ export const useRegister = ({
       const { tokens, ...user } = data; // separate tokens
       setAuth({ user, tokens });
       notify.success("Registration successful!");
+      trackCompleteRegistration();
 
       // Preserve return_url if present
       const searchParams = new URLSearchParams(window.location.search);

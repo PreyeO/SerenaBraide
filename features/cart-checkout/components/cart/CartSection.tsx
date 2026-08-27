@@ -27,6 +27,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CartItem as CartItemType } from "../../type/cart.type";
+import { trackInitiateCheckout } from "@/lib/analytics/pixel-events";
 
 const DeleteConfirmationModal = dynamic(
   () => import("@/components/ui/modals/delete-confirmation-modal"),
@@ -89,6 +90,12 @@ const CartSection = () => {
       notify.error("Please select a shipping area to proceed");
       return;
     }
+
+    // Meta InitiateCheckout. Fired here rather than on /checkout because the
+    // intent is the same whether the customer goes straight through or is sent
+    // to register/verify first — and those detours would otherwise drop the
+    // event for every new customer, which is exactly who the ads are for.
+    trackInitiateCheckout(cartItems, totalPrice);
 
     // Check if user is authenticated — send them to auth, then straight to /checkout
     if (!user) {

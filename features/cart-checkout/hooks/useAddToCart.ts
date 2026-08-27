@@ -6,6 +6,7 @@ import { AxiosError } from "axios";
 import { addToCart } from "../service/cart.service";
 import { AddToCartPayload, CartItem } from "../type/cart.type";
 import { notify } from "@/lib/notify";
+import { trackAddToCart } from "@/lib/analytics/pixel-events";
 
 export const useAddToCart = () => {
   const queryClient = useQueryClient();
@@ -17,8 +18,9 @@ export const useAddToCart = () => {
   >({
     mutationFn: addToCart,
 
-    onSuccess: async () => {
+    onSuccess: async (item, variables) => {
       notify.success("Added to cart");
+      trackAddToCart(item, variables.quantity ?? 1);
 
       // Refetch the cart and wait for it to complete before navigating
       await queryClient.refetchQueries({ queryKey: ["cart"] });

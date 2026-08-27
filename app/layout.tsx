@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { generalSans, ppEditorial } from "./assets/fonts/font";
 import ReactQueryProvider from "./provider";
+import MetaPixel from "@/components/analytics/MetaPixel";
 
 export const metadata: Metadata = {
   title: {
@@ -83,6 +84,7 @@ export default function RootLayout({
       <body
         className={`font-GeneralSans antialiased ${generalSans.variable} ${ppEditorial.variable} bg-white text-[#3B3B3B]`}
       >
+        <MetaPixel />
         <ReactQueryProvider>
           <main className="min-h-screen flex flex-col">{children}</main>
         </ReactQueryProvider>

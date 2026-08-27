@@ -13,6 +13,10 @@ import { usePaymentStatusCheck } from "./usePaymentStatusCheck";
 import { useOrderCalculations } from "./useOrderCalculations";
 import { useGetAddresses } from "./useGetAddresses";
 import { notify } from "@/lib/notify";
+import {
+  trackAddPaymentInfo,
+  trackPurchase,
+} from "@/lib/analytics/pixel-events";
 import { paymentType, PAYMENT_TYPES } from "../data/checkout.data";
 import { BalanceFormValues } from "@/features/gift-card/giftcard.type";
 import { GiftCardResponse } from "../type/checkout.type";
@@ -122,6 +126,11 @@ export function useCheckout() {
         setShowPaymentModal(false);
         setShowRemainingBalanceModal(true);
       } else {
+        // Gift card covered the whole order, so this path never goes through
+        // Flutterwave and never returns with a status param — it has to report
+        // its own Purchase. trackPurchase dedupes per order number, so an order
+        // that is part gift card, part card is still counted once.
+        if (orderData) trackPurchase(orderData);
         setShowGiftCardModal(false);
         setShowPaymentModal(false);
         setShowSuccessModal(true);
@@ -230,6 +239,10 @@ export function useCheckout() {
 
     // What to run once the order has the chosen address attached.
     const proceed = () => {
+      // Meta AddPaymentInfo — the last funnel step we can see before the
+      // customer leaves for the payment provider.
+      if (orderData) trackAddPaymentInfo(orderData);
+
       if (selectedPayment === PAYMENT_TYPES.GIFT_CARD) {
         setShowPaymentModal(false);
         setShowGiftCardModal(true);
@@ -259,6 +272,7 @@ export function useCheckout() {
     selectedPayment,
     user,
     orderNumber,
+    orderData,
     router,
     initiatePaymentMutation,
     ensureAddress,

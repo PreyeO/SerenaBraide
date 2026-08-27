@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import DetailHeroSection from "./DetailHeroSection";
 import DetailInfoSection from "./DetailInfoSection";
@@ -14,6 +14,7 @@ const ReviewSection = dynamic(
   { loading: () => <div className="h-60 w-full bg-gray-50 animate-pulse rounded-lg mt-8" /> }
 );
 import { useGetProductBySlug } from "../hooks/useGetProductDetail";
+import { trackViewContent } from "@/lib/analytics/pixel-events";
 
 interface ProductDetailContentProps {
   category: string;
@@ -28,6 +29,7 @@ const ProductDetailContent: React.FC<ProductDetailContentProps> = ({
   const [selectedVariantId, setSelectedVariantId] = useState<number | null>(
     null,
   );
+  const trackedProductId = useRef<number | null>(null);
 
   // Set default variant when product loads
   React.useEffect(() => {
@@ -39,6 +41,26 @@ const ProductDetailContent: React.FC<ProductDetailContentProps> = ({
     ) {
       setSelectedVariantId(product.variants[0].id);
     }
+  }, [product, selectedVariantId]);
+
+  // Meta ViewContent — the top of the ads funnel, and what retargeting audiences
+  // are built from.
+  React.useEffect(() => {
+    if (!product) return;
+
+    // Hold off until the default variant lands, so the event names the variant
+    // the customer is actually looking at rather than the bare product.
+    const hasVariants = (product.variants?.length ?? 0) > 0;
+    if (hasVariants && !selectedVariantId) return;
+
+    // Once per product: changing shade or size is still the same page view.
+    if (trackedProductId.current === product.id) return;
+    trackedProductId.current = product.id;
+
+    trackViewContent(
+      product,
+      product.variants?.find((v) => v.id === selectedVariantId) ?? null,
+    );
   }, [product, selectedVariantId]);
 
   if (error || !product) {
