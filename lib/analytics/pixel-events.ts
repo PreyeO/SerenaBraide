@@ -18,6 +18,7 @@ import {
   pixelTrack,
   pixelTrackOnce,
 } from "./meta-pixel";
+import { TikTokContent, TikTokEvent, tiktokTrack } from "./tiktok-pixel";
 
 /** Anything with the identity fields we need to build a content ID. */
 type IdentifiableVariant = Pick<Variant | CartVariant, "id" | "sku">;
@@ -80,6 +81,24 @@ function orderItemCount(order: Order, contents: PixelContent[]): number {
 }
 
 /**
+ * The same line items, in TikTok's shape.
+ *
+ * TikTok reads everything from `contents` and names the fields differently —
+ * `content_id`/`price` against Meta's `id`/`item_price`. Passing Meta's shape
+ * straight through doesn't error; it reports a conversion with no value, which is
+ * harder to spot than a failure. Both platforms get identical content IDs, so the
+ * two funnels stay comparable.
+ */
+function toTikTokContents(contents: PixelContent[]): TikTokContent[] {
+  return contents.map((content) => ({
+    content_id: content.id,
+    content_type: "product" as const,
+    quantity: content.quantity,
+    price: content.item_price,
+  }));
+}
+
+/**
  * Customer opened a product page.
  *
  * Reported against the variant on show, so retargeting can bring them back to
@@ -96,6 +115,25 @@ export function trackViewContent(
     content_category: product.category_name,
     currency: PIXEL_CURRENCY,
     value: toAmount(variant?.effective_price ?? product.base_price),
+  });
+
+  const viewedId = variant ? contentId(variant) : String(product.id);
+  const viewedPrice = toAmount(variant?.effective_price ?? product.base_price);
+
+  tiktokTrack(TikTokEvent.ViewContent, {
+    contents: [
+      {
+        content_id: viewedId,
+        content_type: "product",
+        content_name: product.name,
+        quantity: 1,
+        price: viewedPrice,
+      },
+    ],
+    content_type: "product",
+    content_name: product.name,
+    currency: PIXEL_CURRENCY,
+    value: viewedPrice,
   });
 }
 
@@ -115,6 +153,22 @@ export function trackAddToCart(item: CartItem, quantity: number = 1): void {
     content_name: item.variant.product_name,
     content_type: "product",
     contents: [{ id, quantity, item_price: unitPrice }],
+    currency: PIXEL_CURRENCY,
+    value: unitPrice * quantity,
+  });
+
+  tiktokTrack(TikTokEvent.AddToCart, {
+    contents: [
+      {
+        content_id: id,
+        content_type: "product",
+        content_name: item.variant.product_name,
+        quantity,
+        price: unitPrice,
+      },
+    ],
+    content_type: "product",
+    content_name: item.variant.product_name,
     currency: PIXEL_CURRENCY,
     value: unitPrice * quantity,
   });
@@ -142,6 +196,13 @@ export function trackInitiateCheckout(
     value: toAmount(value),
     num_items: items.reduce((sum, item) => sum + item.quantity, 0),
   });
+
+  tiktokTrack(TikTokEvent.InitiateCheckout, {
+    contents: toTikTokContents(contents),
+    content_type: "product",
+    currency: PIXEL_CURRENCY,
+    value: toAmount(value),
+  });
 }
 
 /** Customer picked a payment method and set payment in motion. */
@@ -156,6 +217,13 @@ export function trackAddPaymentInfo(order: Order): void {
     value: toAmount(order.total_amount),
     num_items: orderItemCount(order, contents),
     order_id: String(order.order_number),
+  });
+
+  tiktokTrack(TikTokEvent.AddPaymentInfo, {
+    contents: toTikTokContents(contents),
+    content_type: "product",
+    currency: PIXEL_CURRENCY,
+    value: toAmount(order.total_amount),
   });
 }
 
@@ -185,6 +253,19 @@ export function trackPurchase(order: Order): void {
       },
       `order_${order.order_number}`,
     );
+
+    // Inside the same once-guard as Meta, so one order is reported exactly once
+    // to each platform across every route to a paid order.
+    tiktokTrack(
+      TikTokEvent.CompletePayment,
+      {
+        contents: toTikTokContents(contents),
+        content_type: "product",
+        currency: PIXEL_CURRENCY,
+        value: toAmount(order.total_amount),
+      },
+      `order_${order.order_number}`,
+    );
   });
 }
 
@@ -197,6 +278,12 @@ export function trackSearch(query: string): void {
     search_string: search,
     content_type: "product",
   });
+
+  // TikTok calls the search term `query`, not `search_string`.
+  tiktokTrack(TikTokEvent.Search, {
+    query: search,
+    content_type: "product",
+  });
 }
 
 /** A new account was created. */
@@ -204,9 +291,13 @@ export function trackCompleteRegistration(): void {
   pixelTrack(PixelEvent.CompleteRegistration, {
     currency: PIXEL_CURRENCY,
   });
+
+  tiktokTrack(TikTokEvent.CompleteRegistration);
 }
 
 /** Someone sent the contact form. */
 export function trackContact(): void {
   pixelTrack(PixelEvent.Contact);
+
+  tiktokTrack(TikTokEvent.Contact);
 }
