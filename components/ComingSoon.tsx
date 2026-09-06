@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Instagram, Facebook, Youtube } from "lucide-react";
+import { socialLinks } from "@/constant/contact";
 
 /* ─────────────────────────────────────────────
    Target launch date: June 6, 2026
@@ -168,7 +169,7 @@ export default function ComingSoon() {
           <p className="socials-title">Follow us for updates</p>
           <div className="socials-icons">
             <a
-              href="https://www.instagram.com/serenabraide?igsh=MWQ1ZTB2eDk0NHVpcQ=="
+              href={socialLinks.instagram}
               target="_blank"
               rel="noopener noreferrer"
               className="social-link"
@@ -176,7 +177,7 @@ export default function ComingSoon() {
               <Instagram size={20} />
             </a>
             <a
-              href="https://www.tiktok.com/@serenabraide?_r=1&_t=ZS-93jT9cDC5R6"
+              href={socialLinks.tiktok}
               target="_blank"
               rel="noopener noreferrer"
               className="social-link"
@@ -186,7 +187,7 @@ export default function ComingSoon() {
               </svg>
             </a>
             <a
-              href="https://www.facebook.com/share/17nFJ8EPDH/"
+              href={socialLinks.facebook}
               target="_blank"
               rel="noopener noreferrer"
               className="social-link"
@@ -194,7 +195,7 @@ export default function ComingSoon() {
               <Facebook size={20} />
             </a>
             <a
-              href="https://youtube.com/@serenabraideofficial?si=-rulUJc-gy-VgBjZ"
+              href={socialLinks.youtube}
               target="_blank"
               rel="noopener noreferrer"
               className="social-link"

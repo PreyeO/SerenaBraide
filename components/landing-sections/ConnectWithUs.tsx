@@ -2,6 +2,7 @@ import React from "react";
 import SubHeading from "../ui/typography/subHeading";
 import { Facebook, Instagram, Youtube } from "lucide-react";
 import Image from "next/image";
+import { socialLinks } from "@/constant/contact";
 
 const ConnectWithUs = () => {
   return (
@@ -42,7 +43,7 @@ const ConnectWithUs = () => {
 
             <div className="flex gap-3   mt-8 lg:mt-12.5 justify-center">
               <a
-                href="https://www.instagram.com/serenabraide?igsh=MWQ1ZTB2eDk0NHVpcQ=="
+                href={socialLinks.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-full bg-[#3B3B3B] size-10 flex justify-center items-center"
@@ -50,7 +51,7 @@ const ConnectWithUs = () => {
                 <Instagram color="white" className="size-6" />
               </a>
               <a
-                href="https://www.tiktok.com/@serenabraide?_r=1&_t=ZS-93jT9cDC5R6"
+                href={socialLinks.tiktok}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-full bg-[#3B3B3B] size-10 flex justify-center items-center"
@@ -73,7 +74,7 @@ const ConnectWithUs = () => {
                 </svg>
               </a>
               <a
-                href="https://www.facebook.com/share/17nFJ8EPDH/"
+                href={socialLinks.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-full bg-[#3B3B3B] size-10 flex justify-center items-center"
@@ -81,7 +82,7 @@ const ConnectWithUs = () => {
                 <Facebook color="white" className="size-6" />
               </a>
               <a
-                href="https://youtube.com/@serenabraideofficial?si=-rulUJc-gy-VgBjZ"
+                href={socialLinks.youtube}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-full bg-[#3B3B3B] size-10 flex justify-center items-center"
