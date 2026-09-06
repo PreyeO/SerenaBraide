@@ -1,5 +1,5 @@
 import React from "react";
-import ContactForm from "./ContactForm";
+import ContactChannels from "./ContactChannels";
 import SubHeading from "../ui/typography/subHeading";
 import Paragraph from "../ui/typography/paragraph";
 
@@ -13,10 +13,10 @@ const ContactUs = () => {
         />
         <Paragraph
           className="text-[#3B3B3B] font-normal text-sm"
-          content="Feel free to reach out with questions, feedback, or special requests."
+          content="Reach us by email or on social with questions, feedback, or special requests."
         />
       </div>
-      <ContactForm />
+      <ContactChannels />
     </section>
   );
 };

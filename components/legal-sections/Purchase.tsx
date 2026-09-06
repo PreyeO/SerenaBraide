@@ -13,10 +13,9 @@ const Purchase = () => {
       />
       <LegalTypography title="Order Processing">
         <LegalParagraph>
-          Orders are typically processed within 1–2 business days, excluding
-          weekends and public holidays. You’ll receive a confirmation email
-          after purchase, and another once your order ships. If there’s a delay
-          or stock issue, we’ll reach out directly.
+          Orders are typically processed within 24 hours. You’ll receive a
+          confirmation email after purchase, and another once your order ships.
+          If there’s a delay or stock issue, we’ll reach out directly.
           <br />
           <br />
           Orders cannot be modified or cancelled once placed. Please
