@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { phoneNumberSchema } from "@/lib/schemas/phone.schema";
 
 export const RegisterSchema = z
   .object({
@@ -19,7 +20,7 @@ export const RegisterSchema = z
         /^\d{4}-\d{2}-\d{2}$/,
         "Date of birth is required",
       ),
-    phone_number: z.string(),
+    phone_number: phoneNumberSchema,
     country: z.string().min(1, "Country is required"),
   })
   .refine((data) => data.password === data.confirm_password, {

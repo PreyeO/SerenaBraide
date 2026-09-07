@@ -1,18 +1,5 @@
 import { z } from "zod";
-
-// Accepts Nigerian numbers (0XXXXXXXXXX, 234XXXXXXXXXX, +234XXXXXXXXXX) as well
-// as any international E.164 number (+<country><digits>). Spaces, dashes and
-// parentheses are ignored.
-const phoneNumberSchema = z
-  .string()
-  .min(1, "Phone number is required")
-  .refine((value) => {
-    const digits = value.replace(/[\s()-]/g, "");
-    return (
-      /^(?:\+?234|0)[789]\d{9}$/.test(digits) ||
-      /^\+[1-9]\d{7,14}$/.test(digits)
-    );
-  }, "Enter a valid phone number");
+import { phoneNumberSchema } from "@/lib/schemas/phone.schema";
 
 export const AddressSchema = z.object({
   address: z.string().min(2, "Address is required"),
