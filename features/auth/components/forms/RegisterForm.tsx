@@ -235,7 +235,9 @@ const RegisterForm = () => {
                 const newMonth = part === "month" ? val : month;
                 const newDay = part === "day" ? val : day;
 
-                field.onChange(`${currentYear}-${newMonth || ""}-${newDay || ""}`);
+                field.onChange(
+                  `${currentYear}-${newMonth || ""}-${newDay || ""}`,
+                );
               };
 
               const months = [
