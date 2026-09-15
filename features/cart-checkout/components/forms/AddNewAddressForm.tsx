@@ -45,26 +45,22 @@ const AddNewAddressForm = ({ onSuccess }: AddNewAddressFormProps) => {
     resolver: zodResolver(CreateAddressSchema),
     defaultValues: {
       address: "",
-      city: "",
-      state: "",
-      zip_code: "",
       country: "NG",
       phone_number: "",
     },
   });
 
   const onSubmit = (data: CreateAddressFormValues) => {
-    // Zip code is optional. Always send the key (empty string when blank) —
-    // omitting it can crash the backend with a 500 — and convert to a number
-    // when it's numeric.
-    const zip = data.zip_code ?? "";
+    // City, state and zip code aren't collected here — always send them as
+    // blank rather than omitting the keys, since omitting can crash the
+    // backend with a 500.
     const payload: CreateAddressPayload = {
       address: data.address,
-      city: data.city,
-      state: data.state,
       country: data.country,
       phone_number: data.phone_number || null,
-      zip_code: zip && !isNaN(Number(zip)) ? Number(zip) : zip,
+      city: "",
+      state: "",
+      zip_code: "",
     };
 
     createAddressMutation.mutate(payload);
@@ -106,47 +102,6 @@ const AddNewAddressForm = ({ onSuccess }: AddNewAddressFormProps) => {
             />
             <FormField
               control={form.control}
-              name="city"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel className="font-semibold text-sm lg:text-base text-[#3B3B3B]">
-                    City
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="City"
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-3 lg:py-5 text-sm lg:text-base"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
-          <div className="flex flex-col lg:flex-row gap-4 pb-4 lg:pb-6">
-            <FormField
-              control={form.control}
-              name="address"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel className="font-medium text-sm text-[#3B3B3B]">
-                    Address
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="Street, house/apartment, etc*"
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-3 lg:py-5 text-sm lg:text-base"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
               name="phone_number"
               render={({ field }) => (
                 <FormItem className="flex-1">
@@ -170,36 +125,16 @@ const AddNewAddressForm = ({ onSuccess }: AddNewAddressFormProps) => {
           <div className="flex flex-col lg:flex-row gap-4 pb-4 lg:pb-6">
             <FormField
               control={form.control}
-              name="state"
+              name="address"
               render={({ field }) => (
                 <FormItem className="flex-1">
                   <FormLabel className="font-medium text-sm text-[#3B3B3B]">
-                    State
+                    Address
                   </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="State"
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-3 lg:py-5 text-sm lg:text-base"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="zip_code"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel className="font-medium text-sm text-[#3B3B3B]">
-                    Zip Code
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="Zip code (optional)"
+                      placeholder="Street, house/apartment, etc*"
                       className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-3 lg:py-5 text-sm lg:text-base"
                     />
                   </FormControl>

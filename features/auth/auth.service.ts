@@ -4,35 +4,17 @@ import { AxiosResponse } from "axios";
 import {
   LoginFormValues,
   LoginResponse,
-  OtpPayload,
   OtpResponse,
-  RegisterFormValues,
+  RegisterPayload,
   RegisterResponse,
 } from "@/features/auth/auth.type";
 
 export async function registerUser(
-  data: RegisterFormValues
+  data: RegisterPayload
 ): Promise<RegisterResponse> {
   const response: AxiosResponse<RegisterResponse> = await api.post(
     "/api/users/",
     data
-  );
-  return response.data;
-}
-
-// auth.service.ts
-export async function verifyOtp(data: OtpPayload): Promise<OtpResponse> {
-  const response: AxiosResponse<OtpResponse> = await api.post(
-    "/api/users/email-verification/verify-otp/",
-    data
-  );
-  return response.data;
-}
-
-export async function resendOtp(email: string): Promise<OtpResponse> {
-  const response: AxiosResponse<OtpResponse> = await api.post(
-    "/api/users/email-verification/request-otp/",
-    { email }
   );
   return response.data;
 }

@@ -35,7 +35,14 @@ const AddressCard: React.FC<AddressCardProps> = ({
   const phoneNumber = user?.phone_number || "";
 
   const addressLabel = address.is_default ? "Home" : "Address";
-  const fullAddress = `${address.address}, ${address.city}, ${address.state} ${address.zip_code}, ${address.country}`;
+  // City, state and zip aren't collected anymore and are usually blank —
+  // filter them out so we don't render stray commas/spaces around nothing.
+  const cityStateZip = [address.city, address.state, address.zip_code]
+    .filter(Boolean)
+    .join(", ");
+  const fullAddress = [address.address, cityStateZip, address.country]
+    .filter(Boolean)
+    .join(", ");
 
   if (variant === "overview") {
     return (
@@ -46,9 +53,7 @@ const AddressCard: React.FC<AddressCardProps> = ({
         />
         <p>{fullName}</p>
         <p>{address.address}</p>
-        <p>
-          {address.city}, {address.state} {address.zip_code}, {address.country}
-        </p>
+        <p>{[cityStateZip, address.country].filter(Boolean).join(", ")}</p>
         {phoneNumber && (
           <p>
             <span className="font-medium">Phone</span>: {phoneNumber}

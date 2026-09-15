@@ -27,26 +27,30 @@ const RegisterForm = () => {
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
-      first_name: "",
-      last_name: "",
+      name: "",
       email: "",
       phone_number: "",
-      country: "",
+      country: "NG",
       password: "",
-      confirm_password: "",
       date_of_birth: "",
+      address: "",
     },
   });
 
   const { mutate, isPending } = useRegister();
 
   const onSubmit = (values: RegisterFormValues) => {
-    // Fail-safe: Ensure date_of_birth is YYYY-MM-DD
     const finalValues = { ...values };
+
+    // Fail-safe: Ensure date_of_birth is YYYY-MM-DD
     if (values.date_of_birth && values.date_of_birth.split("-").length === 2) {
       const currentYear = new Date().getFullYear().toString();
       finalValues.date_of_birth = `${currentYear}-${values.date_of_birth}`;
     }
+
+    // Date of birth is optional — send undefined (omitted from the request)
+    // rather than an empty string when left blank.
+    if (!finalValues.date_of_birth) finalValues.date_of_birth = undefined;
 
     mutate(finalValues);
   };
@@ -54,8 +58,8 @@ const RegisterForm = () => {
   return (
     <div className="flex flex-col items-center justify-center w-full gap-8.5 mb-27.75">
       <AuthTitle
-        title="Sign Up"
-        subtitle="Register to acquire your essentials with ease, anticipate your deliveries, and be the first to experience our newest creations."
+        title="Checkout"
+        subtitle="Enter your details below to complete your order. We'll set up your account automatically so you can track deliveries and check out faster next time."
         className="max-w-121"
       />
 
@@ -64,41 +68,20 @@ const RegisterForm = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="grid grid-cols-1 md:grid-cols-2 gap-6 text-[#3B3B3B] font-normal"
         >
-          {/* First Name */}
+          {/* Name */}
           <FormField
             control={form.control}
-            name="first_name"
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-[12px] font-medium">
-                  FIRST NAME<span className="text-red-500">*</span>
+                  NAME<span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Enter your first name"
+                    placeholder="Enter your full name"
                     {...field}
                     className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5]  font-normal  h-12.5"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Last Name */}
-          <FormField
-            control={form.control}
-            name="last_name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-[12px] font-medium">
-                  LAST NAME<span className="text-red-500">*</span>
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Enter your last name"
-                    {...field}
-                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5]  h-12.5"
                   />
                 </FormControl>
                 <FormMessage />
@@ -149,6 +132,57 @@ const RegisterForm = () => {
             )}
           />
 
+          {/* Country */}
+          <FormField
+            control={form.control}
+            name="country"
+            render={() => (
+              <FormItem>
+                <FormLabel className="text-[12px] font-medium">
+                  COUNTRY<span className="text-red-500">*</span>
+                </FormLabel>
+                <FormControl>
+                  <select
+                    {...form.register("country")}
+                    className="w-full rounded-[50px] border border-input bg-background px-4 h-12.5 text-sm text-[#3B3B3B] focus:outline-none focus:border-[#3B3B3B] focus:bg-[#F5F5F5] appearance-none"
+                  >
+                    <option value="" disabled>
+                      Select your country
+                    </option>
+                    {COUNTRIES.map((c) => (
+                      <option key={c.code} value={c.code}>
+                        {c.name}
+                      </option>
+                    ))}
+                  </select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Delivery Address */}
+          <FormField
+            control={form.control}
+            name="address"
+            render={({ field }) => (
+              <FormItem className="md:col-span-2">
+                <FormLabel className="text-[12px] font-medium">
+                  DELIVERY ADDRESS<span className="text-red-500">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Street, house/apartment, etc"
+                    {...field}
+                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5]  h-12.5"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Password */}
           <FormField
             control={form.control}
             name="password"
@@ -156,23 +190,6 @@ const RegisterForm = () => {
               <FormItem className="">
                 <FormLabel className="text-[12px] font-medium">
                   PASSWORD<span className="text-red-500">*</span>
-                </FormLabel>
-                <FormControl>
-                  <PasswordInput {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Confirm Password */}
-          <FormField
-            control={form.control}
-            name="confirm_password"
-            render={({ field }) => (
-              <FormItem className="">
-                <FormLabel className="text-[12px] font-medium">
-                  CONFIRM PASSWORD<span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
                   <PasswordInput {...field} />
@@ -222,7 +239,7 @@ const RegisterForm = () => {
               return (
                 <FormItem>
                   <FormLabel className="text-[12px] font-medium">
-                    DATE OF BIRTH<span className="text-red-500">*</span>
+                    DATE OF BIRTH
                   </FormLabel>
                   <FormControl>
                     <div className="flex gap-3">
@@ -268,38 +285,11 @@ const RegisterForm = () => {
               );
             }}
           />
-          {/* Country */}
-          <FormField
-            control={form.control}
-            name="country"
-            render={() => (
-              <FormItem>
-                <FormLabel className="text-[12px] font-medium">
-                  COUNTRY<span className="text-red-500">*</span>
-                </FormLabel>
-                <FormControl>
-                  <select
-                    {...form.register("country")}
-                    className="w-full rounded-[50px] border border-input bg-background px-4 h-12.5 text-sm text-[#3B3B3B] focus:outline-none focus:border-[#3B3B3B] focus:bg-[#F5F5F5] appearance-none"
-                  >
-                    <option value="" disabled>
-                      Select your country
-                    </option>
-                    {COUNTRIES.map((c) => (
-                      <option key={c.code} value={c.code}>
-                        {c.name}
-                      </option>
-                    ))}
-                  </select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+
           {/* Terms */}
           <div className="md:col-span-2 lg:mt-4 text-[#3B3B3B] flex gap-6 items-center">
             <AuthSpan className="font-normal lg:text-sm text-xs lg:leading-5.5 leading-4.5">
-              By creating an account, you agree to the Serena Braide
+              By continuing, you agree to the Serena Braide
               <Link href="/legal/terms_of_service">
                 <span className="font-medium underline"> Terms of Use </span>
               </Link>{" "}
@@ -313,15 +303,15 @@ const RegisterForm = () => {
           {/* Submit */}
           <div className="md:col-span-2 lg:mt-4">
             <SubmitButton
-              label="Create Account"
-              loadingLabel="Creating account..."
+              label="Continue to Checkout"
+              loadingLabel="Processing..."
               isPending={isPending}
               onClick={() => {}}
             />
           </div>
           <div className="md:col-span-2">
             <AuthSwitchPrompt
-              message="Already have an account?"
+              message="Shopped with us before?"
               linkText="Log In"
               href="/auth/login"
             />

@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useResendOtp } from "@/features/auth/hooks/useResendOtp";
+import { useResetResendOtp } from "@/features/auth/hooks/useResetResendOtp";
 
 interface ResendOtpProps {
   email: string;
 }
 
 const ResendOtp = ({ email }: ResendOtpProps) => {
-  const { mutate: resend, isPending: isResending } = useResendOtp();
+  const { mutate: resend, isPending: isResending } = useResetResendOtp();
   const [resendTimer, setResendTimer] = useState(0);
 
   useEffect(() => {

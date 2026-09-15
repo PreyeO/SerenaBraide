@@ -104,16 +104,7 @@ const CartSection = () => {
       return;
     }
 
-    // Check if email is verified
-    if (!user.email_validated) {
-      const returnUrl = `/checkout?shippingAreaId=${selectedShippingAreaId}`;
-      router.push(
-        `/auth/verify-otp?email=${user.email}&return_url=${encodeURIComponent(returnUrl)}`,
-      );
-      return;
-    }
-
-    // User is authenticated and verified, create order right now
+    // User is authenticated, create order right now
     createOrderMutation.mutate({
       shipping_area_id: parseInt(selectedShippingAreaId),
     });

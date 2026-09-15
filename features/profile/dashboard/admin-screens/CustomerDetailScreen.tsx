@@ -126,9 +126,13 @@ const CustomerDetailScreen = ({ id }: { id: string }) => {
                       </div>
                       <div>
                         <p className="text-sm text-gray-900">{addr.address}</p>
-                        <p className="text-sm text-gray-500">
-                          {addr.city}, {addr.state} {addr.zip_code}
-                        </p>
+                        {(addr.city || addr.state || addr.zip_code) && (
+                          <p className="text-sm text-gray-500">
+                            {[addr.city, addr.state, addr.zip_code]
+                              .filter(Boolean)
+                              .join(", ")}
+                          </p>
+                        )}
                         <p className="text-sm text-gray-500">{addr.country}</p>
                       </div>
                     </div>

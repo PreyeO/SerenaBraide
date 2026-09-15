@@ -222,7 +222,7 @@ export function useCheckout() {
     const payment = paymentType.find((p) => p.id === selectedPayment);
     if (!payment) return;
 
-    if (!user || !user.email_validated) {
+    if (!user) {
       notify.error("Please log in to continue with payment.");
       const returnUrl = orderNumber
         ? `/checkout?order_number=${orderNumber}`

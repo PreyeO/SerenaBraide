@@ -236,7 +236,14 @@ const FulfilmentStatus: React.FC<FulfilmentStatusProps> = ({
                     className="text-sm text-[#3B3B3B]"
                   />
                   <Paragraph
-                    content={`${shippingAddress.city}, ${shippingAddress.state} ${shippingAddress.zip_code}, ${shippingAddress.country}`}
+                    content={[
+                      shippingAddress.city,
+                      shippingAddress.state,
+                      shippingAddress.zip_code,
+                      shippingAddress.country,
+                    ]
+                      .filter(Boolean)
+                      .join(", ")}
                     className="text-sm text-[#3B3B3B]"
                   />
                 </div>
