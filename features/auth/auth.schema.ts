@@ -26,6 +26,7 @@ export const RegisterSchema = z.object({
   phone_number: phoneNumberSchema,
   country: z.string().min(1, "Country is required"),
   address: z.string().min(2, "Address is required"),
+  state: z.string().trim().min(2, "State is required"),
 });
 export const VerifyOtpSchema = z.object({
   otp: z.array(z.string().length(1)).length(6, "OTP must be 6 digits"),

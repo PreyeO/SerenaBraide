@@ -64,7 +64,7 @@ export const useRegister = ({
           country: values.country,
           phone_number: values.phone_number,
           city: "",
-          state: "",
+          state: values.state,
           zip_code: "",
         });
       } catch {

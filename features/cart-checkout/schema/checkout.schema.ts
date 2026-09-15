@@ -1,11 +1,11 @@
 import { z } from "zod";
 import { phoneNumberSchema } from "@/lib/schemas/phone.schema";
 
-// City, state and zip code are collected nowhere in the UI anymore (backend
-// treats them as optional) — only address, country and phone are asked for.
+// City and zip code remain optional, but state is required for delivery.
 export const AddressSchema = z.object({
   address: z.string().min(2, "Address is required"),
   country: z.string().min(2, "Country is required"),
+  state: z.string().trim().min(2, "State is required"),
   phone_number: phoneNumberSchema,
 });
 
