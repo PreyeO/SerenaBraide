@@ -46,16 +46,26 @@ export interface RegisterResponse extends User {
   detail?: string;
 }
 
+// The wire payload for POST /api/users/ — distinct from RegisterFormValues
+// because the form collects a combined "name" and a delivery address that
+// don't belong in this request (name is split into first/last before
+// sending; the address is created separately right after).
+export interface RegisterPayload {
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+  date_of_birth?: string;
+  phone_number: string;
+  country: string;
+}
+
 export type LoginResponse = RegisterResponse;
 
 export interface OtpResponse {
   detail: string;
 }
 
-export type OtpPayload = {
-  otp: string;
-  email: string;
-};
 export type OtpFormValues = {
   otp: string[]; // 6 separate inputs
   email: string;

@@ -30,7 +30,7 @@ export const useGiftCardSelection = () => {
 
     // Handle return from login/register
     useEffect(() => {
-        if (isHydrated && user?.email_validated) {
+        if (isHydrated && user) {
             const returnUrl = searchParams.get("return_url");
             if (returnUrl === "/giftcard") {
                 // Restore selections from localStorage
@@ -95,7 +95,7 @@ export const useGiftCardSelection = () => {
     };
 
     const handleContinue = () => {
-        if (!user || !user.email_validated) {
+        if (!user) {
             // Store current selections in localStorage for when they return
             localStorage.setItem(
                 "giftcard_selections",

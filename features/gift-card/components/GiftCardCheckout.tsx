@@ -139,7 +139,7 @@ const GiftCardCheckout = () => {
     if (!payment) return;
 
     // Check if user is authenticated
-    if (!user || !user.email_validated) {
+    if (!user) {
       notify.error("Kindly log in to proceed.");
       router.push("/auth/login?return_url=/giftcard-checkout");
       return;

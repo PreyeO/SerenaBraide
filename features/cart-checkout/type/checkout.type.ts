@@ -27,7 +27,7 @@ export interface Address {
 
 export interface CreateAddressPayload {
   address: string;
-  city: string;
+  city?: string;
   state: string;
   zip_code?: string | number;
   country: string;

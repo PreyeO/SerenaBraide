@@ -48,9 +48,6 @@ const UpdateAddressForm = ({ address, onSuccess }: UpdateAddressFormProps) => {
     resolver: zodResolver(UpdateAddressSchema),
     defaultValues: {
       address: address.address || "",
-      city: address.city || "",
-      state: address.state || "",
-      zip_code: address.zip_code || "",
       country: address.country || "",
       phone_number: address.phone_number || "",
     },
@@ -59,9 +56,6 @@ const UpdateAddressForm = ({ address, onSuccess }: UpdateAddressFormProps) => {
   useEffect(() => {
     form.reset({
       address: address.address || "",
-      city: address.city || "",
-      state: address.state || "",
-      zip_code: address.zip_code || "",
       country: address.country || "",
       phone_number: address.phone_number || "",
     });
@@ -70,15 +64,6 @@ const UpdateAddressForm = ({ address, onSuccess }: UpdateAddressFormProps) => {
   const onSubmit = (data: UpdateAddressFormValues) => {
     const payload: UpdateAddressPayload = {};
     if (data.address) payload.address = data.address;
-    if (data.city) payload.city = data.city;
-    if (data.state) payload.state = data.state;
-    if (data.zip_code) {
-      // Convert zip_code string to number if it's a valid number, otherwise keep as string
-      payload.zip_code =
-        data.zip_code && !isNaN(Number(data.zip_code))
-          ? Number(data.zip_code)
-          : data.zip_code;
-    }
     if (data.country) payload.country = data.country;
     if (data.phone_number !== undefined) {
       payload.phone_number = data.phone_number || null;
@@ -126,47 +111,6 @@ const UpdateAddressForm = ({ address, onSuccess }: UpdateAddressFormProps) => {
             />
             <FormField
               control={form.control}
-              name="city"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel className="font-semibold text-sm lg:text-base text-[#3B3B3B]">
-                    City
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="City"
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-3 lg:py-5 text-sm lg:text-base"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
-          <div className="flex flex-col lg:flex-row gap-4 pb-4 lg:pb-6">
-            <FormField
-              control={form.control}
-              name="address"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel className="font-medium text-sm text-[#3B3B3B]">
-                    Address
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="Street, house/apartment, etc*"
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-3 lg:py-5 text-sm lg:text-base"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
               name="phone_number"
               render={({ field }) => (
                 <FormItem className="flex-1">
@@ -190,36 +134,16 @@ const UpdateAddressForm = ({ address, onSuccess }: UpdateAddressFormProps) => {
           <div className="flex flex-col lg:flex-row gap-4 pb-4 lg:pb-6">
             <FormField
               control={form.control}
-              name="state"
+              name="address"
               render={({ field }) => (
                 <FormItem className="flex-1">
                   <FormLabel className="font-medium text-sm text-[#3B3B3B]">
-                    State
+                    Address
                   </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="State"
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-3 lg:py-5 text-sm lg:text-base"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="zip_code"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel className="font-medium text-sm text-[#3B3B3B]">
-                    Zip Code
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="Zip code (optional)"
+                      placeholder="Street, house/apartment, etc*"
                       className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-3 lg:py-5 text-sm lg:text-base"
                     />
                   </FormControl>
