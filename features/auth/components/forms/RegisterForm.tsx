@@ -74,7 +74,7 @@ const RegisterForm = () => {
             control={form.control}
             name="name"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="order-1">
                 <FormLabel className="text-[12px] font-medium">
                   NAME<span className="text-red-500">*</span>
                 </FormLabel>
@@ -95,7 +95,7 @@ const RegisterForm = () => {
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="order-2">
                 <FormLabel className="text-[12px] font-medium">
                   EMAIL<span className="text-red-500">*</span>
                 </FormLabel>
@@ -117,7 +117,7 @@ const RegisterForm = () => {
             control={form.control}
             name="phone_number"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="order-6">
                 <FormLabel className="text-[12px] font-medium">
                   PHONE NUMBER<span className="text-red-500">*</span>
                 </FormLabel>
@@ -138,7 +138,7 @@ const RegisterForm = () => {
             control={form.control}
             name="country"
             render={() => (
-              <FormItem>
+              <FormItem className="order-4">
                 <FormLabel className="text-[12px] font-medium">
                   COUNTRY<span className="text-red-500">*</span>
                 </FormLabel>
@@ -167,7 +167,7 @@ const RegisterForm = () => {
             control={form.control}
             name="address"
             render={({ field }) => (
-              <FormItem className="md:col-span-2">
+              <FormItem className="order-5 md:col-span-2">
                 <FormLabel className="text-[12px] font-medium">
                   DELIVERY ADDRESS<span className="text-red-500">*</span>
                 </FormLabel>
@@ -188,7 +188,7 @@ const RegisterForm = () => {
             control={form.control}
             name="state"
             render={({ field }) => (
-              <FormItem className="md:col-span-2">
+              <FormItem className="order-3">
                 <FormLabel className="text-[12px] font-medium">
                   STATE<span className="text-red-500">*</span>
                 </FormLabel>
@@ -209,7 +209,7 @@ const RegisterForm = () => {
             control={form.control}
             name="password"
             render={({ field }) => (
-              <FormItem className="">
+              <FormItem className="order-7">
                 <FormLabel className="text-[12px] font-medium">
                   PASSWORD<span className="text-red-500">*</span>
                 </FormLabel>
@@ -261,7 +261,7 @@ const RegisterForm = () => {
               });
 
               return (
-                <FormItem>
+                <FormItem className="order-8">
                   <FormLabel className="text-[12px] font-medium">
                     DATE OF BIRTH
                   </FormLabel>
