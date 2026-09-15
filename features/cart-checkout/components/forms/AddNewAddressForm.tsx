@@ -74,6 +74,28 @@ const AddNewAddressForm = ({ onSuccess }: AddNewAddressFormProps) => {
           <div className="flex flex-col lg:flex-row gap-4 pb-4 lg:pb-6">
             <FormField
               control={form.control}
+              name="address"
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormLabel className="font-medium text-sm text-[#3B3B3B]">
+                    Address
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="Street, house/apartment, etc*"
+                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-3 lg:py-5 text-sm lg:text-base"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="flex flex-col lg:flex-row gap-4 pb-4 lg:pb-6">
+            <FormField
+              control={form.control}
               name="country"
               render={({ field }) => (
                 <FormItem className="flex-1">
@@ -100,6 +122,28 @@ const AddNewAddressForm = ({ onSuccess }: AddNewAddressFormProps) => {
             />
             <FormField
               control={form.control}
+              name="state"
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormLabel className="font-medium text-sm text-[#3B3B3B]">
+                    State
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="State*"
+                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-3 lg:py-5 text-sm lg:text-base"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="flex flex-col lg:flex-row gap-4 pb-4 lg:pb-6">
+            <FormField
+              control={form.control}
               name="phone_number"
               render={({ field }) => (
                 <FormItem className="flex-1">
@@ -111,50 +155,6 @@ const AddNewAddressForm = ({ onSuccess }: AddNewAddressFormProps) => {
                       {...field}
                       type="tel"
                       placeholder="Phone number*"
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-3 lg:py-5 text-sm lg:text-base"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
-          <div className="flex flex-col lg:flex-row gap-4 pb-4 lg:pb-6">
-            <FormField
-              control={form.control}
-              name="address"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel className="font-medium text-sm text-[#3B3B3B]">
-                    Address
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="Street, house/apartment, etc*"
-                      className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-3 lg:py-5 text-sm lg:text-base"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
-          <div className="flex flex-col lg:flex-row gap-4 pb-4 lg:pb-6">
-            <FormField
-              control={form.control}
-              name="state"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel className="font-medium text-sm text-[#3B3B3B]">
-                    State
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="State*"
                       className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] py-3 lg:py-5 text-sm lg:text-base"
                     />
                   </FormControl>
