@@ -211,7 +211,7 @@ const RegisterForm = () => {
             render={({ field }) => (
               <FormItem className="order-7">
                 <FormLabel className="text-[12px] font-medium">
-                  PASSWORD<span className="text-red-500">*</span>
+                  CREATE A PASSWORD<span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
                   <PasswordInput {...field} />
@@ -263,7 +263,7 @@ const RegisterForm = () => {
               return (
                 <FormItem className="order-8">
                   <FormLabel className="text-[12px] font-medium">
-                    DATE OF BIRTH
+                    DATE OF BIRTH<span className="text-red-500">*</span>
                   </FormLabel>
                   <FormControl>
                     <div className="flex gap-3">
@@ -311,7 +311,7 @@ const RegisterForm = () => {
           />
 
           {/* Terms */}
-          <div className="md:col-span-2 lg:mt-4 text-[#3B3B3B] flex gap-6 items-center">
+          <div className="order-9 md:col-span-2 lg:mt-4 text-[#3B3B3B] flex gap-6 items-center">
             <AuthSpan className="font-normal lg:text-sm text-xs lg:leading-5.5 leading-4.5">
               By continuing, you agree to the Serena Braide
               <Link href="/legal/terms_of_service">
@@ -325,7 +325,7 @@ const RegisterForm = () => {
           </div>
 
           {/* Submit */}
-          <div className="md:col-span-2 lg:mt-4">
+          <div className="order-10 md:col-span-2 lg:mt-4">
             <SubmitButton
               label="Continue to Checkout"
               loadingLabel="Processing..."
@@ -333,7 +333,7 @@ const RegisterForm = () => {
               onClick={() => {}}
             />
           </div>
-          <div className="md:col-span-2">
+          <div className="order-11 md:col-span-2">
             <AuthSwitchPrompt
               message="Shopped with us before?"
               linkText="Log In"
