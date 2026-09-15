@@ -34,6 +34,7 @@ const RegisterForm = () => {
       password: "",
       date_of_birth: "",
       address: "",
+      state: "",
     },
   });
 
@@ -175,6 +176,27 @@ const RegisterForm = () => {
                     placeholder="Street, house/apartment, etc"
                     {...field}
                     className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5]  h-12.5"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* State */}
+          <FormField
+            control={form.control}
+            name="state"
+            render={({ field }) => (
+              <FormItem className="md:col-span-2">
+                <FormLabel className="text-[12px] font-medium">
+                  STATE<span className="text-red-500">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Enter your state"
+                    {...field}
+                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-12.5"
                   />
                 </FormControl>
                 <FormMessage />
