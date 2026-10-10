@@ -34,8 +34,14 @@ export function CustomerTable({ data }: CustomerTableProps) {
   const { navigateToCustomer } = useTableNavigation();
   const [currentPage, setCurrentPage] = useState(1);
 
-  const totalPages = Math.ceil((data?.length || 0) / ITEMS_PER_PAGE);
-  const paginatedData = data.slice(
+  // Most recently joined first, regardless of the order the API returns.
+  const sortedData = [...data].sort(
+    (a, b) =>
+      new Date(b.date_joined).getTime() - new Date(a.date_joined).getTime(),
+  );
+
+  const totalPages = Math.ceil((sortedData?.length || 0) / ITEMS_PER_PAGE);
+  const paginatedData = sortedData.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE,
   );

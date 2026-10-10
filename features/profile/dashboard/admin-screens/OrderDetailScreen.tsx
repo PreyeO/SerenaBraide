@@ -281,6 +281,20 @@ const OrderDetailScreen = ({ orderNumber }: OrderDetailScreenProps) => {
             {shippingAddress && (
               <div className="space-y-2">
                 <div>
+                  <p className="text-xs text-[#6F6E6C] mb-1">Customer Name</p>
+                  <p className="font-medium text-[#3B3B3B]">
+                    {typeof order.customer_profile !== "number" &&
+                      (order.customer_profile.name ||
+                        [
+                          order.customer_profile.first_name,
+                          order.customer_profile.last_name,
+                        ]
+                          .filter(Boolean)
+                          .join(" ")) ||
+                      "N/A"}
+                  </p>
+                </div>
+                <div>
                   <p className="text-xs text-[#6F6E6C] mb-1">Address</p>
                   <p className="font-medium text-[#3B3B3B]">
                     {shippingAddress.address}
