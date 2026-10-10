@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useGetOrderDetails } from "@/features/profile/hooks/admin/useGetOrderDetails";
+import { useGetCustomerDetail } from "@/features/profile/hooks/admin/useCustomers";
 import BackNavigation from "@/components/ui/btns/back-navigation";
 import SubHeading from "@/components/ui/typography/subHeading";
 import { Order } from "@/features/profile/type/customers/profile.type";
@@ -25,6 +26,17 @@ const OrderDetailScreen = ({ orderNumber }: OrderDetailScreenProps) => {
   const router = useRouter();
   const { data: order, isLoading } = useGetOrderDetails(orderNumber);
   const [isUpdateStatusModalOpen, setIsUpdateStatusModalOpen] = useState(false);
+
+  // The order's own payload may or may not embed the buyer's name, so fetch
+  // the customer profile directly — the same reliable source the Customer
+  // Detail screen uses — and prefer that over whatever the order embeds.
+  const customerProfileId =
+    order && typeof order.customer_profile !== "number"
+      ? order.customer_profile.id
+      : undefined;
+  const { data: customerDetail } = useGetCustomerDetail(
+    customerProfileId ?? 0,
+  );
 
   const getStatusBadge = (status: string, isGiftCard?: boolean) => {
     const normalizedStatus = status.toLowerCase();
@@ -118,6 +130,19 @@ const OrderDetailScreen = ({ orderNumber }: OrderDetailScreenProps) => {
   // customer's default profile address for older orders that have none.
   const shippingAddress =
     order.address ?? getDefaultAddress(order.customer_profile);
+
+  // Prefer the reliably-fetched customer record; fall back to whatever name
+  // fields the order's own payload happens to embed; "N/A" if neither has it.
+  const embeddedProfile =
+    typeof order.customer_profile !== "number" ? order.customer_profile : null;
+  const buyerName =
+    (customerDetail &&
+      `${customerDetail.first_name} ${customerDetail.last_name}`.trim()) ||
+    embeddedProfile?.name ||
+    [embeddedProfile?.first_name, embeddedProfile?.last_name]
+      .filter(Boolean)
+      .join(" ") ||
+    "N/A";
 
   return (
     <section className="py-7.5">
@@ -282,17 +307,7 @@ const OrderDetailScreen = ({ orderNumber }: OrderDetailScreenProps) => {
               <div className="space-y-2">
                 <div>
                   <p className="text-xs text-[#6F6E6C] mb-1">Customer Name</p>
-                  <p className="font-medium text-[#3B3B3B]">
-                    {typeof order.customer_profile !== "number" &&
-                      (order.customer_profile.name ||
-                        [
-                          order.customer_profile.first_name,
-                          order.customer_profile.last_name,
-                        ]
-                          .filter(Boolean)
-                          .join(" ")) ||
-                      "N/A"}
-                  </p>
+                  <p className="font-medium text-[#3B3B3B]">{buyerName}</p>
                 </div>
                 <div>
                   <p className="text-xs text-[#6F6E6C] mb-1">Address</p>
