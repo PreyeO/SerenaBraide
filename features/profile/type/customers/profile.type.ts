@@ -154,6 +154,12 @@ export interface CustomerAddress {
 export interface CustomerProfile {
   user: number;
   addresses: CustomerAddress[];
+  // Optional: the nested customer_profile on other resources (e.g. reviews)
+  // carries these; included here so the buyer's name can be shown wherever
+  // an order's customer_profile is rendered.
+  name?: string;
+  first_name?: string;
+  last_name?: string;
 }
 
 export interface GiftCard {
