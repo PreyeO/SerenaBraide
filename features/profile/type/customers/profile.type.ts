@@ -154,9 +154,10 @@ export interface CustomerAddress {
 export interface CustomerProfile {
   user: number;
   addresses: CustomerAddress[];
-  // Optional: the nested customer_profile on other resources (e.g. reviews)
-  // carries these; included here so the buyer's name can be shown wherever
-  // an order's customer_profile is rendered.
+  // Optional and unconfirmed on this nested shape — kept only as a fallback.
+  // The reliable source for the buyer's name is a separate customer-profile
+  // fetch (see OrderDetailScreen), same as the admin Customer Detail screen.
+  id?: number;
   name?: string;
   first_name?: string;
   last_name?: string;
