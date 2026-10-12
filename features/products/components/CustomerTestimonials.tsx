@@ -68,7 +68,6 @@ const CustomerTestimonials = () => {
   if (count === 0) return null;
 
   const goTo = (next: number) => setIndex((next + count) % count);
-  const testimonial = CUSTOMER_TESTIMONIALS[index];
 
   const handleTouchEnd = (endX: number) => {
     if (touchStartX.current === null) return;
@@ -109,46 +108,57 @@ const CustomerTestimonials = () => {
           handleTouchEnd(e.changedTouches[0].clientX);
         }}
       >
-        {/* Keyed so each quote fades in fresh when it changes. */}
-        <figure
-          key={index}
-          className="animate-in fade-in duration-500 flex flex-col items-center"
-          aria-live="polite"
+        <span
+          className="block font-PPEditorialNew text-[#D6D6D6] lg:text-[96px] text-[64px] leading-none h-10 lg:h-14"
+          aria-hidden="true"
         >
-          <span
-            className="font-PPEditorialNew text-[#D6D6D6] lg:text-[96px] text-[64px] leading-none h-10 lg:h-14"
-            aria-hidden="true"
-          >
-            &ldquo;
-          </span>
+          &ldquo;
+        </span>
 
-          {testimonial.rating && (
-            <StarRating
-              rating={testimonial.rating}
-              size="sm"
-              className="justify-center mb-4"
-            />
-          )}
+        {/* Every review sits in the same grid cell and they crossfade, so one
+            is always on screen (no blink) and the block keeps the height of
+            the longest review (no jump between short and long ones). */}
+        <div className="grid" aria-live="polite">
+          {CUSTOMER_TESTIMONIALS.map((item, i) => {
+            const isActive = i === index;
+            return (
+              <figure
+                key={`${item.name}-${i}`}
+                aria-hidden={!isActive}
+                className={`col-start-1 row-start-1 flex flex-col items-center justify-center transition-opacity duration-700 ease-in-out ${
+                  isActive ? "opacity-100" : "opacity-0 pointer-events-none"
+                }`}
+              >
+                {item.rating && (
+                  <StarRating
+                    rating={item.rating}
+                    size="sm"
+                    className="justify-center mb-4"
+                  />
+                )}
 
-          <blockquote className="font-PPEditorialNew lg:text-[28px] text-xl lg:leading-10 leading-8 px-2 min-h-32 lg:min-h-40 flex items-center">
-            {testimonial.text}
-          </blockquote>
+                <blockquote className="font-PPEditorialNew lg:text-[28px] text-xl lg:leading-10 leading-8 px-2">
+                  {item.text}
+                </blockquote>
 
-          <figcaption className="lg:pt-8 pt-6 flex flex-col gap-1">
-            <span className="font-medium text-sm lg:text-base tracking-wide">
-              {testimonial.name}
-            </span>
-            <span className="text-xs text-[#6F6E6C] flex items-center justify-center gap-1.5">
-              <SourceIcon source={testimonial.source} />
-              Shared via {testimonial.source}
-              {testimonial.date &&
-                ` · ${new Date(testimonial.date).toLocaleDateString("en-GB", {
-                  month: "short",
-                  year: "numeric",
-                })}`}
-            </span>
-          </figcaption>
-        </figure>
+                <figcaption className="lg:pt-8 pt-6 flex flex-col gap-1">
+                  <span className="font-medium text-sm lg:text-base tracking-wide">
+                    {item.name}
+                  </span>
+                  <span className="text-xs text-[#6F6E6C] flex items-center justify-center gap-1.5">
+                    <SourceIcon source={item.source} />
+                    Shared via {item.source}
+                    {item.date &&
+                      ` · ${new Date(item.date).toLocaleDateString("en-GB", {
+                        month: "short",
+                        year: "numeric",
+                      })}`}
+                  </span>
+                </figcaption>
+              </figure>
+            );
+          })}
+        </div>
 
         {count > 1 && (
           <div className="flex items-center justify-center gap-6 lg:pt-10 pt-8">
