@@ -13,6 +13,7 @@ const ReviewSection = dynamic(
   () => import("./ReviewSection"),
   { loading: () => <div className="h-60 w-full bg-gray-50 animate-pulse rounded-lg mt-8" /> }
 );
+import CustomerTestimonials from "./CustomerTestimonials";
 import { useGetProductBySlug } from "../hooks/useGetProductDetail";
 import { trackViewContent } from "@/lib/analytics/pixel-events";
 
@@ -95,6 +96,7 @@ const ProductDetailContent: React.FC<ProductDetailContentProps> = ({
         selectedVariantId={selectedVariantId}
       />
       <ReviewSection productId={product.id} />
+      <CustomerTestimonials />
 
       <RecommendationSection />
     </>

@@ -91,7 +91,7 @@ const ReviewSection = ({ productId }: ReviewSectionProps) => {
           />
           <Paragraph
             className="leading-6 text-[#6F6E6C]"
-            content="No reviews yet. Buy a product to drop a review!"
+            content="Drop a review on this product!"
           />
         </div>
       </section>
