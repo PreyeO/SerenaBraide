@@ -19,10 +19,9 @@ export interface CustomerTestimonial {
   date?: string;
 }
 
-// "Jane Doe N" entries are placeholders until the customer's name is confirmed.
 export const CUSTOMER_TESTIMONIALS: CustomerTestimonial[] = [
   {
-    name: "Jane Doe 1",
+    name: "Yewande",
     text: "Everyone is just praising my perfume. Omo, you hit the nail on the head on that Ren scent. For someone like me who hardly find a scent that I like, you have got a customer for life.",
     source: "WhatsApp",
   },
@@ -42,7 +41,7 @@ export const CUSTOMER_TESTIMONIALS: CustomerTestimonial[] = [
     source: "Instagram",
   },
   {
-    name: "Jane Doe 2",
+    name: "Joyce",
     text: "I got back yesterday and I saw the perfume and lipgloss. Love love them! Lipgloss smell so sweet I want to eat it. Then the perfume, yummy.",
     source: "Instagram",
   },

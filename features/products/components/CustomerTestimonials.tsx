@@ -1,12 +1,45 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Instagram, User } from "lucide-react";
 import BorderLine from "@/components/ui/border-line";
 import Paragraph from "@/components/ui/typography/paragraph";
 import SubHeading from "@/components/ui/typography/subHeading";
 import { StarRating } from "./shared";
-import { CUSTOMER_TESTIMONIALS } from "../data/customer-testimonials";
+import {
+  CUSTOMER_TESTIMONIALS,
+  CustomerTestimonial,
+} from "../data/customer-testimonials";
+
+// Lucide has no WhatsApp icon: its speech bubble with a small phone inside, in
+// the same outline style as the rest of the site's icons.
+const WhatsAppIcon = ({ className }: { className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    aria-hidden="true"
+  >
+    <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+    <path
+      transform="translate(12 12) scale(0.42) translate(-12 -12)"
+      vectorEffect="non-scaling-stroke"
+      d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"
+    />
+  </svg>
+);
+
+const SourceIcon = ({ source }: { source: CustomerTestimonial["source"] }) => {
+  const className = "size-3.5 shrink-0";
+  if (source === "WhatsApp") return <WhatsAppIcon className={className} />;
+  if (source === "Instagram")
+    return <Instagram className={className} aria-hidden="true" />;
+  return <User className={className} aria-hidden="true" />;
+};
 
 const SWIPE_THRESHOLD_PX = 50;
 const AUTOPLAY_MS = 6000;
@@ -105,7 +138,8 @@ const CustomerTestimonials = () => {
             <span className="font-medium text-sm lg:text-base tracking-wide">
               {testimonial.name}
             </span>
-            <span className="text-xs text-[#6F6E6C]">
+            <span className="text-xs text-[#6F6E6C] flex items-center justify-center gap-1.5">
+              <SourceIcon source={testimonial.source} />
               Shared via {testimonial.source}
               {testimonial.date &&
                 ` · ${new Date(testimonial.date).toLocaleDateString("en-GB", {
