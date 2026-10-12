@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import BorderLine from "@/components/ui/border-line";
 import Paragraph from "@/components/ui/typography/paragraph";
@@ -9,12 +9,29 @@ import { StarRating } from "./shared";
 import { CUSTOMER_TESTIMONIALS } from "../data/customer-testimonials";
 
 const SWIPE_THRESHOLD_PX = 50;
+const AUTOPLAY_MS = 6000;
 
 const CustomerTestimonials = () => {
   const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
 
   const count = CUSTOMER_TESTIMONIALS.length;
+
+  // Re-armed on every change of review, so after a click or swipe the customer
+  // gets a full interval on the one they chose. Paused while hovered, focused
+  // or touched, and off entirely for people who've asked for reduced motion.
+  useEffect(() => {
+    if (paused || count < 2) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const timer = setTimeout(
+      () => setIndex((current) => (current + 1) % count),
+      AUTOPLAY_MS,
+    );
+    return () => clearTimeout(timer);
+  }, [index, paused, count]);
+
   if (count === 0) return null;
 
   const goTo = (next: number) => setIndex((next + count) % count);
@@ -46,8 +63,18 @@ const CustomerTestimonials = () => {
       <div
         className="max-w-3xl mx-auto lg:pt-14 pt-8 text-center"
         aria-roledescription="carousel"
-        onTouchStart={(e) => (touchStartX.current = e.touches[0].clientX)}
-        onTouchEnd={(e) => handleTouchEnd(e.changedTouches[0].clientX)}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        onFocus={() => setPaused(true)}
+        onBlur={() => setPaused(false)}
+        onTouchStart={(e) => {
+          setPaused(true);
+          touchStartX.current = e.touches[0].clientX;
+        }}
+        onTouchEnd={(e) => {
+          setPaused(false);
+          handleTouchEnd(e.changedTouches[0].clientX);
+        }}
       >
         {/* Keyed so each quote fades in fresh when it changes. */}
         <figure
