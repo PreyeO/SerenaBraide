@@ -31,12 +31,12 @@ const CustomerTestimonials = () => {
 
       <div className="lg:pt-12.5 pt-6 flex flex-col gap-1.5 max-w-125.75 mx-auto items-center text-center">
         <SubHeading
-          title="Loved by our customers"
+          title="What customers are saying"
           className="lg:text-[40px] text-[22px] font-medium"
         />
         <Paragraph
           className="leading-5.5 text-sm text-[#6F6E6C]"
-          content="Kind words our customers have shared with us directly."
+          content="Kindly drop a review after your purchase."
         />
       </div>
 
