@@ -17,6 +17,11 @@ import CustomerTestimonials from "./CustomerTestimonials";
 import { useGetProductBySlug } from "../hooks/useGetProductDetail";
 import { trackViewContent } from "@/lib/analytics/pixel-events";
 
+// Website product reviews are hidden while there are too few to show; the
+// general customer testimonials section is shown instead. Set to true to bring
+// them back once buyers start leaving reviews.
+const SHOW_PRODUCT_REVIEWS = false;
+
 interface ProductDetailContentProps {
   category: string;
   slug: string;
@@ -95,7 +100,7 @@ const ProductDetailContent: React.FC<ProductDetailContentProps> = ({
         product={product}
         selectedVariantId={selectedVariantId}
       />
-      <ReviewSection productId={product.id} />
+      {SHOW_PRODUCT_REVIEWS && <ReviewSection productId={product.id} />}
       <CustomerTestimonials />
 
       <RecommendationSection />
