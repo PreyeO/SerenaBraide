@@ -1,32 +1,35 @@
 "use client";
 
-import { Quote } from "lucide-react";
+import { useRef, useState } from "react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import BorderLine from "@/components/ui/border-line";
 import Paragraph from "@/components/ui/typography/paragraph";
 import SubHeading from "@/components/ui/typography/subHeading";
 import { StarRating } from "./shared";
 import { CUSTOMER_TESTIMONIALS } from "../data/customer-testimonials";
 
-const initials = (name: string) =>
-  name
-    .split(/\s+/)
-    .filter((part) => /^[a-z]/i.test(part))
-    .slice(0, 2)
-    .map((part) => part[0].toUpperCase())
-    .join("");
-
-const formatDate = (date: string) =>
-  new Date(date).toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
+const SWIPE_THRESHOLD_PX = 50;
 
 const CustomerTestimonials = () => {
-  if (CUSTOMER_TESTIMONIALS.length === 0) return null;
+  const [index, setIndex] = useState(0);
+  const touchStartX = useRef<number | null>(null);
+
+  const count = CUSTOMER_TESTIMONIALS.length;
+  if (count === 0) return null;
+
+  const goTo = (next: number) => setIndex((next + count) % count);
+  const testimonial = CUSTOMER_TESTIMONIALS[index];
+
+  const handleTouchEnd = (endX: number) => {
+    if (touchStartX.current === null) return;
+    const delta = endX - touchStartX.current;
+    touchStartX.current = null;
+    if (Math.abs(delta) < SWIPE_THRESHOLD_PX) return;
+    goTo(delta < 0 ? index + 1 : index - 1);
+  };
 
   return (
-    <section className="text-[#3B3B3B] lg:pb-12.5 pb-6">
+    <section className="text-[#3B3B3B] lg:pb-16 pb-10">
       <BorderLine className="" />
 
       <div className="lg:pt-12.5 pt-6 flex flex-col gap-1.5 max-w-125.75 mx-auto items-center text-center">
@@ -40,41 +43,88 @@ const CustomerTestimonials = () => {
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 lg:pt-12.5 pt-6">
-        {CUSTOMER_TESTIMONIALS.map((testimonial, index) => (
-          <article
-            key={`${testimonial.name}-${index}`}
-            className="bg-[#F6F7F8] rounded-[10px] border border-[#F5F5F5] lg:p-8 p-6 flex flex-col gap-5"
+      <div
+        className="max-w-3xl mx-auto lg:pt-14 pt-8 text-center"
+        aria-roledescription="carousel"
+        onTouchStart={(e) => (touchStartX.current = e.touches[0].clientX)}
+        onTouchEnd={(e) => handleTouchEnd(e.changedTouches[0].clientX)}
+      >
+        {/* Keyed so each quote fades in fresh when it changes. */}
+        <figure
+          key={index}
+          className="animate-in fade-in duration-500 flex flex-col items-center"
+          aria-live="polite"
+        >
+          <span
+            className="font-PPEditorialNew text-[#D6D6D6] lg:text-[96px] text-[64px] leading-none h-10 lg:h-14"
+            aria-hidden="true"
           >
-            <Quote
-              className="size-7 text-[#D6D6D6] fill-[#D6D6D6] shrink-0"
-              aria-hidden="true"
+            &ldquo;
+          </span>
+
+          {testimonial.rating && (
+            <StarRating
+              rating={testimonial.rating}
+              size="sm"
+              className="justify-center mb-4"
             />
+          )}
 
-            {testimonial.rating && (
-              <StarRating rating={testimonial.rating} size="sm" />
-            )}
+          <blockquote className="font-PPEditorialNew lg:text-[28px] text-xl lg:leading-10 leading-8 px-2 min-h-32 lg:min-h-40 flex items-center">
+            {testimonial.text}
+          </blockquote>
 
-            <p className="flex-1 font-normal text-sm lg:text-base leading-5.5 lg:leading-6.5">
-              {testimonial.text}
-            </p>
+          <figcaption className="lg:pt-8 pt-6 flex flex-col gap-1">
+            <span className="font-medium text-sm lg:text-base tracking-wide">
+              {testimonial.name}
+            </span>
+            <span className="text-xs text-[#6F6E6C]">
+              Shared via {testimonial.source}
+              {testimonial.date &&
+                ` · ${new Date(testimonial.date).toLocaleDateString("en-GB", {
+                  month: "short",
+                  year: "numeric",
+                })}`}
+            </span>
+          </figcaption>
+        </figure>
 
-            <div className="flex gap-3 items-center pt-5 border-t border-[#E5E5E5]">
-              <span className="rounded-full bg-white text-[#3B3B3B] text-sm font-medium size-10 flex items-center justify-center shrink-0">
-                {initials(testimonial.name)}
-              </span>
-              <div className="flex flex-col">
-                <span className="font-medium text-sm lg:text-base">
-                  {testimonial.name}
-                </span>
-                <span className="text-xs text-[#6F6E6C]">
-                  Shared via {testimonial.source}
-                  {testimonial.date && ` · ${formatDate(testimonial.date)}`}
-                </span>
-              </div>
+        {count > 1 && (
+          <div className="flex items-center justify-center gap-6 lg:pt-10 pt-8">
+            <button
+              type="button"
+              onClick={() => goTo(index - 1)}
+              aria-label="Previous review"
+              className="size-10 rounded-full border border-[#D6D6D6] flex items-center justify-center hover:border-[#3B3B3B] transition-colors"
+            >
+              <ArrowLeft className="size-4" />
+            </button>
+
+            <div className="flex gap-2">
+              {CUSTOMER_TESTIMONIALS.map((item, i) => (
+                <button
+                  key={`${item.name}-${i}`}
+                  type="button"
+                  onClick={() => goTo(i)}
+                  aria-label={`Show review ${i + 1} of ${count}`}
+                  aria-current={i === index}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    i === index ? "w-6 bg-[#3B3B3B]" : "w-1.5 bg-[#D6D6D6]"
+                  }`}
+                />
+              ))}
             </div>
-          </article>
-        ))}
+
+            <button
+              type="button"
+              onClick={() => goTo(index + 1)}
+              aria-label="Next review"
+              className="size-10 rounded-full border border-[#D6D6D6] flex items-center justify-center hover:border-[#3B3B3B] transition-colors"
+            >
+              <ArrowRight className="size-4" />
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
