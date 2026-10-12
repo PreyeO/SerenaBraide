@@ -6,7 +6,10 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useGiftCardStore } from "../giftcard.store";
 import { useRouter } from "next/navigation";
 import PaymentMethodSection from "@/features/cart-checkout/shared/PaymentMethodSection";
-import { paymentType } from "@/features/cart-checkout/data/checkout.data";
+import {
+  paymentType,
+  PAYMENT_TYPES,
+} from "@/features/cart-checkout/data/checkout.data";
 import { useInitiatePayment } from "@/features/payment/hooks/useInitiatePayment";
 import { PENDING_ORDER_NUMBER_KEY } from "@/features/payment/payment.constants";
 import { useOrderPayments } from "@/features/payment/hooks/useOrderPayments";
@@ -28,9 +31,8 @@ const GiftCardCheckout = () => {
   const { giftCardData } = useGiftCardStore();
   const { user } = useAuthStore();
   const [selectedPayment, setSelectedPayment] = useState<string>(
-    paymentType[0].id,
+    PAYMENT_TYPES.FLUTTERWAVE,
   );
-  const initiatePaymentMutation = useInitiatePayment();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   // Check for payment success in URL params (from Flutterwave redirect)
@@ -65,6 +67,14 @@ const GiftCardCheckout = () => {
 
   // Fetch order details using order_number from gift card data
   const { data: orderData } = useOrderDetail(orderNumber);
+
+  // AddPaymentInfo only once Flutterwave has handed back a payment link and
+  // the customer is on their way — not on the Pay click.
+  const initiatePaymentMutation = useInitiatePayment({
+    onBeforeRedirect: () => {
+      if (orderData) trackAddPaymentInfo(orderData);
+    },
+  });
 
   // Fetch payment details to check payment status
   const { data: payments } = useOrderPayments(orderNumber);
@@ -145,11 +155,8 @@ const GiftCardCheckout = () => {
       return;
     }
 
-    // Meta AddPaymentInfo — last funnel step before the payment provider.
-    if (orderData) trackAddPaymentInfo(orderData);
-
     // If Flutterwave is selected, initiate payment
-    if (selectedPayment === "2") {
+    if (selectedPayment === PAYMENT_TYPES.FLUTTERWAVE) {
       initiatePaymentMutation.mutate({ orderNumber });
       return;
     }

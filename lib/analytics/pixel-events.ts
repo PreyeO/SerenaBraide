@@ -205,25 +205,34 @@ export function trackInitiateCheckout(
   });
 }
 
-/** Customer picked a payment method and set payment in motion. */
+/**
+ * A real payment attempt started: a Flutterwave link came back and the customer
+ * is being sent to pay, or a gift card was submitted. Not fired on the Pay click
+ * itself, so this lines up with what the payment provider sees.
+ *
+ * Once per order per session — cancelling on Flutterwave and retrying, or a gift
+ * card followed by a card top-up, is still one customer starting to pay.
+ */
 export function trackAddPaymentInfo(order: Order): void {
-  const contents = orderContents(order);
+  pixelTrackOnce(`add_payment_info_${order.order_number}`, () => {
+    const contents = orderContents(order);
 
-  pixelTrack(PixelEvent.AddPaymentInfo, {
-    content_ids: contents.map((content) => content.id),
-    content_type: "product",
-    contents,
-    currency: PIXEL_CURRENCY,
-    value: toAmount(order.total_amount),
-    num_items: orderItemCount(order, contents),
-    order_id: String(order.order_number),
-  });
+    pixelTrack(PixelEvent.AddPaymentInfo, {
+      content_ids: contents.map((content) => content.id),
+      content_type: "product",
+      contents,
+      currency: PIXEL_CURRENCY,
+      value: toAmount(order.total_amount),
+      num_items: orderItemCount(order, contents),
+      order_id: String(order.order_number),
+    });
 
-  tiktokTrack(TikTokEvent.AddPaymentInfo, {
-    contents: toTikTokContents(contents),
-    content_type: "product",
-    currency: PIXEL_CURRENCY,
-    value: toAmount(order.total_amount),
+    tiktokTrack(TikTokEvent.AddPaymentInfo, {
+      contents: toTikTokContents(contents),
+      content_type: "product",
+      currency: PIXEL_CURRENCY,
+      value: toAmount(order.total_amount),
+    });
   });
 }
 

@@ -33,7 +33,7 @@ export function useCheckout() {
 
   // UI State
   const [selectedPayment, setSelectedPayment] = useState<string>(
-    paymentType[0].id,
+    PAYMENT_TYPES.FLUTTERWAVE,
   );
   const [showGiftCardModal, setShowGiftCardModal] = useState(false);
   const [showRemainingBalanceModal, setShowRemainingBalanceModal] =
@@ -75,7 +75,6 @@ export function useCheckout() {
     : recoveredOrderNumber;
 
   // Mutations
-  const initiatePaymentMutation = useInitiatePayment();
   const updateOrderAddressMutation = useUpdateOrderAddress();
   const selectedAddressId = useCheckoutAddressStore(
     (state) => state.selectedAddressId,
@@ -87,6 +86,14 @@ export function useCheckout() {
   // Fetch order details
   const { data: orderData, isLoading: isLoadingOrder } =
     useOrderDetail(orderNumber);
+
+  // AddPaymentInfo only once Flutterwave has actually handed back a payment
+  // link and the customer is on their way — not on the Pay click.
+  const initiatePaymentMutation = useInitiatePayment({
+    onBeforeRedirect: () => {
+      if (orderData) trackAddPaymentInfo(orderData);
+    },
+  });
 
   // Whether the customer has a saved delivery address. Payment is gated on this
   // so nobody can pay without somewhere to ship to.
@@ -240,10 +247,6 @@ export function useCheckout() {
 
     // What to run once the order has the chosen address attached.
     const proceed = () => {
-      // Meta AddPaymentInfo — the last funnel step we can see before the
-      // customer leaves for the payment provider.
-      if (orderData) trackAddPaymentInfo(orderData);
-
       if (selectedPayment === PAYMENT_TYPES.GIFT_CARD) {
         setShowPaymentModal(false);
         setShowGiftCardModal(true);
@@ -273,7 +276,6 @@ export function useCheckout() {
     selectedPayment,
     user,
     orderNumber,
-    orderData,
     router,
     initiatePaymentMutation,
     ensureAddress,
@@ -288,6 +290,9 @@ export function useCheckout() {
         return;
       }
 
+      // Gift card route: the customer actually submitted a card to pay with.
+      if (orderData) trackAddPaymentInfo(orderData);
+
       applyGiftCardMutation.mutate({
         orderNumber,
         payload: {
@@ -296,7 +301,7 @@ export function useCheckout() {
         },
       });
     },
-    [orderNumber, applyGiftCardMutation],
+    [orderNumber, orderData, applyGiftCardMutation],
   );
 
   const handlePayRemainingBalance = useCallback(() => {
