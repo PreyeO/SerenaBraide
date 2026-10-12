@@ -20,6 +20,8 @@ interface PaymentMethodSectionProps {
   showTitle?: boolean;
   /** Additional className for the container */
   className?: string;
+  /** Payment methods to offer; defaults to all of them */
+  options?: typeof paymentType;
 }
 
 /**
@@ -34,6 +36,7 @@ const PaymentMethodSection = ({
   buttonLabel = "Pay",
   showTitle = true,
   className = "",
+  options = paymentType,
 }: PaymentMethodSectionProps) => {
   return (
     <div className={className}>
@@ -45,7 +48,7 @@ const PaymentMethodSection = ({
       )}
 
       <RadioGroup value={selectedPayment} onValueChange={onPaymentChange}>
-        {paymentType.map((type, index) => (
+        {options.map((type, index) => (
           <div key={index} className="mb-6">
             <PaymentItem
               src={type.src}

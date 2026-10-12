@@ -25,6 +25,12 @@ import {
   trackPurchase,
 } from "@/lib/analytics/pixel-events";
 
+// Buying a gift card is card-only — paying for one with a gift card isn't
+// offered (and that route led to a page that doesn't exist).
+const FLUTTERWAVE_ONLY = paymentType.filter(
+  (type) => type.id === PAYMENT_TYPES.FLUTTERWAVE,
+);
+
 const GiftCardCheckout = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -145,9 +151,6 @@ const GiftCardCheckout = () => {
   );
 
   const handleSubmit = () => {
-    const payment = paymentType.find((p) => p.id === selectedPayment);
-    if (!payment) return;
-
     // Check if user is authenticated
     if (!user) {
       notify.error("Kindly log in to proceed.");
@@ -155,14 +158,7 @@ const GiftCardCheckout = () => {
       return;
     }
 
-    // If Flutterwave is selected, initiate payment
-    if (selectedPayment === PAYMENT_TYPES.FLUTTERWAVE) {
-      initiatePaymentMutation.mutate({ orderNumber });
-      return;
-    }
-
-    // For gift card payment, navigate to payment page
-    router.push(payment.href!);
+    initiatePaymentMutation.mutate({ orderNumber });
   };
 
   return (
@@ -186,6 +182,7 @@ const GiftCardCheckout = () => {
                 onSubmit={handleSubmit}
                 isPending={initiatePaymentMutation.isPending}
                 buttonLabel={`Complete Order for ${formatCurrency(totalAmount, true)}`}
+                options={FLUTTERWAVE_ONLY}
               />
             </div>
           </div>
