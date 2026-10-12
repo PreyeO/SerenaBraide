@@ -10,11 +10,14 @@ import { PaymentResponse, InitiatePaymentPayload } from "../payment.type";
 interface UseInitiatePaymentOptions {
   onSuccess?: (payment: PaymentResponse) => void;
   onError?: (error: AxiosError<{ message?: string }>) => void;
+  /** Runs once a payment link is in hand, just before leaving for Flutterwave. */
+  onBeforeRedirect?: (orderNumber: number) => void;
 }
 
 export const useInitiatePayment = ({
   onSuccess,
   onError,
+  onBeforeRedirect,
 }: UseInitiatePaymentOptions = {}) => {
   return useMutation<
     PaymentResponse,
@@ -37,6 +40,7 @@ export const useInitiatePayment = ({
         } catch {
           /* sessionStorage unavailable — non-fatal */
         }
+        onBeforeRedirect?.(variables.orderNumber);
         window.location.href = payment.payment_link;
       } else {
         notify.error("Payment link not received");

@@ -7,8 +7,11 @@ import { useEffect, useRef, useState } from "react";
 import {
   META_PIXEL_ID,
   PixelEvent,
+  buildPixelUserData,
+  pixelSetUserData,
   pixelTrack,
 } from "@/lib/analytics/meta-pixel";
+import { useAuthStore } from "@/features/auth/auth.store";
 
 /**
  * Routes the pixel stays off entirely.
@@ -44,7 +47,7 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window,document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '${META_PIXEL_ID}');
+fbq('init', '${META_PIXEL_ID}', window.__sbPixelUserData || {});
 fbq('track', 'PageView');`;
 
 /**
@@ -66,6 +69,15 @@ export default function MetaPixel() {
   // The snippet reports the page it loads on itself, so that first view is
   // already covered and must not be sent twice.
   const initialViewPending = useRef(isTracked);
+
+  // Advanced matching: once a customer is logged in (including straight after
+  // the checkout form creates their account), attach their details to events
+  // so Meta can match them to a real profile. Staff are left out.
+  const user = useAuthStore((state) => state.user);
+  useEffect(() => {
+    if (!user || user.is_admin || user.is_superuser) return;
+    pixelSetUserData(buildPixelUserData(user));
+  }, [user, baseCodeMounted]);
 
   useEffect(() => {
     if (!isTracked) return;
