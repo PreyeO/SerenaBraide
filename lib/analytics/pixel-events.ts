@@ -19,6 +19,7 @@ import {
   pixelTrackOnce,
 } from "./meta-pixel";
 import { TikTokContent, TikTokEvent, tiktokTrack } from "./tiktok-pixel";
+import { GaItem, gaEvent } from "./google-analytics";
 
 /** Anything with the identity fields we need to build a content ID. */
 type IdentifiableVariant = Pick<Variant | CartVariant, "id" | "sku">;
@@ -98,6 +99,27 @@ function toTikTokContents(contents: PixelContent[]): TikTokContent[] {
   }));
 }
 
+/** An order's line items in GA4's shape (it wants product names, too). */
+function gaOrderItems(order: Order): GaItem[] {
+  const items = order.items ?? [];
+  if (items.length === 0) {
+    return [
+      {
+        item_id: GIFT_CARD_CONTENT_ID,
+        item_name: "Gift card",
+        price: toAmount(order.total_amount),
+        quantity: 1,
+      },
+    ];
+  }
+  return items.map((item) => ({
+    item_id: contentId(item.variant),
+    item_name: item.variant.product_name,
+    price: toAmount(item.price),
+    quantity: item.quantity,
+  }));
+}
+
 /**
  * Customer opened a product page.
  *
@@ -134,6 +156,20 @@ export function trackViewContent(
     content_name: product.name,
     currency: PIXEL_CURRENCY,
     value: viewedPrice,
+  });
+
+  gaEvent("view_item", {
+    currency: PIXEL_CURRENCY,
+    value: viewedPrice,
+    items: [
+      {
+        item_id: viewedId,
+        item_name: product.name,
+        item_category: product.category_name,
+        price: viewedPrice,
+        quantity: 1,
+      },
+    ],
   });
 }
 
@@ -172,6 +208,19 @@ export function trackAddToCart(item: CartItem, quantity: number = 1): void {
     currency: PIXEL_CURRENCY,
     value: unitPrice * quantity,
   });
+
+  gaEvent("add_to_cart", {
+    currency: PIXEL_CURRENCY,
+    value: unitPrice * quantity,
+    items: [
+      {
+        item_id: id,
+        item_name: item.variant.product_name,
+        price: unitPrice,
+        quantity,
+      },
+    ],
+  });
 }
 
 /**
@@ -203,6 +252,17 @@ export function trackInitiateCheckout(
     currency: PIXEL_CURRENCY,
     value: toAmount(value),
   });
+
+  gaEvent("begin_checkout", {
+    currency: PIXEL_CURRENCY,
+    value: toAmount(value),
+    items: items.map((item) => ({
+      item_id: contentId(item.variant),
+      item_name: item.variant.product_name,
+      price: toAmount(item.variant.effective_price),
+      quantity: item.quantity,
+    })),
+  });
 }
 
 /**
@@ -232,6 +292,12 @@ export function trackAddPaymentInfo(order: Order): void {
       content_type: "product",
       currency: PIXEL_CURRENCY,
       value: toAmount(order.total_amount),
+    });
+
+    gaEvent("add_payment_info", {
+      currency: PIXEL_CURRENCY,
+      value: toAmount(order.total_amount),
+      items: gaOrderItems(order),
     });
   });
 }
@@ -275,6 +341,16 @@ export function trackPurchase(order: Order): void {
       },
       `order_${order.order_number}`,
     );
+
+    // transaction_id lets GA drop a repeat of the same order on its side too.
+    gaEvent("purchase", {
+      transaction_id: String(order.order_number),
+      currency: PIXEL_CURRENCY,
+      value: toAmount(order.total_amount),
+      shipping: toAmount(order.shipping_cost),
+      tax: toAmount(order.tax),
+      items: gaOrderItems(order),
+    });
   });
 }
 
@@ -293,15 +369,19 @@ export function trackSearch(query: string): void {
     query: search,
     content_type: "product",
   });
+
+  gaEvent("search", { search_term: search });
 }
 
-/** A new account was created. */
+/** A new account was created — now via the checkout form. */
 export function trackCompleteRegistration(): void {
   pixelTrack(PixelEvent.CompleteRegistration, {
     currency: PIXEL_CURRENCY,
   });
 
   tiktokTrack(TikTokEvent.CompleteRegistration);
+
+  gaEvent("sign_up", { method: "checkout_form" });
 }
 
 /** Someone sent the contact form. */
@@ -309,4 +389,6 @@ export function trackContact(): void {
   pixelTrack(PixelEvent.Contact);
 
   tiktokTrack(TikTokEvent.Contact);
+
+  gaEvent("generate_lead");
 }
