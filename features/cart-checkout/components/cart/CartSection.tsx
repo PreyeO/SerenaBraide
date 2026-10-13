@@ -112,7 +112,7 @@ const CartSection = () => {
 
   return (
     <section className="lg:pt-38 pt-33 lg:px-16 px-6 lg:pb-25 pb-12.5 ">
-      <BackNavigation href="/" text="Back to Home page" />
+      <BackNavigation href="/all-products" text="Continue shopping" />
       <CartHeader totalItems={totalQuantity} />
 
       <div className="md:flex flex-wrap md:flex-nowrap lg:gap-10 md:gap-5 gap-0 lg:mt-10 mt-4 ">

@@ -3,26 +3,17 @@
 import { Product } from "@/types/product";
 import ProductImage from "../images/product-image";
 import Caption from "../typography/caption";
-import { ShoppingBasket, ShoppingCart, Star } from "lucide-react";
+import { ShoppingCart, Star } from "lucide-react";
 import Link from "next/link";
-import { useAddToCartFromProduct } from "@/features/cart-checkout/hooks/useAddToCartFromProduct";
 
 interface ProductCardProps {
     product: Product;
     className?: string;
 }
 
+// No add-to-cart on the card: tapping it opens the product page, where the
+// customer picks a size and sees the details and reviews before buying.
 const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
-    // Add to cart from product hook
-    const { addToCartFromProduct, isPending: isAddingToCart } =
-        useAddToCartFromProduct();
-
-    const handleAddToCart = (e: React.MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        addToCartFromProduct(product);
-    };
-
     const productLink =
         product.slug && product.categorySlug
             ? `/categories/${product.categorySlug}/${product.slug}`
@@ -77,27 +68,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
                         <span className="absolute top-2 right-2 lg:text-sm text-[10px] text-white z-10">
                             <Caption title={product.price} className="font-medium" />
                         </span>
-
-                        {/* Cart Icon */}
-                        <div className="absolute bottom-3 right-3 z-20">
-                            <button
-                                onClick={handleAddToCart}
-                                disabled={isAddingToCart || !product.inStock}
-                                className={`
-                rounded-full w-6 h-6 flex items-center justify-center 
-                transition-all duration-200
-                bg-white/30 backdrop-blur-2xl hover:bg-white/50
-                ${isAddingToCart || !product.inStock ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
-                hover:scale-110 active:scale-95
-              `}
-                                aria-label="Add to cart"
-                            >
-                                <ShoppingBasket
-                                    className="w-3.5 h-3.5 text-black hover:text-white"
-                                    strokeWidth={2}
-                                />
-                            </button>
-                        </div>
 
                         {/* LG OVERLAY ONLY */}
                         <div className="hidden lg:block absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/80 via-black/40 to-transparent p-3 pt-8">
