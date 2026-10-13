@@ -2,10 +2,11 @@
 
 import React, { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { ShoppingBasket } from "lucide-react";
+import { Check, ShoppingBasket } from "lucide-react";
 
 // UI Components
 import SubmitButton from "@/components/ui/btns/submit-cta";
+import LinkCta from "@/components/ui/btns/link-cta";
 import ProductImage from "@/components/ui/images/product-image";
 import Paragraph from "@/components/ui/typography/paragraph";
 import SubHeading from "@/components/ui/typography/subHeading";
@@ -46,6 +47,11 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
   onVariantChange,
 }) => {
   const [isAnimating, setIsAnimating] = useState(false);
+  // Once something's been added, offer a way back to the shop or on to the
+  // cart — product cards no longer have quick-add, so buying several items
+  // means hopping between product pages.
+  const [justAdded, setJustAdded] = useState(false);
+  const router = useRouter();
 
   // External hooks
   const { mutate: addToCart, isPending } = useAddToCart();
@@ -84,10 +90,13 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
       return;
     }
 
-    addToCart({
-      variant_id: selectedVariantId,
-      quantity: 1,
-    });
+    addToCart(
+      {
+        variant_id: selectedVariantId,
+        quantity: 1,
+      },
+      { onSuccess: () => setJustAdded(true) },
+    );
   };
 
   return (
@@ -167,6 +176,27 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
             }
             onClick={handleAddToCart}
           />
+
+          {justAdded && (
+            <div className="mt-4 flex flex-col gap-3 animate-in fade-in duration-300">
+              <p className="flex items-center gap-1.5 text-sm text-[#1DAE42]">
+                <Check className="size-4" aria-hidden="true" />
+                Added to your cart
+              </p>
+              <div className="grid grid-cols-2 gap-3">
+                <LinkCta
+                  label="Continue shopping"
+                  className="w-full text-[#3B3B3B] border border-[#6F6E6C] bg-white hover:bg-[#F5F5F5]"
+                  onClick={() => router.push("/all-products")}
+                />
+                <LinkCta
+                  label="View cart"
+                  className="w-full bg-[#3B3B3B] text-white"
+                  onClick={() => router.push("/cart")}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>
