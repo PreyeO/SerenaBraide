@@ -4,7 +4,11 @@
 import Script from "next/script";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { GA_MEASUREMENT_ID, gaPageView } from "@/lib/analytics/google-analytics";
+import {
+  GA_MEASUREMENT_ID,
+  gaPageView,
+  redactedLocation,
+} from "@/lib/analytics/google-analytics";
 
 // Same exclusion as the Meta and TikTok pixels: staff dashboard traffic stays out.
 const EXCLUDED_PREFIXES = ["/admin"];
@@ -43,9 +47,52 @@ export default function GoogleAnalytics() {
     setInitialised(true);
   }, [isTracked]);
 
+  const lastTitle = useRef<string | null>(null);
+
   useEffect(() => {
     if (!isTracked || !initialised) return;
-    gaPageView();
+
+    // Captured now, so a view sent late (or on leaving) still has this page's URL.
+    const location = redactedLocation();
+    const send = () => {
+      lastTitle.current = document.title;
+      gaPageView(location);
+    };
+
+    // First page of the visit: the title is already in place.
+    // Moving between pages: Next.js can set the new page's title a moment
+    // after the URL changes, so wait (briefly) for it — otherwise GA records
+    // the previous page's title against this page.
+    if (lastTitle.current === null || document.title !== lastTitle.current) {
+      send();
+      return;
+    }
+
+    let sent = false;
+    const sendOnce = () => {
+      if (sent) return;
+      sent = true;
+      observer.disconnect();
+      clearTimeout(fallback);
+      send();
+    };
+    const observer = new MutationObserver(() => {
+      if (document.title !== lastTitle.current) sendOnce();
+    });
+    observer.observe(document.head, {
+      subtree: true,
+      childList: true,
+      characterData: true,
+    });
+    // Pages that share a title never change it — don't wait on those for long.
+    const fallback = setTimeout(sendOnce, 600);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(fallback);
+      // Left before the title settled: still count the view.
+      if (!sent) send();
+    };
   }, [pathname, isTracked, initialised]);
 
   if (!GA_MEASUREMENT_ID || !initialised) return null;

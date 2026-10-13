@@ -72,10 +72,11 @@ export function redactedLocation(): string {
   return url.toString();
 }
 
-export function gaPageView(): void {
+/** `location` defaults to the current (redacted) URL. */
+export function gaPageView(location?: string): void {
   if (!isGaReady()) return;
   try {
-    const location = redactedLocation();
+    location = location ?? redactedLocation();
     // Also set it as the default, so the automatic events that follow on this
     // page (scrolls, outbound clicks) carry the redacted URL too.
     window.gtag!("set", { page_location: location });

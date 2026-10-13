@@ -1,4 +1,5 @@
-import { Suspense } from "react";
+import { cache } from "react";
+import type { Metadata } from "next";
 import ProductDetailContent from "@/features/products/components/ProductDetailContent";
 import CategorySection from "@/features/products/components/CategorySection";
 import HeroSection from "@/features/products/components/HeroSection";
@@ -12,6 +13,33 @@ interface PageProps {
   }>;
 }
 
+// Shared by generateMetadata and the page within one request, so building the
+// title doesn't cost extra API calls.
+const loadCategories = cache(getCategoriesTree);
+const loadProduct = cache(getProductBySlug);
+
+// Each product (or sub-category) gets its own title, e.g. "Ren | Serena Braide"
+// via the root layout's template — so analytics and search results can tell
+// pages apart instead of all showing the site-wide title.
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { category, slug } = await params;
+  try {
+    const categories = await loadCategories();
+    const child = categories
+      .find((cat) => cat.slug === category)
+      ?.children?.find((c) => c.slug === slug);
+    if (child) return { title: child.name };
+
+    const product = await loadProduct(slug);
+    return {
+      title: product.name,
+      description: product.description?.slice(0, 160) || undefined,
+    };
+  } catch {
+    return {};
+  }
+}
+
 const CategoryOrProductPage = async ({ params }: PageProps) => {
   const { category, slug } = await params;
   const queryClient = new QueryClient();
@@ -20,12 +48,12 @@ const CategoryOrProductPage = async ({ params }: PageProps) => {
   const prefetchPromises = [
     queryClient.prefetchQuery({
       queryKey: ["categories"],
-      queryFn: getCategoriesTree,
+      queryFn: loadCategories,
     }),
   ];
 
   // Logic to determine if it's a child category needs categories
-  const categories = await getCategoriesTree();
+  const categories = await loadCategories();
 
   // Find if it's a child category
   const parentCategory = categories.find((cat) => cat.slug === category);
@@ -35,7 +63,7 @@ const CategoryOrProductPage = async ({ params }: PageProps) => {
     prefetchPromises.push(
       queryClient.prefetchQuery({
         queryKey: ["product", "slug", slug],
-        queryFn: () => getProductBySlug(slug),
+        queryFn: () => loadProduct(slug),
       })
     );
   }
