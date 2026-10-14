@@ -5,17 +5,11 @@ import { phoneNumberSchema } from "@/lib/schemas/phone.schema";
 // first/last on submit) plus a delivery address, so the phone number and
 // country typed here are shared with the address created right after signup.
 // That's why phone_number/country are required here even though the account
-// endpoint itself treats them as optional.
+// endpoint itself treats them as optional. There's no password field: one is
+// generated on submit (see useRegister).
 export const RegisterSchema = z.object({
   name: z.string().trim().min(1, "Name is required"),
   email: z.string().email("Enter a valid email"),
-  password: z
-    .string()
-    .min(8, "Password must be at least 8 characters long")
-    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/, {
-      message:
-        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
-    }),
   date_of_birth: z
     .string()
     .optional()
