@@ -281,8 +281,11 @@ const RegisterForm = () => {
               return (
                 <FormItem>
                   <FormLabel className="text-[12px] font-medium">
-                    DATE OF BIRTH
-                    <Required />
+                    BIRTHDAY
+                    <span className="text-[#9A9A98] font-normal normal-case">
+                      {" "}
+                      (optional)
+                    </span>
                   </FormLabel>
                   <FormControl>
                     <div className="flex gap-3">
@@ -316,6 +319,10 @@ const RegisterForm = () => {
                       </select>
                     </div>
                   </FormControl>
+                  <p className="text-xs text-[#9A9A98] leading-4.5">
+                    Share your birthday and we might just send you a little
+                    something to celebrate.
+                  </p>
                   <FormMessage />
                 </FormItem>
               );
