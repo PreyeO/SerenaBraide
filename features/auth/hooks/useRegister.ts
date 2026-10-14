@@ -9,6 +9,7 @@ import { trackCompleteRegistration } from "@/lib/analytics/pixel-events";
 import { RegisterFormValues, RegisterResponse } from "../auth.type";
 import { registerUser } from "../auth.service";
 import { createAddress } from "@/features/cart-checkout/service/checkout.service";
+import { generateAccountPassword } from "../utils/account.utils";
 
 interface UseRegisterOptions {
   onSuccess?: (data: RegisterResponse) => void;
@@ -43,7 +44,8 @@ export const useRegister = ({
         first_name,
         last_name,
         email: values.email,
-        password: values.password,
+        // Not asked on the checkout form; returning customers use "Forgot password".
+        password: generateAccountPassword(),
         date_of_birth: values.date_of_birth || undefined,
         phone_number: values.phone_number,
         country: values.country,

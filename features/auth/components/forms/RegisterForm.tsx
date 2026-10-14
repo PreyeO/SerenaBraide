@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 import {
   Form,
@@ -17,28 +18,69 @@ import SubmitButton from "@/components/ui/btns/submit-cta";
 import AuthTitle from "@/components/ui/typography/auth-title";
 import AuthSpan from "@/components/ui/typography/auth-span";
 import AuthSwitchPrompt from "@/features/auth/components/shared/AuthSwitchPrompt";
-import PasswordInput from "@/features/auth/components/shared/PasswordInput";
 import { RegisterSchema } from "@/features/auth/auth.schema";
 import { RegisterFormValues } from "@/features/auth/auth.type";
 import { useRegister } from "@/features/auth/hooks/useRegister";
+import { isExistingAccountError } from "@/features/auth/utils/account.utils";
 import { COUNTRIES } from "@/constant/countries";
 
+const inputClass =
+  "rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] font-normal h-12.5";
+const selectClass =
+  "w-full rounded-[50px] border border-input bg-background px-4 h-12.5 text-sm text-[#3B3B3B] focus:outline-none focus:border-[#3B3B3B] focus:bg-[#F5F5F5] appearance-none";
+
+const MONTHS = [
+  { value: "01", label: "January" },
+  { value: "02", label: "February" },
+  { value: "03", label: "March" },
+  { value: "04", label: "April" },
+  { value: "05", label: "May" },
+  { value: "06", label: "June" },
+  { value: "07", label: "July" },
+  { value: "08", label: "August" },
+  { value: "09", label: "September" },
+  { value: "10", label: "October" },
+  { value: "11", label: "November" },
+  { value: "12", label: "December" },
+];
+
+const DAYS = Array.from({ length: 31 }, (_, i) => {
+  const d = String(i + 1).padStart(2, "0");
+  return { value: d, label: d };
+});
+
+const SectionHeading = ({ title }: { title: string }) => (
+  <h2 className="md:col-span-2 text-base font-medium text-[#3B3B3B] border-b border-[#EAEAEA] pb-2">
+    {title}
+  </h2>
+);
+
+const Required = () => <span className="text-red-500">*</span>;
+
+// Internally this is account registration, but to the customer it's the
+// delivery/contact step of checkout: no password is asked for (one is
+// generated on submit), and the fields lead with where the order is going.
 const RegisterForm = () => {
+  const searchParams = useSearchParams();
+  const returnUrl = searchParams.get("return_url");
+  const withReturn = (path: string) =>
+    returnUrl ? `${path}?return_url=${encodeURIComponent(returnUrl)}` : path;
+
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
       name: "",
-      email: "",
-      phone_number: "",
-      country: "NG",
-      password: "",
-      date_of_birth: "",
       address: "",
       state: "",
+      country: "NG",
+      phone_number: "",
+      email: "",
+      date_of_birth: "",
     },
   });
 
-  const { mutate, isPending } = useRegister();
+  const { mutate, isPending, error } = useRegister();
+  const hasExistingAccount = isExistingAccountError(error);
 
   const onSubmit = (values: RegisterFormValues) => {
     const finalValues = { ...values };
@@ -60,29 +102,32 @@ const RegisterForm = () => {
     <div className="flex flex-col items-center justify-center w-full gap-8.5 mb-27.75">
       <AuthTitle
         title="Checkout"
-        subtitle="Enter your details below to complete your order. We'll set up your account automatically so you can track deliveries and check out faster next time."
+        subtitle="Where should we deliver your order? Enter your delivery and contact details below, and we'll take you straight to payment."
         className="max-w-121"
       />
 
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 text-[#3B3B3B] font-normal"
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 text-[#3B3B3B] font-normal w-full"
         >
-          {/* Name */}
+          <SectionHeading title="Delivery details" />
+
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
-              <FormItem className="order-1">
+              <FormItem className="md:col-span-2">
                 <FormLabel className="text-[12px] font-medium">
-                  NAME<span className="text-red-500">*</span>
+                  FULL NAME
+                  <Required />
                 </FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Enter your full name"
+                    autoComplete="name"
                     {...field}
-                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5]  font-normal  h-12.5"
+                    className={inputClass}
                   />
                 </FormControl>
                 <FormMessage />
@@ -90,21 +135,21 @@ const RegisterForm = () => {
             )}
           />
 
-          {/* Email */}
           <FormField
             control={form.control}
-            name="email"
+            name="address"
             render={({ field }) => (
-              <FormItem className="order-2">
+              <FormItem className="md:col-span-2">
                 <FormLabel className="text-[12px] font-medium">
-                  EMAIL<span className="text-red-500">*</span>
+                  DELIVERY ADDRESS
+                  <Required />
                 </FormLabel>
                 <FormControl>
                   <Input
-                    type="email"
-                    placeholder="john@example.com"
+                    placeholder="Street, house/apartment, etc"
+                    autoComplete="street-address"
                     {...field}
-                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5]   h-12.5"
+                    className={inputClass}
                   />
                 </FormControl>
                 <FormMessage />
@@ -112,20 +157,21 @@ const RegisterForm = () => {
             )}
           />
 
-          {/* Phone Number */}
           <FormField
             control={form.control}
-            name="phone_number"
+            name="state"
             render={({ field }) => (
-              <FormItem className="order-6">
+              <FormItem>
                 <FormLabel className="text-[12px] font-medium">
-                  PHONE NUMBER<span className="text-red-500">*</span>
+                  STATE
+                  <Required />
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="+234 801 234 5678"
+                    placeholder="e.g. Lagos"
+                    autoComplete="address-level1"
                     {...field}
-                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5]  h-12.5"
+                    className={inputClass}
                   />
                 </FormControl>
                 <FormMessage />
@@ -133,19 +179,20 @@ const RegisterForm = () => {
             )}
           />
 
-          {/* Country */}
           <FormField
             control={form.control}
             name="country"
             render={() => (
-              <FormItem className="order-4">
+              <FormItem>
                 <FormLabel className="text-[12px] font-medium">
-                  COUNTRY<span className="text-red-500">*</span>
+                  COUNTRY
+                  <Required />
                 </FormLabel>
                 <FormControl>
                   <select
                     {...form.register("country")}
-                    className="w-full rounded-[50px] border border-input bg-background px-4 h-12.5 text-sm text-[#3B3B3B] focus:outline-none focus:border-[#3B3B3B] focus:bg-[#F5F5F5] appearance-none"
+                    autoComplete="country"
+                    className={selectClass}
                   >
                     <option value="" disabled>
                       Select your country
@@ -162,20 +209,26 @@ const RegisterForm = () => {
             )}
           />
 
-          {/* Delivery Address */}
           <FormField
             control={form.control}
-            name="address"
+            name="phone_number"
             render={({ field }) => (
-              <FormItem className="order-5 md:col-span-2">
+              <FormItem className="md:col-span-2">
                 <FormLabel className="text-[12px] font-medium">
-                  DELIVERY ADDRESS<span className="text-red-500">*</span>
+                  PHONE NUMBER
+                  <Required />
+                  <span className="text-[#9A9A98] font-normal normal-case">
+                    {" "}
+                    (for delivery updates)
+                  </span>
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Street, house/apartment, etc"
+                    type="tel"
+                    placeholder="+234 801 234 5678"
+                    autoComplete="tel"
                     {...field}
-                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5]  h-12.5"
+                    className={inputClass}
                   />
                 </FormControl>
                 <FormMessage />
@@ -183,20 +236,24 @@ const RegisterForm = () => {
             )}
           />
 
-          {/* State */}
+          <SectionHeading title="Contact" />
+
           <FormField
             control={form.control}
-            name="state"
+            name="email"
             render={({ field }) => (
-              <FormItem className="order-3">
+              <FormItem>
                 <FormLabel className="text-[12px] font-medium">
-                  STATE<span className="text-red-500">*</span>
+                  EMAIL
+                  <Required />
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Enter your state"
+                    type="email"
+                    placeholder="john@example.com"
+                    autoComplete="email"
                     {...field}
-                    className="rounded-[50px] border focus:border-[#3B3B3B] focus:bg-[#F5F5F5] h-12.5"
+                    className={inputClass}
                   />
                 </FormControl>
                 <FormMessage />
@@ -204,95 +261,54 @@ const RegisterForm = () => {
             )}
           />
 
-          {/* Password */}
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem className="order-7">
-                <FormLabel className="text-[12px] font-medium">
-                  CREATE A PASSWORD<span className="text-red-500">*</span>
-                </FormLabel>
-                <FormControl>
-                  <PasswordInput {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Date of Birth */}
           <FormField
             control={form.control}
             name="date_of_birth"
             render={({ field }) => {
-              const parts = field.value ? field.value.split("-") : ["", "", ""];
-              const [year, month, day] = parts;
-
+              const [year, month, day] = field.value
+                ? field.value.split("-")
+                : ["", "", ""];
               const currentYear = year || new Date().getFullYear().toString();
 
               const handleChange = (part: "month" | "day", val: string) => {
                 const newMonth = part === "month" ? val : month;
                 const newDay = part === "day" ? val : day;
-
                 field.onChange(
                   `${currentYear}-${newMonth || ""}-${newDay || ""}`,
                 );
               };
 
-              const months = [
-                { value: "01", label: "January" },
-                { value: "02", label: "February" },
-                { value: "03", label: "March" },
-                { value: "04", label: "April" },
-                { value: "05", label: "May" },
-                { value: "06", label: "June" },
-                { value: "07", label: "July" },
-                { value: "08", label: "August" },
-                { value: "09", label: "September" },
-                { value: "10", label: "October" },
-                { value: "11", label: "November" },
-                { value: "12", label: "December" },
-              ];
-
-              const days = Array.from({ length: 31 }, (_, i) => {
-                const d = String(i + 1).padStart(2, "0");
-                return { value: d, label: d };
-              });
-
               return (
-                <FormItem className="order-8">
+                <FormItem>
                   <FormLabel className="text-[12px] font-medium">
-                    DATE OF BIRTH<span className="text-red-500">*</span>
+                    DATE OF BIRTH
+                    <Required />
                   </FormLabel>
                   <FormControl>
                     <div className="flex gap-3">
-                      {/* Month */}
                       <select
                         value={month || ""}
                         onChange={(e) => handleChange("month", e.target.value)}
-                        className="flex-1 rounded-[50px] border border-input bg-background px-4 h-12.5 text-sm text-[#3B3B3B] focus:outline-none focus:border-[#3B3B3B] focus:bg-[#F5F5F5] appearance-none"
+                        className={`flex-1 ${selectClass}`}
                       >
                         <option value="" disabled>
                           Month
                         </option>
-                        {months.map((m) => (
+                        {MONTHS.map((m) => (
                           <option key={m.value} value={m.value}>
                             {m.label}
                           </option>
                         ))}
                       </select>
-
-                      {/* Day */}
                       <select
                         value={day || ""}
                         onChange={(e) => handleChange("day", e.target.value)}
-                        className="flex-1 rounded-[50px] border border-input bg-background px-4 h-12.5 text-sm text-[#3B3B3B] focus:outline-none focus:border-[#3B3B3B] focus:bg-[#F5F5F5] appearance-none"
+                        className={`flex-1 ${selectClass}`}
                       >
                         <option value="" disabled>
                           Day
                         </option>
-                        {days.map((d) => (
+                        {DAYS.map((d) => (
                           <option key={d.value} value={d.value}>
                             {d.label}
                           </option>
@@ -301,17 +317,42 @@ const RegisterForm = () => {
                     </div>
                   </FormControl>
                   <FormMessage />
-                  {/* <Paragraph
-                    className="text-[#9A9A98] lg:text-sm text-xs leading-4.5 font-normal pt-1"
-                    content="Get Membership Reward on Your Birthday!"
-                  /> */}
                 </FormItem>
               );
             }}
           />
 
-          {/* Terms */}
-          <div className="order-9 md:col-span-2 lg:mt-4 text-[#3B3B3B] flex gap-6 items-center">
+          {/* Returning customer: their email/phone already has an account. */}
+          {hasExistingAccount && (
+            <div
+              role="alert"
+              className="md:col-span-2 rounded-[10px] border border-[#E5E5E5] bg-[#F6F7F8] p-5 flex flex-col gap-3"
+            >
+              <p className="font-medium text-[#3B3B3B]">Welcome back!</p>
+              <p className="text-sm text-[#6F6E6C] leading-5.5">
+                You&apos;ve ordered with us before. Log in to continue to
+                payment. Your cart is saved. If you don&apos;t have a password
+                yet, tap &ldquo;Forgot password&rdquo; and we&apos;ll email you
+                a code.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  href={withReturn("/auth/login")}
+                  className="rounded-full bg-[#3B3B3B] text-white text-sm px-6 py-3"
+                >
+                  Log in
+                </Link>
+                <Link
+                  href={withReturn("/auth/forgot-password")}
+                  className="rounded-full border border-[#6F6E6C] text-[#3B3B3B] text-sm px-6 py-3"
+                >
+                  Forgot password
+                </Link>
+              </div>
+            </div>
+          )}
+
+          <div className="md:col-span-2 lg:mt-2 text-[#3B3B3B] flex gap-6 items-center">
             <AuthSpan className="font-normal lg:text-sm text-xs lg:leading-5.5 leading-4.5">
               By continuing, you agree to the Serena Braide
               <Link href="/legal/terms_of_service">
@@ -324,16 +365,15 @@ const RegisterForm = () => {
             </AuthSpan>
           </div>
 
-          {/* Submit */}
-          <div className="order-10 md:col-span-2 lg:mt-4">
+          <div className="md:col-span-2 lg:mt-2">
             <SubmitButton
-              label="Continue to Checkout"
+              label="Continue to Payment"
               loadingLabel="Processing..."
               isPending={isPending}
               onClick={() => {}}
             />
           </div>
-          <div className="order-11 md:col-span-2">
+          <div className="md:col-span-2">
             <AuthSwitchPrompt
               message="Shopped with us before?"
               linkText="Log In"
