@@ -5,11 +5,13 @@ import { useEffect, useState } from "react";
 import MetaPixel from "./MetaPixel";
 import TikTokPixel from "./TikTokPixel";
 import GoogleAnalytics from "./GoogleAnalytics";
+import MicrosoftClarity from "./MicrosoftClarity";
 import { syncInternalTrafficFlag } from "@/lib/analytics/internal-traffic";
 
 /**
- * Mounts every tracker — unless this browser has been marked as the team's
- * (`?internal=1`), in which case none of them load and nothing is reported.
+ * Mounts every tracker (Meta, TikTok, GA, Clarity) — unless this browser has
+ * been marked as the team's (`?internal=1`), in which case none of them load
+ * and nothing is reported or recorded.
  * The check needs localStorage, so trackers mount right after hydration rather
  * than during it.
  */
@@ -27,6 +29,7 @@ export default function Analytics() {
       <MetaPixel />
       <TikTokPixel />
       <GoogleAnalytics />
+      <MicrosoftClarity />
     </>
   );
 }
