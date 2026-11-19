@@ -18,7 +18,7 @@ const Wholesale = () => {
             <Image
               className="w-full lg:max-h-178.5 max-h-100"
               alt="Serena braide carrier bags"
-              src="/bag-shoot.png"
+              src="/bag-shoot.webp"
               width={500}
               height={714}
             />
@@ -46,7 +46,7 @@ const Wholesale = () => {
             <Image
               className="w-full lg:max-h-178.5 max-h-100"
               alt="serena braide products"
-              src="/reselling.png"
+              src="/reselling.webp"
               width={500}
               height={714}
             />

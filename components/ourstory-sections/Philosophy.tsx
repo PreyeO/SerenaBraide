@@ -50,7 +50,7 @@ const Philosophy = () => {
 
       <div className="relative w-full aspect-[4/3] lg:aspect-auto lg:h-125">
         <Image
-          src="/about-image3.png"
+          src="/about-image3.webp"
           alt="about us image"
           fill
           className="object-contain lg:object-cover"
@@ -73,7 +73,7 @@ const Philosophy = () => {
       <div className="grid lg:grid-cols-2 grid-cols-1 w-full gap-0">
         <div className="relative flex gap-1.5 flex-col items-center justify-center text-center px-5.5 py-10 h-93.75 lg:h-125 overflow-hidden">
           <Image
-            src="/ourstory-transparent.png"
+            src="/ourstory-transparent.webp"
             alt="our story background"
             fill
             className="object-cover"
@@ -95,7 +95,7 @@ const Philosophy = () => {
 
         <div className="relative w-full h-93.75 lg:h-125">
           <Image
-            src="/our-story1.png"
+            src="/our-story1.webp"
             alt="about us image"
             fill
             className="object-cover"

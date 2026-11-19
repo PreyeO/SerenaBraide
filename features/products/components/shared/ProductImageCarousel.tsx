@@ -32,6 +32,7 @@ const ProductImageCarousel: React.FC<ProductImageCarouselProps> = ({
                   src={img.image_url}
                   width={275}
                   height={200}
+                  priority={index === 0}
                   imageClassName="w-full h-full object-cover rounded-[5px]"
                 />
               </div>

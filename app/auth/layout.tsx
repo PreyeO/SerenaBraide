@@ -10,7 +10,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
     <main className="flex items-stretch">
       <div className="hidden md:flex lg:max-w-130 xl:max-w-xl  h-full shrink-0">
         <Image
-          src="/auth-image.png"
+          src="/auth-image.webp"
           alt="Silhouette spraying perfume"
           width={576}
           height={576}

@@ -34,7 +34,7 @@ const OurStory = () => {
             </div>
 
             <Image
-              src="/our-story1.png"
+              src="/our-story1.webp"
               alt="image of model spraying perfume"
               width={300}
               height={257}
@@ -45,7 +45,7 @@ const OurStory = () => {
           {/* Middle image (B) - last on mobile, middle on desktop */}
           <div className="order-3 lg:order-2 w-full md:max-w-[48%] lg:max-w-none">
             <Image
-              src="/our-story2.png"
+              src="/our-story2.webp"
               alt="image of serena briade name"
               width={450}
               height={546}

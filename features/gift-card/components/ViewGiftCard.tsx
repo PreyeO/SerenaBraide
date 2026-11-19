@@ -28,15 +28,15 @@ const ViewGiftCard = () => {
   const getCardImage = (colour: string) => {
     switch (colour?.toLowerCase()) {
       case "#000000":
-        return "/giftcard-3.png";
+        return "/giftcard-3.webp";
       case "#ffffff":
-        return "/giftcard-2.png";
+        return "/giftcard-2.webp";
       case "#f49670":
-        return "/giftcard-4.png";
+        return "/giftcard-4.webp";
       case "#47011d":
-        return "/giftcard-1.png";
+        return "/giftcard-1.webp";
       default:
-        return "/giftcard-4.png";
+        return "/giftcard-4.webp";
     }
   };
 

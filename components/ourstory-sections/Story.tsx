@@ -10,9 +10,10 @@ const Story = () => {
       <div className="grid lg:grid-cols-2  grid-cols-1">
         <div className="relative w-full h-142.25 lg:h-full lg:hidden">
           <Image
-            src="/our-founder.png"
+            src="/our-founder.webp"
             alt="about us image"
             fill
+            priority
             className="object-cover rounded-md"
           />
         </div>
@@ -47,15 +48,16 @@ const Story = () => {
         </div>
         <div className=" w-full h-142.25 lg:h-full relative lg:block hidden">
           <Image
-            src="/our-founder.png"
+            src="/our-founder.webp"
             alt="about us image"
             fill
+            priority
             className="object-cover rounded-md"
           />
         </div>
         {/* <div className="relative w-full h-93.75 lg:h-125 lg:hidden block ">
           <Image
-            src="/about-image3.png"
+            src="/about-image3.webp"
             alt="about us image"
             fill
             className="object-cover"
