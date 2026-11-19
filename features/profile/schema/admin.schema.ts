@@ -1,10 +1,39 @@
 import { z } from "zod";
 
-export const CreateProductSchema = z.object({
+/**
+ * Optional "was" price for sales — display only, checkout charges the selling
+ * price. Empty means "not on sale". When filled in it must be higher than the
+ * selling price (the backend enforces the same rule).
+ */
+const compareAtPriceField = z
+  .string()
+  .trim()
+  .optional()
+  .refine((v) => !v || (!isNaN(Number(v)) && Number(v) > 0), "Enter a valid amount");
+
+function checkCompareAt(priceKey: "base_price" | "price") {
+  return (
+    data: { compare_at_price?: string } & Record<string, unknown>,
+    ctx: z.RefinementCtx,
+  ) => {
+    const compareAt = Number(data.compare_at_price);
+    const price = Number(data[priceKey]);
+    if (data.compare_at_price && !isNaN(compareAt) && !isNaN(price) && compareAt <= price) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["compare_at_price"],
+        message: "The \"was\" price must be higher than the selling price",
+      });
+    }
+  };
+}
+
+const ProductBaseSchema = z.object({
   name: z.string().min(1),
   description: z.string().min(1),
   category: z.number(),
   base_price: z.string().min(1),
+  compare_at_price: compareAtPriceField,
   is_featured: z.boolean(),
   images: z
     .array(
@@ -18,9 +47,13 @@ export const CreateProductSchema = z.object({
     .min(1, "At least one image is required"),
 });
 
+export const CreateProductSchema = ProductBaseSchema.superRefine(
+  checkCompareAt("base_price"),
+);
+
 // Editing an existing product: same fields, but new images are optional
 // (the product already has images) — any added here are appended.
-export const UpdateProductSchema = CreateProductSchema.extend({
+export const UpdateProductSchema = ProductBaseSchema.extend({
   images: z
     .array(
       z.object({
@@ -31,7 +64,7 @@ export const UpdateProductSchema = CreateProductSchema.extend({
       }),
     )
     .optional(),
-});
+}).superRefine(checkCompareAt("base_price"));
 
 export const CreateCategorySchema = z.object({
   name: z.string().min(1, "Category name is required"),
@@ -42,12 +75,13 @@ export const CreateCategorySchema = z.object({
   is_active: z.boolean(), // Category active status (required, default to true in form)
 });
 
-export const CreateVariantSchema = z.object({
+const VariantBaseSchema = z.object({
   product_id: z.number().min(1, "Product is required"),
   sku: z.string().min(1, "SKU is required"),
   size: z.string().min(1, "Size is required"),
   color: z.string().optional(),
   price: z.string().min(1, "Price is required"),
+  compare_at_price: compareAtPriceField,
   stock_quantity: z.number().min(0, "Stock quantity must be 0 or greater"),
   is_active: z.boolean(),
   ingredients: z.string().nullable().optional(),
@@ -64,9 +98,13 @@ export const CreateVariantSchema = z.object({
     .min(1, "At least one image is required"),
 });
 
+export const CreateVariantSchema = VariantBaseSchema.superRefine(
+  checkCompareAt("price"),
+);
+
 // Editing an existing variant: same fields, but new images are optional
 // (the variant already has images) — any added here are appended.
-export const UpdateVariantSchema = CreateVariantSchema.extend({
+export const UpdateVariantSchema = VariantBaseSchema.extend({
   images: z
     .array(
       z.object({
@@ -77,7 +115,7 @@ export const UpdateVariantSchema = CreateVariantSchema.extend({
       }),
     )
     .optional(),
-});
+}).superRefine(checkCompareAt("price"));
 
 export const LoginSchema = z.object({
   email: z.string().email("Enter a valid email"),

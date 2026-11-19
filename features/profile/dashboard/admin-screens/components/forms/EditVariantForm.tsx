@@ -26,6 +26,7 @@ import {
   ImageMetadataFields,
   ToggleField,
 } from "../shared/ImageComponents";
+import CompareAtPriceField from "../shared/CompareAtPriceField";
 
 interface EditVariantFormProps {
   productId: number;
@@ -48,6 +49,7 @@ const EditVariantForm = ({
       size: variant.size,
       color: variant.color || "",
       price: variant.price,
+      compare_at_price: variant.compare_at_price ?? "",
       stock_quantity: variant.stock_quantity,
       is_active: variant.is_active,
       ingredients: variant.ingredients,
@@ -192,6 +194,8 @@ const EditVariantForm = ({
               </FormItem>
             )}
           />
+
+          <CompareAtPriceField control={form.control} />
         </div>
 
         {/* STOCK QUANTITY AND IS ACTIVE */}

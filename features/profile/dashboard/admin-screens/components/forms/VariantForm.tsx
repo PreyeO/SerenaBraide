@@ -33,6 +33,7 @@ import {
   ImageMetadataFields,
   ToggleField,
 } from "../shared/ImageComponents";
+import CompareAtPriceField from "../shared/CompareAtPriceField";
 
 interface VariantFormProps {
   productId?: number;
@@ -51,6 +52,7 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
       size: "",
       color: "",
       price: "",
+      compare_at_price: "",
       stock_quantity: 0,
       is_active: true,
       ingredients: null,
@@ -265,6 +267,8 @@ const VariantForm = ({ productId, onVariantCreated }: VariantFormProps) => {
               </FormItem>
             )}
           />
+
+          <CompareAtPriceField control={form.control} />
         </div>
 
         {/* STOCK QUANTITY AND IS ACTIVE */}

@@ -29,6 +29,8 @@ export interface AllProduct {
   category_name: string;
   base_price: string;
   price_range: string;
+  compare_at_price?: string | null;
+  compare_at_price_range?: string | null;
   is_active: boolean;
   is_featured: boolean;
   in_stock: boolean;
@@ -56,6 +58,8 @@ export interface ProductVariant {
   color: string | null;
   price: string;
   effective_price: number;
+  compare_at_price?: string | null;
+  effective_compare_at_price?: string | number | null;
   stock_quantity: number;
   is_in_stock: boolean;
   is_active: boolean;

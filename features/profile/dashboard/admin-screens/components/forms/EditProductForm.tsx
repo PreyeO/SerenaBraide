@@ -35,6 +35,7 @@ import {
   ImageMetadataFields,
   ToggleField,
 } from "../shared/ImageComponents";
+import CompareAtPriceField from "../shared/CompareAtPriceField";
 
 interface EditProductFormProps {
   product: ProductDetail;
@@ -52,6 +53,7 @@ const EditProductForm = ({ product, onSuccess }: EditProductFormProps) => {
       description: product.description,
       category: product.category,
       base_price: product.base_price,
+      compare_at_price: product.compare_at_price ?? "",
       is_featured: product.is_featured,
       images: [],
     },
@@ -184,6 +186,8 @@ const EditProductForm = ({ product, onSuccess }: EditProductFormProps) => {
               </FormItem>
             )}
           />
+
+          <CompareAtPriceField control={form.control} />
 
           <ToggleField
             control={form.control}

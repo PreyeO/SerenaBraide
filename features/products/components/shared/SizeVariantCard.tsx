@@ -3,7 +3,7 @@
 import React from "react";
 import Paragraph from "@/components/ui/typography/paragraph";
 import { Variant } from "../../product.type";
-import { formatPrice } from "../../product.utils";
+import SalePrice from "./SalePrice";
 
 interface SizeVariantCardProps {
   variant: Variant;
@@ -33,8 +33,9 @@ const SizeVariantCard: React.FC<SizeVariantCardProps> = ({
         content={variant.size}
         className="text-sm text-[#3B3B3B] font-normal"
       />
-      <Paragraph
-        content={formatPrice(variant.price)}
+      <SalePrice
+        price={variant.effective_price ?? variant.price}
+        compareAt={variant.effective_compare_at_price}
         className="font-medium text-lg text-[#3B3B3B]"
       />
 

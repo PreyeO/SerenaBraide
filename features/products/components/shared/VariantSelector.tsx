@@ -2,7 +2,8 @@
 
 import React from "react";
 import { Variant } from "../../product.type";
-import { formatPrice, getColorVariants } from "../../product.utils";
+import { getColorVariants } from "../../product.utils";
+import SalePrice from "./SalePrice";
 import ColorVariantSwatch from "./ColorVariantSwatch";
 import SizeVariantCard from "./SizeVariantCard";
 import Paragraph from "@/components/ui/typography/paragraph";
@@ -13,6 +14,8 @@ interface VariantSelectorProps {
   selectedVariantId: number | null;
   onVariantClick: (variant: Variant) => void;
   basePrice?: string;
+  /** Product-level "was" price, for products without variants. */
+  compareAtPrice?: string | null;
 }
 
 const VariantSelector: React.FC<VariantSelectorProps> = ({
@@ -21,6 +24,7 @@ const VariantSelector: React.FC<VariantSelectorProps> = ({
   selectedVariantId,
   onVariantClick,
   basePrice,
+  compareAtPrice,
 }) => {
   const colorVariants = getColorVariants(variants);
   const hasColors = colorVariants.length > 0;
@@ -29,9 +33,10 @@ const VariantSelector: React.FC<VariantSelectorProps> = ({
   if (!variants?.length) {
     return (
       <div className="mt-8 max-w-95.5">
-        <p className="font-medium lg:text-lg text-base">
-          Price: {formatPrice(basePrice || "0")}
-        </p>
+        <div className="font-medium lg:text-lg text-base flex items-baseline gap-2">
+          <span>Price:</span>
+          <SalePrice price={basePrice || "0"} compareAt={compareAtPrice} />
+        </div>
       </div>
     );
   }
@@ -48,8 +53,9 @@ const VariantSelector: React.FC<VariantSelectorProps> = ({
               className="text-sm text-[#3B3B3B] font-normal mb-1"
             />
 
-            <Paragraph
-              content={formatPrice(selectedVariant.price)}
+            <SalePrice
+              price={selectedVariant.effective_price ?? selectedVariant.price}
+              compareAt={selectedVariant.effective_compare_at_price}
               className="font-medium text-lg text-[#3B3B3B] mb-4"
             />
           </>

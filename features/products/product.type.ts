@@ -17,6 +17,10 @@ export interface Variant {
   color: string | null;
   price: string;
   effective_price: number;
+  /** Display-only "was" price; checkout always charges effective_price. */
+  compare_at_price?: string | null;
+  /** Variant's compare_at_price, falling back to the product's. */
+  effective_compare_at_price?: string | number | null;
   stock_quantity: number;
   is_in_stock: boolean;
   is_active: boolean;
@@ -94,8 +98,12 @@ export interface ProductListItem {
   category_slug: string;
   base_price: string;
   price_range: string;
+  /** Display-only "was" prices; null when nothing is on sale. */
+  compare_at_price?: string | null;
+  compare_at_price_range?: string | null;
   is_active: boolean;
   is_featured: boolean;
+  /** Card thumbnail (~800px) when available, otherwise the full image. */
   primary_image: string | null;
   created_at: string;
   updated_at: string;
@@ -137,6 +145,8 @@ export interface ProductDetail {
   category_slug: string;
   base_price: string;
   price_range: string;
+  compare_at_price?: string | null;
+  compare_at_price_range?: string | null;
   is_active: boolean;
   is_featured: boolean;
   variants: Variant[];

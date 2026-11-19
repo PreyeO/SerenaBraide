@@ -33,6 +33,7 @@ import {
   ImageMetadataFields,
   ToggleField,
 } from "../shared/ImageComponents";
+import CompareAtPriceField from "../shared/CompareAtPriceField";
 
 interface ProductFormProps {
   onProductCreated?: (productId: number) => void;
@@ -57,6 +58,7 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
       description: "",
       category: 1,
       base_price: "",
+      compare_at_price: "",
       is_featured: false,
       images: [
         {
@@ -299,6 +301,8 @@ const ProductForm = ({ onProductCreated }: ProductFormProps) => {
               </FormItem>
             )}
           />
+
+          <CompareAtPriceField control={form.control} />
 
           <ToggleField
             control={form.control}
