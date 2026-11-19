@@ -8,7 +8,7 @@ import { Star } from "lucide-react";
  * until a product has MANUAL_REVIEWS.switchAt real reviews from the website,
  * then the real count takes over automatically.
  */
-export const MANUAL_REVIEWS = { rating: 5, count: 76, switchAt: 20 };
+export const MANUAL_REVIEWS = { rating: 5, count: 46, switchAt: 20 };
 
 interface ProductRatingProps {
     rating?: number;

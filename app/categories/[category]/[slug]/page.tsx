@@ -13,6 +13,16 @@ interface PageProps {
   }>;
 }
 
+// Cache each product page and rebuild it at most once a minute (like All
+// products), so visitors get a ready-made page instead of waiting for the API
+// on every view. Price/stock edits in the admin show up within ~60s.
+export const revalidate = 60;
+
+// Nothing pre-built at deploy; each page is built on its first visit, then cached.
+export async function generateStaticParams() {
+  return [];
+}
+
 // Shared by generateMetadata and the page within one request, so building the
 // title doesn't cost extra API calls.
 const loadCategories = cache(getCategoriesTree);
