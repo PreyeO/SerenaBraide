@@ -8,6 +8,8 @@ interface ProductImagePropsBase {
   src: string;
   className?: string; // wrapper
   imageClassName?: string;
+  /** Load eagerly at high priority — set only for images visible on first paint. */
+  priority?: boolean;
 }
 
 interface ProductImagePropsWithDimensions extends ProductImagePropsBase {
@@ -27,7 +29,7 @@ type ProductImageProps =
   | ProductImagePropsWithFill;
 
 const ProductImage: React.FC<ProductImageProps> = (props) => {
-  const { className = "", imageClassName = "", src, alt } = props;
+  const { className = "", imageClassName = "", src, alt, priority = false } = props;
 
   const [hasError, setHasError] = useState(false);
 
@@ -50,7 +52,7 @@ const ProductImage: React.FC<ProductImageProps> = (props) => {
             : { width: props.width, height: props.height })}
           className={imageClassName}
           unoptimized={src.includes("assistfactory.s3.amazonaws.com")}
-          priority={false}
+          priority={priority}
           onError={() => setHasError(true)}
         />
       ) : (

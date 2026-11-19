@@ -1,11 +1,11 @@
 import { FooterSection, NavItem } from "@/types/general";
 import { Leaf, Lightbulb, Sprout, TestTubeDiagonal } from "lucide-react";
 
-export const HERO_IMAGES = ["/banner-A.png", "/banner-B.png"];
+export const HERO_IMAGES = ["/banner-A.webp", "/banner-B.webp"];
 
 export const HERO_MOBILE_IMAGES = [
-  "/mobile-banner1.png",
-  "/mobile-banner2.png",
+  "/mobile-banner1.webp",
+  "/mobile-banner2.webp",
   "/mobile-bann3r2.png",
 ];
 
@@ -114,7 +114,7 @@ export const navItems: NavItem[] = [
     sections: [
       {
         heading: "Gift Cards",
-        image: "/giftcard-1.png",
+        image: "/giftcard-1.webp",
         items: [
           { name: "Buy Gift Cards", href: "/giftcard" },
           { name: "Gift Card Balance", href: "/giftcard-balance" },
@@ -191,23 +191,23 @@ export const productCategories = [
   },
   {
     name: "Perfume",
-    src: "/perfume.jpg",
+    src: "/perfume.webp",
     height: 450,
   },
-  { name: "Body Mist", src: "/bodymist.png", height: 327 },
+  { name: "Body Mist", src: "/bodymist.webp", height: 327 },
   {
     name: "Perfume Oil",
-    src: "/perfumeoil.png",
+    src: "/perfumeoil.webp",
     height: 450,
   },
   {
     name: "Lip Balm",
-    src: "/lip-balm.png",
+    src: "/lip-balm.webp",
     height: 327,
   },
   {
     name: "Body Oil",
-    src: "/bodyoil.png",
+    src: "/bodyoil.webp",
     height: 450,
   },
 ];

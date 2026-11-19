@@ -9,11 +9,13 @@ import Link from "next/link";
 interface ProductCardProps {
     product: Product;
     className?: string;
+    /** Set for the cards in the first visible row so their images load first. */
+    priority?: boolean;
 }
 
 // No add-to-cart on the card: tapping it opens the product page, where the
 // customer picks a size and sees the details and reviews before buying.
-const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product, className, priority = false }) => {
     const productLink =
         product.slug && product.categorySlug
             ? `/categories/${product.categorySlug}/${product.slug}`
@@ -30,6 +32,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
                             src={product.src}
                             alt={product.name}
                             fill
+                            priority={priority}
                             imageClassName="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                         />
 

@@ -13,14 +13,14 @@ const Hero = () => {
         <div className="flex justify-center">
           <ProductImage
             alt="about us image"
-            src="/about-image1.png"
+            src="/about-image1.webp"
             height={402.48}
             width={805.37}
             className="lg:max-w-[805.37px] hidden lg:block"
           />
           <ProductImage
             alt="about us image"
-            src="/about-image1.png"
+            src="/about-image1.webp"
             height={150}
             width={300}
             className="max-w-75 lg:hidden  "

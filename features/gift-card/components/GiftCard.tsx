@@ -40,6 +40,7 @@ const GiftCardSection = () => {
             }
             width={700}
             height={500}
+            priority
             className="xl:max-w-175 lg:max-w-125 max-w-93.75 max-h-50 md:max-h-175"
           />
         </div>

@@ -11,7 +11,7 @@ export type PaymentTypeId = (typeof PAYMENT_TYPES)[keyof typeof PAYMENT_TYPES];
 // card PIN prompt instead of reaching Flutterwave.
 export const paymentType = [
   {
-    src: "/flutter.PNG",
+    src: "/flutter.webp",
     detail: "Flutterwave",
     width: 54,
     height: 22,

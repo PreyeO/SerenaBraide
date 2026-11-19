@@ -12,25 +12,25 @@ const GiftCard = () => {
   const cards = [
     {
       id: 1,
-      src: "/giftcard-1.png",
+      src: "/giftcard-1.webp",
       desktop: { x: -260, y: -20, rotate: -18 },
       mobile: { x: -35, y: -10, rotate: -10, scale: 0.85 },
     },
     {
       id: 2,
-      src: "/giftcard-3.png",
+      src: "/giftcard-3.webp",
       desktop: { x: -85, y: -60, rotate: -6, scale: 1.05 },
       mobile: { x: 0, y: -25, rotate: 0, scale: 1.05 },
     },
     {
       id: 3,
-      src: "/giftcard-2.png",
+      src: "/giftcard-2.webp",
       desktop: { x: 85, y: -60, rotate: 6, scale: 1.05 },
       mobile: { x: 35, y: -10, rotate: 10, scale: 0.85 },
     },
     {
       id: 4,
-      src: "/giftcard-4.png",
+      src: "/giftcard-4.webp",
       desktop: { x: 260, y: -20, rotate: 18 },
       mobile: { x: 45, y: 10, rotate: 15, scale: 0.8 },
     },

@@ -113,6 +113,7 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
             src={primaryImage}
             width={700}
             height={500}
+            priority
             imageClassName="w-full h-full object-cover"
           />
         </div>
@@ -123,6 +124,7 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
             src={primaryImage}
             width={500}
             height={500}
+            priority
             imageClassName="w-full h-full object-cover"
           />
         </div>
