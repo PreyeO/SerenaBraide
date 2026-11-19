@@ -45,7 +45,6 @@ export const SALE_CAMPAIGN = {
   strip: {
     title: "Black Friday Special",
     message: "20% off all perfumes + free delivery on every order",
-    cta: { label: "Shop perfumes", href: "/categories/fragrances" },
   },
 };
 

@@ -67,9 +67,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, priority 
                             </span>
                         </div>
 
-                        {/* Price — on a white pill (matching the stock badge) so it stays
-                            readable on light product photos as well as dark ones */}
-                        <span className="absolute top-2 right-2 z-10 rounded-[40px] bg-white text-[#3B3B3B] h-6 px-2 flex items-center lg:text-sm text-[10px]">
+                        {/* Price — white on a dark pill: readable on light and dark product
+                            photos, and set apart from the white stock badge so it leads */}
+                        <span className="absolute top-2 right-2 z-10 rounded-[40px] bg-[#3B3B3B] text-white h-6 px-2 flex items-center lg:text-sm text-[10px]">
                             <Caption title={product.price} className="font-medium text-inherit" />
                         </span>
 
