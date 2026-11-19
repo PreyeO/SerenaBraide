@@ -6,6 +6,7 @@ import SalePromoStrip from "@/components/ui/banners/SalePromoStrip";
 import { useGetAllProducts } from "../hooks/useGetAllProducts";
 import { Product } from "@/types/product";
 import { ProductListItem } from "../product.type";
+import { listSaleFields } from "./shared/ConvertToProduct";
 
 // Helper function to format price
 const formatPrice = (price: string): string => {
@@ -19,6 +20,7 @@ const convertToProduct = (item: ProductListItem): Product => ({
   slug: item.slug,
   name: item.name,
   price: formatPrice(item.price_range || item.base_price),
+  ...listSaleFields(item),
   src: item.primary_image || "/placeholder-product.png",
   type: item.category_name,
   inStock: item.in_stock,

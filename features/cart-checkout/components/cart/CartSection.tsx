@@ -17,6 +17,7 @@ import { useAuthStore } from "@/features/auth/auth.store";
 import LoadingState from "@/components/ui/loaders/loading-state";
 import { getOrderItemImage } from "../../utils/checkout.utils";
 import { formatCurrency } from "@/lib/utils";
+import { getSaleInfo } from "@/lib/sale-price";
 import dynamic from "next/dynamic";
 import { useGetShippingAreas } from "@/features/profile/hooks/admin/useGetShippingAreas";
 import {
@@ -119,13 +120,18 @@ const CartSection = () => {
         <div className="flex flex-col gap-6 lg:w-175 w-full">
           {cartItems.map((item) => {
             const image = getItemImage(item);
+            // Show what checkout charges (effective_price), with the "was"
+            // price crossed out when this item is on sale.
+            const unitPrice = item.variant.effective_price ?? item.variant.price;
+            const sale = getSaleInfo(unitPrice, item.variant.effective_compare_at_price);
 
             return (
               <CartItem
                 key={item.id}
                 image={image}
                 name={item.variant.product_name}
-                price={formatCurrency(item.variant.price)}
+                price={formatCurrency(unitPrice)}
+                compareAtPrice={sale ? formatCurrency(sale.compareAt) : undefined}
                 metaLabel={
                   item.variant.size ? `Size: ${item.variant.size}` : ""
                 }

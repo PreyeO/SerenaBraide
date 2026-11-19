@@ -69,8 +69,23 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, priority 
 
                         {/* Price — white on a dark pill: readable on light and dark product
                             photos, and set apart from the white stock badge so it leads */}
-                        <span className="absolute top-2 right-2 z-10 rounded-[40px] bg-[#3B3B3B] text-white h-6 px-2 flex items-center lg:text-sm text-[10px]">
-                            <Caption title={product.price} className="font-medium text-inherit" />
+                        <span className="absolute top-2 right-2 z-10 flex flex-col items-end gap-1">
+                            <span className="rounded-[40px] bg-[#3B3B3B] text-white h-6 px-2 flex items-center gap-1.5 lg:text-sm text-[10px]">
+                                {/* Sale: crossed-out "was" price before the selling price */}
+                                {product.compareAtPrice && (
+                                    <s className="text-white/60 font-normal">
+                                        <span className="sr-only">Was </span>
+                                        {product.compareAtPrice}
+                                    </s>
+                                )}
+                                {product.compareAtPrice && <span className="sr-only">now</span>}
+                                <Caption title={product.price} className="font-medium text-inherit" />
+                            </span>
+                            {product.percentOff ? (
+                                <span className="rounded-[40px] bg-[#C40606] text-white h-5 px-2 flex items-center lg:text-xs text-[10px] font-medium">
+                                    -{product.percentOff}%
+                                </span>
+                            ) : null}
                         </span>
 
                         {/* LG OVERLAY ONLY */}

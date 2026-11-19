@@ -9,6 +9,16 @@ import {
   UpdateVariantValues,
 } from "../../type/admin/product.type";
 
+/**
+ * "Was" price for sales. On create, only sent when filled in. On update it's
+ * always sent: an empty value clears it (the backend reads an empty multipart
+ * field as null), which is how a sale is ended.
+ */
+function appendCompareAt(formData: FormData, value: string | undefined, isUpdate: boolean) {
+  const v = (value ?? "").trim();
+  if (v || isUpdate) formData.append("compare_at_price", v);
+}
+
 export async function createProduct(data: CreateProductValues) {
   const formData = new FormData();
 
@@ -16,6 +26,7 @@ export async function createProduct(data: CreateProductValues) {
   formData.append("description", data.description);
   formData.append("category", String(data.category));
   formData.append("base_price", data.base_price);
+  appendCompareAt(formData, data.compare_at_price, false);
   formData.append("is_featured", String(data.is_featured));
 
   // Try format: images[0].image_url (with dot before field name)
@@ -54,6 +65,7 @@ export async function updateProduct(
   formData.append("description", data.description);
   formData.append("category", String(data.category));
   formData.append("base_price", data.base_price);
+  appendCompareAt(formData, data.compare_at_price, true);
   formData.append("is_featured", String(data.is_featured));
 
   (data.images ?? []).forEach((img, index) => {
@@ -160,6 +172,7 @@ export async function updateVariant(
     formData.append("color", data.color);
   }
   formData.append("price", data.price);
+  appendCompareAt(formData, data.compare_at_price, true);
   formData.append("stock_quantity", String(data.stock_quantity));
   formData.append("is_active", String(data.is_active));
 
@@ -210,6 +223,7 @@ export async function createVariant(
     formData.append("color", data.color);
   }
   formData.append("price", data.price);
+  appendCompareAt(formData, data.compare_at_price, false);
   formData.append("stock_quantity", String(data.stock_quantity));
   formData.append("is_active", String(data.is_active));
 

@@ -163,6 +163,7 @@ const DetailHeroSection: React.FC<DetailHeroSectionProps> = ({
             selectedVariantId={selectedVariantId}
             onVariantClick={handleVariantClick}
             basePrice={product.base_price}
+            compareAtPrice={product.compare_at_price}
           />
 
           {/* Add to Cart */}

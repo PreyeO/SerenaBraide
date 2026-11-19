@@ -2,6 +2,8 @@ export interface CartItemProps {
   image: string;
   name: string;
   price: string;
+  /** Formatted "was" price shown crossed out — only when on sale. */
+  compareAtPrice?: string;
   quantity?: number;
   showQuantity?: boolean;
   onIncrease?: () => void;
@@ -37,6 +39,8 @@ export interface CartVariant {
   color: string | null;
   price: string;
   effective_price: number;
+  /** Display-only "was" price (variant's, else the product's). */
+  effective_compare_at_price?: string | number | null;
   stock_quantity: number;
   is_in_stock: boolean;
   is_active: boolean;

@@ -10,6 +10,7 @@ const CartItem = ({
   image,
   name,
   price,
+  compareAtPrice,
   metaLabel,
   quantity = 1,
   showQuantity = true,
@@ -56,10 +57,15 @@ const CartItem = ({
             title={name}
           />
 
-          <Paragraph
-            className="text-black font-medium lg:text-base text-sm lg:pt-1.5 pt-0.75"
-            content={price}
-          />
+          <p className="text-black font-medium lg:text-base text-sm lg:pt-1.5 pt-0.75 flex flex-wrap items-baseline gap-x-2 font-GeneralSans">
+            {compareAtPrice && (
+              <s className="text-[#9A9A98] font-normal">
+                <span className="sr-only">Was </span>
+                {compareAtPrice}
+              </s>
+            )}
+            <span>{price}</span>
+          </p>
 
           <AuthSpan className="text-[#3B3B3B] font-normal lg:text-base text-sm lg:pt-2.5 gap-1.5">
             {metaLabel}

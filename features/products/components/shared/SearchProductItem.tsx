@@ -1,6 +1,7 @@
 import React from "react";
 import ProductImage from "@/components/ui/images/product-image";
 import { ProductListItem } from "@/features/products/product.type";
+import { listSaleFields } from "./ConvertToProduct";
 
 interface SearchProductItemProps {
   item: ProductListItem;
@@ -15,6 +16,7 @@ const SearchProductItem: React.FC<SearchProductItemProps> = ({
   item,
   onClick,
 }) => {
+  const sale = listSaleFields(item);
   return (
     <li
       className="flex gap-4 items-center text-[#363438] text-sm font-normal group cursor-pointer"
@@ -34,10 +36,18 @@ const SearchProductItem: React.FC<SearchProductItemProps> = ({
       </div>
       <div className="flex flex-col gap-1">
         <span className="font-medium line-clamp-1">{item.name}</span>
-        <span className="text-[#6F6E6C] text-xs font-light">
-          {item.price_range
-            ? formatPrice(item.price_range)
-            : formatPrice(item.base_price)}
+        <span className="text-[#6F6E6C] text-xs font-light flex gap-1.5">
+          {sale.compareAtPrice && (
+            <s className="text-[#9A9A98]">
+              <span className="sr-only">Was </span>
+              {sale.compareAtPrice}
+            </s>
+          )}
+          <span>
+            {item.price_range
+              ? formatPrice(item.price_range)
+              : formatPrice(item.base_price)}
+          </span>
         </span>
       </div>
     </li>
