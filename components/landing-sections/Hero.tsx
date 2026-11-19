@@ -39,32 +39,38 @@ const Hero = () => {
             }`}
           >
             {slide.kind === "promo" ? (
-              // Whole artwork, uncropped, between the fixed nav and the features bar.
-              <Link
-                href={slide.href}
-                tabIndex={isActive ? 0 : -1}
-                className="absolute inset-0 block pt-32 lg:pt-36 lg:pb-25"
+              // Whole artwork, uncropped, pinned just under the fixed nav and kept
+              // within the first screen so it's seen in full on arrival; the
+              // leftover space falls below it.
+              <div
+                className="absolute inset-0"
                 style={{ background: slide.background }}
               >
-                <span className="relative block w-full h-full">
-                  <Image
-                    src={slide.desktop}
-                    alt={slide.alt}
-                    fill
-                    sizes="100vw"
-                    className="hidden lg:block object-contain"
-                    priority={index === 0}
-                  />
-                  <Image
-                    src={slide.mobile}
-                    alt={slide.alt}
-                    fill
-                    sizes="100vw"
-                    className="lg:hidden object-contain"
-                    priority={index === 0}
-                  />
-                </span>
-              </Link>
+                <Link
+                  href={slide.href}
+                  tabIndex={isActive ? 0 : -1}
+                  className="absolute inset-x-0 top-0 block h-svh pt-32 lg:pt-36 pb-8 lg:px-16"
+                >
+                  <span className="relative block w-full h-full max-w-300 mx-auto">
+                    <Image
+                      src={slide.desktop}
+                      alt={slide.alt}
+                      fill
+                      sizes="(min-width: 1024px) 1200px, 100vw"
+                      className="hidden lg:block object-contain object-top"
+                      priority={index === 0}
+                    />
+                    <Image
+                      src={slide.mobile}
+                      alt={slide.alt}
+                      fill
+                      sizes="100vw"
+                      className="lg:hidden object-contain object-top"
+                      priority={index === 0}
+                    />
+                  </span>
+                </Link>
+              </div>
             ) : (
               <>
                 {/* Desktop Image */}
