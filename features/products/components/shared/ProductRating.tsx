@@ -3,6 +3,13 @@
 import React from "react";
 import { Star } from "lucide-react";
 
+/**
+ * Reviews clients sent in directly (not through the site). Shown near the price
+ * until a product has MANUAL_REVIEWS.switchAt real reviews from the website,
+ * then the real count takes over automatically.
+ */
+export const MANUAL_REVIEWS = { rating: 5, count: 76, switchAt: 20 };
+
 interface ProductRatingProps {
     rating?: number;
     totalReviews?: number;
@@ -16,6 +23,10 @@ const ProductRating: React.FC<ProductRatingProps> = ({
     maxRating = 5,
     className = "",
 }) => {
+    if (totalReviews < MANUAL_REVIEWS.switchAt) {
+        rating = MANUAL_REVIEWS.rating;
+        totalReviews = MANUAL_REVIEWS.count;
+    }
     return (
         <div className={`flex gap-2 items-center ${className}`}>
             <div className="flex text-[#3B3B3B] gap-0.5">
