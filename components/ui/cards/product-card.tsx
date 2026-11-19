@@ -67,9 +67,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className, priority 
                             </span>
                         </div>
 
-                        {/* Price */}
-                        <span className="absolute top-2 right-2 lg:text-sm text-[10px] text-white z-10">
-                            <Caption title={product.price} className="font-medium" />
+                        {/* Price — on a white pill (matching the stock badge) so it stays
+                            readable on light product photos as well as dark ones */}
+                        <span className="absolute top-2 right-2 z-10 rounded-[40px] bg-white text-[#3B3B3B] h-6 px-2 flex items-center lg:text-sm text-[10px]">
+                            <Caption title={product.price} className="font-medium text-inherit" />
                         </span>
 
                         {/* LG OVERLAY ONLY */}

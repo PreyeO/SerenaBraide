@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import ProductGrid from "@/features/products/components/shared/ProductGrid";
+import SalePromoStrip from "@/components/ui/banners/SalePromoStrip";
 import { useGetAllProducts } from "../hooks/useGetAllProducts";
 import { Product } from "@/types/product";
 import { ProductListItem } from "../product.type";
@@ -43,6 +44,8 @@ const AllProductsSection = () => {
   return (
     <section className="md:pt-38 pt-20">
       <div className="container mx-auto px-4 lg:px-12 my-8">
+        {/* Mobile top margin clears the fixed nav (it collapses into the container's my-8) */}
+        <SalePromoStrip className="mt-16 md:mt-2 lg:mt-6" />
         <ProductGrid products={products} isLoading={productsLoading} />
       </div>
     </section>
