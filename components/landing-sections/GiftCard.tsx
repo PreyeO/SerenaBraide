@@ -6,7 +6,7 @@ import TitleSpan from "../ui/typography/title-span";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 const GiftCard = () => {
   const cards = [
@@ -57,7 +57,7 @@ const GiftCard = () => {
         {/* Desktop View: Auto-fan on Scroll */}
         <div className="hidden lg:flex relative justify-center items-center w-full">
           {cards.map((card, idx) => (
-            <motion.div
+            <m.div
               key={card.id}
               initial={{ x: 0, y: 0, rotate: 0, zIndex: 10 + idx }}
               whileInView={{
@@ -85,14 +85,14 @@ const GiftCard = () => {
                   className="w-full h-auto rounded-2xl"
                 />
               </div>
-            </motion.div>
+            </m.div>
           ))}
         </div>
 
         {/* Mobile View: Tighter Spacing & Auto-fan */}
         <div className="lg:hidden relative w-full flex justify-center h-32">
           {cards.slice(0, 3).map((card, idx) => (
-            <motion.div
+            <m.div
               key={`mobile-${card.id}`}
               initial={{ x: 0, y: 0, rotate: 0 }}
               whileInView={{
@@ -121,7 +121,7 @@ const GiftCard = () => {
                 height={135}
                 className="w-full h-auto rounded-xl shadow-xl border border-white/5"
               />
-            </motion.div>
+            </m.div>
           ))}
         </div>
       </div>
