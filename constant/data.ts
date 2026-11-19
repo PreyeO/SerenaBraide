@@ -10,7 +10,7 @@ import { Leaf, Lightbulb, Sprout, TestTubeDiagonal } from "lucide-react";
  *   shown whole and uncropped, the hero text hides, and the whole slide is a link.
  *   `background` fills the space around the artwork — match it to its edges.
  *
- * To end a campaign, delete (or comment out) its promo entry.
+ * Sale promos come from SALE_CAMPAIGN below — don't add them here by hand.
  */
 export type HeroSlide =
   | { kind: "photo"; desktop: string; mobile: string }
@@ -23,9 +23,18 @@ export type HeroSlide =
       background: string;
     };
 
-export const HERO_SLIDES: HeroSlide[] = [
-  {
-    kind: "promo",
+/**
+ * The current sale. ONE switch for the whole site:
+ *   active: true  → homepage opens on the campaign banner, and a slim strip
+ *                   shows at the top of All products (where the ads land).
+ *   active: false → both disappear; the site is back to normal.
+ *
+ * For the next sale, swap the artwork and wording here and set active: true.
+ * Prices themselves are set in the admin — this only controls the messaging.
+ */
+export const SALE_CAMPAIGN = {
+  active: true,
+  heroBanner: {
     desktop: "/black-friday-banner.webp",
     // Swap for a portrait version when the designer supplies one.
     mobile: "/black-friday-banner.webp",
@@ -33,6 +42,17 @@ export const HERO_SLIDES: HeroSlide[] = [
     alt: "Black Friday special: 20% off all perfumes and free delivery on every order. Shop now.",
     background: "linear-gradient(to bottom, #23010d, #100102)",
   },
+  strip: {
+    title: "Black Friday Special",
+    message: "20% off all perfumes + free delivery on every order",
+    cta: { label: "Shop perfumes", href: "/categories/fragrances" },
+  },
+};
+
+export const HERO_SLIDES: HeroSlide[] = [
+  ...(SALE_CAMPAIGN.active
+    ? [{ kind: "promo" as const, ...SALE_CAMPAIGN.heroBanner }]
+    : []),
   { kind: "photo", desktop: "/banner-A.webp", mobile: "/mobile-banner1.webp" },
   { kind: "photo", desktop: "/banner-B.webp", mobile: "/mobile-banner2.webp" },
 ];
