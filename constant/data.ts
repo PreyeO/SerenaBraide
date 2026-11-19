@@ -1,12 +1,40 @@
 import { FooterSection, NavItem } from "@/types/general";
 import { Leaf, Lightbulb, Sprout, TestTubeDiagonal } from "lucide-react";
 
-export const HERO_IMAGES = ["/banner-A.webp", "/banner-B.webp"];
+/**
+ * Homepage hero slideshow, shown in this order.
+ *
+ * - "photo" slides are full-bleed backgrounds with the hero heading and
+ *   SHOP NOW button laid over them.
+ * - "promo" slides are finished campaign artwork (text and button baked in):
+ *   shown whole and uncropped, the hero text hides, and the whole slide is a link.
+ *   `background` fills the space around the artwork — match it to its edges.
+ *
+ * To end a campaign, delete (or comment out) its promo entry.
+ */
+export type HeroSlide =
+  | { kind: "photo"; desktop: string; mobile: string }
+  | {
+      kind: "promo";
+      desktop: string;
+      mobile: string;
+      href: string;
+      alt: string;
+      background: string;
+    };
 
-export const HERO_MOBILE_IMAGES = [
-  "/mobile-banner1.webp",
-  "/mobile-banner2.webp",
-  "/mobile-bann3r2.png",
+export const HERO_SLIDES: HeroSlide[] = [
+  {
+    kind: "promo",
+    desktop: "/black-friday-banner.webp",
+    // Swap for a portrait version when the designer supplies one.
+    mobile: "/black-friday-banner.webp",
+    href: "/all-products",
+    alt: "Black Friday special: 20% off all perfumes and free delivery on every order. Shop now.",
+    background: "linear-gradient(to bottom, #23010d, #100102)",
+  },
+  { kind: "photo", desktop: "/banner-A.webp", mobile: "/mobile-banner1.webp" },
+  { kind: "photo", desktop: "/banner-B.webp", mobile: "/mobile-banner2.webp" },
 ];
 
 export const headerAdvert = [

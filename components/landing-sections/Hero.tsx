@@ -3,17 +3,20 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import { HERO_IMAGES, HERO_MOBILE_IMAGES, pros } from "@/constant/data";
+import { HERO_SLIDES, pros } from "@/constant/data";
 import Heading from "../ui/typography/heading";
 import Link from "next/link";
 
 const Hero = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  // Promo artwork carries its own headline and button, so the hero's text and
+  // SHOP NOW step aside while it's showing.
+  const isPromoActive = HERO_SLIDES[currentImageIndex]?.kind === "promo";
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) =>
-        prevIndex === HERO_IMAGES.length - 1 ? 0 : prevIndex + 1,
+        prevIndex === HERO_SLIDES.length - 1 ? 0 : prevIndex + 1,
       );
     }, 5000);
 
@@ -23,38 +26,79 @@ const Hero = () => {
   return (
     <section className="relative font-GeneralSans pt-50 min-h-screen overflow-hidden">
       {/* Background Carousel */}
-      {HERO_IMAGES.map((src, index) => (
+      {HERO_SLIDES.map((slide, index) => {
+        const isActive = index === currentImageIndex;
+        return (
+          <div
+            key={`${slide.kind}-${slide.desktop}`}
+            aria-hidden={!isActive}
+            className={`absolute inset-0 transition-all duration-2000 ease-in-out ${
+              isActive
+                ? "opacity-100 scale-100 blur-0 z-10"
+                : "opacity-0 scale-105 blur-sm z-0 pointer-events-none"
+            }`}
+          >
+            {slide.kind === "promo" ? (
+              // Whole artwork, uncropped, between the fixed nav and the features bar.
+              <Link
+                href={slide.href}
+                tabIndex={isActive ? 0 : -1}
+                className="absolute inset-0 block pt-32 lg:pt-36 lg:pb-25"
+                style={{ background: slide.background }}
+              >
+                <span className="relative block w-full h-full">
+                  <Image
+                    src={slide.desktop}
+                    alt={slide.alt}
+                    fill
+                    sizes="100vw"
+                    className="hidden lg:block object-contain"
+                    priority={index === 0}
+                  />
+                  <Image
+                    src={slide.mobile}
+                    alt={slide.alt}
+                    fill
+                    sizes="100vw"
+                    className="lg:hidden object-contain"
+                    priority={index === 0}
+                  />
+                </span>
+              </Link>
+            ) : (
+              <>
+                {/* Desktop Image */}
+                <Image
+                  src={slide.desktop}
+                  alt={`Hero background ${index + 1}`}
+                  fill
+                  className="hidden lg:block object-cover object-top"
+                  priority={index === 0}
+                  quality={90}
+                />
+                {/* Mobile Image */}
+                <Image
+                  src={slide.mobile}
+                  alt={`Hero background mobile ${index + 1}`}
+                  fill
+                  className="lg:hidden object-cover object-right"
+                  priority={index === 0}
+                  quality={90}
+                />
+              </>
+            )}
+          </div>
+        );
+      })}
+
+      {/* Content Overlay — click-through so a promo slide underneath stays clickable */}
+      <div className="relative z-10 lg:px-16 px-6 pb-10 pointer-events-none">
         <div
-          key={src}
-          className={`absolute inset-0 transition-all duration-2000 ease-in-out${
-            index === currentImageIndex
-              ? "opacity-100 scale-100 blur-0 z-10"
-              : "opacity-0 scale-105 blur-sm z-0"
+          aria-hidden={isPromoActive}
+          className={`transition-opacity duration-700 ${
+            isPromoActive ? "opacity-0" : "opacity-100"
           }`}
         >
-          {/* Desktop Image */}
-          <Image
-            src={src}
-            alt={`Hero background ${index + 1}`}
-            fill
-            className="hidden lg:block object-cover object-top"
-            priority={index === 0}
-            quality={90}
-          />
-          {/* Mobile Image */}
-          <Image
-            src={HERO_MOBILE_IMAGES[index]}
-            alt={`Hero background mobile ${index + 1}`}
-            fill
-            className="lg:hidden object-cover object-right"
-            priority={index === 0}
-            quality={90}
-          />
-        </div>
-      ))}
-
-      {/* Content Overlay */}
-      <div className="relative z-10 lg:px-16 px-6 pb-10">
         {/* Top line + small text */}
         <div className="flex items-center lg:w-62.5 w-47 gap-[10px">
           <span className="border-[0.8px] border-[#F5F5F5] lg:w-15 w-7.5"></span>
@@ -75,15 +119,23 @@ const Hero = () => {
             content="Fragrance and beauty essentials for the individual. Define your presence."
           /> */}
         </div>
-        <Link href="/all-products">
-          <Button className="bg-white hover:bg-white text-[#3B3B3B] rounded-full py-6 px-16 font-normal text-sm mt-6 lg:mt-12.5">
+        <Link
+          href="/all-products"
+          tabIndex={isPromoActive ? -1 : 0}
+          className={isPromoActive ? "pointer-events-none" : "pointer-events-auto"}
+        >
+          <Button
+            tabIndex={-1}
+            className="bg-white hover:bg-white text-[#3B3B3B] rounded-full py-6 px-16 font-normal text-sm mt-6 lg:mt-12.5"
+          >
             SHOP NOW
           </Button>
         </Link>
+        </div>
 
         {/* Carousel Dots */}
-        <div className="flex justify-end gap-2 mt-6 lg:mt-0">
-          {HERO_IMAGES.map((_, index) => (
+        <div className="flex justify-end gap-2 mt-6 lg:mt-0 pointer-events-auto">
+          {HERO_SLIDES.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentImageIndex(index)}
