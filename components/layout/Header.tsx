@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { headerAdvert, currencies } from "@/constant/data";
 import Link from "next/link";
 import SubHeading from "../ui/typography/subHeading";
@@ -45,7 +45,7 @@ const Header = () => {
     <div className="bg-[#3B3B3B] h-12.5 w-full fixed top-0 left-0 z-[100] flex items-center justify-center lg:justify-between px-4 lg:px-12 text-white text-xs lg:text-sm">
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-full pointer-events-none">
         <AnimatePresence mode="wait">
-          <motion.div
+          <m.div
             key={currentIndex}
             initial={{ y: "100%", opacity: 0, rotateX: 90 }}
             animate={{ y: "0%", opacity: 1, rotateX: 0 }}
@@ -56,7 +56,7 @@ const Header = () => {
             <span className="truncate max-w-full block pointer-events-auto">
               {renderText()}
             </span>
-          </motion.div>
+          </m.div>
         </AnimatePresence>
       </div>
 

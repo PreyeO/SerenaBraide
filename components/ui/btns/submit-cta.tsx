@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -40,7 +40,7 @@ const SubmitButton = ({
     >
       <AnimatePresence mode="wait" initial={false}>
         {isPending ? (
-          <motion.span
+          <m.span
             key="loading"
             className="flex items-center gap-2"
             initial={{ opacity: 0, y: 6 }}
@@ -50,9 +50,9 @@ const SubmitButton = ({
           >
             <Loader2 className="h-5 w-5 animate-spin" />
             {loadingLabel}
-          </motion.span>
+          </m.span>
         ) : (
-          <motion.span
+          <m.span
             key="label"
             className="flex items-center gap-2"
             initial={{ opacity: 0, y: 6 }}
@@ -63,7 +63,7 @@ const SubmitButton = ({
             {iconPosition === "left" && Icon && <Icon size={18} />}
             {label}
             {iconPosition === "right" && Icon && <Icon size={18} />}
-          </motion.span>
+          </m.span>
         )}
       </AnimatePresence>
     </Button>

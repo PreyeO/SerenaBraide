@@ -7,6 +7,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 import { ReactNode, useState } from "react";
 import { Toaster } from "sonner";
+import { LazyMotion } from "framer-motion";
+
+// Animation engine is fetched after the page loads (see lib/motion-features.ts).
+// Components must use `m.div` / `m.span` from framer-motion, not `motion.*`,
+// or the full library gets bundled back into every page.
+const loadMotionFeatures = () =>
+  import("@/lib/motion-features").then((mod) => mod.default);
 
 export default function ReactQueryProvider({
   children,
@@ -36,10 +43,12 @@ export default function ReactQueryProvider({
 
   return (
     <QueryClientProvider client={queryClient}>
-      {!isExcludedRoute && <Header />}
-      {!isExcludedRoute && <NavBar />}
-      {children}
-      {!isExcludedRoute && <Footer />}
+      <LazyMotion features={loadMotionFeatures}>
+        {!isExcludedRoute && <Header />}
+        {!isExcludedRoute && <NavBar />}
+        {children}
+        {!isExcludedRoute && <Footer />}
+      </LazyMotion>
       <Toaster />
     </QueryClientProvider>
   );
