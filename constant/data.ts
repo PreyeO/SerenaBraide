@@ -21,6 +21,8 @@ export type HeroSlide =
       href: string;
       alt: string;
       background: string;
+      /** Phones show the portrait artwork, whose edges may differ in colour. */
+      mobileBackground?: string;
     };
 
 /**
@@ -36,11 +38,11 @@ export const SALE_CAMPAIGN = {
   active: true,
   heroBanner: {
     desktop: "/black-friday-banner.webp",
-    // Swap for a portrait version when the designer supplies one.
-    mobile: "/black-friday-banner.webp",
+    mobile: "/black-friday-banner-mobile.webp", // 1080×1350 portrait
     href: "/all-products",
     alt: "Black Friday special: 20% off all perfumes and free delivery on every order. Shop now.",
     background: "linear-gradient(to bottom, #23010d, #100102)",
+    mobileBackground: "#000000",
   },
   strip: {
     title: "Black Friday Special",
