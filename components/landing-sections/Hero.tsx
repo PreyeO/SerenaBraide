@@ -23,8 +23,26 @@ const Hero = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const dots = HERO_SLIDES.map((_, index) => (
+    <button
+      key={index}
+      onClick={() => setCurrentImageIndex(index)}
+      className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+        currentImageIndex === index
+          ? "bg-white scale-125"
+          : "bg-white/40 hover:bg-white/60"
+      }`}
+      aria-label={`Go to slide ${index + 1}`}
+    />
+  ));
+
   return (
     <section className="relative font-GeneralSans pt-50 min-h-screen overflow-hidden">
+      {isPromoActive && (
+        <div className="lg:hidden absolute z-20 bottom-8 inset-x-0 flex justify-center gap-2">
+          {dots}
+        </div>
+      )}
       {/* Background Carousel */}
       {HERO_SLIDES.map((slide, index) => {
         const isActive = index === currentImageIndex;
@@ -44,8 +62,13 @@ const Hero = () => {
               // leftover space falls below it.
               <div
                 className="absolute inset-0"
-                style={{ background: slide.background }}
+                style={{ background: slide.mobileBackground ?? slide.background }}
               >
+                {/* Desktop fill, layered over the phone colour */}
+                <div
+                  className="absolute inset-0 hidden lg:block"
+                  style={{ background: slide.background }}
+                />
                 <Link
                   href={slide.href}
                   tabIndex={isActive ? 0 : -1}
@@ -64,7 +87,7 @@ const Hero = () => {
                       src={slide.mobile}
                       alt={slide.alt}
                       fill
-                      sizes="100vw"
+                      sizes="(max-width: 640px) 100vw, 640px"
                       className="lg:hidden object-contain object-top"
                       priority={index === 0}
                     />
@@ -139,20 +162,15 @@ const Hero = () => {
         </Link>
         </div>
 
-        {/* Carousel Dots */}
-        <div className="flex justify-end gap-2 mt-6 lg:mt-0 pointer-events-auto">
-          {HERO_SLIDES.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentImageIndex(index)}
-              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                currentImageIndex === index
-                  ? "bg-white scale-125"
-                  : "bg-white/40 hover:bg-white/60"
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
+        {/* Carousel Dots — on phones the promo artwork's own button sits where
+            the dots normally are, so during a promo they drop to the bottom
+            of the screen instead (see below). */}
+        <div
+          className={`flex justify-end gap-2 mt-6 lg:mt-0 pointer-events-auto ${
+            isPromoActive ? "max-lg:invisible" : ""
+          }`}
+        >
+          {dots}
         </div>
 
         <div className="mt-7.5 mx-auto lg:flex justify-center hidden">
